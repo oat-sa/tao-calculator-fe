@@ -1,0 +1,30 @@
+{
+  "name": "tao-calculator-fe",
+  "version": "0.0.0",
+  "description": "A calculator's engine for TAO",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oat-sa/tao-calculator-fe.git"
+  },
+  "keywords": [
+    "TAO",
+    "calculator"
+  ],
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/oat-sa/tao-calculator-fe/issues"
+  },
+  "homepage": "https://github.com/oat-sa/tao-calculator-fe#readme",
+  "devDependencies": {
+    "@oat-sa/eslint-config-tao": "^1.2.0",
+    "@oat-sa/prettier-config": "^0.1.1",
+    "eslint": "^8.32.0",
+    "eslint-plugin-es": "^4.1.0",
+    "eslint-plugin-jsdoc": "^39.6.4",
+    "prettier": "^2.8.3"
+  },
+  "prettier": "@oat-sa/prettier-config"
+}
