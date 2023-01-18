@@ -74,7 +74,7 @@ const parserConfigEntries = ['operators'];
 function toPrecisionNumber(number, precision) {
     const dot = number.indexOf('.');
     if (dot > 0) {
-        number = number.substr(0, dot + precision + 1);
+        number = number.substring(0, dot + precision + 1);
     }
     return number;
 }
