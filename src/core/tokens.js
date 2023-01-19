@@ -29,12 +29,13 @@ const tokensHelper = {
      * @returns {string}
      */
     getType(token) {
-        if ('string' !== typeof token) {
-            const type = (token && token.type) || null;
-            const term = registeredTerms[type];
-            return (term && term.type) || type;
+        if ('string' === typeof token) {
+            return token;
         }
-        return token;
+
+        const type = (token && token.type) || null;
+        const term = registeredTerms[type];
+        return (term && term.type) || type;
     },
 
     /**

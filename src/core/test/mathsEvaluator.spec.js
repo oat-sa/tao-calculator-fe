@@ -19,7 +19,7 @@
 import mathsEvaluatorFactory from '../mathsEvaluator.js';
 import expressions from './mathsEvaluator.json';
 
-describe('mathsEvaluatorFactory', () => {
+describe('mathsEvaluator', () => {
     it('is a factory', () => {
         expect(mathsEvaluatorFactory).toEqual(expect.any(Function));
         expect(mathsEvaluatorFactory()).toEqual(expect.any(Function));
