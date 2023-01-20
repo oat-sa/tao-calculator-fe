@@ -18,7 +18,6 @@
 
 import expressionHelper from '../expression.js';
 import mathsEvaluatorFactory from '../mathsEvaluator.js';
-import registeredTerms from '../terms.js';
 
 const mathsEvaluator = mathsEvaluatorFactory();
 const mathsResults = {
@@ -28,6 +27,25 @@ const mathsResults = {
     '2/3': mathsEvaluator('2/3'),
     '123e50': mathsEvaluator('123e50'),
     'PI*10^50': mathsEvaluator('PI*10^50')
+};
+const tokens = {
+    '#0': { type: 'NUM0', value: '0' },
+    '#1': { type: 'NUM1', value: '1' },
+    '#2': { type: 'NUM2', value: '2' },
+    '#3': { type: 'NUM3', value: '3' },
+    '#4': { type: 'NUM4', value: '4' },
+    '#5': { type: 'NUM5', value: '5' },
+    '+': { type: 'ADD', value: '+' },
+    '*': { type: 'MUL', value: '*' },
+    '^': { type: 'POW', value: '^' },
+    '(': { type: 'LPAR', value: '(' },
+    ')': { type: 'RPAR', value: ')' },
+    nthrt: { type: 'NTHRT', value: '@nthrt' },
+    ans: { type: 'ANS', value: 'ans' }
+};
+const lastAnswerToken = {
+    value: 'ans',
+    type: 'variable'
 };
 
 describe('expression', () => {
@@ -182,13 +200,13 @@ describe('expression', () => {
                 ['Negative expression', '-(4+2)', {}],
                 ['Explicit positive value', '+42', {}],
                 ['Explicit positive expression', '+(4+2)', {}],
-                ['Last result, no variable', registeredTerms.ANS, {}],
-                ['Last result, positive value', registeredTerms.ANS, { ans: '42' }],
-                ['Last result, negative value', registeredTerms.ANS, { ans: '-42' }],
-                ['Last result, explicit positive value', registeredTerms.ANS, { ans: '+42' }],
+                ['Last result, no variable', lastAnswerToken, {}],
+                ['Last result, positive value', lastAnswerToken, { ans: '42' }],
+                ['Last result, negative value', lastAnswerToken, { ans: '-42' }],
+                ['Last result, explicit positive value', lastAnswerToken, { ans: '+42' }],
                 [
                     'Last result, mathsExpression',
-                    registeredTerms.ANS,
+                    lastAnswerToken,
                     {
                         ans: {
                             expression: '40+2',
@@ -198,21 +216,12 @@ describe('expression', () => {
                 ],
                 [
                     'Last result, mathsExpression with tokens',
-                    registeredTerms.ANS,
+                    lastAnswerToken,
                     {
                         ans: {
                             expression: '40+2',
                             value: 42,
-                            tokens: [
-                                {
-                                    type: 'NUM4',
-                                    value: '4'
-                                },
-                                {
-                                    type: 'NUM2',
-                                    value: '2'
-                                }
-                            ]
+                            tokens: [tokens['#4'], tokens['#2']]
                         }
                     }
                 ],
@@ -285,28 +294,28 @@ describe('expression', () => {
                 [
                     'Tokenized expression',
                     [
-                        { type: 'NUM5', value: '5' },
-                        { type: 'ADD', value: '+' },
-                        { type: 'NUM1', value: '1' },
-                        { type: 'NUM0', value: '0' },
-                        { type: 'NTHRT', value: '@nthrt' },
-                        { type: 'LPAR', value: '(' },
-                        { type: 'NUM4', value: '4' },
-                        { type: 'ADD', value: '+' },
-                        { type: 'NUM2', value: '2' },
-                        { type: 'POW', value: '^' },
-                        { type: 'NUM3', value: '3' },
-                        { type: 'RPAR', value: ')' },
-                        { type: 'POW', value: '^' },
-                        { type: 'LPAR', value: '(' },
-                        { type: 'ANS', value: 'ans' },
-                        { type: 'MUL', value: '*' },
-                        { type: 'NUM3', value: '3' },
-                        { type: 'POW', value: '^' },
-                        { type: 'NUM2', value: '2' },
-                        { type: 'RPAR', value: ')' },
-                        { type: 'ADD', value: '+' },
-                        { type: 'NUM5', value: '5' }
+                        tokens['#5'],
+                        tokens['+'],
+                        tokens['#1'],
+                        tokens['#0'],
+                        tokens.nthrt,
+                        tokens['('],
+                        tokens['#4'],
+                        tokens['+'],
+                        tokens['#2'],
+                        tokens['^'],
+                        tokens['#3'],
+                        tokens[')'],
+                        tokens['^'],
+                        tokens['('],
+                        tokens.ans,
+                        tokens['*'],
+                        tokens['#3'],
+                        tokens['^'],
+                        tokens['#2'],
+                        tokens[')'],
+                        tokens['+'],
+                        tokens['#5']
                     ],
                     { ans: 5 }
                 ]
