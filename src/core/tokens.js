@@ -17,6 +17,7 @@
  */
 
 import registeredTerms from './terms.js';
+import types from './types.js';
 
 /**
  * List of helpers that apply on tokens
@@ -44,7 +45,7 @@ const tokensHelper = {
      * @returns {boolean}
      */
     isDigit(type) {
-        return tokensHelper.getType(type) === 'digit';
+        return tokensHelper.getType(type) === types.digit;
     },
 
     /**
@@ -53,7 +54,7 @@ const tokensHelper = {
      * @returns {boolean}
      */
     isOperator(type) {
-        return tokensHelper.getType(type) === 'operator';
+        return tokensHelper.getType(type) === types.operator;
     },
 
     /**
@@ -63,7 +64,7 @@ const tokensHelper = {
      */
     isOperand(type) {
         type = tokensHelper.getType(type);
-        return type !== 'operator' && type !== 'aggregator' && type !== 'separator';
+        return type !== types.operator && type !== types.aggregator && type !== types.separator;
     },
 
     /**
@@ -73,7 +74,13 @@ const tokensHelper = {
      */
     isValue(type) {
         type = tokensHelper.getType(type);
-        return type === 'digit' || type === 'constant' || type === 'variable' || type === 'term' || type === 'error';
+        return (
+            type === types.digit ||
+            type === types.constant ||
+            type === types.variable ||
+            type === types.term ||
+            type === types.error
+        );
     },
 
     /**
@@ -82,7 +89,7 @@ const tokensHelper = {
      * @returns {boolean}
      */
     isAggregator(type) {
-        return tokensHelper.getType(type) === 'aggregator';
+        return tokensHelper.getType(type) === types.aggregator;
     },
 
     /**
@@ -91,7 +98,7 @@ const tokensHelper = {
      * @returns {boolean}
      */
     isError(type) {
-        return tokensHelper.getType(type) === 'error';
+        return tokensHelper.getType(type) === types.error;
     },
 
     /**
@@ -100,7 +107,7 @@ const tokensHelper = {
      * @returns {boolean}
      */
     isConstant(type) {
-        return tokensHelper.getType(type) === 'constant';
+        return tokensHelper.getType(type) === types.constant;
     },
 
     /**
@@ -110,7 +117,7 @@ const tokensHelper = {
      */
     isVariable(type) {
         type = tokensHelper.getType(type);
-        return type === 'variable' || type === 'term';
+        return type === types.variable || type === types.term;
     },
 
     /**
@@ -119,7 +126,7 @@ const tokensHelper = {
      * @returns {boolean}
      */
     isFunction(type) {
-        return tokensHelper.getType(type) === 'function';
+        return tokensHelper.getType(type) === types.function;
     },
 
     /**
@@ -129,7 +136,13 @@ const tokensHelper = {
      */
     isIdentifier(type) {
         type = tokensHelper.getType(type);
-        return type === 'constant' || type === 'variable' || type === 'term' || type === 'function' || type === 'error';
+        return (
+            type === types.constant ||
+            type === types.variable ||
+            type === types.term ||
+            type === types.function ||
+            type === types.error
+        );
     },
 
     /**
@@ -139,7 +152,7 @@ const tokensHelper = {
      */
     isSeparator(type) {
         type = tokensHelper.getType(type);
-        return type === 'operator' || type === 'aggregator' || type === 'separator';
+        return type === types.operator || type === types.aggregator || type === types.separator;
     },
 
     /**
@@ -149,7 +162,7 @@ const tokensHelper = {
      */
     isModifier(type) {
         type = tokensHelper.getType(type);
-        return type === 'operator' || type === 'function';
+        return type === types.operator || type === types.function;
     },
 
     /**
