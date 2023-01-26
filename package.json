@@ -2,6 +2,11 @@
   "name": "tao-calculator",
   "version": "0.0.0",
   "description": "A calculator's engine for TAO",
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "!**/test/"
+  ],
   "scripts": {
     "test": "jest --config=./jest.config.cjs",
     "test:watch": "npm test -- --watch",
