@@ -2,8 +2,9 @@
   "name": "tao-calculator",
   "version": "0.0.0",
   "description": "A calculator's engine for TAO",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "files": [
+    "dist",
     "src",
     "!**/test/"
   ],
