@@ -890,4 +890,37 @@ describe('engine', () => {
             expect(action).toHaveBeenCalledTimes(1);
         });
     });
+
+    describe('renders the expression', () => {
+        it('from an empty expression', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.render()).toStrictEqual([]);
+        });
+
+        it('from a simple expression', () => {
+            const calculator = engineFactory({ expression: '.1 + .2' });
+
+            expect(calculator.render()).toMatchSnapshot();
+        });
+
+        it('using the last result', () => {
+            const calculator = engineFactory({ expression: 'ans / 2' });
+            calculator.setLastResult('42');
+
+            expect(calculator.render()).toMatchSnapshot();
+        });
+
+        it('emits a render event', () => {
+            const calculator = engineFactory({ expression: '.1 + .2' });
+            const action = jest.fn().mockImplementation(result => {
+                expect(result).toMatchSnapshot();
+            });
+
+            calculator.on('render', action);
+            calculator.render();
+
+            expect(action).toHaveBeenCalledTimes(1);
+        });
+    });
 });

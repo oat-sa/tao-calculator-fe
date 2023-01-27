@@ -176,10 +176,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             expression = String(expr || '');
             tokens = null;
 
-            /**
-             * @event expressionchange
-             * @param {string} expression
-             */
             this.trigger('expressionchange', expression);
 
             return this;
@@ -202,10 +198,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         setPosition(pos) {
             position = Math.max(0, Math.min(parseInt(pos, 10) || 0, expression.length));
 
-            /**
-             * @event positionchange
-             * @param {number} position
-             */
             this.trigger('positionchange', position);
 
             return this;
@@ -285,11 +277,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
 
             variables.set(name, value);
 
-            /**
-             * @event variableadd
-             * @param {string} name
-             * @param {string} value
-             */
             this.trigger('variableadd', name, value);
 
             return this;
@@ -304,10 +291,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         deleteVariable(name) {
             variables.delete(name);
 
-            /**
-             * @event variabledelete
-             * @param {string} name
-             */
             this.trigger('variabledelete', name);
 
             return this;
@@ -345,10 +328,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         deleteVariables() {
             variables.clear();
 
-            /**
-             * @event variabledelete
-             * @param {null} name
-             */
             this.trigger('variabledelete', null);
 
             this.setLastResult('0');
@@ -407,10 +386,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         setCommand(name, action) {
             commands.set(name, action);
 
-            /**
-             * @event commandadd
-             * @param {string} name
-             */
             this.trigger('commandadd', name);
 
             return this;
@@ -425,10 +400,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         deleteCommand(name) {
             commands.delete(name);
 
-            /**
-             * @event commanddelete
-             * @param {string} name
-             */
             this.trigger('commanddelete', name);
 
             return this;
@@ -463,10 +434,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         deleteCommands() {
             commands.clear();
 
-            /**
-             * @event commanddelete
-             * @param {null} name
-             */
             this.trigger('commanddelete', null);
 
             return this;
@@ -482,10 +449,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          */
         addTerm(name, term) {
             if ('object' !== typeof term || 'undefined' === typeof term.value) {
-                /**
-                 * @event termerror
-                 * @param {TypeError} err
-                 */
                 return this.trigger('termerror', new TypeError(`Invalid term: ${name}`));
             }
 
@@ -535,11 +498,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                 this.insert(value, at);
             }
 
-            /**
-             * @event termadd
-             * @param {string} name - The name of the added term
-             * @param {object} term - The descriptor of the added term
-             */
             this.trigger('termadd', name, term);
 
             return this;
@@ -561,10 +519,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             let term = terms[name];
 
             if ('undefined' === typeof term) {
-                /**
-                 * @event termerror
-                 * @param {TypeError} err
-                 */
                 return this.trigger('termerror', new TypeError(`Invalid term: ${name}`));
             }
 
@@ -603,10 +557,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          */
         useVariable(name) {
             if (!variables.has(name)) {
-                /**
-                 * @event termerror
-                 * @param {TypeError} err
-                 */
                 return this.trigger('termerror', new TypeError(`Invalid variable: ${name}`));
             }
 
@@ -630,26 +580,13 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             const action = commands.get(name);
 
             if ('function' !== typeof action) {
-                /**
-                 * @event commanderror
-                 * @param {TypeError} err
-                 */
                 return this.trigger('commanderror', new TypeError(`Invalid command: ${name}`));
             }
 
             action.apply(this, args);
 
-            /**
-             * @event command
-             * @param {string} name - The name of the called command
-             * @param {...*} args - additional params for the command
-             */
             this.trigger('command', name, ...args);
 
-            /**
-             * @event command-<name>
-             * @param {...*} args - additional params for the command
-             */
             this.trigger(`command-${name}`, ...args);
 
             return this;
@@ -670,11 +607,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                 'undefined' !== typeof newPosition ? newPosition : expression.length
             );
 
-            /**
-             * @event replace
-             * @param {string} expression - the replaced expression
-             * @param {number} position - the replaced position
-             */
             this.trigger('replace', oldExpression, oldPosition);
 
             return this;
@@ -698,11 +630,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             this.setExpression(expression.substring(0, at) + subExpression + expression.substring(at));
             this.setPosition(at + subExpression.length);
 
-            /**
-             * @event insert
-             * @param {string} expression - the replaced expression
-             * @param {number} position - the replaced position
-             */
             this.trigger('insert', oldExpression, oldPosition);
 
             return this;
@@ -716,9 +643,6 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         clear() {
             this.setExpression('').setPosition(0);
 
-            /**
-             * @event clear
-             */
             this.trigger('clear');
 
             return this;
@@ -744,22 +668,28 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                     result = mathsEvaluator('0');
                 }
 
-                /**
-                 * @event evaluate
-                 * @param {mathsExpression} result
-                 */
                 this.trigger('evaluate', result);
 
                 this.setLastResult(result);
             } catch (e) {
-                /**
-                 * @event syntaxerror
-                 * @param {Error} err
-                 */
                 this.trigger('syntaxerror', e);
             }
 
             return result;
+        },
+
+        /**
+         * Renders the current expression into a list of terms.
+         * This list can then be applied to a template.
+         * @returns {renderTerm[]}
+         * @fires render when the expression has been rendered
+         */
+        render() {
+            const renderedTerms = expressionHelper.render(this.getTokens(), this.getVariable(), tokenizer);
+
+            this.trigger('render', renderedTerms);
+
+            return renderedTerms;
         }
     };
 
@@ -776,3 +706,109 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
 }
 
 export default engineFactory;
+
+/**
+ * Notifies the expression has changed.
+ * @event expressionchange
+ * @param {string} expression - The new expression.
+ */
+
+/**
+ * Notifies the position inside the expression has changed.
+ * @event positionchange
+ * @param {number} position - The new position.
+ */
+
+/**
+ * Notifies a variable has been added.
+ * @event variableadd
+ * @param {string} name - The name of the new variable.
+ * @param {string} value - The value of the new variable.
+ */
+
+/**
+ * Notifies a variable has been removed.
+ * @event variabledelete
+ * @param {string} name - The name of the removed variable.
+ */
+
+/**
+ * Notifies a command has been registered.
+ * @event commandadd
+ * @param {string} name - The name of the new command.
+ */
+
+/**
+ * Notifies a command has been removed.
+ * @event commanddelete
+ * @param {string} name - The name of the removed command.
+ */
+
+/**
+ * Notifies an error occurred with a command.
+ * @event commanderror
+ * @param {TypeError} err - The error object.
+ */
+
+/**
+ * Notifies a command has been invoked.
+ * @event command
+ * @param {string} name - The name of the called command
+ * @param {...*} args - Additional params for the command
+ */
+
+/**
+ * Notifies a particular command has been invoked.
+ * @event command-<name>
+ * @param {...*} args - Additional params for the command
+ */
+
+/**
+ * Notifies a term has been added to the expression.
+ * @event termadd
+ * @param {string} name - The name of the added term
+ * @param {object} term - The descriptor of the added term
+ */
+
+/**
+ * Notifies an errors occurred with a term added the expression.
+ * @event termerror
+ * @param {TypeError} err - The error object.
+ */
+
+/**
+ * Notifies the expression has been replaced.
+ * @event replace
+ * @param {string} expression - The replaced expression
+ * @param {number} position - The replaced position
+ */
+
+/**
+ * Notifies a sub-expression has been inserted.
+ * @event insert
+ * @param {string} expression - The replaced expression
+ * @param {number} position - The replaced position
+ */
+
+/**
+ * Notifies the expression has been cleared.
+ * @event clear
+ */
+
+/**
+ * Notifies the expression has been evaluated.
+ * @event evaluate
+ * @param {mathsExpression} result - The result of the expression.
+ */
+
+/**
+ * Notifies the expression has a syntax error.
+ * @event syntaxerror
+ * @param {Error} err - The error object.
+ */
+
+/**
+ * Notifies the expression has been rendered into a list of terms.
+ * @event render
+ * @param {renderTerm[]} terms - The list of rendered terms.
+ */
