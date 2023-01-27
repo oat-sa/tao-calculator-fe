@@ -3,7 +3,6 @@
 exports[`expression replaceLastResult render render from Explicit positive expression 1`] = `
 [
   {
-    "description": "Binary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -15,7 +14,6 @@ exports[`expression replaceLastResult render render from Explicit positive expre
     "value": "+",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -27,7 +25,6 @@ exports[`expression replaceLastResult render render from Explicit positive expre
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -39,7 +36,6 @@ exports[`expression replaceLastResult render render from Explicit positive expre
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -51,7 +47,6 @@ exports[`expression replaceLastResult render render from Explicit positive expre
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -63,7 +58,6 @@ exports[`expression replaceLastResult render render from Explicit positive expre
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -80,7 +74,6 @@ exports[`expression replaceLastResult render render from Explicit positive expre
 exports[`expression replaceLastResult render render from Explicit positive value 1`] = `
 [
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -92,7 +85,6 @@ exports[`expression replaceLastResult render render from Explicit positive value
     "value": "+",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -104,7 +96,6 @@ exports[`expression replaceLastResult render render from Explicit positive value
     "value": "4",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -121,7 +112,6 @@ exports[`expression replaceLastResult render render from Explicit positive value
 exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3! 1`] = `
 [
   {
-    "description": "Factorial",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -133,7 +123,6 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "value": "!",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [
       0,
@@ -149,7 +138,6 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "value": "3",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -161,7 +149,6 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "value": "nthrt",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -173,7 +160,6 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -185,7 +171,6 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "value": "^",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -199,7 +184,6 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "value": "3",
   },
   {
-    "description": "Factorial",
     "elide": false,
     "endExponent": [
       0,
@@ -218,7 +202,6 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
 exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2^(3!)) 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -232,7 +215,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "(",
   },
   {
-    "description": "Factorial",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -244,7 +226,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "!",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -256,7 +237,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "3",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -270,7 +250,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -282,7 +261,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "nthrt",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -294,7 +272,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "(",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -306,7 +283,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -318,7 +294,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -332,7 +307,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "(",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -344,7 +318,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "3",
   },
   {
-    "description": "Factorial",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -356,7 +329,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": "!",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -370,7 +342,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "value": ")",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -387,7 +358,6 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
 exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -401,7 +371,6 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
     "value": "(",
   },
   {
-    "description": "Digit 8",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -413,7 +382,6 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
     "value": "8",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -425,7 +393,6 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
     "value": "^",
   },
   {
-    "description": "Digit 8",
     "elide": false,
     "endExponent": [
       0,
@@ -441,7 +408,6 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
     "value": "8",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -455,7 +421,6 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -467,7 +432,6 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
     "value": "nthrt",
   },
   {
-    "description": "Digit 8",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -484,7 +448,6 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
 exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8) 1`] = `
 [
   {
-    "description": "Digit 8",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -496,7 +459,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
     "value": "8",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -508,7 +470,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -522,7 +483,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
     "value": "(",
   },
   {
-    "description": "Digit 8",
     "elide": false,
     "endExponent": [
       0,
@@ -538,7 +498,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
     "value": "8",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -550,7 +509,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
     "value": "nthrt",
   },
   {
-    "description": "Digit 8",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -562,7 +520,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
     "value": "8",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -581,7 +538,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
 exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1`] = `
 [
   {
-    "description": "Digit 8",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -593,7 +549,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
     "value": "8",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -605,7 +560,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
     "value": "^",
   },
   {
-    "description": "Digit 8",
     "elide": false,
     "endExponent": [
       0,
@@ -622,7 +576,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
     "value": "8",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -634,7 +587,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
     "value": "nthrt",
   },
   {
-    "description": "Digit 8",
     "elide": false,
     "endExponent": [
       0,
@@ -653,7 +605,6 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
 exports[`expression replaceLastResult render render from Expression with variables 1`] = `
 [
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -665,7 +616,6 @@ exports[`expression replaceLastResult render render from Expression with variabl
     "value": "4",
   },
   {
-    "description": "Digit 0",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -677,7 +627,6 @@ exports[`expression replaceLastResult render render from Expression with variabl
     "value": "0",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -689,7 +638,6 @@ exports[`expression replaceLastResult render render from Expression with variabl
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -701,7 +649,6 @@ exports[`expression replaceLastResult render render from Expression with variabl
     "value": "2",
   },
   {
-    "description": "Binary operator -",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -713,7 +660,6 @@ exports[`expression replaceLastResult render render from Expression with variabl
     "value": "-",
   },
   {
-    "description": "x",
     "elide": false,
     "endExponent": [],
     "exponent": null,
@@ -725,7 +671,6 @@ exports[`expression replaceLastResult render render from Expression with variabl
     "value": "x",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -737,13 +682,11 @@ exports[`expression replaceLastResult render render from Expression with variabl
     "value": "*",
   },
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 5",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -762,7 +705,6 @@ exports[`expression replaceLastResult render render from Expression with variabl
     "value": "ans",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -774,7 +716,6 @@ exports[`expression replaceLastResult render render from Expression with variabl
     "value": "*",
   },
   {
-    "description": "y",
     "elide": false,
     "endExponent": [],
     "exponent": null,
@@ -791,13 +732,11 @@ exports[`expression replaceLastResult render render from Expression with variabl
 exports[`expression replaceLastResult render render from Last result, explicit positive value 1`] = `
 [
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Unary operator +",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -809,7 +748,6 @@ exports[`expression replaceLastResult render render from Last result, explicit p
         "value": "+",
       },
       {
-        "description": "Digit 4",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -821,7 +759,6 @@ exports[`expression replaceLastResult render render from Last result, explicit p
         "value": "4",
       },
       {
-        "description": "Digit 2",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -845,13 +782,11 @@ exports[`expression replaceLastResult render render from Last result, explicit p
 exports[`expression replaceLastResult render render from Last result, mathsExpression 1`] = `
 [
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 4",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -863,7 +798,6 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
         "value": "4",
       },
       {
-        "description": "Digit 2",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -887,13 +821,11 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
 exports[`expression replaceLastResult render render from Last result, mathsExpression with tokens 1`] = `
 [
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 4",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -905,7 +837,6 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
         "value": "4",
       },
       {
-        "description": "Digit 2",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -929,13 +860,11 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
 exports[`expression replaceLastResult render render from Last result, negative value 1`] = `
 [
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Unary operator -",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -947,7 +876,6 @@ exports[`expression replaceLastResult render render from Last result, negative v
         "value": "-",
       },
       {
-        "description": "Digit 4",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -959,7 +887,6 @@ exports[`expression replaceLastResult render render from Last result, negative v
         "value": "4",
       },
       {
-        "description": "Digit 2",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -983,7 +910,6 @@ exports[`expression replaceLastResult render render from Last result, negative v
 exports[`expression replaceLastResult render render from Last result, no variable 1`] = `
 [
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1000,13 +926,11 @@ exports[`expression replaceLastResult render render from Last result, no variabl
 exports[`expression replaceLastResult render render from Last result, positive value 1`] = `
 [
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 4",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -1018,7 +942,6 @@ exports[`expression replaceLastResult render render from Last result, positive v
         "value": "4",
       },
       {
-        "description": "Digit 2",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -1042,7 +965,6 @@ exports[`expression replaceLastResult render render from Last result, positive v
 exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2-x)) nthrt 16) 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1054,7 +976,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "(",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1068,7 +989,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "(",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1080,7 +1000,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "5",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1092,7 +1011,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "+",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1104,7 +1022,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "4",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1116,7 +1033,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "*",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1128,7 +1044,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "(",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1140,7 +1055,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "2",
   },
   {
-    "description": "Binary operator -",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1152,7 +1066,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "-",
   },
   {
-    "description": "x",
     "elide": false,
     "endExponent": [],
     "exponent": null,
@@ -1164,7 +1077,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "x",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1176,7 +1088,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": ")",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -1190,7 +1101,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -1202,7 +1112,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "nthrt",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1214,7 +1123,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "1",
   },
   {
-    "description": "Digit 6",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1226,7 +1134,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
     "value": "6",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1243,7 +1150,6 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
 exports[`expression replaceLastResult render render from Left exponent: (4 nthrt 16) 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1255,7 +1161,6 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -1271,7 +1176,6 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
     "value": "4",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -1283,7 +1187,6 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
     "value": "nthrt",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1295,7 +1198,6 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
     "value": "1",
   },
   {
-    "description": "Digit 6",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1307,7 +1209,6 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
     "value": "6",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1324,7 +1225,6 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
 exports[`expression replaceLastResult render render from Left exponent: (5+4) nthrt 16 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1338,7 +1238,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
     "value": "(",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1350,7 +1249,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
     "value": "5",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1362,7 +1260,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
     "value": "+",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1374,7 +1271,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
     "value": "4",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -1388,7 +1284,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -1400,7 +1295,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
     "value": "nthrt",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1412,7 +1306,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
     "value": "1",
   },
   {
-    "description": "Digit 6",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1429,7 +1322,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
 exports[`expression replaceLastResult render render from Left exponent: (5+114) nthrt (ans*3) 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1443,7 +1335,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "(",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1455,7 +1346,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "5",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1467,7 +1357,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "+",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1479,7 +1368,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "1",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1491,7 +1379,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "1",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1503,7 +1390,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "4",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -1517,7 +1403,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -1529,7 +1414,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "nthrt",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1541,13 +1425,11 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "(",
   },
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 5",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -1566,7 +1448,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "ans",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1578,7 +1459,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "*",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1590,7 +1470,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     "value": "3",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1607,7 +1486,6 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
 exports[`expression replaceLastResult render render from Left exponent: (PI nthrt PI) nthrt 4 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1621,7 +1499,6 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
     "value": "(",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -1637,7 +1514,6 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -1649,7 +1525,6 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
     "value": "nthrt",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1661,7 +1536,6 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
     "value": "PI",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -1675,7 +1549,6 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -1687,7 +1560,6 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1704,7 +1576,6 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
 exports[`expression replaceLastResult render render from Left exponent: (cos PI) nthrt 4 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1718,7 +1589,6 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
     "value": "(",
   },
   {
-    "description": "Cosine",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1730,7 +1600,6 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
     "value": "cos",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1742,7 +1611,6 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
     "value": "PI",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -1756,7 +1624,6 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -1768,7 +1635,6 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1785,7 +1651,6 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
 exports[`expression replaceLastResult render render from Left exponent: -(5+4) nthrt 16 1`] = `
 [
   {
-    "description": "Binary operator -",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1797,7 +1662,6 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
     "value": "-",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1811,7 +1675,6 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
     "value": "(",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1823,7 +1686,6 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
     "value": "5",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1835,7 +1697,6 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
     "value": "+",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1847,7 +1708,6 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
     "value": "4",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -1861,7 +1721,6 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -1873,7 +1732,6 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
     "value": "nthrt",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1885,7 +1743,6 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
     "value": "1",
   },
   {
-    "description": "Digit 6",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1902,7 +1759,6 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
 exports[`expression replaceLastResult render render from Left exponent: -4 nthrt 16 1`] = `
 [
   {
-    "description": "Unary operator -",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1914,7 +1770,6 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
     "value": "-",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -1930,7 +1785,6 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
     "value": "4",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -1942,7 +1796,6 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
     "value": "nthrt",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1954,7 +1807,6 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
     "value": "1",
   },
   {
-    "description": "Digit 6",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1971,7 +1823,6 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
 exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)nthrt(ans*3) 1`] = `
 [
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1983,7 +1834,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "3",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -1995,7 +1845,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "*",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2009,7 +1858,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2021,7 +1869,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2033,7 +1880,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2045,7 +1891,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -2059,7 +1904,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2071,7 +1915,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "nthrt",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2083,13 +1926,11 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "(",
   },
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 5",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -2108,7 +1949,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "ans",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2120,7 +1960,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "*",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2132,7 +1971,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     "value": "3",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2149,7 +1987,6 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
 exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 1`] = `
 [
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -2165,7 +2002,6 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
     "value": "4",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2182,7 +2018,6 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
 exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 16 1`] = `
 [
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -2198,7 +2033,6 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
     "value": "4",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2210,7 +2044,6 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
     "value": "nthrt",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2222,7 +2055,6 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
     "value": "1",
   },
   {
-    "description": "Digit 6",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2239,7 +2071,6 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
 exports[`expression replaceLastResult render render from Left exponent: 5+(4 nthrt 16) 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2251,7 +2082,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
     "value": "5",
   },
   {
-    "description": "Binary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2263,7 +2093,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
     "value": "+",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2275,7 +2104,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -2291,7 +2119,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
     "value": "4",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2303,7 +2130,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
     "value": "nthrt",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2315,7 +2141,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
     "value": "1",
   },
   {
-    "description": "Digit 6",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2327,7 +2152,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
     "value": "6",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2344,7 +2168,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
 exports[`expression replaceLastResult render render from Left exponent: 5+4 nthrt 16 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2356,7 +2179,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
     "value": "5",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2368,7 +2190,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
     "value": "+",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -2384,7 +2205,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
     "value": "4",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2396,7 +2216,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
     "value": "nthrt",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2408,7 +2227,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
     "value": "1",
   },
   {
-    "description": "Digit 6",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2425,7 +2243,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
 exports[`expression replaceLastResult render render from Left exponent: 5+10 nthrt PI nthrt 4 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2437,7 +2254,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "5",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2449,7 +2265,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "+",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2463,7 +2278,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "1",
   },
   {
-    "description": "Digit 0",
     "elide": false,
     "endExponent": [
       0,
@@ -2477,7 +2291,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "0",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2489,7 +2302,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "nthrt",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -2505,7 +2317,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2517,7 +2328,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2534,7 +2344,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
 exports[`expression replaceLastResult render render from Left exponent: 5+10 nthrt cos PI 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2546,7 +2355,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "5",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2558,7 +2366,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "+",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2572,7 +2379,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "1",
   },
   {
-    "description": "Digit 0",
     "elide": false,
     "endExponent": [
       0,
@@ -2586,7 +2392,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "0",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2598,7 +2403,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "nthrt",
   },
   {
-    "description": "Cosine",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2610,7 +2414,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
     "value": "cos",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2627,7 +2430,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
 exports[`expression replaceLastResult render render from Left exponent: 5+114 nthrt (ans*3) 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2639,7 +2441,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "5",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2651,7 +2452,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "+",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2665,7 +2465,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "1",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2677,7 +2476,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "1",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -2691,7 +2489,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "4",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2703,7 +2500,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "nthrt",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2715,13 +2511,11 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "(",
   },
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 5",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -2740,7 +2534,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "ans",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2752,7 +2545,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "*",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2764,7 +2556,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     "value": "3",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2781,7 +2572,6 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
 exports[`expression replaceLastResult render render from Left exponent: 10 nthrt PI nthrt 4 1`] = `
 [
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2795,7 +2585,6 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
     "value": "1",
   },
   {
-    "description": "Digit 0",
     "elide": false,
     "endExponent": [
       0,
@@ -2809,7 +2598,6 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
     "value": "0",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2821,7 +2609,6 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
     "value": "nthrt",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -2837,7 +2624,6 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2849,7 +2635,6 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2866,7 +2651,6 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
 exports[`expression replaceLastResult render render from Left exponent: 114 nthrt (ans*3) 1`] = `
 [
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2880,7 +2664,6 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
     "value": "1",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2892,7 +2675,6 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
     "value": "1",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -2906,7 +2688,6 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
     "value": "4",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -2918,7 +2699,6 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
     "value": "nthrt",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2930,13 +2710,11 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
     "value": "(",
   },
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 5",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -2955,7 +2733,6 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
     "value": "ans",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2967,7 +2744,6 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
     "value": "*",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2979,7 +2755,6 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
     "value": "3",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -2996,7 +2771,6 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
 exports[`expression replaceLastResult render render from Left exponent: PI nthrt (PI nthrt 4) 1`] = `
 [
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -3012,7 +2786,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3024,7 +2797,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "nthrt",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3036,7 +2808,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "(",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -3052,7 +2823,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3064,7 +2834,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3076,7 +2845,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "4",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3093,7 +2861,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
 exports[`expression replaceLastResult render render from Left exponent: PI nthrt (PI+4) nthrt 4 1`] = `
 [
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -3109,7 +2876,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3121,7 +2887,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "nthrt",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3135,7 +2900,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "(",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3147,7 +2911,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "PI",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3159,7 +2922,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "+",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3171,7 +2933,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "4",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -3185,7 +2946,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3197,7 +2957,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3214,7 +2973,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
 exports[`expression replaceLastResult render render from Left exponent: PI nthrt PI nthrt 4 1`] = `
 [
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -3230,7 +2988,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3242,7 +2999,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "nthrt",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -3258,7 +3014,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3270,7 +3025,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3287,7 +3041,6 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
 exports[`expression replaceLastResult render render from Left exponent: ceil cos PI nthrt 4 1`] = `
 [
   {
-    "description": "Round to upper whole number",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3299,7 +3052,6 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
     "value": "ceil",
   },
   {
-    "description": "Cosine",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3311,7 +3063,6 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
     "value": "cos",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -3327,7 +3078,6 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3339,7 +3089,6 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3356,7 +3105,6 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
 exports[`expression replaceLastResult render render from Left exponent: cos (PI) nthrt 4 1`] = `
 [
   {
-    "description": "Cosine",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3370,7 +3118,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
     "value": "cos",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3382,7 +3129,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
     "value": "(",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3394,7 +3140,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
     "value": "PI",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -3408,7 +3153,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
     "value": ")",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3420,7 +3164,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3437,7 +3180,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
 exports[`expression replaceLastResult render render from Left exponent: cos PI nthrt 4 1`] = `
 [
   {
-    "description": "Cosine",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3449,7 +3191,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos PI n
     "value": "cos",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -3465,7 +3206,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos PI n
     "value": "PI",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3477,7 +3217,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos PI n
     "value": "nthrt",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3494,7 +3233,6 @@ exports[`expression replaceLastResult render render from Left exponent: cos PI n
 exports[`expression replaceLastResult render render from Left exponent: nthrt 1`] = `
 [
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3511,7 +3249,6 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 1`
 exports[`expression replaceLastResult render render from Left exponent: nthrt 16 1`] = `
 [
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3523,7 +3260,6 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 16
     "value": "nthrt",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3535,7 +3271,6 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 16
     "value": "1",
   },
   {
-    "description": "Digit 6",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3552,7 +3287,6 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 16
 exports[`expression replaceLastResult render render from Left exponent: nthrt nthrt 1`] = `
 [
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [
       0,
@@ -3568,7 +3302,6 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt nt
     "value": "nthrt",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -3585,7 +3318,6 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt nt
 exports[`expression replaceLastResult render render from Negative expression 1`] = `
 [
   {
-    "description": "Binary operator -",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3597,7 +3329,6 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
     "value": "-",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3609,7 +3340,6 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3621,7 +3351,6 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3633,7 +3362,6 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3645,7 +3373,6 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3662,7 +3389,6 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
 exports[`expression replaceLastResult render render from Negative value 1`] = `
 [
   {
-    "description": "Unary operator -",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3674,7 +3400,6 @@ exports[`expression replaceLastResult render render from Negative value 1`] = `
     "value": "-",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3686,7 +3411,6 @@ exports[`expression replaceLastResult render render from Negative value 1`] = `
     "value": "4",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3703,7 +3427,6 @@ exports[`expression replaceLastResult render render from Negative value 1`] = `
 exports[`expression replaceLastResult render render from Right exponent: (2^2)^2 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3715,7 +3438,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
     "value": "(",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3727,7 +3449,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -3739,7 +3460,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
     "value": "^",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -3755,7 +3475,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3767,7 +3486,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
     "value": ")",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -3779,7 +3497,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
     "value": "^",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -3800,7 +3517,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
 exports[`expression replaceLastResult render render from Right exponent: (2^2^2) 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3812,7 +3528,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
     "value": "(",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3824,7 +3539,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -3836,7 +3550,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
     "value": "^",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3850,7 +3563,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -3862,7 +3574,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
     "value": "^",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -3879,7 +3590,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3896,7 +3606,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
 exports[`expression replaceLastResult render render from Right exponent: (2^4) 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3908,7 +3617,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
     "value": "(",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3920,7 +3628,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -3932,7 +3639,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
     "value": "^",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -3948,7 +3654,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
     "value": "4",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3965,7 +3670,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
 exports[`expression replaceLastResult render render from Right exponent: (2^PI) 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3977,7 +3681,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
     "value": "(",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -3989,7 +3692,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4001,7 +3703,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
     "value": "^",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -4017,7 +3718,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
     "value": "PI",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4034,7 +3734,6 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
 exports[`expression replaceLastResult render render from Right exponent: (4+2)^(3*4)+5 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4046,7 +3745,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4058,7 +3756,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4070,7 +3767,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4082,7 +3778,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4094,7 +3789,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": ")",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4106,7 +3800,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4120,7 +3813,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "(",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4132,7 +3824,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "3",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4144,7 +3835,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "*",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4156,7 +3846,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "4",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -4170,7 +3859,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": ")",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4182,7 +3870,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4199,7 +3886,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
 exports[`expression replaceLastResult render render from Right exponent: (4+2)^3+5 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4211,7 +3897,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4223,7 +3908,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4235,7 +3919,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4247,7 +3930,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4259,7 +3941,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
     "value": ")",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4271,7 +3952,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
     "value": "^",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [
       0,
@@ -4287,7 +3967,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
     "value": "3",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4299,7 +3978,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4316,7 +3994,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
 exports[`expression replaceLastResult render render from Right exponent: (4+2)^123+5 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4328,7 +4005,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4340,7 +4016,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4352,7 +4027,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4364,7 +4038,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4376,7 +4049,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": ")",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4388,7 +4060,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": "^",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4402,7 +4073,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": "1",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4414,7 +4084,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": "2",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [
       0,
@@ -4428,7 +4097,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": "3",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4440,7 +4108,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4457,7 +4124,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
 exports[`expression replaceLastResult render render from Right exponent: (4+2)^x+5 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4469,7 +4135,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4481,7 +4146,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4493,7 +4157,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4505,7 +4168,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4517,7 +4179,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
     "value": ")",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4529,7 +4190,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
     "value": "^",
   },
   {
-    "description": "x",
     "elide": false,
     "endExponent": [
       0,
@@ -4545,7 +4205,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
     "value": "x",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4557,7 +4216,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4574,7 +4232,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
 exports[`expression replaceLastResult render render from Right exponent: (4+2^3)^(ans*3^2)+5 1`] = `
 [
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4586,7 +4243,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4598,7 +4254,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4610,7 +4265,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4622,7 +4276,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4634,7 +4287,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "^",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [
       0,
@@ -4650,7 +4302,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "3",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4662,7 +4313,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": ")",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4674,7 +4324,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4688,13 +4337,11 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "(",
   },
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 5",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -4713,7 +4360,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "ans",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4725,7 +4371,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "*",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4737,7 +4382,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "3",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4749,7 +4393,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "^",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -4765,7 +4408,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -4779,7 +4421,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": ")",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4791,7 +4432,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4808,7 +4448,6 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
 exports[`expression replaceLastResult render render from Right exponent: ^ 1`] = `
 [
   {
-    "description": "Power of",
     "elide": false,
     "endExponent": [],
     "exponent": "right",
@@ -4825,7 +4464,6 @@ exports[`expression replaceLastResult render render from Right exponent: ^ 1`] =
 exports[`expression replaceLastResult render render from Right exponent: 2^ 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4837,7 +4475,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ 1`] 
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": false,
     "endExponent": [],
     "exponent": "right",
@@ -4854,7 +4491,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ 1`] 
 exports[`expression replaceLastResult render render from Right exponent: 2^(2^2) 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4866,7 +4502,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4878,7 +4513,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4892,7 +4526,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
     "value": "(",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4904,7 +4537,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4916,7 +4548,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
     "value": "^",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -4932,7 +4563,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -4951,7 +4581,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
 exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4963,7 +4592,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -4975,7 +4603,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
     "value": "^",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -4989,7 +4616,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5001,7 +4627,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
     "value": "^",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -5023,7 +4648,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
 exports[`expression replaceLastResult render render from Right exponent: 2^4 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5035,7 +4659,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4 1`]
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5047,7 +4670,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4 1`]
     "value": "^",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [
       0,
@@ -5068,7 +4690,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4 1`]
 exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5080,7 +4701,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5092,7 +4712,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`
     "value": "^",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5106,7 +4725,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`
     "value": "4",
   },
   {
-    "description": "Power of",
     "elide": false,
     "endExponent": [
       0,
@@ -5125,7 +4743,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`
 exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5137,7 +4754,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5149,7 +4765,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
     "value": "^",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5163,7 +4778,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
     "value": "4",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5175,7 +4789,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
     "value": "^",
   },
   {
-    "description": "Binary operator +",
     "elide": false,
     "endExponent": [
       0,
@@ -5197,7 +4810,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
 exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5209,7 +4821,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5221,7 +4832,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
     "value": "^",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5235,7 +4845,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
     "value": "4",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5247,7 +4856,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
     "value": "^",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5261,7 +4869,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -5281,7 +4888,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
 exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5293,7 +4899,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5305,7 +4910,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
     "value": "^",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5319,7 +4923,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
     "value": "4",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5331,7 +4934,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
     "value": "^",
   },
   {
-    "description": "Binary operator -",
     "elide": false,
     "endExponent": [
       0,
@@ -5353,7 +4955,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
 exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5365,7 +4966,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5377,7 +4977,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
     "value": "^",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5391,7 +4990,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
     "value": "4",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5403,7 +5001,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
     "value": "^",
   },
   {
-    "description": "Unary operator -",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5417,7 +5014,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
     "value": "-",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -5437,7 +5033,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
 exports[`expression replaceLastResult render render from Right exponent: 2^PI 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5449,7 +5044,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^PI 1`
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5461,7 +5055,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^PI 1`
     "value": "^",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -5482,7 +5075,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^PI 1`
 exports[`expression replaceLastResult render render from Right exponent: 2^ceil cos(PI * 2) 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5494,7 +5086,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5506,7 +5097,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
     "value": "^",
   },
   {
-    "description": "Round to upper whole number",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5520,7 +5110,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
     "value": "ceil",
   },
   {
-    "description": "Cosine",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5532,7 +5121,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
     "value": "cos",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5544,7 +5132,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
     "value": "(",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5556,7 +5143,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
     "value": "PI",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5568,7 +5154,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
     "value": "*",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5580,7 +5165,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -5599,7 +5183,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
 exports[`expression replaceLastResult render render from Right exponent: 2^cos PI 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5611,7 +5194,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos P
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5623,7 +5205,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos P
     "value": "^",
   },
   {
-    "description": "Cosine",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5637,7 +5218,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos P
     "value": "cos",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [
       0,
@@ -5656,7 +5236,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos P
 exports[`expression replaceLastResult render render from Right exponent: 2^cos(PI * 2) 1`] = `
 [
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5668,7 +5247,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5680,7 +5258,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
     "value": "^",
   },
   {
-    "description": "Cosine",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5694,7 +5271,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
     "value": "cos",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5706,7 +5282,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
     "value": "(",
   },
   {
-    "description": "Value of PI",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5718,7 +5293,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
     "value": "PI",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5730,7 +5304,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
     "value": "*",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5742,7 +5315,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -5761,7 +5333,6 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
 exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+5) 1`] = `
 [
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5773,7 +5344,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5785,7 +5355,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5797,7 +5366,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5809,7 +5377,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5823,7 +5390,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
     "value": "(",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5835,7 +5401,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
     "value": "3",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5847,7 +5412,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5859,7 +5423,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
     "value": "5",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -5878,7 +5441,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
 exports[`expression replaceLastResult render render from Right exponent: 4+2^(123+5) 1`] = `
 [
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5890,7 +5452,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5902,7 +5463,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5914,7 +5474,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -5926,7 +5485,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5940,7 +5498,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "(",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5952,7 +5509,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "1",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5964,7 +5520,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "2",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5976,7 +5531,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "3",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -5988,7 +5542,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6000,7 +5553,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
     "value": "5",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -6019,7 +5571,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
 exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+5) 1`] = `
 [
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6031,7 +5582,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6043,7 +5593,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6055,7 +5604,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -6067,7 +5615,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6081,7 +5628,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
     "value": "(",
   },
   {
-    "description": "x",
     "elide": false,
     "endExponent": [],
     "exponent": null,
@@ -6093,7 +5639,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
     "value": "x",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6105,7 +5650,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6117,7 +5661,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
     "value": "5",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -6136,7 +5679,6 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
 exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6148,7 +5690,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`
     "value": "5",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -6160,7 +5701,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`
     "value": "^",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6174,7 +5714,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -6193,7 +5732,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`
 exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6205,7 +5743,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`
     "value": "5",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -6217,7 +5754,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`
     "value": "^",
   },
   {
-    "description": "Unary operator -",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6231,7 +5767,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`
     "value": "-",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [
       0,
@@ -6250,7 +5785,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`
 exports[`expression replaceLastResult render render from Right exponent: 5e+10 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6262,7 +5796,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
     "value": "5",
   },
   {
-    "description": "Power of 10",
     "elide": false,
     "endExponent": [],
     "exponent": "right",
@@ -6274,7 +5807,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
     "value": "e",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6288,7 +5820,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
     "value": "+",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6300,7 +5831,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
     "value": "1",
   },
   {
-    "description": "Digit 0",
     "elide": false,
     "endExponent": [
       0,
@@ -6319,7 +5849,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
 exports[`expression replaceLastResult render render from Right exponent: 5e-10 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6331,7 +5860,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
     "value": "5",
   },
   {
-    "description": "Power of 10",
     "elide": false,
     "endExponent": [],
     "exponent": "right",
@@ -6343,7 +5871,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
     "value": "e",
   },
   {
-    "description": "Unary operator -",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6357,7 +5884,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
     "value": "-",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6369,7 +5895,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
     "value": "1",
   },
   {
-    "description": "Digit 0",
     "elide": false,
     "endExponent": [
       0,
@@ -6388,7 +5913,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
 exports[`expression replaceLastResult render render from Right exponent: 5e10 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6400,7 +5924,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e10 1`
     "value": "5",
   },
   {
-    "description": "Power of 10",
     "elide": false,
     "endExponent": [],
     "exponent": "right",
@@ -6412,7 +5935,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e10 1`
     "value": "e",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6426,7 +5948,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e10 1`
     "value": "1",
   },
   {
-    "description": "Digit 0",
     "elide": false,
     "endExponent": [
       0,
@@ -6445,7 +5966,6 @@ exports[`expression replaceLastResult render render from Right exponent: 5e10 1`
 exports[`expression replaceLastResult render render from Right exponent: 42^123 1`] = `
 [
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6457,7 +5977,6 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
     "value": "4",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6469,7 +5988,6 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -6481,7 +5999,6 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
     "value": "^",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6495,7 +6012,6 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
     "value": "1",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6507,7 +6023,6 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
     "value": "2",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [
       0,
@@ -6526,7 +6041,6 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
 exports[`expression replaceLastResult render render from Right exponent: x^((4+2)^(3*4))+5 1`] = `
 [
   {
-    "description": "x",
     "elide": false,
     "endExponent": [],
     "exponent": null,
@@ -6538,7 +6052,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "x",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -6550,7 +6063,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6564,7 +6076,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "(",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6576,7 +6087,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6588,7 +6098,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "4",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6600,7 +6109,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6612,7 +6120,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6624,7 +6131,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": ")",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -6636,7 +6142,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6650,7 +6155,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "(",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6662,7 +6166,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "3",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6674,7 +6177,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "*",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6686,7 +6188,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "4",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -6700,7 +6201,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": ")",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -6714,7 +6214,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": ")",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6726,7 +6225,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6743,7 +6241,6 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
 exports[`expression replaceLastResult render render from Simple expression 1`] = `
 [
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6755,7 +6252,6 @@ exports[`expression replaceLastResult render render from Simple expression 1`] =
     "value": "4",
   },
   {
-    "description": "Digit 0",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6767,7 +6263,6 @@ exports[`expression replaceLastResult render render from Simple expression 1`] =
     "value": "0",
   },
   {
-    "description": "Unary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6779,7 +6274,6 @@ exports[`expression replaceLastResult render render from Simple expression 1`] =
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6796,7 +6290,6 @@ exports[`expression replaceLastResult render render from Simple expression 1`] =
 exports[`expression replaceLastResult render render from Simple number 1`] = `
 [
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6808,7 +6301,6 @@ exports[`expression replaceLastResult render render from Simple number 1`] = `
     "value": "4",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6825,7 +6317,6 @@ exports[`expression replaceLastResult render render from Simple number 1`] = `
 exports[`expression replaceLastResult render render from Tokenized expression 1`] = `
 [
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6837,7 +6328,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "5",
   },
   {
-    "description": "Binary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6849,7 +6339,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "+",
   },
   {
-    "description": "Digit 1",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6863,7 +6352,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "1",
   },
   {
-    "description": "Digit 0",
     "elide": false,
     "endExponent": [
       0,
@@ -6877,7 +6365,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "0",
   },
   {
-    "description": "Nth root",
     "elide": false,
     "endExponent": [],
     "exponent": "left",
@@ -6889,7 +6376,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "nthrt",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6901,7 +6387,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "(",
   },
   {
-    "description": "Digit 4",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6913,7 +6398,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "4",
   },
   {
-    "description": "Binary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6925,7 +6409,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "+",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6937,7 +6420,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "2",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -6949,7 +6431,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "^",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [
       0,
@@ -6965,7 +6446,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "3",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -6977,7 +6457,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": ")",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -6989,7 +6468,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "^",
   },
   {
-    "description": "Left parenthesis",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -7003,13 +6481,11 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "(",
   },
   {
-    "description": "Last result",
     "elide": false,
     "endExponent": [],
     "exponent": false,
     "label": [
       {
-        "description": "Digit 5",
         "elide": false,
         "endExponent": [],
         "exponent": false,
@@ -7028,7 +6504,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "ans",
   },
   {
-    "description": "Binary operator *",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -7040,7 +6515,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "*",
   },
   {
-    "description": "Digit 3",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -7052,7 +6526,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "3",
   },
   {
-    "description": "Power of",
     "elide": true,
     "endExponent": [],
     "exponent": "right",
@@ -7064,7 +6537,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "^",
   },
   {
-    "description": "Digit 2",
     "elide": false,
     "endExponent": [
       0,
@@ -7080,7 +6552,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "2",
   },
   {
-    "description": "Right parenthesis",
     "elide": false,
     "endExponent": [
       0,
@@ -7094,7 +6565,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": ")",
   },
   {
-    "description": "Binary operator +",
     "elide": false,
     "endExponent": [],
     "exponent": false,
@@ -7106,7 +6576,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     "value": "+",
   },
   {
-    "description": "Digit 5",
     "elide": false,
     "endExponent": [],
     "exponent": false,

@@ -201,7 +201,6 @@ const expressionHelper = {
                 token: token.type,
                 value: token.value,
                 label: token.value,
-                description: token.value,
                 exponent: null,
                 startExponent: [],
                 endExponent: [],

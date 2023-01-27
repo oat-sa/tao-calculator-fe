@@ -16,7 +16,6 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import __ from '../util/i18n.js';
 import types from './types.js';
 
 const exponent = x => `<sup>${x}</sup>`;
@@ -44,7 +43,6 @@ const symbols = {
  * @property {string} label - The displayable text
  * @property {string} value - The related text that should be found in the expression
  * @property {string} type - The type of token
- * @property {string} description - A description of what represent the term
  * @property {string|boolean} exponent - Some terms introduce exponent notation, and this property tells on which side
  */
 
@@ -58,84 +56,72 @@ export default {
         label: '0',
         value: '0',
         type: types.digit,
-        description: __('Digit 0'),
         exponent: false
     },
     NUM1: {
         label: '1',
         value: '1',
         type: types.digit,
-        description: __('Digit 1'),
         exponent: false
     },
     NUM2: {
         label: '2',
         value: '2',
         type: types.digit,
-        description: __('Digit 2'),
         exponent: false
     },
     NUM3: {
         label: '3',
         value: '3',
         type: types.digit,
-        description: __('Digit 3'),
         exponent: false
     },
     NUM4: {
         label: '4',
         value: '4',
         type: types.digit,
-        description: __('Digit 4'),
         exponent: false
     },
     NUM5: {
         label: '5',
         value: '5',
         type: types.digit,
-        description: __('Digit 5'),
         exponent: false
     },
     NUM6: {
         label: '6',
         value: '6',
         type: types.digit,
-        description: __('Digit 6'),
         exponent: false
     },
     NUM7: {
         label: '7',
         value: '7',
         type: types.digit,
-        description: __('Digit 7'),
         exponent: false
     },
     NUM8: {
         label: '8',
         value: '8',
         type: types.digit,
-        description: __('Digit 8'),
         exponent: false
     },
     NUM9: {
         label: '9',
         value: '9',
         type: types.digit,
-        description: __('Digit 9'),
         exponent: false
     },
     DOT: {
         label: '.',
         value: '.',
         type: types.digit,
-        description: __('Dot'),
         exponent: false
     },
     EXP10: {
         label: `${symbols.multiply}10`,
         value: 'e',
         type: types.digit,
-        description: __('Power of 10'),
         exponent: 'right'
     },
 
@@ -144,14 +130,12 @@ export default {
         label: '(',
         value: '(',
         type: types.aggregator,
-        description: __('Left parenthesis'),
         exponent: false
     },
     RPAR: {
         label: ')',
         value: ')',
         type: types.aggregator,
-        description: __('Right parenthesis'),
         exponent: false
     },
 
@@ -160,14 +144,12 @@ export default {
         label: ',',
         value: ',',
         type: types.separator,
-        description: __('Arguments separator'),
         exponent: false
     },
     ELLIPSIS: {
         label: symbols.ellipsis,
         value: '~',
         type: types.separator,
-        description: __('Value ellipsis'),
         exponent: false
     },
 
@@ -176,79 +158,68 @@ export default {
         label: symbols.minus,
         value: '-',
         type: types.operator,
-        description: __('Binary operator -'),
         exponent: false
     },
     NEG: {
         label: symbols.negative,
         value: '-',
         type: types.operator,
-        description: __('Unary operator -'),
         exponent: false
     },
     ADD: {
         label: symbols.plus,
         value: '+',
         type: types.operator,
-        description: __('Binary operator +'),
         exponent: false
     },
     POS: {
         label: symbols.positive,
         value: '+',
         type: types.operator,
-        description: __('Unary operator +'),
         exponent: false
     },
     MUL: {
         label: symbols.multiply,
         value: '*',
         type: types.operator,
-        description: __('Binary operator *'),
         exponent: false
     },
     DIV: {
         label: symbols.divide,
         value: '/',
         type: types.operator,
-        description: __('Binary operator /'),
         exponent: false
     },
     MOD: {
-        label: __('modulo'),
+        label: 'modulo',
         value: '%',
         type: types.operator,
-        description: __('Binary operator modulo'),
         exponent: false
     },
     POW: {
         label: '^',
         value: '^',
         type: types.operator,
-        description: __('Power of'),
         exponent: 'right'
     },
     FAC: {
         label: '!',
         value: '!',
         type: types.operator,
-        description: __('Factorial'),
         exponent: false
     },
     ASSIGN: {
         label: '=',
         value: '=',
         type: types.operator,
-        description: __('Assign'),
         exponent: false
     },
 
     // Variables
     ANS: {
-        label: __('Ans'),
+        label: 'Ans',
         value: 'ans',
         type: types.variable,
-        description: __('Last result'),
         exponent: false
     },
 
@@ -257,37 +228,32 @@ export default {
         label: symbols.pi,
         value: 'PI',
         type: types.constant,
-        description: __('Value of PI'),
         exponent: false
     },
     E: {
         label: 'e',
         value: 'E',
         type: types.constant,
-        description: __('Value of E'),
         exponent: false
     },
 
     // Errors
     NAN: {
-        label: __('Error'),
+        label: 'Error',
         value: 'NaN',
         type: types.error,
-        description: __('Error in value'),
         exponent: false
     },
     INFINITY: {
-        label: __('Infinity'),
+        label: 'Infinity',
         value: 'Infinity',
         type: types.error,
-        description: __('Error in result'),
         exponent: false
     },
     ERROR: {
-        label: __('Syntax error'),
+        label: 'Syntax error',
         value: '#',
         type: types.error,
-        description: __('Error in syntax'),
         exponent: false
     },
 
@@ -296,182 +262,156 @@ export default {
         label: 'exp',
         value: 'exp',
         type: types.function,
-        description: __('Exponent'),
         exponent: 'right'
     },
     SQRT: {
         label: symbols.squareRoot,
         value: 'sqrt',
         type: types.function,
-        description: __('Square root'),
         exponent: false
     },
     CBRT: {
         label: exponentRight(symbols.squareRoot, '3'),
         value: 'cbrt',
         type: types.function,
-        description: __('Cube root'),
         exponent: false
     },
     NTHRT: {
         label: exponentRight(symbols.squareRoot, 'x'),
         value: 'nthrt',
         type: types.function,
-        description: __('Nth root'),
         exponent: 'left'
     },
     FLOOR: {
         label: 'floor',
         value: 'floor',
         type: types.function,
-        description: __('Round to lower whole number'),
         exponent: false
     },
     CEIL: {
         label: 'ceil',
         value: 'ceil',
         type: types.function,
-        description: __('Round to upper whole number'),
         exponent: false
     },
     ROUND: {
         label: 'round',
         value: 'round',
         type: types.function,
-        description: __('Round to closest whole number'),
         exponent: false
     },
     TRUNC: {
         label: 'trunc',
         value: 'trunc',
         type: types.function,
-        description: __('Whole number part'),
         exponent: false
     },
     SIN: {
         label: 'sin',
         value: 'sin',
         type: types.function,
-        description: __('Sine'),
         exponent: false
     },
     COS: {
         label: 'cos',
         value: 'cos',
         type: types.function,
-        description: __('Cosine'),
         exponent: false
     },
     TAN: {
         label: 'tan',
         value: 'tan',
         type: types.function,
-        description: __('Tangent'),
         exponent: false
     },
     ASIN: {
         label: exponentLeft('sin', symbols.minusOne),
         value: 'asin',
         type: types.function,
-        description: __('Arc sine'),
         exponent: false
     },
     ACOS: {
         label: exponentLeft('cos', symbols.minusOne),
         value: 'acos',
         type: types.function,
-        description: __('Arc cosine'),
         exponent: false
     },
     ATAN: {
         label: exponentLeft('tan', symbols.minusOne),
         value: 'atan',
         type: types.function,
-        description: __('Arc tangent'),
         exponent: false
     },
     SINH: {
         label: 'sinh',
         value: 'sinh',
         type: types.function,
-        description: __('Hyperbolic sine'),
         exponent: false
     },
     COSH: {
         label: 'cosh',
         value: 'cosh',
         type: types.function,
-        description: __('Hyperbolic cosine'),
         exponent: false
     },
     TANH: {
         label: 'tanh',
         value: 'tanh',
         type: types.function,
-        description: __('Hyperbolic tangent'),
         exponent: false
     },
     ASINH: {
         label: exponentLeft('sinh', symbols.minusOne),
         value: 'asinh',
         type: types.function,
-        description: __('Hyperbolic arc sine'),
         exponent: false
     },
     ACOSH: {
         label: exponentLeft('cosh', symbols.minusOne),
         value: 'acosh',
         type: types.function,
-        description: __('Hyperbolic arc cosine'),
         exponent: false
     },
     ATANH: {
         label: exponentLeft('tanh', symbols.minusOne),
         value: 'atanh',
         type: types.function,
-        description: __('Hyperbolic arc tangent'),
         exponent: false
     },
     LN: {
         label: 'ln',
         value: 'ln',
         type: types.function,
-        description: __('Natural logarithm'),
         exponent: false
     },
     LOG: {
         label: 'ln',
         value: 'log',
         type: types.function,
-        description: __('Natural logarithm'),
         exponent: false
     },
     LG: {
         label: subscriptLeft('log', '10'),
         value: 'lg',
         type: types.function,
-        description: __('Base-10 logarithm'),
         exponent: false
     },
     LOG10: {
         label: subscriptLeft('log', '10'),
         value: 'log10',
         type: types.function,
-        description: __('Base-10 logarithm'),
         exponent: false
     },
     ABS: {
         label: 'abs',
         value: 'abs',
         type: types.function,
-        description: __('Absolute value'),
         exponent: false
     },
     RAND: {
         label: 'random',
         value: 'random',
         type: types.function,
-        description: __('Random value'),
         exponent: false
     }
 };
