@@ -17,14 +17,14 @@
  */
 
 import _ from 'lodash';
-import { terms } from './terms';
+import { terms, types } from './terms';
 import tokensHelper from './tokens';
 import tokenizerFactory from './tokenizer';
 
 /**
  * @typedef {term} renderTerm - Represents a renderable tokenizable term
- * @property {Array} startExponent - List of exponent starts (will produce exponent notation for the term)
- * @property {Array} endExponent - List of exponent ends (will finish exponent notation for the term)
+ * @property {string} startExponent - Identifier for the start of the exponent (will produce exponent notation for the term)
+ * @property {string} endExponent - Identifier for the end of the exponent (will finish exponent notation for the term)
  * @property {boolean} prefixed - Tells if the term is prefixed (i.e. function treated as binary operator)
  * @property {boolean} elide - Allows to hide the term when operands exist on each side
  */
@@ -202,8 +202,8 @@ const expressionHelper = {
                 value: token.value,
                 label: token.value,
                 exponent: null,
-                startExponent: [],
-                endExponent: [],
+                startExponent: null,
+                endExponent: null,
                 prefixed: rePrefixedTerm.test(token.value),
                 elide: false
             };
@@ -247,22 +247,87 @@ const expressionHelper = {
         exponents.forEach(index => {
             const term = renderedTerms[index];
             if (term.exponent === 'left' && index > 0) {
-                exponentOnTheLeft(index, renderedTerms);
+                exponentOnTheLeft(renderedTerms, index);
             } else if (term.exponent === 'right' && index < renderedTerms.length - 1) {
-                exponentOnTheRight(index, renderedTerms);
+                exponentOnTheRight(renderedTerms, index);
             }
         });
 
         return renderedTerms;
+    },
+
+    /**
+     * Nests the exponents so tha the terms can be easily rendered.
+     * @param {renderTerm[]} renderedTerms - The flat list of rendered terms.
+     * @returns {renderTerm[]} - Returns a possibly nested rendered terms.
+     */
+    nestExponents(renderedTerms) {
+        const nestedTerms = [];
+        const len = renderedTerms.length;
+        let index = 0;
+
+        while (index < len) {
+            let term = renderedTerms[index];
+
+            if (term.startExponent) {
+                const nest = extractExponent(renderedTerms, index);
+                term = {
+                    type: types.exponent,
+                    value: nest
+                };
+                index += nest.length;
+            } else {
+                index++;
+            }
+
+            nestedTerms.push(term);
+        }
+
+        return nestedTerms;
     }
 };
 
 /**
- * Search for the full operand on the left, then tag the edges with exponent flags
+ * Nests the exponents so tha the terms can be easily rendered.
+ * @param {renderTerm[]} renderedTerms - The flat list of rendered terms.
  * @param {number} index
- * @param {renderTerm[]} renderedTerms
+ * @returns {renderTerm[]} - Returns the terms representing the exponent.
  */
-function exponentOnTheLeft(index, renderedTerms) {
+function extractExponent(renderedTerms, index = 0) {
+    const exponentTerms = [];
+    const len = renderedTerms.length;
+    const first = renderedTerms[index];
+    const level = first && first.startExponent;
+
+    let done = false;
+    while (!done && index < len) {
+        const term = renderedTerms[index];
+
+        if (term.startExponent && term.startExponent !== level) {
+            const nest = extractExponent(renderedTerms, index);
+            exponentTerms.push({
+                type: types.exponent,
+                value: nest
+            });
+            index += nest.length;
+        } else {
+            exponentTerms.push(term);
+            index++;
+        }
+
+        done = term.endExponent === level;
+    }
+
+    return exponentTerms;
+}
+
+/**
+ * Search for the full operand on the left, then tag the edges with exponent flags
+ * @param {renderTerm[]} renderedTerms
+ * @param {number} index
+ */
+function exponentOnTheLeft(renderedTerms, index) {
+    const identifier = `left-${index}`;
     let parenthesis = 0;
     let next = renderedTerms[index];
     let term = renderedTerms[--index];
@@ -278,7 +343,7 @@ function exponentOnTheLeft(index, renderedTerms) {
 
     // only take care of actual operand value or sub expression (starting from the right)
     if (term && (tokensHelper.isOperand(term.type) || term.token === 'RPAR')) {
-        term.endExponent.push(term.endExponent.length);
+        term.endExponent = identifier;
 
         if (term.token === 'RPAR') {
             // closing parenthesis, we need to find the opening parenthesis
@@ -309,16 +374,17 @@ function exponentOnTheLeft(index, renderedTerms) {
                 term = next;
             }
         }
-        term.startExponent.push(term.startExponent.length);
+        term.startExponent = identifier;
     }
 }
 
 /**
  * Search for the full operand on the right, then tag the edges with exponent flags
- * @param {number} index
  * @param {renderTerm[]} renderedTerms
+ * @param {number} index
  */
-function exponentOnTheRight(index, renderedTerms) {
+function exponentOnTheRight(renderedTerms, index) {
+    const identifier = `right-${index}`;
     const last = renderedTerms.length - 1;
     const startAt = index;
     let parenthesis = 0;
@@ -349,7 +415,7 @@ function exponentOnTheRight(index, renderedTerms) {
         term &&
         (tokensHelper.isOperand(term.type) || term.token === 'LPAR' || signOperators.indexOf(term.token) >= 0)
     ) {
-        term.startExponent.push(term.startExponent.length);
+        term.startExponent = identifier;
 
         // we use an internal loop as exponents could be chained
         do {
@@ -404,14 +470,14 @@ function exponentOnTheRight(index, renderedTerms) {
             }
         } while (shouldContinue);
 
-        term.endExponent.push(term.endExponent.length);
+        term.endExponent = identifier;
 
         // elide the operator if operands are complete
         if (
             startAt > 0 &&
             startAt < last &&
             renderedTerms[startAt].token === 'POW' &&
-            renderedTerms[startAt + 1].startExponent.length
+            renderedTerms[startAt + 1].startExponent
         ) {
             renderedTerms[startAt].elide = true;
         }

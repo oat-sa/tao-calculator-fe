@@ -377,6 +377,7 @@ exports[`types defines types 1`] = `
   "constant": "constant",
   "digit": "digit",
   "error": "error",
+  "exponent": "exponent",
   "function": "function",
   "operator": "operator",
   "separator": "separator",

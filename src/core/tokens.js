@@ -165,6 +165,15 @@ const tokensHelper = {
     },
 
     /**
+     * Checks if the type is related to an exponent
+     * @param {string|object} type
+     * @returns {boolean}
+     */
+    isExponent(type) {
+        return tokensHelper.getType(type) === types.exponent;
+    },
+
+    /**
      * Ensures an expression is a string. If a token or a descriptor is provided, extract the value.
      * @param {string|number|object} expression
      * @returns {string}

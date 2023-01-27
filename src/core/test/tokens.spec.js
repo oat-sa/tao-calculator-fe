@@ -17,18 +17,7 @@
  */
 
 import tokensHelper from '../tokens.js';
-
-const types = {
-    digit: 'digit',
-    operator: 'operator',
-    aggregator: 'aggregator',
-    separator: 'separator',
-    variable: 'variable',
-    constant: 'constant',
-    term: 'term',
-    error: 'error',
-    function: 'function'
-};
+import { types } from '../terms.js';
 
 describe('tokens', () => {
     it('is a namespace', () => {
@@ -75,6 +64,7 @@ describe('tokens', () => {
             expect(tokensHelper.isDigit(types.term)).toBeFalsy();
             expect(tokensHelper.isDigit(types.error)).toBeFalsy();
             expect(tokensHelper.isDigit(types.function)).toBeFalsy();
+            expect(tokensHelper.isDigit(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -87,6 +77,7 @@ describe('tokens', () => {
             expect(tokensHelper.isDigit({ type: types.term })).toBeFalsy();
             expect(tokensHelper.isDigit({ type: types.error })).toBeFalsy();
             expect(tokensHelper.isDigit({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isDigit({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -121,6 +112,7 @@ describe('tokens', () => {
             expect(tokensHelper.isOperator(types.term)).toBeFalsy();
             expect(tokensHelper.isOperator(types.error)).toBeFalsy();
             expect(tokensHelper.isOperator(types.function)).toBeFalsy();
+            expect(tokensHelper.isOperator(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -133,6 +125,7 @@ describe('tokens', () => {
             expect(tokensHelper.isOperator({ type: types.term })).toBeFalsy();
             expect(tokensHelper.isOperator({ type: types.error })).toBeFalsy();
             expect(tokensHelper.isOperator({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isOperator({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -167,6 +160,7 @@ describe('tokens', () => {
             expect(tokensHelper.isOperand(types.term)).toBeTruthy();
             expect(tokensHelper.isOperand(types.error)).toBeTruthy();
             expect(tokensHelper.isOperand(types.function)).toBeTruthy();
+            expect(tokensHelper.isOperand(types.exponent)).toBeTruthy();
         });
 
         it('extracts the type', () => {
@@ -179,6 +173,7 @@ describe('tokens', () => {
             expect(tokensHelper.isOperand({ type: types.term })).toBeTruthy();
             expect(tokensHelper.isOperand({ type: types.error })).toBeTruthy();
             expect(tokensHelper.isOperand({ type: types.function })).toBeTruthy();
+            expect(tokensHelper.isOperand({ type: types.exponent })).toBeTruthy();
         });
 
         it('detects the type', () => {
@@ -213,6 +208,7 @@ describe('tokens', () => {
             expect(tokensHelper.isValue(types.term)).toBeTruthy();
             expect(tokensHelper.isValue(types.error)).toBeTruthy();
             expect(tokensHelper.isValue(types.function)).toBeFalsy();
+            expect(tokensHelper.isValue(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -225,6 +221,7 @@ describe('tokens', () => {
             expect(tokensHelper.isValue({ type: types.term })).toBeTruthy();
             expect(tokensHelper.isValue({ type: types.error })).toBeTruthy();
             expect(tokensHelper.isValue({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isValue({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -259,6 +256,7 @@ describe('tokens', () => {
             expect(tokensHelper.isAggregator(types.term)).toBeFalsy();
             expect(tokensHelper.isAggregator(types.error)).toBeFalsy();
             expect(tokensHelper.isAggregator(types.function)).toBeFalsy();
+            expect(tokensHelper.isAggregator(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -271,6 +269,7 @@ describe('tokens', () => {
             expect(tokensHelper.isAggregator({ type: types.term })).toBeFalsy();
             expect(tokensHelper.isAggregator({ type: types.error })).toBeFalsy();
             expect(tokensHelper.isAggregator({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isAggregator({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -305,6 +304,7 @@ describe('tokens', () => {
             expect(tokensHelper.isError(types.term)).toBeFalsy();
             expect(tokensHelper.isError(types.error)).toBeTruthy();
             expect(tokensHelper.isError(types.function)).toBeFalsy();
+            expect(tokensHelper.isError(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -317,6 +317,7 @@ describe('tokens', () => {
             expect(tokensHelper.isError({ type: types.term })).toBeFalsy();
             expect(tokensHelper.isError({ type: types.error })).toBeTruthy();
             expect(tokensHelper.isError({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isError({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -351,6 +352,7 @@ describe('tokens', () => {
             expect(tokensHelper.isConstant(types.term)).toBeFalsy();
             expect(tokensHelper.isConstant(types.error)).toBeFalsy();
             expect(tokensHelper.isConstant(types.function)).toBeFalsy();
+            expect(tokensHelper.isConstant(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -363,6 +365,7 @@ describe('tokens', () => {
             expect(tokensHelper.isConstant({ type: types.term })).toBeFalsy();
             expect(tokensHelper.isConstant({ type: types.error })).toBeFalsy();
             expect(tokensHelper.isConstant({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isConstant({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -397,6 +400,7 @@ describe('tokens', () => {
             expect(tokensHelper.isVariable(types.term)).toBeTruthy();
             expect(tokensHelper.isVariable(types.error)).toBeFalsy();
             expect(tokensHelper.isVariable(types.function)).toBeFalsy();
+            expect(tokensHelper.isVariable(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -409,6 +413,7 @@ describe('tokens', () => {
             expect(tokensHelper.isVariable({ type: types.term })).toBeTruthy();
             expect(tokensHelper.isVariable({ type: types.error })).toBeFalsy();
             expect(tokensHelper.isVariable({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isVariable({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -443,6 +448,7 @@ describe('tokens', () => {
             expect(tokensHelper.isFunction(types.term)).toBeFalsy();
             expect(tokensHelper.isFunction(types.error)).toBeFalsy();
             expect(tokensHelper.isFunction(types.function)).toBeTruthy();
+            expect(tokensHelper.isFunction(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -455,6 +461,7 @@ describe('tokens', () => {
             expect(tokensHelper.isFunction({ type: types.term })).toBeFalsy();
             expect(tokensHelper.isFunction({ type: types.error })).toBeFalsy();
             expect(tokensHelper.isFunction({ type: types.function })).toBeTruthy();
+            expect(tokensHelper.isFunction({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -489,6 +496,7 @@ describe('tokens', () => {
             expect(tokensHelper.isIdentifier(types.term)).toBeTruthy();
             expect(tokensHelper.isIdentifier(types.error)).toBeTruthy();
             expect(tokensHelper.isIdentifier(types.function)).toBeTruthy();
+            expect(tokensHelper.isIdentifier(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -501,6 +509,7 @@ describe('tokens', () => {
             expect(tokensHelper.isIdentifier({ type: types.term })).toBeTruthy();
             expect(tokensHelper.isIdentifier({ type: types.error })).toBeTruthy();
             expect(tokensHelper.isIdentifier({ type: types.function })).toBeTruthy();
+            expect(tokensHelper.isIdentifier({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -535,6 +544,7 @@ describe('tokens', () => {
             expect(tokensHelper.isSeparator(types.term)).toBeFalsy();
             expect(tokensHelper.isSeparator(types.error)).toBeFalsy();
             expect(tokensHelper.isSeparator(types.function)).toBeFalsy();
+            expect(tokensHelper.isSeparator(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -547,6 +557,7 @@ describe('tokens', () => {
             expect(tokensHelper.isSeparator({ type: types.term })).toBeFalsy();
             expect(tokensHelper.isSeparator({ type: types.error })).toBeFalsy();
             expect(tokensHelper.isSeparator({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isSeparator({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -581,6 +592,7 @@ describe('tokens', () => {
             expect(tokensHelper.isModifier(types.term)).toBeFalsy();
             expect(tokensHelper.isModifier(types.error)).toBeFalsy();
             expect(tokensHelper.isModifier(types.function)).toBeTruthy();
+            expect(tokensHelper.isModifier(types.exponent)).toBeFalsy();
         });
 
         it('extracts the type', () => {
@@ -593,6 +605,7 @@ describe('tokens', () => {
             expect(tokensHelper.isModifier({ type: types.term })).toBeFalsy();
             expect(tokensHelper.isModifier({ type: types.error })).toBeFalsy();
             expect(tokensHelper.isModifier({ type: types.function })).toBeTruthy();
+            expect(tokensHelper.isModifier({ type: types.exponent })).toBeFalsy();
         });
 
         it('detects the type', () => {
@@ -612,9 +625,57 @@ describe('tokens', () => {
         });
     });
 
-    describe('isModifier', () => {
+    describe('isExponent', () => {
         it('is a function', () => {
-            expect(tokensHelper.isModifier).toEqual(expect.any(Function));
+            expect(tokensHelper.isExponent).toEqual(expect.any(Function));
+        });
+
+        it('passthrough a type', () => {
+            expect(tokensHelper.isExponent(types.digit)).toBeFalsy();
+            expect(tokensHelper.isExponent(types.operator)).toBeFalsy();
+            expect(tokensHelper.isExponent(types.aggregator)).toBeFalsy();
+            expect(tokensHelper.isExponent(types.separator)).toBeFalsy();
+            expect(tokensHelper.isExponent(types.variable)).toBeFalsy();
+            expect(tokensHelper.isExponent(types.constant)).toBeFalsy();
+            expect(tokensHelper.isExponent(types.term)).toBeFalsy();
+            expect(tokensHelper.isExponent(types.error)).toBeFalsy();
+            expect(tokensHelper.isExponent(types.function)).toBeFalsy();
+            expect(tokensHelper.isExponent(types.exponent)).toBeTruthy();
+        });
+
+        it('extracts the type', () => {
+            expect(tokensHelper.isExponent({ type: types.digit })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: types.operator })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: types.aggregator })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: types.separator })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: types.variable })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: types.constant })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: types.term })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: types.error })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: types.exponent })).toBeTruthy();
+        });
+
+        it('detects the type', () => {
+            expect(tokensHelper.isExponent({ type: 'NUM0' })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: 'ADD' })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: 'LPAR' })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: 'COMMA' })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: 'PI' })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: 'NAN' })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: 'SQRT' })).toBeFalsy();
+        });
+
+        it('ignore inconsistent data', () => {
+            expect(tokensHelper.isExponent({})).toBeFalsy();
+            expect(tokensHelper.isExponent()).toBeFalsy();
+        });
+    });
+
+    describe('stringValue', () => {
+        it('is a function', () => {
+            expect(tokensHelper.stringValue).toEqual(expect.any(Function));
         });
 
         it.each([

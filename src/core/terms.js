@@ -86,8 +86,9 @@ export const types = {
     operator: 'operator',
     variable: 'variable',
     constant: 'constant',
-    error: 'error',
-    function: 'function'
+    function: 'function',
+    exponent: 'exponent',
+    error: 'error'
 };
 
 /**

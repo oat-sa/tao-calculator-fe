@@ -323,5 +323,19 @@ describe('expression', () => {
                 expect(expressionHelper.render(expression, variables)).toMatchSnapshot();
             });
         });
+
+        describe('nestExponents', () => {
+            it('is function', () => {
+                expect(expressionHelper.nestExponents).toEqual(expect.any(Function));
+            });
+
+            it.each([['3*(4-5)'], ['2^3+5'], ['(3*4^(8-2)) @nthrt 4 + exp(2^(3+5)+4) + PI']])(
+                'render nested exponents from %s',
+                expression => {
+                    const renderedTerms = expressionHelper.render(expression);
+                    expect(expressionHelper.nestExponents(renderedTerms)).toMatchSnapshot();
+                }
+            );
+        });
     });
 });
