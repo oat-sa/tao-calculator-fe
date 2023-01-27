@@ -16,7 +16,7 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import registeredTerms from './terms.js';
+import { terms } from './terms.js';
 import tokensHelper from './tokens.js';
 import expressionHelper from './expression.js';
 import tokenizerFactory from './tokenizer.js';
@@ -366,7 +366,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                 result = '0';
             }
 
-            this.setVariable(registeredTerms.ANS.value, result);
+            this.setVariable(terms.ANS.value, result);
 
             return this;
         },
@@ -376,7 +376,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {mathsExpression}
          */
         getLastResult() {
-            return this.getVariable(registeredTerms.ANS.value);
+            return this.getVariable(terms.ANS.value);
         },
 
         /**
@@ -558,7 +558,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                 name = name.substring(1);
             }
 
-            let term = registeredTerms[name];
+            let term = terms[name];
 
             if ('undefined' === typeof term) {
                 /**

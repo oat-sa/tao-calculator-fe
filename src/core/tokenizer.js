@@ -17,7 +17,7 @@
  */
 
 import _ from 'lodash';
-import registeredTerms from './terms.js';
+import { terms } from './terms.js';
 import tokensHelper from './tokens.js';
 import moo from 'moo';
 
@@ -75,19 +75,19 @@ const filterDigit = term => tokensHelper.isDigit(term) || term.value === '-' || 
  * List of keywords (functions from the list of registered terms).
  * @type {object}
  */
-const keywords = _.pickBy(registeredTerms, filterKeyword);
+const keywords = _.pickBy(terms, filterKeyword);
 
 /**
  * List of symbols (operators and operands from the list of registered terms).
  * @type {object}
  */
-const symbols = _.omitBy(registeredTerms, filterKeyword);
+const symbols = _.omitBy(terms, filterKeyword);
 
 /**
  * List of digits and related symbols
  * @type {object}
  */
-const digits = _.pickBy(registeredTerms, filterDigit);
+const digits = _.pickBy(terms, filterDigit);
 
 /**
  * @typedef {object} token
@@ -172,32 +172,32 @@ function calculatorTokenizerFactory(config = {}) {
      * @returns {token}
      */
     function next() {
-        let term;
+        let token;
 
         if (digitContext) {
-            term = digitLexer.next();
-            if (term) {
-                term.offset += digitContext.offset;
+            token = digitLexer.next();
+            if (token) {
+                token.offset += digitContext.offset;
             }
         }
 
-        if (!term) {
+        if (!token) {
             digitContext = null;
 
             do {
-                term = lexer.next();
-            } while (term && ignoredTokens[term.type]);
+                token = lexer.next();
+            } while (token && ignoredTokens[token.type]);
 
             // rely on a specific lexer to tokenize numbers
             // this is required to properly identify numbers like 42e15 without colliding with regular identifiers
-            if (term && term.type === 'number') {
-                digitContext = term;
-                digitLexer.reset(term.value);
-                term = next();
+            if (token && token.type === 'number') {
+                digitContext = token;
+                digitLexer.reset(token.value);
+                token = next();
             }
         }
 
-        return term;
+        return token;
     }
 
     /**
@@ -221,17 +221,17 @@ function calculatorTokenizerFactory(config = {}) {
          */
         tokenize(expression) {
             const iterator = tokenizer.iterator(expression);
-            const terms = [];
+            const tokens = [];
 
-            let term;
+            let token;
             do {
-                term = iterator();
-                if (term) {
-                    terms.push(term);
+                token = iterator();
+                if (token) {
+                    tokens.push(token);
                 }
-            } while (term);
+            } while (token);
 
-            return terms;
+            return tokens;
         }
     };
 

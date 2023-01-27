@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`symbols defines symbols 1`] = `
+{
+  "cubeRoot": "∛",
+  "divide": "÷",
+  "ellipsis": "…",
+  "euler": "℮",
+  "fourthRoot": "∜",
+  "minus": "－",
+  "minusOne": "﹣1",
+  "multiply": "×",
+  "negative": "﹣",
+  "pi": "π",
+  "plus": "＋",
+  "positive": "﹢",
+  "squareRoot": "√",
+}
+`;
+
 exports[`terms defines terms 1`] = `
 {
   "ABS": {
@@ -350,5 +368,19 @@ exports[`terms defines terms 1`] = `
     "type": "function",
     "value": "trunc",
   },
+}
+`;
+
+exports[`types defines types 1`] = `
+{
+  "aggregator": "aggregator",
+  "constant": "constant",
+  "digit": "digit",
+  "error": "error",
+  "function": "function",
+  "operator": "operator",
+  "separator": "separator",
+  "term": "term",
+  "variable": "variable",
 }
 `;

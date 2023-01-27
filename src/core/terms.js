@@ -16,14 +16,49 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import types from './types.js';
+/**
+ * Formats a math element as exponent.
+ * @param {string} x - The value to place as exponent
+ * @returns {string}
+ */
+export const exponent = x => `<sup>${x}</sup>`;
 
-const exponent = x => `<sup>${x}</sup>`;
-const exponentLeft = (a, x) => a + exponent(x);
-const exponentRight = (a, x) => exponent(x) + a;
-const subscript = x => `<sub>${x}</sub>`;
-const subscriptLeft = (a, x) => a + subscript(x);
-const symbols = {
+/**
+ * Formats a math element as index.
+ * @param {string} x - The value to place as index
+ * @returns {string}
+ */
+export const subscript = x => `<sub>${x}</sub>`;
+
+/**
+ * Formats a math element with a value as exponent on the right side.
+ * @param {string} a - The math element
+ * @param {string} x - The value to place as exponent
+ * @returns {string}
+ */
+export const exponentRight = (a, x) => a + exponent(x);
+
+/**
+ * Formats a math element with a value as exponent on the left side.
+ * @param {string} a - The math element
+ * @param {string} x - The value to place as exponent
+ * @returns {string}
+ */
+export const exponentLeft = (a, x) => exponent(x) + a;
+
+/**
+ * Formats a math element with a value as index on the right side.
+ * @param {string} a - The math element
+ * @param {string} x - The value to place as index
+ * @returns {string}
+ */
+export const subscriptRight = (a, x) => a + subscript(x);
+
+/**
+ * Defines the symbols for some maths elements.
+ * @type {object}
+ */
+export const symbols = {
     minusOne: '\uFE631',
     minus: '\uFF0D',
     plus: '\uFF0B',
@@ -35,7 +70,24 @@ const symbols = {
     cubeRoot: '\u221B',
     fourthRoot: '\u221C',
     ellipsis: '\u2026',
-    pi: '\u03C0'
+    pi: '\u03C0',
+    euler: '\u212E'
+};
+
+/**
+ * Defines the types of tokens that can be represented in an expression.
+ * @type {object}
+ */
+export const types = {
+    term: 'term',
+    digit: 'digit',
+    aggregator: 'aggregator',
+    separator: 'separator',
+    operator: 'operator',
+    variable: 'variable',
+    constant: 'constant',
+    error: 'error',
+    function: 'function'
 };
 
 /**
@@ -50,7 +102,7 @@ const symbols = {
  * Defines the terms that can be tokenized from an expression
  * @type {term[]}
  */
-export default {
+export const terms = {
     // Digits definition
     NUM0: {
         label: '0',
@@ -271,13 +323,13 @@ export default {
         exponent: false
     },
     CBRT: {
-        label: exponentRight(symbols.squareRoot, '3'),
+        label: exponentLeft(symbols.squareRoot, '3'),
         value: 'cbrt',
         type: types.function,
         exponent: false
     },
     NTHRT: {
-        label: exponentRight(symbols.squareRoot, 'x'),
+        label: exponentLeft(symbols.squareRoot, 'x'),
         value: 'nthrt',
         type: types.function,
         exponent: 'left'
@@ -325,19 +377,19 @@ export default {
         exponent: false
     },
     ASIN: {
-        label: exponentLeft('sin', symbols.minusOne),
+        label: exponentRight('sin', symbols.minusOne),
         value: 'asin',
         type: types.function,
         exponent: false
     },
     ACOS: {
-        label: exponentLeft('cos', symbols.minusOne),
+        label: exponentRight('cos', symbols.minusOne),
         value: 'acos',
         type: types.function,
         exponent: false
     },
     ATAN: {
-        label: exponentLeft('tan', symbols.minusOne),
+        label: exponentRight('tan', symbols.minusOne),
         value: 'atan',
         type: types.function,
         exponent: false
@@ -361,19 +413,19 @@ export default {
         exponent: false
     },
     ASINH: {
-        label: exponentLeft('sinh', symbols.minusOne),
+        label: exponentRight('sinh', symbols.minusOne),
         value: 'asinh',
         type: types.function,
         exponent: false
     },
     ACOSH: {
-        label: exponentLeft('cosh', symbols.minusOne),
+        label: exponentRight('cosh', symbols.minusOne),
         value: 'acosh',
         type: types.function,
         exponent: false
     },
     ATANH: {
-        label: exponentLeft('tanh', symbols.minusOne),
+        label: exponentRight('tanh', symbols.minusOne),
         value: 'atanh',
         type: types.function,
         exponent: false
@@ -391,13 +443,13 @@ export default {
         exponent: false
     },
     LG: {
-        label: subscriptLeft('log', '10'),
+        label: subscriptRight('log', '10'),
         value: 'lg',
         type: types.function,
         exponent: false
     },
     LOG10: {
-        label: subscriptLeft('log', '10'),
+        label: subscriptRight('log', '10'),
         value: 'log10',
         type: types.function,
         exponent: false

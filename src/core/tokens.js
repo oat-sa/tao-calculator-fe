@@ -16,8 +16,7 @@
  * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 
-import registeredTerms from './terms.js';
-import types from './types.js';
+import { terms, types } from './terms.js';
 
 /**
  * List of helpers that apply on tokens
@@ -35,7 +34,7 @@ const tokensHelper = {
         }
 
         const type = (token && token.type) || null;
-        const term = registeredTerms[type];
+        const term = terms[type];
         return (term && term.type) || type;
     },
 

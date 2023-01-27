@@ -17,7 +17,7 @@
  */
 
 import _ from 'lodash';
-import registeredTerms from './terms';
+import { terms } from './terms';
 import tokensHelper from './tokens';
 import tokenizerFactory from './tokenizer';
 
@@ -33,7 +33,7 @@ import tokenizerFactory from './tokenizer';
  * Name of the variable that contains the last result
  * @type {string}
  */
-const lastResultVariableName = registeredTerms.ANS.value;
+const lastResultVariableName = terms.ANS.value;
 
 /**
  * Regex that matches the prefixed function operators
@@ -107,14 +107,14 @@ const expressionHelper = {
         let resultString = fullString;
 
         if ('undefined' !== typeof result) {
-            if (result.toExponential && resultString.indexOf(registeredTerms.EXP10.value) > 0) {
+            if (result.toExponential && resultString.indexOf(terms.EXP10.value) > 0) {
                 resultString = result.toExponential(decimalDigits).toString();
-            } else if (result.toDecimalPlaces && resultString.indexOf(registeredTerms.DOT.value) > 0) {
+            } else if (result.toDecimalPlaces && resultString.indexOf(terms.DOT.value) > 0) {
                 resultString = result.toDecimalPlaces(decimalDigits).toString();
             }
 
             if (resultString.length < fullString.length) {
-                resultString += registeredTerms.ELLIPSIS.value;
+                resultString += terms.ELLIPSIS.value;
             } else {
                 resultString = fullString;
             }
@@ -146,8 +146,8 @@ const expressionHelper = {
     renderSign(expression) {
         return tokensHelper
             .stringValue(expression)
-            .replace(registeredTerms.SUB.value, registeredTerms.NEG.label)
-            .replace(registeredTerms.ADD.value, registeredTerms.POS.label);
+            .replace(terms.SUB.value, terms.NEG.label)
+            .replace(terms.ADD.value, terms.POS.label);
     },
 
     /**
@@ -160,7 +160,7 @@ const expressionHelper = {
     render(expression, variables = {}, tokenizer = null) {
         let tokens = expression;
         const exponents = [];
-        const terms = [];
+        const renderedTerms = [];
         let previous;
 
         /**
@@ -175,7 +175,7 @@ const expressionHelper = {
                 previous.token === 'LPAR' ||
                 previous.token === 'EXP10'
             ) {
-                term.label = registeredTerms[token].label;
+                term.label = terms[token].label;
                 term.token = token;
             }
         }
@@ -191,7 +191,7 @@ const expressionHelper = {
 
         // each token needs to be translated into a displayable term
         tokens.forEach((token, index) => {
-            const registeredTerm = registeredTerms[token.type];
+            const registeredTerm = terms[token.type];
 
             /**
              * @type {renderTerm}
@@ -232,7 +232,7 @@ const expressionHelper = {
                 toSignOperator(term, 'POS');
             }
 
-            terms.push(term);
+            renderedTerms.push(term);
 
             // exponents will be processed in a second pass
             // for now we just need to keep track of the position
@@ -245,27 +245,27 @@ const expressionHelper = {
 
         // if any exponent has been discovered, we need to process them now
         exponents.forEach(index => {
-            const term = terms[index];
+            const term = renderedTerms[index];
             if (term.exponent === 'left' && index > 0) {
-                exponentOnTheLeft(index, terms);
-            } else if (term.exponent === 'right' && index < terms.length - 1) {
-                exponentOnTheRight(index, terms);
+                exponentOnTheLeft(index, renderedTerms);
+            } else if (term.exponent === 'right' && index < renderedTerms.length - 1) {
+                exponentOnTheRight(index, renderedTerms);
             }
         });
 
-        return terms;
+        return renderedTerms;
     }
 };
 
 /**
  * Search for the full operand on the left, then tag the edges with exponent flags
  * @param {number} index
- * @param {renderTerm[]} terms
+ * @param {renderTerm[]} renderedTerms
  */
-function exponentOnTheLeft(index, terms) {
+function exponentOnTheLeft(index, renderedTerms) {
     let parenthesis = 0;
-    let next = terms[index];
-    let term = terms[--index];
+    let next = renderedTerms[index];
+    let term = renderedTerms[--index];
 
     /**
      * Simply moves the cursor to the next term to examine.
@@ -273,7 +273,7 @@ function exponentOnTheLeft(index, terms) {
      */
     function nextTerm() {
         next = term;
-        term = terms[--index];
+        term = renderedTerms[--index];
     }
 
     // only take care of actual operand value or sub expression (starting from the right)
@@ -296,7 +296,7 @@ function exponentOnTheLeft(index, terms) {
             // a function could be attached to the sub expression, if so we must keep the link
             // however, the prefixed functions are particular as they act as a binary operators,
             // and therefore are not considered as function here
-            if (index > 0 && tokensHelper.isFunction(terms[index - 1]) && !terms[index - 1].prefixed) {
+            if (index > 0 && tokensHelper.isFunction(renderedTerms[index - 1]) && !renderedTerms[index - 1].prefixed) {
                 nextTerm();
             }
         } else if (tokensHelper.isDigit(term.type)) {
@@ -316,14 +316,14 @@ function exponentOnTheLeft(index, terms) {
 /**
  * Search for the full operand on the right, then tag the edges with exponent flags
  * @param {number} index
- * @param {renderTerm[]} terms
+ * @param {renderTerm[]} renderedTerms
  */
-function exponentOnTheRight(index, terms) {
-    const last = terms.length - 1;
+function exponentOnTheRight(index, renderedTerms) {
+    const last = renderedTerms.length - 1;
     const startAt = index;
     let parenthesis = 0;
-    let previous = terms[index];
-    let term = terms[++index];
+    let previous = renderedTerms[index];
+    let term = renderedTerms[++index];
     let shouldContinue;
 
     /**
@@ -332,7 +332,7 @@ function exponentOnTheRight(index, terms) {
      */
     function nextTerm() {
         previous = term;
-        term = terms[++index];
+        term = renderedTerms[++index];
     }
 
     /**
@@ -341,7 +341,7 @@ function exponentOnTheRight(index, terms) {
      */
     function previousTerm() {
         term = previous;
-        previous = terms[--index];
+        previous = renderedTerms[--index];
     }
 
     // only take care of actual operand value or sub expression (starting from the left)
@@ -390,12 +390,12 @@ function exponentOnTheRight(index, terms) {
 
             // factorial is a special case, as the operator can be placed either on the right or on the left
             // in any case it should be attached to its operand
-            while (index < last && terms[index + 1].token === 'FAC') {
+            while (index < last && renderedTerms[index + 1].token === 'FAC') {
                 nextTerm();
             }
 
             // sometimes a sub exponent continues the chain and should be part of the expression to put in exponent
-            if (index < last && continueExponent.indexOf(terms[index + 1].token) >= 0) {
+            if (index < last && continueExponent.indexOf(renderedTerms[index + 1].token) >= 0) {
                 // the next term should be ignored as we already know it is an exponent operator
                 // then the term after have to be set as the current one
                 nextTerm();
@@ -410,10 +410,10 @@ function exponentOnTheRight(index, terms) {
         if (
             startAt > 0 &&
             startAt < last &&
-            terms[startAt].token === 'POW' &&
-            terms[startAt + 1].startExponent.length
+            renderedTerms[startAt].token === 'POW' &&
+            renderedTerms[startAt + 1].startExponent.length
         ) {
-            terms[startAt].elide = true;
+            renderedTerms[startAt].elide = true;
         }
     }
 }

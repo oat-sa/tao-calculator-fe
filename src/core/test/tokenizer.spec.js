@@ -17,7 +17,7 @@
  */
 
 import tokenizerFactory from '../tokenizer.js';
-import terms from '../terms.js';
+import { terms } from '../terms.js';
 
 describe('tokenizer', () => {
     it('is a factory', () => {

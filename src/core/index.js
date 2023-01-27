@@ -21,5 +21,4 @@ export { default as mathsEvaluatorFactory } from './mathsEvaluator.js';
 export { default as calculatorTokenizerFactory } from './tokenizer.js';
 export { default as expressionHelper } from './expression.js';
 export { default as tokensHelper } from './tokens.js';
-export { default as terms } from './terms.js';
-export { default as types } from './types.js';
+export * from './terms.js';
