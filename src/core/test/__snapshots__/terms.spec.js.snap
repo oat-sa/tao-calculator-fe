@@ -226,7 +226,7 @@ exports[`terms defines terms 1`] = `
   },
   "NTHRT": {
     "exponent": "left",
-    "label": "<sup>x</sup>√",
+    "label": "√",
     "type": "function",
     "value": "nthrt",
   },

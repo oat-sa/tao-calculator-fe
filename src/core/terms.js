@@ -330,7 +330,7 @@ export const terms = {
         exponent: false
     },
     NTHRT: {
-        label: exponentLeft(symbols.squareRoot, 'x'),
+        label: symbols.squareRoot,
         value: 'nthrt',
         type: types.function,
         exponent: 'left'
