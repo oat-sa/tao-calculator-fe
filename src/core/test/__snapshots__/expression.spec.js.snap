@@ -50,17 +50,6 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "4",
       },
       {
-        "elide": true,
-        "endExponent": [],
-        "exponent": "right",
-        "label": "^",
-        "prefixed": false,
-        "startExponent": null,
-        "token": "POW",
-        "type": "operator",
-        "value": "^",
-      },
-      {
         "type": "exponent",
         "value": [
           {
@@ -207,17 +196,6 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "2",
       },
       {
-        "elide": true,
-        "endExponent": [],
-        "exponent": "right",
-        "label": "^",
-        "prefixed": false,
-        "startExponent": null,
-        "token": "POW",
-        "type": "operator",
-        "value": "^",
-      },
-      {
         "type": "exponent",
         "value": [
           {
@@ -353,17 +331,6 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "token": "NUM2",
     "type": "digit",
     "value": "2",
-  },
-  {
-    "elide": true,
-    "endExponent": [],
-    "exponent": "right",
-    "label": "^",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "POW",
-    "type": "operator",
-    "value": "^",
   },
   {
     "type": "exponent",
@@ -526,17 +493,6 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": "2",
   },
   {
-    "elide": true,
-    "endExponent": [],
-    "exponent": "right",
-    "label": "^",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "POW",
-    "type": "operator",
-    "value": "^",
-  },
-  {
     "type": "exponent",
     "value": [
       {
@@ -551,17 +507,6 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "3",
       },
       {
-        "elide": true,
-        "endExponent": [],
-        "exponent": "right",
-        "label": "^",
-        "prefixed": false,
-        "startExponent": null,
-        "token": "POW",
-        "type": "operator",
-        "value": "^",
-      },
-      {
         "type": "exponent",
         "value": [
           {
@@ -574,17 +519,6 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
             "token": "NUM5",
             "type": "digit",
             "value": "5",
-          },
-          {
-            "elide": true,
-            "endExponent": [],
-            "exponent": "right",
-            "label": "^",
-            "prefixed": false,
-            "startExponent": null,
-            "token": "POW",
-            "type": "operator",
-            "value": "^",
           },
           {
             "type": "exponent",

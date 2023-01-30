@@ -264,6 +264,7 @@ const expressionHelper = {
 
     /**
      * Nests the exponents so that the terms can be easily rendered.
+     * Remove the terms that can be elided, like the exponent operator.
      * @param {renderTerm[]} renderedTerms - The flat list of rendered terms.
      * @returns {renderTerm[]} - Returns a possibly nested rendered terms.
      */
@@ -286,7 +287,9 @@ const expressionHelper = {
                 index++;
             }
 
-            nestedTerms.push(term);
+            if (!term.elide) {
+                nestedTerms.push(term);
+            }
         }
 
         return nestedTerms;
@@ -295,6 +298,7 @@ const expressionHelper = {
 
 /**
  * Extracts sub-expressions for exponent so that the terms can be easily rendered.
+ * Remove the terms that can be elided, like the exponent operator.
  * @param {renderTerm[]} renderedTerms - The flat list of rendered terms.
  * @param {number} index
  * @returns {extractTerms} - Returns the terms representing the exponent.
@@ -308,21 +312,23 @@ function extractExponent(renderedTerms, index = 0) {
 
     let done = false;
     while (!done && index < len) {
-        const term = renderedTerms[index];
+        let term = renderedTerms[index];
+        done = term.endExponent.includes(level);
 
         if (term.startExponent && term.startExponent !== level) {
             const nest = extractExponent(renderedTerms, index);
-            extract.push({
+            term = {
                 type: types.exponent,
                 value: nest.extract
-            });
+            };
             index += nest.length;
         } else {
-            extract.push(term);
             index++;
         }
 
-        done = term.endExponent.includes(level);
+        if (!term.elide) {
+            extract.push(term);
+        }
     }
 
     const length = index - startIndex;
