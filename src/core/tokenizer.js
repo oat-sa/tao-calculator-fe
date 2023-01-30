@@ -130,7 +130,7 @@ const digits = _.pickBy(terms, filterDigit);
  * @param {object} [config.digits] - List of additional digits: key being the name, value being the pattern
  * @returns {calculatorTokenizer}
  */
-function calculatorTokenizerFactory(config = {}) {
+function tokenizerFactory(config = {}) {
     const keywordsList = _.defaults(_.mapValues(keywords, 'value'), config.keywords);
     const symbolsList = _.defaults(_.mapValues(symbols, 'value'), config.symbols);
     const digitsList = _.defaults(_.mapValues(digits, 'value'), config.digits);
@@ -238,4 +238,4 @@ function calculatorTokenizerFactory(config = {}) {
     return tokenizer;
 }
 
-export default calculatorTokenizerFactory;
+export default tokenizerFactory;
