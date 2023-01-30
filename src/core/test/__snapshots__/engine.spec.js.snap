@@ -422,7 +422,7 @@ exports[`engine renders the expression emits a render event 1`] = `
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ".",
     "prefixed": false,
@@ -433,7 +433,7 @@ exports[`engine renders the expression emits a render event 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -444,7 +444,7 @@ exports[`engine renders the expression emits a render event 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "＋",
     "prefixed": false,
@@ -455,7 +455,7 @@ exports[`engine renders the expression emits a render event 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ".",
     "prefixed": false,
@@ -466,7 +466,7 @@ exports[`engine renders the expression emits a render event 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -482,7 +482,7 @@ exports[`engine renders the expression from a simple expression 1`] = `
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ".",
     "prefixed": false,
@@ -493,7 +493,7 @@ exports[`engine renders the expression from a simple expression 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -504,7 +504,7 @@ exports[`engine renders the expression from a simple expression 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "＋",
     "prefixed": false,
@@ -515,7 +515,7 @@ exports[`engine renders the expression from a simple expression 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ".",
     "prefixed": false,
@@ -526,7 +526,7 @@ exports[`engine renders the expression from a simple expression 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -542,7 +542,7 @@ exports[`engine renders the expression using the last result 1`] = `
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "Ans",
     "prefixed": false,
@@ -553,7 +553,7 @@ exports[`engine renders the expression using the last result 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "÷",
     "prefixed": false,
@@ -564,7 +564,7 @@ exports[`engine renders the expression using the last result 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,

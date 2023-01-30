@@ -7,7 +7,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "(",
         "prefixed": false,
@@ -18,7 +18,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "3",
         "prefixed": false,
@@ -29,7 +29,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "×",
         "prefixed": false,
@@ -40,7 +40,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "4",
         "prefixed": false,
@@ -51,7 +51,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": true,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": "right",
         "label": "^",
         "prefixed": false,
@@ -65,7 +65,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": [
           {
             "elide": false,
-            "endExponent": null,
+            "endExponent": [],
             "exponent": false,
             "label": "(",
             "prefixed": false,
@@ -76,7 +76,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           },
           {
             "elide": false,
-            "endExponent": null,
+            "endExponent": [],
             "exponent": false,
             "label": "8",
             "prefixed": false,
@@ -87,7 +87,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           },
           {
             "elide": false,
-            "endExponent": null,
+            "endExponent": [],
             "exponent": false,
             "label": "﹣",
             "prefixed": false,
@@ -98,7 +98,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           },
           {
             "elide": false,
-            "endExponent": null,
+            "endExponent": [],
             "exponent": false,
             "label": "2",
             "prefixed": false,
@@ -109,7 +109,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           },
           {
             "elide": false,
-            "endExponent": "right-4",
+            "endExponent": [
+              "right-4",
+            ],
             "exponent": false,
             "label": ")",
             "prefixed": false,
@@ -122,7 +124,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": false,
-        "endExponent": "left-11",
+        "endExponent": [
+          "left-11",
+        ],
         "exponent": false,
         "label": ")",
         "prefixed": false,
@@ -135,51 +139,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
-    "exponent": false,
-    "label": "﹣",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "NEG",
-    "type": "operator",
-    "value": "-",
-  },
-  {
-    "elide": false,
-    "endExponent": null,
-    "exponent": false,
-    "label": "2",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "NUM2",
-    "type": "digit",
-    "value": "2",
-  },
-  {
-    "elide": false,
-    "endExponent": "right-4",
-    "exponent": false,
-    "label": ")",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "RPAR",
-    "type": "aggregator",
-    "value": ")",
-  },
-  {
-    "elide": false,
-    "endExponent": "left-11",
-    "exponent": false,
-    "label": ")",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "RPAR",
-    "type": "aggregator",
-    "value": ")",
-  },
-  {
-    "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -190,7 +150,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -201,7 +161,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "＋",
     "prefixed": false,
@@ -212,7 +172,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "exp",
     "prefixed": false,
@@ -226,7 +186,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "(",
         "prefixed": false,
@@ -237,7 +197,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "2",
         "prefixed": false,
@@ -248,7 +208,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": true,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": "right",
         "label": "^",
         "prefixed": false,
@@ -262,7 +222,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": [
           {
             "elide": false,
-            "endExponent": null,
+            "endExponent": [],
             "exponent": false,
             "label": "(",
             "prefixed": false,
@@ -273,7 +233,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           },
           {
             "elide": false,
-            "endExponent": null,
+            "endExponent": [],
             "exponent": false,
             "label": "3",
             "prefixed": false,
@@ -284,7 +244,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           },
           {
             "elide": false,
-            "endExponent": null,
+            "endExponent": [],
             "exponent": false,
             "label": "﹢",
             "prefixed": false,
@@ -295,7 +255,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           },
           {
             "elide": false,
-            "endExponent": null,
+            "endExponent": [],
             "exponent": false,
             "label": "5",
             "prefixed": false,
@@ -306,7 +266,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           },
           {
             "elide": false,
-            "endExponent": "right-17",
+            "endExponent": [
+              "right-17",
+            ],
             "exponent": false,
             "label": ")",
             "prefixed": false,
@@ -319,7 +281,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "﹢",
         "prefixed": false,
@@ -330,7 +292,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "4",
         "prefixed": false,
@@ -341,7 +303,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       },
       {
         "elide": false,
-        "endExponent": "right-14",
+        "endExponent": [
+          "right-14",
+        ],
         "exponent": false,
         "label": ")",
         "prefixed": false,
@@ -354,51 +318,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": "right-17",
-    "exponent": false,
-    "label": ")",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "RPAR",
-    "type": "aggregator",
-    "value": ")",
-  },
-  {
-    "elide": false,
-    "endExponent": null,
-    "exponent": false,
-    "label": "﹢",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "POS",
-    "type": "operator",
-    "value": "+",
-  },
-  {
-    "elide": false,
-    "endExponent": null,
-    "exponent": false,
-    "label": "4",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "NUM4",
-    "type": "digit",
-    "value": "4",
-  },
-  {
-    "elide": false,
-    "endExponent": "right-14",
-    "exponent": false,
-    "label": ")",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "RPAR",
-    "type": "aggregator",
-    "value": ")",
-  },
-  {
-    "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "＋",
     "prefixed": false,
@@ -409,7 +329,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -425,7 +345,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -436,7 +356,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -450,7 +370,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": [
       {
         "elide": false,
-        "endExponent": "right-1",
+        "endExponent": [
+          "right-1",
+        ],
         "exponent": false,
         "label": "3",
         "prefixed": false,
@@ -463,7 +385,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -474,7 +396,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -490,7 +412,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -501,7 +423,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -512,7 +434,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -523,7 +445,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -534,7 +456,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹣",
     "prefixed": false,
@@ -545,7 +467,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -556,7 +478,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -568,33 +490,11 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
 ]
 `;
 
-exports[`expression replaceLastResult render render from Explicit positive expression 1`] = `
+exports[`expression replaceLastResult nestExponents render nested exponents from 4-2^3^5^7+3 1`] = `
 [
   {
     "elide": false,
-    "endExponent": null,
-    "exponent": false,
-    "label": "﹢",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "POS",
-    "type": "operator",
-    "value": "+",
-  },
-  {
-    "elide": false,
-    "endExponent": null,
-    "exponent": false,
-    "label": "(",
-    "prefixed": false,
-    "startExponent": null,
-    "token": "LPAR",
-    "type": "aggregator",
-    "value": "(",
-  },
-  {
-    "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -605,18 +505,250 @@ exports[`expression replaceLastResult render render from Explicit positive expre
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
-    "label": "﹢",
+    "label": "﹣",
     "prefixed": false,
     "startExponent": null,
-    "token": "POS",
+    "token": "NEG",
     "type": "operator",
-    "value": "+",
+    "value": "-",
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
+    "exponent": false,
+    "label": "2",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM2",
+    "type": "digit",
+    "value": "2",
+  },
+  {
+    "elide": true,
+    "endExponent": [],
+    "exponent": "right",
+    "label": "^",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "POW",
+    "type": "operator",
+    "value": "^",
+  },
+  {
+    "type": "exponent",
+    "value": [
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "3",
+        "prefixed": false,
+        "startExponent": "right-3",
+        "token": "NUM3",
+        "type": "digit",
+        "value": "3",
+      },
+      {
+        "elide": true,
+        "endExponent": [],
+        "exponent": "right",
+        "label": "^",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "POW",
+        "type": "operator",
+        "value": "^",
+      },
+      {
+        "type": "exponent",
+        "value": [
+          {
+            "elide": false,
+            "endExponent": [],
+            "exponent": false,
+            "label": "5",
+            "prefixed": false,
+            "startExponent": "right-5",
+            "token": "NUM5",
+            "type": "digit",
+            "value": "5",
+          },
+          {
+            "elide": true,
+            "endExponent": [],
+            "exponent": "right",
+            "label": "^",
+            "prefixed": false,
+            "startExponent": null,
+            "token": "POW",
+            "type": "operator",
+            "value": "^",
+          },
+          {
+            "type": "exponent",
+            "value": [
+              {
+                "elide": false,
+                "endExponent": [
+                  "right-3",
+                  "right-5",
+                  "right-7",
+                ],
+                "exponent": false,
+                "label": "7",
+                "prefixed": false,
+                "startExponent": "right-7",
+                "token": "NUM7",
+                "type": "digit",
+                "value": "7",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "﹢",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "POS",
+        "type": "operator",
+        "value": "+",
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "3",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "NUM3",
+        "type": "digit",
+        "value": "3",
+      },
+    ],
+  },
+]
+`;
+
+exports[`expression replaceLastResult nestExponents render nested exponents from 4-7 @nthrt 5 @nthrt 3 @nthrt 2+3 1`] = `
+[
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "4",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM4",
+    "type": "digit",
+    "value": "4",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "﹣",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NEG",
+    "type": "operator",
+    "value": "-",
+  },
+  {
+    "type": "exponent",
+    "value": [
+      {
+        "elide": false,
+        "endExponent": [
+          "left-3",
+        ],
+        "exponent": false,
+        "label": "7",
+        "prefixed": false,
+        "startExponent": "left-3",
+        "token": "NUM7",
+        "type": "digit",
+        "value": "7",
+      },
+    ],
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": "left",
+    "label": "<sup>x</sup>√",
+    "prefixed": true,
+    "startExponent": null,
+    "token": "NTHRT",
+    "type": "function",
+    "value": "nthrt",
+  },
+  {
+    "type": "exponent",
+    "value": [
+      {
+        "elide": false,
+        "endExponent": [
+          "left-5",
+        ],
+        "exponent": false,
+        "label": "5",
+        "prefixed": false,
+        "startExponent": "left-5",
+        "token": "NUM5",
+        "type": "digit",
+        "value": "5",
+      },
+    ],
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": "left",
+    "label": "<sup>x</sup>√",
+    "prefixed": true,
+    "startExponent": null,
+    "token": "NTHRT",
+    "type": "function",
+    "value": "nthrt",
+  },
+  {
+    "type": "exponent",
+    "value": [
+      {
+        "elide": false,
+        "endExponent": [
+          "left-7",
+        ],
+        "exponent": false,
+        "label": "3",
+        "prefixed": false,
+        "startExponent": "left-7",
+        "token": "NUM3",
+        "type": "digit",
+        "value": "3",
+      },
+    ],
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": "left",
+    "label": "<sup>x</sup>√",
+    "prefixed": true,
+    "startExponent": null,
+    "token": "NTHRT",
+    "type": "function",
+    "value": "nthrt",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -627,7 +759,89 @@ exports[`expression replaceLastResult render render from Explicit positive expre
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
+    "exponent": false,
+    "label": "﹢",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "POS",
+    "type": "operator",
+    "value": "+",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "3",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM3",
+    "type": "digit",
+    "value": "3",
+  },
+]
+`;
+
+exports[`expression replaceLastResult render render from Explicit positive expression 1`] = `
+[
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "﹢",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "POS",
+    "type": "operator",
+    "value": "+",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "(",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "LPAR",
+    "type": "aggregator",
+    "value": "(",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "4",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM4",
+    "type": "digit",
+    "value": "4",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "﹢",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "POS",
+    "type": "operator",
+    "value": "+",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "2",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM2",
+    "type": "digit",
+    "value": "2",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -643,7 +857,7 @@ exports[`expression replaceLastResult render render from Explicit positive value
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -654,7 +868,7 @@ exports[`expression replaceLastResult render render from Explicit positive value
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -665,7 +879,7 @@ exports[`expression replaceLastResult render render from Explicit positive value
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -681,7 +895,7 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "!",
     "prefixed": false,
@@ -692,7 +906,9 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
   },
   {
     "elide": false,
-    "endExponent": "left-2",
+    "endExponent": [
+      "left-2",
+    ],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -703,7 +919,7 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -714,7 +930,7 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -725,7 +941,7 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -736,7 +952,7 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -747,7 +963,9 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
   },
   {
     "elide": false,
-    "endExponent": "right-4",
+    "endExponent": [
+      "right-4",
+    ],
     "exponent": false,
     "label": "!",
     "prefixed": false,
@@ -763,7 +981,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -774,7 +992,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "!",
     "prefixed": false,
@@ -785,7 +1003,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -796,7 +1014,9 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -807,7 +1027,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -818,7 +1038,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -829,7 +1049,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -840,7 +1060,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -851,7 +1071,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -862,7 +1082,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -873,7 +1093,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "!",
     "prefixed": false,
@@ -884,7 +1104,9 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": "right-7",
+    "endExponent": [
+      "right-7",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -895,7 +1117,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -911,7 +1133,7 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -922,7 +1144,7 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "8",
     "prefixed": false,
@@ -933,7 +1155,7 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -944,7 +1166,9 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
   },
   {
     "elide": false,
-    "endExponent": "right-2",
+    "endExponent": [
+      "right-2",
+    ],
     "exponent": false,
     "label": "8",
     "prefixed": false,
@@ -955,7 +1179,9 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
   },
   {
     "elide": false,
-    "endExponent": "left-5",
+    "endExponent": [
+      "left-5",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -966,7 +1192,7 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -977,7 +1203,7 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "8",
     "prefixed": false,
@@ -993,7 +1219,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "8",
     "prefixed": false,
@@ -1004,7 +1230,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -1015,7 +1241,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -1026,7 +1252,9 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": "8",
     "prefixed": false,
@@ -1037,7 +1265,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -1048,7 +1276,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "8",
     "prefixed": false,
@@ -1059,7 +1287,9 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -1075,7 +1305,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "8",
     "prefixed": false,
@@ -1086,7 +1316,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -1097,7 +1327,9 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
   },
   {
     "elide": false,
-    "endExponent": "left-3",
+    "endExponent": [
+      "left-3",
+    ],
     "exponent": false,
     "label": "8",
     "prefixed": false,
@@ -1108,7 +1340,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -1119,7 +1351,9 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": "8",
     "prefixed": false,
@@ -1135,7 +1369,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -1146,7 +1380,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "0",
     "prefixed": false,
@@ -1157,7 +1391,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -1168,7 +1402,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -1179,7 +1413,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "－",
     "prefixed": false,
@@ -1190,7 +1424,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": null,
     "label": "x",
     "prefixed": false,
@@ -1201,7 +1435,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -1212,12 +1446,12 @@ exports[`expression replaceLastResult render render from Expression with variabl
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "5",
         "prefixed": false,
@@ -1235,7 +1469,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -1246,7 +1480,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": null,
     "label": "y",
     "prefixed": false,
@@ -1262,12 +1496,12 @@ exports[`expression replaceLastResult render render from Last result, explicit p
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "﹢",
         "prefixed": false,
@@ -1278,7 +1512,7 @@ exports[`expression replaceLastResult render render from Last result, explicit p
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "4",
         "prefixed": false,
@@ -1289,7 +1523,7 @@ exports[`expression replaceLastResult render render from Last result, explicit p
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "2",
         "prefixed": false,
@@ -1312,12 +1546,12 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "4",
         "prefixed": false,
@@ -1328,7 +1562,7 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "2",
         "prefixed": false,
@@ -1351,12 +1585,12 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "4",
         "prefixed": false,
@@ -1367,7 +1601,7 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "2",
         "prefixed": false,
@@ -1390,12 +1624,12 @@ exports[`expression replaceLastResult render render from Last result, negative v
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "﹣",
         "prefixed": false,
@@ -1406,7 +1640,7 @@ exports[`expression replaceLastResult render render from Last result, negative v
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "4",
         "prefixed": false,
@@ -1417,7 +1651,7 @@ exports[`expression replaceLastResult render render from Last result, negative v
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "2",
         "prefixed": false,
@@ -1440,7 +1674,7 @@ exports[`expression replaceLastResult render render from Last result, no variabl
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "Ans",
     "prefixed": false,
@@ -1456,12 +1690,12 @@ exports[`expression replaceLastResult render render from Last result, positive v
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "4",
         "prefixed": false,
@@ -1472,7 +1706,7 @@ exports[`expression replaceLastResult render render from Last result, positive v
       },
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "2",
         "prefixed": false,
@@ -1495,7 +1729,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -1506,7 +1740,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -1517,7 +1751,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -1528,7 +1762,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -1539,7 +1773,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -1550,7 +1784,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -1561,7 +1795,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -1572,7 +1806,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -1583,7 +1817,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "－",
     "prefixed": false,
@@ -1594,7 +1828,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": null,
     "label": "x",
     "prefixed": false,
@@ -1605,7 +1839,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -1616,7 +1850,9 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": "left-12",
+    "endExponent": [
+      "left-12",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -1627,7 +1863,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -1638,7 +1874,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -1649,7 +1885,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "6",
     "prefixed": false,
@@ -1660,7 +1896,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -1676,7 +1912,7 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -1687,7 +1923,9 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
   },
   {
     "elide": false,
-    "endExponent": "left-2",
+    "endExponent": [
+      "left-2",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -1698,7 +1936,7 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -1709,7 +1947,7 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -1720,7 +1958,7 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "6",
     "prefixed": false,
@@ -1731,7 +1969,7 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -1747,7 +1985,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -1758,7 +1996,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -1769,7 +2007,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -1780,7 +2018,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -1791,7 +2029,9 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
   },
   {
     "elide": false,
-    "endExponent": "left-5",
+    "endExponent": [
+      "left-5",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -1802,7 +2042,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -1813,7 +2053,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -1824,7 +2064,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "6",
     "prefixed": false,
@@ -1840,7 +2080,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -1851,7 +2091,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -1862,7 +2102,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -1873,7 +2113,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -1884,7 +2124,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -1895,7 +2135,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -1906,7 +2146,9 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": "left-7",
+    "endExponent": [
+      "left-7",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -1917,7 +2159,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -1928,7 +2170,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -1939,12 +2181,12 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "5",
         "prefixed": false,
@@ -1962,7 +2204,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -1973,7 +2215,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -1984,7 +2226,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -2000,7 +2242,7 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -2011,7 +2253,9 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
   },
   {
     "elide": false,
-    "endExponent": "left-2",
+    "endExponent": [
+      "left-2",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -2022,7 +2266,7 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2033,7 +2277,7 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -2044,7 +2288,9 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
   },
   {
     "elide": false,
-    "endExponent": "left-5",
+    "endExponent": [
+      "left-5",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -2055,7 +2301,7 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2066,7 +2312,7 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2082,7 +2328,7 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -2093,7 +2339,7 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "cos",
     "prefixed": false,
@@ -2104,7 +2350,7 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -2115,7 +2361,9 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -2126,7 +2374,7 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2137,7 +2385,7 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2153,7 +2401,7 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹣",
     "prefixed": false,
@@ -2164,7 +2412,7 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -2175,7 +2423,7 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -2186,7 +2434,7 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -2197,7 +2445,7 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2208,7 +2456,9 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
   },
   {
     "elide": false,
-    "endExponent": "left-6",
+    "endExponent": [
+      "left-6",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -2219,7 +2469,7 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2230,7 +2480,7 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -2241,7 +2491,7 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "6",
     "prefixed": false,
@@ -2257,7 +2507,7 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹣",
     "prefixed": false,
@@ -2268,7 +2518,9 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
   },
   {
     "elide": false,
-    "endExponent": "left-2",
+    "endExponent": [
+      "left-2",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2279,7 +2531,7 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2290,7 +2542,7 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -2301,7 +2553,7 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "6",
     "prefixed": false,
@@ -2317,7 +2569,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -2328,7 +2580,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -2339,7 +2591,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -2350,7 +2602,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2361,7 +2613,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -2372,7 +2624,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -2383,7 +2635,9 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": "left-7",
+    "endExponent": [
+      "left-7",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -2394,7 +2648,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2405,7 +2659,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -2416,12 +2670,12 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "5",
         "prefixed": false,
@@ -2439,7 +2693,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -2450,7 +2704,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -2461,7 +2715,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -2477,7 +2731,9 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
 [
   {
     "elide": false,
-    "endExponent": "left-1",
+    "endExponent": [
+      "left-1",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2488,7 +2744,7 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2504,7 +2760,9 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
 [
   {
     "elide": false,
-    "endExponent": "left-1",
+    "endExponent": [
+      "left-1",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2515,7 +2773,7 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2526,7 +2784,7 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -2537,7 +2795,7 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "6",
     "prefixed": false,
@@ -2553,7 +2811,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -2564,7 +2822,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "＋",
     "prefixed": false,
@@ -2575,7 +2833,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -2586,7 +2844,9 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2597,7 +2857,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2608,7 +2868,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -2619,7 +2879,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "6",
     "prefixed": false,
@@ -2630,7 +2890,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -2646,7 +2906,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -2657,7 +2917,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -2668,7 +2928,9 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
   },
   {
     "elide": false,
-    "endExponent": "left-3",
+    "endExponent": [
+      "left-3",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2679,7 +2941,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2690,7 +2952,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -2701,7 +2963,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "6",
     "prefixed": false,
@@ -2717,7 +2979,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -2728,7 +2990,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -2739,7 +3001,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -2750,7 +3012,9 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": "0",
     "prefixed": false,
@@ -2761,7 +3025,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2772,7 +3036,9 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": "left-6",
+    "endExponent": [
+      "left-6",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -2783,7 +3049,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2794,7 +3060,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2810,7 +3076,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -2821,7 +3087,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -2832,7 +3098,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -2843,7 +3109,9 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": "0",
     "prefixed": false,
@@ -2854,7 +3122,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2865,7 +3133,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "cos",
     "prefixed": false,
@@ -2876,7 +3144,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -2892,7 +3160,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -2903,7 +3171,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -2914,7 +3182,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -2925,7 +3193,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -2936,7 +3204,9 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": "left-5",
+    "endExponent": [
+      "left-5",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -2947,7 +3217,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -2958,7 +3228,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -2969,12 +3239,12 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "5",
         "prefixed": false,
@@ -2992,7 +3262,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -3003,7 +3273,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -3014,7 +3284,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -3030,7 +3300,7 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -3041,7 +3311,9 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
   },
   {
     "elide": false,
-    "endExponent": "left-2",
+    "endExponent": [
+      "left-2",
+    ],
     "exponent": false,
     "label": "0",
     "prefixed": false,
@@ -3052,7 +3324,7 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3063,7 +3335,9 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3074,7 +3348,7 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3085,7 +3359,7 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3101,7 +3375,7 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -3112,7 +3386,7 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -3123,7 +3397,9 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
   },
   {
     "elide": false,
-    "endExponent": "left-3",
+    "endExponent": [
+      "left-3",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3134,7 +3410,7 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3145,7 +3421,7 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -3156,12 +3432,12 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "5",
         "prefixed": false,
@@ -3179,7 +3455,7 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -3190,7 +3466,7 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -3201,7 +3477,7 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -3217,7 +3493,9 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
 [
   {
     "elide": false,
-    "endExponent": "left-1",
+    "endExponent": [
+      "left-1",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3228,7 +3506,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3239,7 +3517,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -3250,7 +3528,9 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3261,7 +3541,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3272,7 +3552,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3283,7 +3563,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -3299,7 +3579,9 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
 [
   {
     "elide": false,
-    "endExponent": "left-1",
+    "endExponent": [
+      "left-1",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3310,7 +3592,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3321,7 +3603,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -3332,7 +3614,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3343,7 +3625,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -3354,7 +3636,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3365,7 +3647,9 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": "left-7",
+    "endExponent": [
+      "left-7",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -3376,7 +3660,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3387,7 +3671,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3403,7 +3687,9 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
 [
   {
     "elide": false,
-    "endExponent": "left-1",
+    "endExponent": [
+      "left-1",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3414,7 +3700,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3425,7 +3711,9 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": "left-3",
+    "endExponent": [
+      "left-3",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3436,7 +3724,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3447,7 +3735,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3463,7 +3751,7 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "ceil",
     "prefixed": false,
@@ -3474,7 +3762,7 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "cos",
     "prefixed": false,
@@ -3485,7 +3773,9 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
   },
   {
     "elide": false,
-    "endExponent": "left-3",
+    "endExponent": [
+      "left-3",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3496,7 +3786,7 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3507,7 +3797,7 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3523,7 +3813,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "cos",
     "prefixed": false,
@@ -3534,7 +3824,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -3545,7 +3835,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3556,7 +3846,9 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -3567,7 +3859,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3578,7 +3870,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3594,7 +3886,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos PI n
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "cos",
     "prefixed": false,
@@ -3605,7 +3897,9 @@ exports[`expression replaceLastResult render render from Left exponent: cos PI n
   },
   {
     "elide": false,
-    "endExponent": "left-2",
+    "endExponent": [
+      "left-2",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -3616,7 +3910,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos PI n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3627,7 +3921,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos PI n
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3643,7 +3937,7 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 1`
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3659,7 +3953,7 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 16
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3670,7 +3964,7 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 16
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -3681,7 +3975,7 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 16
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "6",
     "prefixed": false,
@@ -3697,7 +3991,9 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt nt
 [
   {
     "elide": false,
-    "endExponent": "left-1",
+    "endExponent": [
+      "left-1",
+    ],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3708,7 +4004,7 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt nt
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -3724,7 +4020,7 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹣",
     "prefixed": false,
@@ -3735,7 +4031,7 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -3746,7 +4042,7 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3757,7 +4053,7 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -3768,7 +4064,7 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -3779,7 +4075,7 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -3795,7 +4091,7 @@ exports[`expression replaceLastResult render render from Negative value 1`] = `
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹣",
     "prefixed": false,
@@ -3806,7 +4102,7 @@ exports[`expression replaceLastResult render render from Negative value 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -3817,7 +4113,7 @@ exports[`expression replaceLastResult render render from Negative value 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -3833,7 +4129,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -3844,7 +4140,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -3855,7 +4151,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -3866,7 +4162,9 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
   },
   {
     "elide": false,
-    "endExponent": "right-2",
+    "endExponent": [
+      "right-2",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -3877,7 +4175,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -3888,7 +4186,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -3899,7 +4197,9 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
   },
   {
     "elide": false,
-    "endExponent": "right-5",
+    "endExponent": [
+      "right-5",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -3915,7 +4215,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -3926,7 +4226,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -3937,7 +4237,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -3948,7 +4248,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -3959,7 +4259,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -3970,7 +4270,10 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
   },
   {
     "elide": false,
-    "endExponent": "right-4",
+    "endExponent": [
+      "right-2",
+      "right-4",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -3981,7 +4284,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -3997,7 +4300,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4008,7 +4311,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4019,7 +4322,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4030,7 +4333,9 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
   },
   {
     "elide": false,
-    "endExponent": "right-2",
+    "endExponent": [
+      "right-2",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -4041,7 +4346,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4057,7 +4362,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4068,7 +4373,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4079,7 +4384,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4090,7 +4395,9 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
   },
   {
     "elide": false,
-    "endExponent": "right-2",
+    "endExponent": [
+      "right-2",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -4101,7 +4408,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4117,7 +4424,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4128,7 +4435,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -4139,7 +4446,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4150,7 +4457,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4161,7 +4468,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4172,7 +4479,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4183,7 +4490,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4194,7 +4501,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -4205,7 +4512,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -4216,7 +4523,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -4227,7 +4534,9 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": "right-5",
+    "endExponent": [
+      "right-5",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4238,7 +4547,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4249,7 +4558,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -4265,7 +4574,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4276,7 +4585,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -4287,7 +4596,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4298,7 +4607,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4309,7 +4618,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4320,7 +4629,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4331,7 +4640,9 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
   },
   {
     "elide": false,
-    "endExponent": "right-5",
+    "endExponent": [
+      "right-5",
+    ],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -4342,7 +4653,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4353,7 +4664,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -4369,7 +4680,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4380,7 +4691,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -4391,7 +4702,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4402,7 +4713,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4413,7 +4724,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4424,7 +4735,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4435,7 +4746,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -4446,7 +4757,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4457,7 +4768,9 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": false,
-    "endExponent": "right-5",
+    "endExponent": [
+      "right-5",
+    ],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -4468,7 +4781,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4479,7 +4792,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -4495,7 +4808,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4506,7 +4819,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -4517,7 +4830,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4528,7 +4841,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4539,7 +4852,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4550,7 +4863,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4561,7 +4874,9 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
   },
   {
     "elide": false,
-    "endExponent": "right-5",
+    "endExponent": [
+      "right-5",
+    ],
     "exponent": null,
     "label": "x",
     "prefixed": false,
@@ -4572,7 +4887,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4583,7 +4898,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -4599,7 +4914,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4610,7 +4925,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -4621,7 +4936,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4632,7 +4947,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4643,7 +4958,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4654,7 +4969,9 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": "right-4",
+    "endExponent": [
+      "right-4",
+    ],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -4665,7 +4982,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4676,7 +4993,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4687,7 +5004,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4698,12 +5015,12 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "5",
         "prefixed": false,
@@ -4721,7 +5038,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -4732,7 +5049,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -4743,7 +5060,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4754,7 +5071,9 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": "right-12",
+    "endExponent": [
+      "right-12",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4765,7 +5084,9 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": "right-7",
+    "endExponent": [
+      "right-7",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4776,7 +5097,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -4787,7 +5108,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -4803,7 +5124,7 @@ exports[`expression replaceLastResult render render from Right exponent: ^ 1`] =
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4819,7 +5140,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ 1`] 
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4830,7 +5151,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ 1`] 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4846,7 +5167,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4857,7 +5178,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4868,7 +5189,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -4879,7 +5200,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4890,7 +5211,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4901,7 +5222,9 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
   },
   {
     "elide": false,
-    "endExponent": "right-4",
+    "endExponent": [
+      "right-4",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4912,7 +5235,9 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -4928,7 +5253,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4939,7 +5264,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4950,7 +5275,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4961,7 +5286,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -4972,7 +5297,10 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
   },
   {
     "elide": false,
-    "endExponent": "right-3",
+    "endExponent": [
+      "right-1",
+      "right-3",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4988,7 +5316,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4 1`]
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -4999,7 +5327,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4 1`]
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5010,7 +5338,9 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4 1`]
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -5026,7 +5356,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5037,7 +5367,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5048,7 +5378,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -5059,7 +5389,9 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5075,7 +5407,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5086,7 +5418,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5097,7 +5429,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -5108,7 +5440,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5119,7 +5451,10 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
   },
   {
     "elide": false,
-    "endExponent": "right-3",
+    "endExponent": [
+      "right-1",
+      "right-3",
+    ],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -5135,7 +5470,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5146,7 +5481,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5157,7 +5492,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -5168,7 +5503,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5179,7 +5514,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -5190,7 +5525,10 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
   },
   {
     "elide": false,
-    "endExponent": "right-3",
+    "endExponent": [
+      "right-1",
+      "right-3",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5206,7 +5544,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5217,7 +5555,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5228,7 +5566,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -5239,7 +5577,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5250,7 +5588,10 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
   },
   {
     "elide": false,
-    "endExponent": "right-3",
+    "endExponent": [
+      "right-1",
+      "right-3",
+    ],
     "exponent": false,
     "label": "﹣",
     "prefixed": false,
@@ -5266,7 +5607,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5277,7 +5618,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5288,7 +5629,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -5299,7 +5640,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5310,7 +5651,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹣",
     "prefixed": false,
@@ -5321,7 +5662,10 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
   },
   {
     "elide": false,
-    "endExponent": "right-3",
+    "endExponent": [
+      "right-1",
+      "right-3",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5337,7 +5681,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^PI 1`
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5348,7 +5692,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^PI 1`
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5359,7 +5703,9 @@ exports[`expression replaceLastResult render render from Right exponent: 2^PI 1`
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -5375,7 +5721,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5386,7 +5732,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5397,7 +5743,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "ceil",
     "prefixed": false,
@@ -5408,7 +5754,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "cos",
     "prefixed": false,
@@ -5419,7 +5765,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -5430,7 +5776,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -5441,7 +5787,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -5452,7 +5798,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5463,7 +5809,9 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -5479,7 +5827,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos P
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5490,7 +5838,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos P
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5501,7 +5849,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos P
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "cos",
     "prefixed": false,
@@ -5512,7 +5860,9 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos P
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -5528,7 +5878,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5539,7 +5889,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5550,7 +5900,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "cos",
     "prefixed": false,
@@ -5561,7 +5911,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -5572,7 +5922,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "π",
     "prefixed": false,
@@ -5583,7 +5933,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -5594,7 +5944,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5605,7 +5955,9 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -5621,7 +5973,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -5632,7 +5984,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -5643,7 +5995,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5654,7 +6006,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5665,7 +6017,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -5676,7 +6028,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -5687,7 +6039,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -5698,7 +6050,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -5709,7 +6061,9 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
   },
   {
     "elide": false,
-    "endExponent": "right-3",
+    "endExponent": [
+      "right-3",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -5725,7 +6079,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -5736,7 +6090,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -5747,7 +6101,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5758,7 +6112,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5769,7 +6123,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -5780,7 +6134,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -5791,7 +6145,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5802,7 +6156,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -5813,7 +6167,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -5824,7 +6178,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -5835,7 +6189,9 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
   },
   {
     "elide": false,
-    "endExponent": "right-3",
+    "endExponent": [
+      "right-3",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -5851,7 +6207,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -5862,7 +6218,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -5873,7 +6229,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -5884,7 +6240,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5895,7 +6251,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -5906,7 +6262,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": null,
     "label": "x",
     "prefixed": false,
@@ -5917,7 +6273,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -5928,7 +6284,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -5939,7 +6295,9 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
   },
   {
     "elide": false,
-    "endExponent": "right-3",
+    "endExponent": [
+      "right-3",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -5955,7 +6313,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -5966,7 +6324,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -5977,7 +6335,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -5988,7 +6346,9 @@ exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -6004,7 +6364,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -6015,7 +6375,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -6026,7 +6386,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹣",
     "prefixed": false,
@@ -6037,7 +6397,9 @@ exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -6053,7 +6415,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -6064,7 +6426,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "×10",
     "prefixed": false,
@@ -6075,7 +6437,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -6086,7 +6448,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -6097,7 +6459,9 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": "0",
     "prefixed": false,
@@ -6113,7 +6477,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -6124,7 +6488,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "×10",
     "prefixed": false,
@@ -6135,7 +6499,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹣",
     "prefixed": false,
@@ -6146,7 +6510,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -6157,7 +6521,9 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": "0",
     "prefixed": false,
@@ -6173,7 +6539,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e10 1`
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -6184,7 +6550,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e10 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "×10",
     "prefixed": false,
@@ -6195,7 +6561,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e10 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -6206,7 +6572,9 @@ exports[`expression replaceLastResult render render from Right exponent: 5e10 1`
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": "0",
     "prefixed": false,
@@ -6222,7 +6590,7 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -6233,7 +6601,7 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -6244,7 +6612,7 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -6255,7 +6623,7 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -6266,7 +6634,7 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -6277,7 +6645,9 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
   },
   {
     "elide": false,
-    "endExponent": "right-2",
+    "endExponent": [
+      "right-2",
+    ],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -6293,7 +6663,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": null,
     "label": "x",
     "prefixed": false,
@@ -6304,7 +6674,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -6315,7 +6685,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -6326,7 +6696,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -6337,7 +6707,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -6348,7 +6718,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -6359,7 +6729,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -6370,7 +6740,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -6381,7 +6751,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -6392,7 +6762,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -6403,7 +6773,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -6414,7 +6784,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -6425,7 +6795,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -6436,7 +6806,9 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": "right-8",
+    "endExponent": [
+      "right-8",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -6447,7 +6819,9 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": "right-1",
+    "endExponent": [
+      "right-1",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -6458,7 +6832,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -6469,7 +6843,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -6485,7 +6859,7 @@ exports[`expression replaceLastResult render render from Simple expression 1`] =
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -6496,7 +6870,7 @@ exports[`expression replaceLastResult render render from Simple expression 1`] =
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "0",
     "prefixed": false,
@@ -6507,7 +6881,7 @@ exports[`expression replaceLastResult render render from Simple expression 1`] =
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "﹢",
     "prefixed": false,
@@ -6518,7 +6892,7 @@ exports[`expression replaceLastResult render render from Simple expression 1`] =
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -6534,7 +6908,7 @@ exports[`expression replaceLastResult render render from Simple number 1`] = `
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -6545,7 +6919,7 @@ exports[`expression replaceLastResult render render from Simple number 1`] = `
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -6561,7 +6935,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
 [
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,
@@ -6572,7 +6946,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "＋",
     "prefixed": false,
@@ -6583,7 +6957,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "1",
     "prefixed": false,
@@ -6594,7 +6968,9 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": "left-4",
+    "endExponent": [
+      "left-4",
+    ],
     "exponent": false,
     "label": "0",
     "prefixed": false,
@@ -6605,7 +6981,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "left",
     "label": "<sup>x</sup>√",
     "prefixed": true,
@@ -6616,7 +6992,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -6627,7 +7003,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "4",
     "prefixed": false,
@@ -6638,7 +7014,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "＋",
     "prefixed": false,
@@ -6649,7 +7025,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -6660,7 +7036,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -6671,7 +7047,9 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": "right-9",
+    "endExponent": [
+      "right-9",
+    ],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -6682,7 +7060,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -6693,7 +7071,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -6704,7 +7082,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "(",
     "prefixed": false,
@@ -6715,12 +7093,12 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": [
       {
         "elide": false,
-        "endExponent": null,
+        "endExponent": [],
         "exponent": false,
         "label": "5",
         "prefixed": false,
@@ -6738,7 +7116,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "×",
     "prefixed": false,
@@ -6749,7 +7127,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "3",
     "prefixed": false,
@@ -6760,7 +7138,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": true,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": "right",
     "label": "^",
     "prefixed": false,
@@ -6771,7 +7149,9 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": "right-17",
+    "endExponent": [
+      "right-17",
+    ],
     "exponent": false,
     "label": "2",
     "prefixed": false,
@@ -6782,7 +7162,9 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": "right-12",
+    "endExponent": [
+      "right-12",
+    ],
     "exponent": false,
     "label": ")",
     "prefixed": false,
@@ -6793,7 +7175,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "＋",
     "prefixed": false,
@@ -6804,7 +7186,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
   },
   {
     "elide": false,
-    "endExponent": null,
+    "endExponent": [],
     "exponent": false,
     "label": "5",
     "prefixed": false,

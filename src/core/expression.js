@@ -24,9 +24,15 @@ import tokenizerFactory from './tokenizer';
 /**
  * @typedef {term} renderTerm - Represents a renderable tokenizable term
  * @property {string} startExponent - Identifier for the start of the exponent (will produce exponent notation for the term)
- * @property {string} endExponent - Identifier for the end of the exponent (will finish exponent notation for the term)
+ * @property {string[]} endExponent - Identifiers for the end of the exponent (will finish exponent notation for the term)
  * @property {boolean} prefixed - Tells if the term is prefixed (i.e. function treated as binary operator)
  * @property {boolean} elide - Allows to hide the term when operands exist on each side
+ */
+
+/**
+ * @typedef {object} extractTerms - Represents an extraction of terms
+ * @property {renderTerm[]} extract - The list of extracted terms
+ * @property {number} length - The actual number of extracted terms, including the nested ones
  */
 
 /**
@@ -203,7 +209,7 @@ const expressionHelper = {
                 label: token.value,
                 exponent: null,
                 startExponent: null,
-                endExponent: null,
+                endExponent: [],
                 prefixed: rePrefixedTerm.test(token.value),
                 elide: false
             };
@@ -257,7 +263,7 @@ const expressionHelper = {
     },
 
     /**
-     * Nests the exponents so tha the terms can be easily rendered.
+     * Nests the exponents so that the terms can be easily rendered.
      * @param {renderTerm[]} renderedTerms - The flat list of rendered terms.
      * @returns {renderTerm[]} - Returns a possibly nested rendered terms.
      */
@@ -270,12 +276,12 @@ const expressionHelper = {
             let term = renderedTerms[index];
 
             if (term.startExponent) {
-                const nest = extractExponent(renderedTerms, index);
+                const { extract, length } = extractExponent(renderedTerms, index);
                 term = {
                     type: types.exponent,
-                    value: nest
+                    value: extract
                 };
-                index += nest.length;
+                index += length;
             } else {
                 index++;
             }
@@ -288,16 +294,17 @@ const expressionHelper = {
 };
 
 /**
- * Nests the exponents so tha the terms can be easily rendered.
+ * Extracts sub-expressions for exponent so that the terms can be easily rendered.
  * @param {renderTerm[]} renderedTerms - The flat list of rendered terms.
  * @param {number} index
- * @returns {renderTerm[]} - Returns the terms representing the exponent.
+ * @returns {extractTerms} - Returns the terms representing the exponent.
  */
 function extractExponent(renderedTerms, index = 0) {
-    const exponentTerms = [];
+    const extract = [];
     const len = renderedTerms.length;
     const first = renderedTerms[index];
     const level = first && first.startExponent;
+    const startIndex = index;
 
     let done = false;
     while (!done && index < len) {
@@ -305,20 +312,21 @@ function extractExponent(renderedTerms, index = 0) {
 
         if (term.startExponent && term.startExponent !== level) {
             const nest = extractExponent(renderedTerms, index);
-            exponentTerms.push({
+            extract.push({
                 type: types.exponent,
-                value: nest
+                value: nest.extract
             });
             index += nest.length;
         } else {
-            exponentTerms.push(term);
+            extract.push(term);
             index++;
         }
 
-        done = term.endExponent === level;
+        done = term.endExponent.includes(level);
     }
 
-    return exponentTerms;
+    const length = index - startIndex;
+    return { extract, length };
 }
 
 /**
@@ -343,7 +351,7 @@ function exponentOnTheLeft(renderedTerms, index) {
 
     // only take care of actual operand value or sub expression (starting from the right)
     if (term && (tokensHelper.isOperand(term.type) || term.token === 'RPAR')) {
-        term.endExponent = identifier;
+        term.endExponent.push(identifier);
 
         if (term.token === 'RPAR') {
             // closing parenthesis, we need to find the opening parenthesis
@@ -470,7 +478,7 @@ function exponentOnTheRight(renderedTerms, index) {
             }
         } while (shouldContinue);
 
-        term.endExponent = identifier;
+        term.endExponent.push(identifier);
 
         // elide the operator if operands are complete
         if (

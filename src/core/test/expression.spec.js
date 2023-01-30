@@ -329,13 +329,16 @@ describe('expression', () => {
                 expect(expressionHelper.nestExponents).toEqual(expect.any(Function));
             });
 
-            it.each([['3*(4-5)'], ['2^3+5'], ['(3*4^(8-2)) @nthrt 4 + exp(2^(3+5)+4) + PI']])(
-                'render nested exponents from %s',
-                expression => {
-                    const renderedTerms = expressionHelper.render(expression);
-                    expect(expressionHelper.nestExponents(renderedTerms)).toMatchSnapshot();
-                }
-            );
+            it.each([
+                ['3*(4-5)'],
+                ['2^3+5'],
+                ['4-2^3^5^7+3'],
+                ['4-7 @nthrt 5 @nthrt 3 @nthrt 2+3'],
+                ['(3*4^(8-2)) @nthrt 4 + exp(2^(3+5)+4) + PI']
+            ])('render nested exponents from %s', expression => {
+                const renderedTerms = expressionHelper.render(expression);
+                expect(expressionHelper.nestExponents(renderedTerms)).toMatchSnapshot();
+            });
         });
     });
 });
