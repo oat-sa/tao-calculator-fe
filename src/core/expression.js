@@ -30,8 +30,8 @@ import tokenizerFactory from './tokenizer';
  */
 
 /**
- * @typedef {object} extractTerms - Represents an extraction of terms
- * @property {renderTerm[]} extract - The list of extracted terms
+ * @typedef {object} exponentTerms - Represents an extraction of terms for composing an exponent
+ * @property {renderTerm[]} exponent - The list of extracted terms
  * @property {number} length - The actual number of extracted terms, including the nested ones
  */
 
@@ -277,11 +277,8 @@ const expressionHelper = {
             let term = renderedTerms[index];
 
             if (term.startExponent) {
-                const { extract, length } = extractExponent(renderedTerms, index);
-                term = {
-                    type: types.exponent,
-                    value: extract
-                };
+                const { exponent, length } = extractExponent(renderedTerms, index);
+                term = exponent;
                 index += length;
             } else {
                 index++;
@@ -301,7 +298,7 @@ const expressionHelper = {
  * Remove the terms that can be elided, like the exponent operator.
  * @param {renderTerm[]} renderedTerms - The flat list of rendered terms.
  * @param {number} index
- * @returns {extractTerms} - Returns the terms representing the exponent.
+ * @returns {exponentTerms} - Returns the terms representing the exponent.
  */
 function extractExponent(renderedTerms, index = 0) {
     const extract = [];
@@ -313,15 +310,11 @@ function extractExponent(renderedTerms, index = 0) {
     let done = false;
     while (!done && index < len) {
         let term = renderedTerms[index];
-        done = term.endExponent.includes(level);
 
         if (term.startExponent && term.startExponent !== level) {
-            const nest = extractExponent(renderedTerms, index);
-            term = {
-                type: types.exponent,
-                value: nest.extract
-            };
-            index += nest.length;
+            const { exponent, length } = extractExponent(renderedTerms, index);
+            term = exponent;
+            index += length;
         } else {
             index++;
         }
@@ -329,10 +322,19 @@ function extractExponent(renderedTerms, index = 0) {
         if (!term.elide) {
             extract.push(term);
         }
+
+        done = term.endExponent.includes(level);
     }
 
     const length = index - startIndex;
-    return { extract, length };
+    const last = extract[extract.length - 1];
+    const exponent = {
+        type: types.exponent,
+        value: extract,
+        startExponent: level,
+        endExponent: last.endExponent
+    };
+    return { exponent, length };
 }
 
 /**

@@ -3,6 +3,10 @@
 exports[`expression replaceLastResult nestExponents render nested exponents from (3*4^(8-2)) @nthrt 4 + exp(2^(3+5)+4) + PI 1`] = `
 [
   {
+    "endExponent": [
+      "left-11",
+    ],
+    "startExponent": "left-11",
     "type": "exponent",
     "value": [
       {
@@ -50,6 +54,10 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "4",
       },
       {
+        "endExponent": [
+          "right-4",
+        ],
+        "startExponent": "right-4",
         "type": "exponent",
         "value": [
           {
@@ -171,6 +179,10 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": "exp",
   },
   {
+    "endExponent": [
+      "right-14",
+    ],
+    "startExponent": "right-14",
     "type": "exponent",
     "value": [
       {
@@ -196,6 +208,10 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "2",
       },
       {
+        "endExponent": [
+          "right-17",
+        ],
+        "startExponent": "right-17",
         "type": "exponent",
         "value": [
           {
@@ -333,6 +349,10 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": "2",
   },
   {
+    "endExponent": [
+      "right-1",
+    ],
+    "startExponent": "right-1",
     "type": "exponent",
     "value": [
       {
@@ -493,6 +513,12 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": "2",
   },
   {
+    "endExponent": [
+      "right-3",
+      "right-5",
+      "right-7",
+    ],
+    "startExponent": "right-3",
     "type": "exponent",
     "value": [
       {
@@ -507,6 +533,12 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "3",
       },
       {
+        "endExponent": [
+          "right-3",
+          "right-5",
+          "right-7",
+        ],
+        "startExponent": "right-5",
         "type": "exponent",
         "value": [
           {
@@ -521,6 +553,12 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
             "value": "5",
           },
           {
+            "endExponent": [
+              "right-3",
+              "right-5",
+              "right-7",
+            ],
+            "startExponent": "right-7",
             "type": "exponent",
             "value": [
               {
@@ -542,29 +580,29 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           },
         ],
       },
-      {
-        "elide": false,
-        "endExponent": [],
-        "exponent": false,
-        "label": "﹢",
-        "prefixed": false,
-        "startExponent": null,
-        "token": "POS",
-        "type": "operator",
-        "value": "+",
-      },
-      {
-        "elide": false,
-        "endExponent": [],
-        "exponent": false,
-        "label": "3",
-        "prefixed": false,
-        "startExponent": null,
-        "token": "NUM3",
-        "type": "digit",
-        "value": "3",
-      },
     ],
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "﹢",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "POS",
+    "type": "operator",
+    "value": "+",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "3",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM3",
+    "type": "digit",
+    "value": "3",
   },
 ]
 `;
@@ -594,6 +632,10 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": "-",
   },
   {
+    "endExponent": [
+      "left-3",
+    ],
+    "startExponent": "left-3",
     "type": "exponent",
     "value": [
       {
@@ -623,6 +665,10 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": "nthrt",
   },
   {
+    "endExponent": [
+      "left-5",
+    ],
+    "startExponent": "left-5",
     "type": "exponent",
     "value": [
       {
@@ -652,6 +698,10 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "value": "nthrt",
   },
   {
+    "endExponent": [
+      "left-7",
+    ],
+    "startExponent": "left-7",
     "type": "exponent",
     "value": [
       {
