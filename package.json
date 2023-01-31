@@ -1,6 +1,7 @@
 {
     "name": "@oat-sa/tao-calculator",
     "version": "0.1.0",
+    "displayName": "TAO Calculator's engine",
     "description": "A calculator's engine for TAO",
     "main": "dist/index.js",
     "files": [
@@ -8,6 +9,9 @@
         "src",
         "!**/test/"
     ],
+    "publishConfig": {
+        "access": "public"
+    },
     "type": "module",
     "scripts": {
         "build": "rollup --config ./rollup.config.js",
