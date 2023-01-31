@@ -1,6 +1,6 @@
 {
     "name": "tao-calculator",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "description": "A calculator's engine for TAO",
     "main": "dist/index.js",
     "files": [
