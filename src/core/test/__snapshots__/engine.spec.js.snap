@@ -1,0 +1,577 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`engine evaluates the expression emits an evaluate event 1`] = `
+{
+  "expression": ".1 + .2",
+  "result": "0.3",
+  "value": 0.3,
+  "variables": 0,
+}
+`;
+
+exports[`engine evaluates the expression from a simple expression 1`] = `
+{
+  "expression": ".1 + .2",
+  "result": "0.3",
+  "value": 0.3,
+  "variables": 0,
+}
+`;
+
+exports[`engine evaluates the expression from an empty expression 1`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine evaluates the expression using the last result 1`] = `null`;
+
+exports[`engine manages the commands gets commands 1`] = `
+{
+  "bar": [Function],
+  "clear": [Function],
+  "clearAll": [Function],
+  "execute": [Function],
+  "foo": [Function],
+  "term": [Function],
+  "var": [Function],
+}
+`;
+
+exports[`engine manages the commands sets commands from a list 1`] = `
+{
+  "bar": [Function],
+  "clear": [Function],
+  "clearAll": [Function],
+  "execute": [Function],
+  "foo": [Function],
+  "term": [Function],
+  "var": [Function],
+}
+`;
+
+exports[`engine manages the last result gracefully ignore error in the last result 1`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the last result gracefully ignore error in the last result 2`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the last result gracefully ignore error in the last result 3`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the last result set the last result 1`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the last result set the last result 2`] = `
+{
+  "expression": 42,
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the tokens gets a token at the current position 1`] = `
+{
+  "col": 1,
+  "line": 1,
+  "lineBreaks": 0,
+  "offset": 1,
+  "text": "1",
+  "toString": [Function],
+  "type": "NUM1",
+  "value": "1",
+}
+`;
+
+exports[`engine manages the tokens gets a token at the current position 2`] = `
+{
+  "col": 7,
+  "line": 1,
+  "lineBreaks": 0,
+  "offset": 6,
+  "text": ")",
+  "toString": [Function],
+  "type": "RPAR",
+  "value": ")",
+}
+`;
+
+exports[`engine manages the tokens reads all the tokens 1`] = `
+[
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 0,
+    "text": "(",
+    "toString": [Function],
+    "type": "LPAR",
+    "value": "(",
+  },
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 1,
+    "text": "1",
+    "toString": [Function],
+    "type": "NUM1",
+    "value": "1",
+  },
+  {
+    "col": 4,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 3,
+    "text": "+",
+    "toString": [Function],
+    "type": "ADD",
+    "value": "+",
+  },
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 5,
+    "text": "2",
+    "toString": [Function],
+    "type": "NUM2",
+    "value": "2",
+  },
+  {
+    "col": 7,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 6,
+    "text": ")",
+    "toString": [Function],
+    "type": "RPAR",
+    "value": ")",
+  },
+  {
+    "col": 9,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 8,
+    "text": "*",
+    "toString": [Function],
+    "type": "MUL",
+    "value": "*",
+  },
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 10,
+    "text": "3",
+    "toString": [Function],
+    "type": "NUM3",
+    "value": "3",
+  },
+]
+`;
+
+exports[`engine manages the tokens tokenizes new expression 1`] = `
+[
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 0,
+    "text": "(",
+    "toString": [Function],
+    "type": "LPAR",
+    "value": "(",
+  },
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 1,
+    "text": "1",
+    "toString": [Function],
+    "type": "NUM1",
+    "value": "1",
+  },
+  {
+    "col": 4,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 3,
+    "text": "+",
+    "toString": [Function],
+    "type": "ADD",
+    "value": "+",
+  },
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 5,
+    "text": "2",
+    "toString": [Function],
+    "type": "NUM2",
+    "value": "2",
+  },
+  {
+    "col": 7,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 6,
+    "text": ")",
+    "toString": [Function],
+    "type": "RPAR",
+    "value": ")",
+  },
+  {
+    "col": 9,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 8,
+    "text": "*",
+    "toString": [Function],
+    "type": "MUL",
+    "value": "*",
+  },
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 10,
+    "text": "3",
+    "toString": [Function],
+    "type": "NUM3",
+    "value": "3",
+  },
+]
+`;
+
+exports[`engine manages the tokens tokenizes new expression 2`] = `
+[
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 0,
+    "text": "4",
+    "toString": [Function],
+    "type": "NUM4",
+    "value": "4",
+  },
+  {
+    "col": 3,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 2,
+    "text": "*",
+    "toString": [Function],
+    "type": "MUL",
+    "value": "*",
+  },
+  {
+    "col": 1,
+    "line": 1,
+    "lineBreaks": 0,
+    "offset": 4,
+    "text": "5",
+    "toString": [Function],
+    "type": "NUM5",
+    "value": "5",
+  },
+]
+`;
+
+exports[`engine manages the variables detects error in variable expression 1`] = `
+{
+  "expression": "3*4+",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the variables gets variables 1`] = `
+{
+  "expression": 42,
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the variables gets variables 2`] = `
+{
+  "expression": "4*3",
+  "result": "12",
+  "value": 12,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the variables gets variables 3`] = `
+{
+  "ans": {
+    "expression": "0",
+    "result": 0,
+    "value": 0,
+    "variables": undefined,
+  },
+  "expr": {
+    "expression": "4*3",
+    "result": "12",
+    "value": 12,
+    "variables": undefined,
+  },
+  "foo": {
+    "expression": 42,
+    "result": 0,
+    "value": 0,
+    "variables": undefined,
+  },
+}
+`;
+
+exports[`engine manages the variables sets a variable as a value 1`] = `
+{
+  "expression": 42,
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the variables sets a variable as an expression 1`] = `
+{
+  "expression": "3*4",
+  "result": "12",
+  "value": 12,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the variables sets variables from a list 1`] = `
+{
+  "expression": 42,
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the variables sets variables from a list 2`] = `
+{
+  "expression": "4*3",
+  "result": "12",
+  "value": 12,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the variables sets variables from a list 3`] = `
+{
+  "ans": {
+    "expression": "0",
+    "result": 0,
+    "value": 0,
+    "variables": undefined,
+  },
+  "expr": {
+    "expression": "4*3",
+    "result": "12",
+    "value": 12,
+    "variables": undefined,
+  },
+  "foo": {
+    "expression": 42,
+    "result": 0,
+    "value": 0,
+    "variables": undefined,
+  },
+}
+`;
+
+exports[`engine renders the expression emits a render event 1`] = `
+[
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": ".",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "DOT",
+    "type": "digit",
+    "value": ".",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "1",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM1",
+    "type": "digit",
+    "value": "1",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "＋",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "ADD",
+    "type": "operator",
+    "value": "+",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": ".",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "DOT",
+    "type": "digit",
+    "value": ".",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "2",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM2",
+    "type": "digit",
+    "value": "2",
+  },
+]
+`;
+
+exports[`engine renders the expression from a simple expression 1`] = `
+[
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": ".",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "DOT",
+    "type": "digit",
+    "value": ".",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "1",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM1",
+    "type": "digit",
+    "value": "1",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "＋",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "ADD",
+    "type": "operator",
+    "value": "+",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": ".",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "DOT",
+    "type": "digit",
+    "value": ".",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "2",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM2",
+    "type": "digit",
+    "value": "2",
+  },
+]
+`;
+
+exports[`engine renders the expression using the last result 1`] = `
+[
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "Ans",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "ANS",
+    "type": "variable",
+    "value": "ans",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "÷",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "DIV",
+    "type": "operator",
+    "value": "/",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "2",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM2",
+    "type": "digit",
+    "value": "2",
+  },
+]
+`;
