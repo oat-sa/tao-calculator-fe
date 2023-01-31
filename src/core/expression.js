@@ -61,13 +61,24 @@ const reAnsVar = new RegExp(`\\b${lastResultVariableName}\\b`, 'g');
 
 /**
  * List of tokens representing sign or sum
- * @type {String[]}
+ * @type {string[]}
  */
 const signOperators = ['NEG', 'POS', 'SUB', 'ADD'];
 
 /**
+ * Substitution mapping for the sign operators
+ * @type {object}
+ */
+const signSubstitution = {
+    ADD: 'POS',
+    SUB: 'NEG',
+    NEG: 'SUB',
+    POS: 'ADD'
+};
+
+/**
  * List of tokens representing sub exponent parts to continue
- * @type {String[]}
+ * @type {string[]}
  */
 const continueExponent = ['POW', 'NTHRT'];
 
@@ -170,21 +181,24 @@ const expressionHelper = {
         let previous;
 
         /**
-         * Transform an operator to a sign
-         * @param {renderTerm} term
-         * @param {string} token
+         * Checks if the current context allows a sign operator.
+         * @returns {boolean}
          */
-        function toSignOperator(term, token) {
-            if (
-                !previous ||
-                tokensHelper.isModifier(previous.type) ||
-                previous.token === 'LPAR' ||
-                previous.token === 'EXP10'
-            ) {
-                term.label = terms[token].label;
-                term.token = token;
-            }
-        }
+        const acceptSign = () =>
+            !previous ||
+            tokensHelper.isModifier(previous.type) ||
+            previous.token === 'LPAR' ||
+            previous.token === 'EXP10';
+
+        /**
+         * Changes the sign operator to a sum operator and vice-versa
+         * @param {renderTerm} term
+         */
+        const substituteSign = term => {
+            const token = signSubstitution[term.token];
+            term.label = terms[token].label;
+            term.token = token;
+        };
 
         // the expression might be already tokenized, if not we need to tokenize it
         if (!Array.isArray(tokens)) {
@@ -232,10 +246,10 @@ const expressionHelper = {
             }
 
             // take care of the value's sign
-            if (term.token === 'SUB') {
-                toSignOperator(term, 'NEG');
-            } else if (term.token === 'ADD') {
-                toSignOperator(term, 'POS');
+            if ((term.token === 'SUB' || term.token === 'ADD') && acceptSign()) {
+                substituteSign(term);
+            } else if ((term.token === 'NEG' || term.token === 'POS') && !acceptSign()) {
+                substituteSign(term);
             }
 
             renderedTerms.push(term);
