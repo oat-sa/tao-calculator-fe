@@ -60,6 +60,18 @@ const reErrorValue = /(NaN|[+-]?Infinity)/;
 const reAnsVar = new RegExp(`\\b${lastResultVariableName}\\b`, 'g');
 
 /**
+ * Regex that matches the subtract operator
+ * @type {RegExp}
+ */
+const reNegative = new RegExp(`[${terms.SUB.label}${terms.SUB.value}]`, 'g');
+
+/**
+ * Regex that matches the addition operator
+ * @type {RegExp}
+ */
+const rePositive = new RegExp(`[${terms.ADD.label}${terms.ADD.value}]`, 'g');
+
+/**
  * List of tokens representing sign or sum
  * @type {string[]}
  */
@@ -163,8 +175,8 @@ const expressionHelper = {
     renderSign(expression) {
         return tokensHelper
             .stringValue(expression)
-            .replace(terms.SUB.value, terms.NEG.label)
-            .replace(terms.ADD.value, terms.POS.label);
+            .replace(reNegative, terms.NEG.label)
+            .replace(rePositive, terms.POS.label);
     },
 
     /**

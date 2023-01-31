@@ -180,9 +180,12 @@ describe('expression', () => {
                 expect(expressionHelper.renderSign()).toStrictEqual('');
                 expect(expressionHelper.renderSign('')).toStrictEqual('');
                 expect(expressionHelper.renderSign('42')).toStrictEqual('42');
-                expect(expressionHelper.renderSign('-42')).toStrictEqual(`\uFE6342`);
-                expect(expressionHelper.renderSign('+42')).toStrictEqual(`\uFE6242`);
-                expect(expressionHelper.renderSign('3-4+2')).toStrictEqual(`3\uFE634\uFE622`);
+                expect(expressionHelper.renderSign('-42')).toStrictEqual(`-42`);
+                expect(expressionHelper.renderSign('+42')).toStrictEqual(`+42`);
+                expect(expressionHelper.renderSign('3-4+2')).toStrictEqual(`3-4+2`);
+                expect(expressionHelper.renderSign('\uFF0D42')).toStrictEqual(`-42`);
+                expect(expressionHelper.renderSign('\uFF0B42')).toStrictEqual(`+42`);
+                expect(expressionHelper.renderSign('3\uFF0D4\uFF0B2')).toStrictEqual(`3-4+2`);
             });
         });
 

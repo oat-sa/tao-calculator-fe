@@ -10,10 +10,10 @@ exports[`symbols defines symbols 1`] = `
   "minus": "－",
   "minusOne": "﹣1",
   "multiply": "×",
-  "negative": "﹣",
+  "negative": "-",
   "pi": "π",
   "plus": "＋",
-  "positive": "﹢",
+  "positive": "+",
   "squareRoot": "√",
 }
 `;
@@ -220,7 +220,7 @@ exports[`terms defines terms 1`] = `
   },
   "NEG": {
     "exponent": false,
-    "label": "﹣",
+    "label": "-",
     "type": "operator",
     "value": "-",
   },
@@ -298,7 +298,7 @@ exports[`terms defines terms 1`] = `
   },
   "POS": {
     "exponent": false,
-    "label": "﹢",
+    "label": "+",
     "type": "operator",
     "value": "+",
   },
