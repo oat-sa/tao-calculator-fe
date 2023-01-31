@@ -1,5 +1,5 @@
 {
-    "name": "tao-calculator",
+    "name": "@oat-sa/tao-calculator",
     "version": "0.1.0",
     "description": "A calculator's engine for TAO",
     "main": "dist/index.js",
