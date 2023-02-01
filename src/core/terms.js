@@ -71,7 +71,7 @@ export const symbols = {
     fourthRoot: '\u221C',
     ellipsis: '\u2026',
     pi: '\u03C0',
-    euler: '\u212E'
+    euler: 'e'
 };
 
 /**
@@ -284,7 +284,7 @@ export const terms = {
         exponent: false
     },
     E: {
-        label: 'e',
+        label: symbols.euler,
         value: 'E',
         type: types.constant,
         exponent: false

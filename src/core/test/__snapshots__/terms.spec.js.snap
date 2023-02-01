@@ -5,7 +5,7 @@ exports[`symbols defines symbols 1`] = `
   "cubeRoot": "∛",
   "divide": "÷",
   "ellipsis": "…",
-  "euler": "℮",
+  "euler": "e",
   "fourthRoot": "∜",
   "minus": "－",
   "minusOne": "﹣1",
