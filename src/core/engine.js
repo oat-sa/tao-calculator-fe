@@ -310,6 +310,19 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         },
 
         /**
+         * Gets the values for the variables defined for the expression.
+         * @returns {object} The list of variable values.
+         */
+        getVariableValues() {
+            const defs = {};
+            variables.forEach(function (value, name) {
+                defs[name] = value.result;
+            });
+
+            return defs;
+        },
+
+        /**
          * Sets a list of variables that can be used by the expression.
          * @param {object} defs - A list variables to set.
          * @returns {calculator}
@@ -658,11 +671,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             let result = null;
             try {
                 if (expression.trim()) {
-                    const vars = Object.entries(this.getVariables()).reduce(
-                        (a, [key, entry]) => (a[key] = entry.result),
-                        {}
-                    );
-
+                    const vars = this.getVariableValues();
                     result = mathsEvaluator(expression, vars);
                 } else {
                     result = mathsEvaluator('0');

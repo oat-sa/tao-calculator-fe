@@ -587,6 +587,9 @@ function mathsEvaluatorFactory(config) {
             variables = variables || expression.variables;
             expression = expression.expression;
         }
+        if ('string' !== typeof expression) {
+            expression = `${expression}`;
+        }
 
         const parsedExpression = parser.parse(expression);
         const result = parsedExpression.evaluate(variables);

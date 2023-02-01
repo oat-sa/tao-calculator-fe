@@ -16,6 +16,7 @@
  * Copyright (c) 2018-2023 (original work) Open Assessment Technologies SA ;
  */
 
+import Decimal from 'decimal.js';
 import mathsEvaluatorFactory from '../mathsEvaluator.js';
 import expressions from './mathsEvaluator.json';
 
@@ -40,7 +41,7 @@ describe('mathsEvaluator', () => {
         expect(output.result).not.toBeUndefined();
     });
 
-    it('accepts expression as object', () => {
+    it('accepts expression as an object', () => {
         const evaluate = mathsEvaluatorFactory();
         const mathsExpression = {
             expression: '3*x + 1',
@@ -51,7 +52,8 @@ describe('mathsEvaluator', () => {
         expect(output1.value).toEqual(7);
         expect(output1.expression).toEqual(mathsExpression.expression);
         expect(output1.variables).toEqual(mathsExpression.variables);
-        expect(output1.result).not.toBeUndefined();
+        expect(output1.result).toBeInstanceOf(Decimal);
+        expect(output1.result.toString()).toEqual('7');
 
         const variables = { x: 3 };
         const output2 = evaluate(mathsExpression, variables);
@@ -59,6 +61,17 @@ describe('mathsEvaluator', () => {
         expect(output2.value).toEqual(10);
         expect(output2.expression).toEqual(mathsExpression.expression);
         expect(output2.variables).toEqual(variables);
-        expect(output2.result).not.toBeUndefined();
+        expect(output2.result).toBeInstanceOf(Decimal);
+        expect(output2.result.toString()).toEqual('10');
+    });
+
+    it('accepts expression as a number', () => {
+        const evaluate = mathsEvaluatorFactory();
+        const output1 = evaluate(42);
+
+        expect(output1.value).toEqual(42);
+        expect(output1.expression).toEqual('42');
+        expect(output1.variables).toBeUndefined();
+        expect(output1.result).toEqual(42);
     });
 });

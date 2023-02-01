@@ -5,7 +5,9 @@ exports[`engine evaluates the expression emits an evaluate event 1`] = `
   "expression": ".1 + .2",
   "result": "0.3",
   "value": 0.3,
-  "variables": 0,
+  "variables": {
+    "ans": 0,
+  },
 }
 `;
 
@@ -14,7 +16,9 @@ exports[`engine evaluates the expression from a simple expression 1`] = `
   "expression": ".1 + .2",
   "result": "0.3",
   "value": 0.3,
-  "variables": 0,
+  "variables": {
+    "ans": 0,
+  },
 }
 `;
 
@@ -27,7 +31,16 @@ exports[`engine evaluates the expression from an empty expression 1`] = `
 }
 `;
 
-exports[`engine evaluates the expression using the last result 1`] = `null`;
+exports[`engine evaluates the expression using the last result 1`] = `
+{
+  "expression": "ans / 2",
+  "result": "21",
+  "value": 21,
+  "variables": {
+    "ans": 42,
+  },
+}
+`;
 
 exports[`engine manages the commands gets commands 1`] = `
 {
@@ -91,9 +104,9 @@ exports[`engine manages the last result set the last result 1`] = `
 
 exports[`engine manages the last result set the last result 2`] = `
 {
-  "expression": 42,
-  "result": 0,
-  "value": 0,
+  "expression": "42",
+  "result": 42,
+  "value": 42,
   "variables": undefined,
 }
 `;
@@ -318,11 +331,19 @@ exports[`engine manages the variables detects error in variable expression 1`] =
 }
 `;
 
+exports[`engine manages the variables gets variable values 1`] = `
+{
+  "ans": 0,
+  "expr": "12",
+  "foo": 42,
+}
+`;
+
 exports[`engine manages the variables gets variables 1`] = `
 {
-  "expression": 42,
-  "result": 0,
-  "value": 0,
+  "expression": "42",
+  "result": 42,
+  "value": 42,
   "variables": undefined,
 }
 `;
@@ -351,9 +372,9 @@ exports[`engine manages the variables gets variables 3`] = `
     "variables": undefined,
   },
   "foo": {
-    "expression": 42,
-    "result": 0,
-    "value": 0,
+    "expression": "42",
+    "result": 42,
+    "value": 42,
     "variables": undefined,
   },
 }
@@ -361,9 +382,9 @@ exports[`engine manages the variables gets variables 3`] = `
 
 exports[`engine manages the variables sets a variable as a value 1`] = `
 {
-  "expression": 42,
-  "result": 0,
-  "value": 0,
+  "expression": "42",
+  "result": 42,
+  "value": 42,
   "variables": undefined,
 }
 `;
@@ -379,9 +400,9 @@ exports[`engine manages the variables sets a variable as an expression 1`] = `
 
 exports[`engine manages the variables sets variables from a list 1`] = `
 {
-  "expression": 42,
-  "result": 0,
-  "value": 0,
+  "expression": "42",
+  "result": 42,
+  "value": 42,
   "variables": undefined,
 }
 `;
@@ -410,9 +431,9 @@ exports[`engine manages the variables sets variables from a list 3`] = `
     "variables": undefined,
   },
   "foo": {
-    "expression": 42,
-    "result": 0,
-    "value": 0,
+    "expression": "42",
+    "result": 42,
+    "value": 42,
     "variables": undefined,
   },
 }

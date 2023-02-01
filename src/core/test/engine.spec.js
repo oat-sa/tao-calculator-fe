@@ -406,6 +406,15 @@ describe('engine', () => {
             expect(calculator.getVariables()).toMatchSnapshot();
         });
 
+        it('gets variable values', () => {
+            const calculator = engineFactory();
+
+            calculator.setVariable('foo', 42);
+            calculator.setVariable('expr', '4*3');
+
+            expect(calculator.getVariableValues()).toMatchSnapshot();
+        });
+
         it('sets variables from a list', () => {
             const calculator = engineFactory();
 
