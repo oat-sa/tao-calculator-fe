@@ -118,11 +118,57 @@ describe('engine', () => {
             expect(calculator.getTokenizer().iterator).toEqual(expect.any(Function));
             expect(calculator.getTokenizer().tokenize).toEqual(expect.any(Function));
         });
+    });
 
-        it('the evaluator', () => {
+    describe('manages the evaluator', () => {
+        it('access the evaluator', () => {
             const calculator = engineFactory();
 
             expect(calculator.getMathsEvaluator()).toEqual(expect.any(Function));
+        });
+
+        it('configure the evaluator', () => {
+            const expression = 'cos PI';
+            const calculator = engineFactory({ expression });
+            const evaluator = calculator.getMathsEvaluator();
+
+            expect(calculator.evaluate().value).toEqual(-1);
+            expect(calculator.configureMathsEvaluator({ degree: true })).toBe(calculator);
+            expect(calculator.getMathsEvaluator()).not.toBe(evaluator);
+            expect(calculator.evaluate().value).toEqual(0.9984971498638638);
+        });
+
+        it('emits an mathsevaluatorconfigure event', () => {
+            const calculator = engineFactory();
+            const config = { degree: true };
+            const action = jest.fn().mockImplementation(conf => {
+                expect(conf).toBe(config);
+            });
+
+            calculator.on('mathsevaluatorconfigure', action);
+            calculator.configureMathsEvaluator(config);
+
+            expect(action).toHaveBeenCalledTimes(1);
+        });
+
+        it('set the degree mode', () => {
+            const expression = 'cos PI';
+            const calculator = engineFactory({ expression });
+
+            expect(calculator.isDegreeMode()).toBeFalsy();
+            expect(calculator.evaluate().value).toEqual(-1);
+
+            expect(calculator.setDegreeMode()).toBe(calculator);
+            expect(calculator.isDegreeMode()).toBeTruthy();
+            expect(calculator.evaluate().value).toEqual(0.9984971498638638);
+
+            expect(calculator.setDegreeMode(false)).toBe(calculator);
+            expect(calculator.isDegreeMode()).toBeFalsy();
+            expect(calculator.evaluate().value).toEqual(-1);
+
+            expect(calculator.setDegreeMode(true)).toBe(calculator);
+            expect(calculator.isDegreeMode()).toBeTruthy();
+            expect(calculator.evaluate().value).toEqual(0.9984971498638638);
         });
     });
 

@@ -38,12 +38,6 @@ const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
  */
 function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
     /**
-     * Maths expression parser.
-     * @type {function}
-     */
-    let mathsEvaluator = mathsEvaluatorFactory(maths);
-
-    /**
      * The list of event listeners
      * @type {Map}
      */
@@ -72,6 +66,12 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
      * @type {Array|null}
      */
     let tokens = null;
+
+    /**
+     * Maths expression parser.
+     * @type {function}
+     */
+    let mathsEvaluator;
 
     /**
      * Engine API
@@ -140,6 +140,37 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             listeners.forEach(listener => listener.apply(this, args));
 
             return this;
+        },
+
+        /**
+         * Sets up the mathsEvaluator.
+         * The supplied configuration will be merged with the maths configuration given at creation time.
+         * @param {object} config - Config for the maths evaluator (@see mathsEvaluator)
+         * @returns {calculator}
+         * @fires mathsevaluatorconfigure
+         */
+        configureMathsEvaluator(config = {}) {
+            mathsEvaluator = mathsEvaluatorFactory(Object.assign(maths, config));
+            this.trigger('mathsevaluatorconfigure', config);
+            return this;
+        },
+
+        /**
+         * Sets the engine to process the angles in degree (`true`) or in radian ('false').
+         * @param {boolean} degree - The state of the degree mode.
+         * @returns {calculator}
+         * @fires mathsevaluatorconfigure
+         */
+        setDegreeMode(degree = true) {
+            return this.configureMathsEvaluator({ degree });
+        },
+
+        /**
+         * Tells if the engine process the angles in degree (`true`) or in radian ('false').
+         * @returns {boolean} - Whether the engine processes the angles in degree (`true`) or in radian ('false').
+         */
+        isDegreeMode() {
+            return !!maths.degree;
         },
 
         /**
@@ -302,10 +333,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          */
         getVariables() {
             const defs = {};
-            variables.forEach(function (value, name) {
-                defs[name] = value;
-            });
-
+            variables.forEach((value, name) => (defs[name] = value));
             return defs;
         },
 
@@ -315,10 +343,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          */
         getVariableValues() {
             const defs = {};
-            variables.forEach(function (value, name) {
-                defs[name] = value.result;
-            });
-
+            variables.forEach((value, name) => (defs[name] = value.result));
             return defs;
         },
 
@@ -703,6 +728,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
     };
 
     calculatorApi
+        .configureMathsEvaluator()
         .setLastResult('0')
         .setPosition(position)
         .setCommand('clear', () => calculatorApi.clear())
@@ -715,6 +741,12 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
 }
 
 export default engineFactory;
+
+/**
+ * Notifies the maths evaluator has been configured.
+ * @event mathsevaluatorconfigure
+ * @param {object} config - Config for the maths evaluator (@see mathsEvaluator)
+ */
 
 /**
  * Notifies the expression has changed.
