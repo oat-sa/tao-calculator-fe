@@ -31,6 +31,17 @@ exports[`engine evaluates the expression from an empty expression 1`] = `
 }
 `;
 
+exports[`engine evaluates the expression set the last result 1`] = `
+{
+  "expression": ".1 + .2",
+  "result": "0.3",
+  "value": 0.3,
+  "variables": {
+    "ans": 0,
+  },
+}
+`;
+
 exports[`engine evaluates the expression using the last result 1`] = `
 {
   "expression": "ans / 2",
@@ -47,8 +58,10 @@ exports[`engine manages the commands gets commands 1`] = `
   "bar": [Function],
   "clear": [Function],
   "clearAll": [Function],
+  "degree": [Function],
   "execute": [Function],
   "foo": [Function],
+  "radian": [Function],
   "term": [Function],
   "var": [Function],
 }
@@ -59,8 +72,10 @@ exports[`engine manages the commands sets commands from a list 1`] = `
   "bar": [Function],
   "clear": [Function],
   "clearAll": [Function],
+  "degree": [Function],
   "execute": [Function],
   "foo": [Function],
+  "radian": [Function],
   "term": [Function],
   "var": [Function],
 }

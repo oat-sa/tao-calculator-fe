@@ -16,6 +16,7 @@
  * Copyright (c) 2018-2023 (original work) Open Assessment Technologies SA ;
  */
 
+import Decimal from 'decimal.js';
 import engineFactory from '../engine.js';
 
 describe('engine', () => {
@@ -458,6 +459,10 @@ describe('engine', () => {
             calculator.setVariable('foo', 42);
             calculator.setVariable('expr', '4*3');
 
+            expect(calculator.getVariableValue('foo')).toStrictEqual(42);
+            expect(calculator.getVariableValue('bar')).toStrictEqual(0);
+            expect(calculator.getVariableValue('expr')).toBeInstanceOf(Decimal);
+            expect(calculator.getVariableValue('expr').toString()).toStrictEqual('12');
             expect(calculator.getVariableValues()).toMatchSnapshot();
         });
 
@@ -914,6 +919,14 @@ describe('engine', () => {
             expect(calculator.evaluate()).toMatchSnapshot();
         });
 
+        it('set the last result', () => {
+            const calculator = engineFactory({ expression: '.1 + .2' });
+
+            calculator.evaluate();
+
+            expect(calculator.getLastResult()).toMatchSnapshot();
+        });
+
         it('using the last result', () => {
             const calculator = engineFactory({ expression: 'ans / 2' });
             calculator.setLastResult('42');
@@ -976,6 +989,178 @@ describe('engine', () => {
             calculator.render();
 
             expect(action).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe('has built-in command', () => {
+        it('clear', () => {
+            const expression = '.1 + .2';
+            const position = 2;
+            const variables = { x: '42' };
+            const calculator = engineFactory({ expression, position });
+            const clearEvent = jest.fn();
+            const clearCommand = jest.fn();
+
+            calculator.setVariables(variables);
+            calculator.on('clear', clearEvent);
+            calculator.on('command-clear', clearCommand);
+
+            expect(calculator.getExpression()).toStrictEqual(expression);
+            expect(calculator.getPosition()).toStrictEqual(position);
+            expect(calculator.getVariableValue('ans')).toStrictEqual(0);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+
+            calculator.useCommand('clear');
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+            expect(calculator.getVariableValue('ans')).toStrictEqual(0);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+            expect(clearEvent).toHaveBeenCalledTimes(1);
+            expect(clearCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('clearAll', () => {
+            const expression = '.1 + .2';
+            const position = 2;
+            const variables = { x: '42' };
+            const calculator = engineFactory({ expression, position });
+            const clearEvent = jest.fn();
+            const clearCommand = jest.fn();
+
+            calculator.setVariables(variables);
+            calculator.on('clear', clearEvent);
+            calculator.on('command-clearAll', clearCommand);
+
+            expect(calculator.getExpression()).toStrictEqual(expression);
+            expect(calculator.getPosition()).toStrictEqual(position);
+            expect(calculator.getVariableValue('ans')).toStrictEqual(0);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+
+            calculator.useCommand('clearAll');
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+            expect(calculator.getVariableValue('ans')).toStrictEqual(0);
+            expect(calculator.hasVariable('x')).toBeFalsy();
+            expect(clearEvent).toHaveBeenCalledTimes(1);
+            expect(clearCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('execute', () => {
+            const expression = '3 * x';
+            const position = 2;
+            const variables = { x: '42' };
+            const calculator = engineFactory({ expression, position });
+            const evaluateEvent = jest.fn().mockImplementation(result => {
+                expect(result).toBe(calculator.getLastResult());
+            });
+            const executeCommand = jest.fn();
+
+            calculator.setVariables(variables);
+            calculator.on('evaluate', evaluateEvent);
+            calculator.on('command-execute', executeCommand);
+            calculator.useCommand('execute');
+
+            expect(calculator.getVariableValue('ans').toString()).toEqual('126');
+            expect(evaluateEvent).toHaveBeenCalledTimes(1);
+            expect(executeCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('var', () => {
+            const calculator = engineFactory();
+            const varEvent = jest.fn().mockImplementation(name => {
+                expect(name).toEqual('VAR_X');
+            });
+            const varCommand = jest.fn();
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+
+            calculator.setVariables({ x: 42 });
+            calculator.on('termadd', varEvent);
+            calculator.on('command-var', varCommand);
+            calculator.useCommand('var', 'x');
+
+            expect(calculator.getExpression()).toStrictEqual('x');
+            expect(calculator.getPosition()).toStrictEqual(1);
+            expect(varEvent).toHaveBeenCalledTimes(1);
+            expect(varCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('term with a single term', () => {
+            const calculator = engineFactory();
+            const termEvent = jest.fn().mockImplementation(name => {
+                expect(name).toEqual('NUM3');
+            });
+            const termCommand = jest.fn();
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+
+            calculator.on('termadd', termEvent);
+            calculator.on('command-term', termCommand);
+            calculator.useCommand('term', 'NUM3');
+
+            expect(calculator.getExpression()).toStrictEqual('3');
+            expect(calculator.getPosition()).toStrictEqual(1);
+            expect(termEvent).toHaveBeenCalledTimes(1);
+            expect(termCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('term with multiple terms', () => {
+            const calculator = engineFactory();
+            const terms = ['NUM3', 'ADD', 'NUM2'];
+            const iterator = terms.values();
+            const termEvent = jest.fn().mockImplementation(name => {
+                const term = iterator.next().value;
+                expect(name).toEqual(term);
+            });
+            const termCommand = jest.fn();
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+
+            calculator.on('termadd', termEvent);
+            calculator.on('command-term', termCommand);
+            calculator.useCommand('term', terms);
+
+            expect(calculator.getExpression()).toStrictEqual('3+2');
+            expect(calculator.getPosition()).toStrictEqual(3);
+            expect(termEvent).toHaveBeenCalledTimes(3);
+            expect(termCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('degree', () => {
+            const calculator = engineFactory();
+            const configEvent = jest.fn();
+            const degreeCommand = jest.fn();
+
+            expect(calculator.isDegreeMode()).toBeFalsy();
+
+            calculator.on('mathsevaluatorconfigure', configEvent);
+            calculator.on('command-degree', degreeCommand);
+            calculator.useCommand('degree');
+
+            expect(calculator.isDegreeMode()).toBeTruthy();
+            expect(configEvent).toHaveBeenCalledTimes(1);
+            expect(degreeCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('radian', () => {
+            const calculator = engineFactory({ maths: { degree: true } });
+            const configEvent = jest.fn();
+            const radianCommand = jest.fn();
+
+            expect(calculator.isDegreeMode()).toBeTruthy();
+
+            calculator.on('mathsevaluatorconfigure', configEvent);
+            calculator.on('command-radian', radianCommand);
+            calculator.useCommand('radian');
+
+            expect(calculator.isDegreeMode()).toBeFalsy();
+            expect(configEvent).toHaveBeenCalledTimes(1);
+            expect(radianCommand).toHaveBeenCalledTimes(1);
         });
     });
 });

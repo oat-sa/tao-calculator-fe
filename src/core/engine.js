@@ -291,9 +291,22 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         },
 
         /**
+         * Gets the value of a variable.
+         * @param {string} name - The variable name
+         * @returns {string|number|Decimal} The computed value, or 0 if the variable does not exist.
+         */
+        getVariableValue(name) {
+            const variable = variables.get(name);
+            if (!variable) {
+                return 0;
+            }
+            return variable.result;
+        },
+
+        /**
          * Sets a variable that can be used by the expression.
          * @param {string} name - The variable name
-         * @param {String|Number|mathsExpression} value - The value. Can be another expression.
+         * @param {string|number|mathsExpression} value - The value. Can be another expression.
          * @returns {calculator}
          * @fires variableadd after the variable has been set
          */
@@ -375,7 +388,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
 
         /**
          * Sets the value of the last result
-         * @param {String|Number|mathsExpression} [result='0']
+         * @param {string|number|mathsExpression} [result='0']
          * @returns {calculator}
          */
         setLastResult(result) {
@@ -702,9 +715,9 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                     result = mathsEvaluator('0');
                 }
 
-                this.trigger('evaluate', result);
-
                 this.setLastResult(result);
+
+                this.trigger('evaluate', result);
             } catch (e) {
                 this.trigger('syntaxerror', e);
             }
@@ -735,7 +748,9 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         .setCommand('clearAll', () => calculatorApi.deleteVariables().clear())
         .setCommand('execute', () => calculatorApi.evaluate())
         .setCommand('var', name => calculatorApi.useVariable(name))
-        .setCommand('term', name => calculatorApi.useTerms(name));
+        .setCommand('term', name => calculatorApi.useTerms(name))
+        .setCommand('degree', () => calculatorApi.setDegreeMode(true))
+        .setCommand('radian', () => calculatorApi.setDegreeMode(false));
 
     return calculatorApi;
 }
