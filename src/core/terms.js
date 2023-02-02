@@ -275,6 +275,12 @@ export const terms = {
         type: types.variable,
         exponent: false
     },
+    MEM: {
+        label: 'Mem',
+        value: 'mem',
+        type: types.variable,
+        exponent: false
+    },
 
     // Constants
     PI: {

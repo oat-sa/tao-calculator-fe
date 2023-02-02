@@ -200,6 +200,12 @@ exports[`terms defines terms 1`] = `
     "type": "aggregator",
     "value": "(",
   },
+  "MEM": {
+    "exponent": false,
+    "label": "Mem",
+    "type": "variable",
+    "value": "mem",
+  },
   "MOD": {
     "exponent": false,
     "label": "modulo",

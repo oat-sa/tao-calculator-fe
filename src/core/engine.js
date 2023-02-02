@@ -29,6 +29,18 @@ import mathsEvaluatorFactory from './mathsEvaluator.js';
 const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
 
 /**
+ * Name of the variable that contains the last result
+ * @type {string}
+ */
+const lastResultVariable = terms.ANS.value;
+
+/**
+ * Name of the variable that contains the memory
+ * @type {string}
+ */
+const memoryVariable = terms.MEM.value;
+
+/**
  * Defines the engine for a calculator
  * @param {object} [config]
  * @param {string} [config.expression=''] - The current expression
@@ -382,6 +394,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             this.trigger('variabledelete', null);
 
             this.setLastResult('0');
+            this.clearMemory();
 
             return this;
         },
@@ -396,7 +409,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                 result = '0';
             }
 
-            this.setVariable(terms.ANS.value, result);
+            this.setVariable(lastResultVariable, result);
 
             return this;
         },
@@ -406,7 +419,35 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {mathsExpression}
          */
         getLastResult() {
-            return this.getVariable(terms.ANS.value);
+            return this.getVariable(lastResultVariable);
+        },
+
+        /**
+         * Sets the value of the last result into the memory
+         * @returns {calculator}
+         */
+        setMemory() {
+            this.setVariable(memoryVariable, this.getLastResult());
+
+            return this;
+        },
+
+        /**
+         * Gets the value of the memory
+         * @returns {mathsExpression}
+         */
+        getMemory() {
+            return this.getVariable(memoryVariable);
+        },
+
+        /**
+         * Clears the value of the memory
+         * @returns {calculator}
+         */
+        clearMemory() {
+            this.setVariable(memoryVariable, 0);
+
+            return this;
         },
 
         /**
@@ -700,6 +741,20 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         },
 
         /**
+         * Resets the calculator
+         * @returns {calculator}
+         * @fires reset after the calculator has been reset
+         */
+        reset() {
+            this.deleteVariables();
+            this.clear();
+
+            this.trigger('reset');
+
+            return this;
+        },
+
+        /**
          * Evaluates the current expression
          * @returns {mathsExpression|null}
          * @fires evaluate when the expression has been evaluated
@@ -743,14 +798,18 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
     calculatorApi
         .configureMathsEvaluator()
         .setLastResult('0')
+        .setMemory()
         .setPosition(position)
         .setCommand('clear', () => calculatorApi.clear())
-        .setCommand('clearAll', () => calculatorApi.deleteVariables().clear())
+        .setCommand('clearAll', () => calculatorApi.reset())
         .setCommand('execute', () => calculatorApi.evaluate())
         .setCommand('var', name => calculatorApi.useVariable(name))
         .setCommand('term', name => calculatorApi.useTerms(name))
         .setCommand('degree', () => calculatorApi.setDegreeMode(true))
-        .setCommand('radian', () => calculatorApi.setDegreeMode(false));
+        .setCommand('radian', () => calculatorApi.setDegreeMode(false))
+        .setCommand('remind', () => calculatorApi.useVariable(memoryVariable))
+        .setCommand('remindStore', () => calculatorApi.setMemory())
+        .setCommand('remindClear', () => calculatorApi.clearMemory());
 
     return calculatorApi;
 }
@@ -849,6 +908,11 @@ export default engineFactory;
 /**
  * Notifies the expression has been cleared.
  * @event clear
+ */
+
+/**
+ * Notifies the calculator has been reset.
+ * @event reset
  */
 
 /**

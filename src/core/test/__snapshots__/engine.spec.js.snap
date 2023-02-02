@@ -7,6 +7,7 @@ exports[`engine evaluates the expression emits an evaluate event 1`] = `
   "value": 0.3,
   "variables": {
     "ans": 0,
+    "mem": 0,
   },
 }
 `;
@@ -18,6 +19,7 @@ exports[`engine evaluates the expression from a simple expression 1`] = `
   "value": 0.3,
   "variables": {
     "ans": 0,
+    "mem": 0,
   },
 }
 `;
@@ -38,6 +40,7 @@ exports[`engine evaluates the expression set the last result 1`] = `
   "value": 0.3,
   "variables": {
     "ans": 0,
+    "mem": 0,
   },
 }
 `;
@@ -49,7 +52,44 @@ exports[`engine evaluates the expression using the last result 1`] = `
   "value": 21,
   "variables": {
     "ans": 42,
+    "mem": 0,
   },
+}
+`;
+
+exports[`engine manages a memory clears the memory 1`] = `
+{
+  "expression": "42",
+  "result": 42,
+  "value": 42,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages a memory clears the memory 2`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages a memory set the memory from last result 1`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages a memory set the memory from last result 2`] = `
+{
+  "expression": "42",
+  "result": 42,
+  "value": 42,
+  "variables": undefined,
 }
 `;
 
@@ -62,6 +102,9 @@ exports[`engine manages the commands gets commands 1`] = `
   "execute": [Function],
   "foo": [Function],
   "radian": [Function],
+  "remind": [Function],
+  "remindClear": [Function],
+  "remindStore": [Function],
   "term": [Function],
   "var": [Function],
 }
@@ -76,6 +119,9 @@ exports[`engine manages the commands sets commands from a list 1`] = `
   "execute": [Function],
   "foo": [Function],
   "radian": [Function],
+  "remind": [Function],
+  "remindClear": [Function],
+  "remindStore": [Function],
   "term": [Function],
   "var": [Function],
 }
@@ -351,6 +397,7 @@ exports[`engine manages the variables gets variable values 1`] = `
   "ans": 0,
   "expr": "12",
   "foo": 42,
+  "mem": 0,
 }
 `;
 
@@ -390,6 +437,12 @@ exports[`engine manages the variables gets variables 3`] = `
     "expression": "42",
     "result": 42,
     "value": 42,
+    "variables": undefined,
+  },
+  "mem": {
+    "expression": "0",
+    "result": 0,
+    "value": 0,
     "variables": undefined,
   },
 }
@@ -449,6 +502,12 @@ exports[`engine manages the variables sets variables from a list 3`] = `
     "expression": "42",
     "result": 42,
     "value": 42,
+    "variables": undefined,
+  },
+  "mem": {
+    "expression": "0",
+    "result": 0,
+    "value": 0,
     "variables": undefined,
   },
 }
