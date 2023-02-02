@@ -406,6 +406,10 @@ function mathsEvaluatorFactory(config) {
             {
                 entry: 'EPSILON',
                 value: EPSILON
+            },
+            {
+                entry: 'TEN',
+                value: 10
             }
         ]
     };

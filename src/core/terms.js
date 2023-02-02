@@ -295,6 +295,12 @@ export const terms = {
         type: types.constant,
         exponent: false
     },
+    TEN: {
+        label: '10',
+        value: 'TEN',
+        type: types.constant,
+        exponent: false
+    },
 
     // Errors
     NAN: {

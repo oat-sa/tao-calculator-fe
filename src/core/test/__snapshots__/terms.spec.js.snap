@@ -368,6 +368,12 @@ exports[`terms defines terms 1`] = `
     "type": "function",
     "value": "tanh",
   },
+  "TEN": {
+    "exponent": false,
+    "label": "10",
+    "type": "constant",
+    "value": "TEN",
+  },
   "TRUNC": {
     "exponent": false,
     "label": "trunc",
