@@ -174,7 +174,7 @@ describe('engine', () => {
     });
 
     describe('manages the expression', () => {
-        it('reads the expression', () => {
+        it('initializes with the expression', () => {
             const calculator = engineFactory({ expression: '1+2' });
 
             expect(calculator.getExpression()).toStrictEqual('1+2');
@@ -281,7 +281,7 @@ describe('engine', () => {
             expect(action).toHaveBeenCalledTimes(1);
         });
 
-        it('reads the position', () => {
+        it('initializes with the position', () => {
             const calculator = engineFactory({ expression: '1+2', position: 1 });
 
             expect(calculator.getExpression()).toStrictEqual('1+2');
@@ -374,6 +374,14 @@ describe('engine', () => {
     });
 
     describe('manages the variables', () => {
+        it('initializes with a list of variables', () => {
+            const calculator = engineFactory({ variables: { ans: -3, mem: 10, foo: 42, expr: '4*3' } });
+
+            expect(calculator.getVariable('foo')).toMatchSnapshot();
+            expect(calculator.getVariable('expr')).toMatchSnapshot();
+            expect(calculator.getVariables()).toMatchSnapshot();
+        });
+
         it('sets a variable as a value', () => {
             const calculator = engineFactory();
 

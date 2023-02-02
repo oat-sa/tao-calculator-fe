@@ -45,10 +45,11 @@ const memoryVariable = terms.MEM.value;
  * @param {object} [config]
  * @param {string} [config.expression=''] - The current expression
  * @param {number} [config.position=0] - The current position in the expression (i.e. the position of the caret)
- * @param {object} [config.maths] - Optional config for the maths evaluator (@see mathsEvaluator)
+ * @param {object} [config.variables] - An optional list of variables
+ * @param {object} [config.maths] - An optional config for the maths evaluator (@see mathsEvaluator)
  * @returns {calculator}
  */
-function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
+function engineFactory({ expression = '', position = 0, variables = {}, maths = {} } = {}) {
     /**
      * The list of event listeners
      * @type {Map}
@@ -59,7 +60,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
      * A list of variables that can be used in the expression
      * @type {Map}
      */
-    const variables = new Map();
+    const registry = new Map();
 
     /**
      * A list of registered commands that can be used inside the calculator
@@ -290,7 +291,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {Boolean}
          */
         hasVariable(name) {
-            return variables.has(name);
+            return registry.has(name);
         },
 
         /**
@@ -299,7 +300,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {mathsExpression} The value. Can be another expression.
          */
         getVariable(name) {
-            return variables.get(name);
+            return registry.get(name);
         },
 
         /**
@@ -308,7 +309,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {string|number|Decimal} The computed value, or 0 if the variable does not exist.
          */
         getVariableValue(name) {
-            const variable = variables.get(name);
+            const variable = registry.get(name);
             if (!variable) {
                 return 0;
             }
@@ -331,7 +332,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                 value.expression = expr;
             }
 
-            variables.set(name, value);
+            registry.set(name, value);
 
             this.trigger('variableadd', name, value);
 
@@ -345,7 +346,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @fires variabledelete after the variable has been deleted
          */
         deleteVariable(name) {
-            variables.delete(name);
+            registry.delete(name);
 
             this.trigger('variabledelete', name);
 
@@ -358,7 +359,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          */
         getVariables() {
             const defs = {};
-            variables.forEach((value, name) => (defs[name] = value));
+            registry.forEach((value, name) => (defs[name] = value));
             return defs;
         },
 
@@ -368,7 +369,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          */
         getVariableValues() {
             const defs = {};
-            variables.forEach((value, name) => (defs[name] = value.result));
+            registry.forEach((value, name) => (defs[name] = value.result));
             return defs;
         },
 
@@ -389,7 +390,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @fires variabledelete after the variables has been deleted
          */
         deleteVariables() {
-            variables.clear();
+            registry.clear();
 
             this.trigger('variabledelete', null);
 
@@ -648,7 +649,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @fires termadd when the term has been added
          */
         useVariable(name) {
-            if (!variables.has(name)) {
+            if (!registry.has(name)) {
                 return this.trigger('termerror', new TypeError(`Invalid variable: ${name}`));
             }
 
@@ -800,6 +801,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         .setLastResult('0')
         .setMemory()
         .setPosition(position)
+        .setVariables(variables)
         .setCommand('clear', () => calculatorApi.clear())
         .setCommand('clearAll', () => calculatorApi.reset())
         .setCommand('execute', () => calculatorApi.evaluate())
