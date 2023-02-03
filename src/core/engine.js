@@ -22,6 +22,7 @@ import expressionHelper from './expression.js';
 import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import { applyValueStrategies, prefixStrategies, suffixStrategies } from './strategies/value.js';
+import { applyTokenStrategies, signStrategies } from './strategies/token.js';
 
 /**
  * Regex that matches the prefixed function operators
@@ -50,7 +51,7 @@ const memoryVariable = terms.MEM.value;
  * @param {object} [config.maths] - An optional config for the maths evaluator (@see mathsEvaluator)
  * @returns {calculator}
  */
-function engineFactory({ expression = '', position = 0, variables = {}, maths = {} } = {}) {
+function engineFactory({ expression = '', position = null, variables = {}, maths = {} } = {}) {
     /**
      * The list of event listeners
      * @type {Map}
@@ -412,6 +413,29 @@ function engineFactory({ expression = '', position = 0, variables = {}, maths = 
                 this.setPosition(position + from - to);
             } else if (position > from) {
                 this.setPosition(from);
+            }
+
+            return this;
+        },
+
+        /**
+         * Changes the sign for the current token.
+         * @returns {calculator}
+         * @fires expressionchange after the expression has been updated.
+         * @fires positionchange if the position has been changed.
+         */
+        changeSign() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+
+            if (expression.trim() !== '0') {
+                const result = applyTokenStrategies(index, tokensList, signStrategies);
+                if (result) {
+                    const { value, offset, length, move } = result;
+                    expression = expression.substring(0, offset) + value + expression.substring(offset + length);
+
+                    this.replace(expression, this.getPosition() + move);
+                }
             }
 
             return this;
@@ -930,6 +954,10 @@ function engineFactory({ expression = '', position = 0, variables = {}, maths = 
         }
     };
 
+    if (position === null) {
+        position = expression.length;
+    }
+
     calculatorApi
         .configureMathsEvaluator()
         .setLastResult('0')
@@ -941,6 +969,7 @@ function engineFactory({ expression = '', position = 0, variables = {}, maths = 
         .setCommand('execute', () => calculatorApi.evaluate())
         .setCommand('var', name => calculatorApi.useVariable(name))
         .setCommand('term', name => calculatorApi.useTerms(name))
+        .setCommand('sign', () => calculatorApi.changeSign())
         .setCommand('degree', () => calculatorApi.setDegreeMode(true))
         .setCommand('radian', () => calculatorApi.setDegreeMode(false))
         .setCommand('remind', () => calculatorApi.useVariable(memoryVariable))

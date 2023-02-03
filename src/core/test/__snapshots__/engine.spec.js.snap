@@ -109,6 +109,7 @@ exports[`engine manages the commands gets commands 1`] = `
   "remind": [Function],
   "remindClear": [Function],
   "remindStore": [Function],
+  "sign": [Function],
   "term": [Function],
   "var": [Function],
 }
@@ -130,6 +131,7 @@ exports[`engine manages the commands sets commands from a list 1`] = `
   "remind": [Function],
   "remindClear": [Function],
   "remindStore": [Function],
+  "sign": [Function],
   "term": [Function],
   "var": [Function],
 }

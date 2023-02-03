@@ -178,6 +178,7 @@ describe('engine', () => {
             const calculator = engineFactory({ expression: '1+2' });
 
             expect(calculator.getExpression()).toStrictEqual('1+2');
+            expect(calculator.getPosition()).toStrictEqual(3);
         });
 
         it('sets the expression', () => {
@@ -229,7 +230,7 @@ describe('engine', () => {
             const calculator = engineFactory({ expression: '1+2' });
 
             expect(calculator.getExpression()).toStrictEqual('1+2');
-            expect(calculator.getPosition()).toStrictEqual(0);
+            expect(calculator.getPosition()).toStrictEqual(3);
             expect(calculator.replace('3*4', 2)).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual('3*4');
             expect(calculator.getPosition()).toStrictEqual(2);
@@ -999,6 +1000,29 @@ describe('engine', () => {
             expect(calculator.getExpression()).toStrictEqual(expected);
         });
 
+        it.each([
+            ['', 0, ''],
+            ['1', 0, '-1'],
+            ['1', 1, '-1'],
+            ['-1', 0, '1'],
+            ['-1', 1, '1'],
+            ['-1', 2, '1'],
+            ['3*2', 3, '3*-2'],
+            ['3*-2', 4, '3*2'],
+            ['3*(5-2)', 5, '3*(5+2)'],
+            ['3*(5-2)', 6, '3*-(5-2)'],
+            ['3*(5-2)', 7, '3*-(5-2)'],
+            ['cos', 0, '-cos'],
+            ['cos 2', 0, '-cos 2'],
+            ['cos 2', 5, 'cos -2'],
+            ['PI', 0, '-PI']
+        ])('change the sign in %s at %s', (expression, position, expected) => {
+            const calculator = engineFactory({ expression, position });
+
+            expect(calculator.changeSign()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual(expected);
+        });
+
         it('emits a termadd event', () => {
             const calculator = engineFactory();
             const term = {
@@ -1334,6 +1358,21 @@ describe('engine', () => {
             expect(calculator.getPosition()).toStrictEqual(3);
             expect(termEvent).toHaveBeenCalledTimes(3);
             expect(termCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('sign', () => {
+            const calculator = engineFactory({ expression: '3*2' });
+            const signEvent = jest.fn();
+            const signCommand = jest.fn();
+
+            calculator.on('expressionchange', signEvent);
+            calculator.on('command-sign', signCommand);
+            calculator.useCommand('sign');
+
+            expect(calculator.getExpression()).toStrictEqual('3*-2');
+            expect(calculator.getPosition()).toStrictEqual(4);
+            expect(signEvent).toHaveBeenCalledTimes(1);
+            expect(signCommand).toHaveBeenCalledTimes(1);
         });
 
         it('degree', () => {
