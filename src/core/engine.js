@@ -41,6 +41,159 @@ const lastResultVariable = terms.ANS.value;
 const memoryVariable = terms.MEM.value;
 
 /**
+ * Adds a multiply operator before the value.
+ * @param {string} value - The value to modify.
+ * @returns {string} - The modified value.
+ */
+const multiplyBefore = value => `*${value}`;
+
+/**
+ * Adds a multiply operator after the value.
+ * @param {string} value - The value to modify.
+ * @returns {string} - The modified value.
+ */
+const multiplyAfter = value => `${value}*`;
+
+/**
+ * Adds a space before the value.
+ * @param {string} value - The value to modify.
+ * @returns {string} - The modified value.
+ */
+const spaceBefore = value => ` ${value}`;
+
+/**
+ * Adds a space after the value.
+ * @param {string} value - The value to modify.
+ * @returns {string} - The modified value.
+ */
+const spaceAfter = value => `${value} `;
+
+/**
+ * List of strategies to apply for glueing tokens together with a prefix.
+ * @type {valueStrategy[]}
+ */
+const prefixStrategies = [
+    {
+        // adding an opening parenthesis after a value or a closing parenthesis
+        predicate(previous, next) {
+            const previousTerm = terms[previous];
+            return next === 'LPAR' && (previous === 'RPAR' || tokensHelper.isValue(previousTerm));
+        },
+        action: multiplyBefore
+    },
+    {
+        // adding an identifier or a value after a closing parenthesis
+        predicate(previous, next) {
+            const nextTerm = terms[next];
+            return previous === 'RPAR' && (tokensHelper.isValue(nextTerm) || tokensHelper.isFunction(nextTerm));
+        },
+        action: multiplyBefore
+    },
+    {
+        // adding an identifier after a value
+        predicate(previous, next) {
+            const previousTerm = terms[previous];
+            const nextTerm = terms[next];
+            return tokensHelper.isValue(previousTerm) && tokensHelper.isIdentifier(nextTerm);
+        },
+        action: multiplyBefore
+    },
+    {
+        // adding a digit after an identifier that is not a function
+        predicate(previous, next) {
+            const previousTerm = terms[previous];
+            const nextTerm = terms[next];
+            return (
+                tokensHelper.isIdentifier(previousTerm) &&
+                !tokensHelper.isFunction(previousTerm) &&
+                tokensHelper.isDigit(nextTerm)
+            );
+        },
+        action: multiplyBefore
+    },
+    {
+        // adding an identifier or a value after a function
+        predicate(previous, next) {
+            const previousTerm = terms[previous];
+            const nextTerm = terms[next];
+            return (
+                tokensHelper.isFunction(previousTerm) &&
+                (tokensHelper.isIdentifier(nextTerm) || !tokensHelper.isSeparator(nextTerm))
+            );
+        },
+        action: spaceBefore
+    }
+];
+
+/**
+ * List of strategies to apply for glueing tokens together with a suffix.
+ * @type {valueStrategy[]}
+ */
+const suffixStrategies = [
+    {
+        // adding a closing parenthesis before a value, a function, or an opening parenthesis
+        predicate(previous, next) {
+            const nextTerm = terms[next];
+            return (
+                previous === 'RPAR' &&
+                (next === 'LPAR' || tokensHelper.isValue(nextTerm) || tokensHelper.isFunction(nextTerm))
+            );
+        },
+        action: multiplyAfter
+    },
+    {
+        // adding an identifier that is not a function before a value
+        predicate(previous, next) {
+            const previousTerm = terms[previous];
+            const nextTerm = terms[next];
+            return (
+                tokensHelper.isIdentifier(previousTerm) &&
+                !tokensHelper.isFunction(previousTerm) &&
+                !tokensHelper.isSeparator(nextTerm)
+            );
+        },
+        action: multiplyAfter
+    },
+    {
+        // adding a digit before an identifier
+        predicate(previous, next) {
+            const previousTerm = terms[previous];
+            const nextTerm = terms[next];
+            return tokensHelper.isDigit(previousTerm) && tokensHelper.isIdentifier(nextTerm);
+        },
+        action: multiplyAfter
+    },
+    {
+        // adding a function before a value
+        predicate(previous, next) {
+            const previousTerm = terms[previous];
+            const nextTerm = terms[next];
+            return tokensHelper.isFunction(previousTerm) && !tokensHelper.isSeparator(nextTerm);
+        },
+        action: spaceAfter
+    }
+];
+
+/**
+ * Apply a list of strategies to a value with respect to the previous and next tokens.
+ * @param {string} value - The value to modify if a strategy matches.
+ * @param {token} previous - The previous token.
+ * @param {token} next - The next token.
+ * @param {valueStrategy[]} strategies - The list of strategies to apply.
+ * @returns {string} - Returns the value modified if one of the strategies matched.
+ */
+function applyStrategies(value, previous, next, strategies) {
+    strategies.every(strategy => {
+        if (strategy.predicate(previous, next)) {
+            value = strategy.action(value);
+            return false;
+        }
+        return true;
+    });
+    return value;
+}
+
+/**
  * Defines the engine for a calculator
  * @param {object} [config]
  * @param {string} [config.expression=''] - The current expression
@@ -565,27 +718,29 @@ function engineFactory({ expression = '', position = 0, variables = {}, maths = 
                 let value = term.value;
                 let at = position;
 
+                // we need a position at token boundaries, either on the start or on the end
                 if (currentToken && at > currentToken.offset) {
                     at = currentToken.offset + currentToken.text.length;
                     previousToken = currentToken;
                     nextToken = tokensList[index + 1];
                 }
 
-                // simply add the term, with potentially spaces around
-                if (expression && !tokensHelper.isSeparator(term.type)) {
-                    const isIdentifier = tokensHelper.isIdentifier(term.type);
-                    const tokenNeedsSpace = token =>
-                        tokensHelper.isIdentifier(token) || (isIdentifier && token && !tokensHelper.isSeparator(token));
-
-                    // prepend space when either the term to add or the previous term is an identifier
-                    if (tokenNeedsSpace(previousToken) && expression.charAt(at - 1) !== ' ') {
-                        value = ` ${value}`;
+                // append the appropriate separator to the term to add
+                if (expression) {
+                    if (previousToken) {
+                        value = applyStrategies(value, previousToken.type, name, prefixStrategies);
                     }
-
-                    // append space when either the term to add or the next term is an identifier
-                    if (tokenNeedsSpace(nextToken) && expression.charAt(at) !== ' ') {
-                        value += ' ';
+                    if (nextToken) {
+                        value = applyStrategies(value, name, nextToken.type, suffixStrategies);
                     }
+                }
+
+                // trim extraneous spaces
+                if (value.startsWith(' ') && expression.charAt(at - 1) === ' ') {
+                    value = value.trimStart();
+                }
+                if (value.endsWith(' ') && expression.charAt(at) === ' ') {
+                    value = value.trimEnd();
                 }
 
                 this.insert(value, at);
@@ -817,6 +972,25 @@ function engineFactory({ expression = '', position = 0, variables = {}, maths = 
 }
 
 export default engineFactory;
+
+/**
+ * @callback tokenPredicate
+ * @param {string} previous - The previous token.
+ * @param {string} next - The next token.
+ * @returns {boolean} - Returns `true` if both the given tokens match the predicate; returns `false` otherwise.
+ */
+
+/**
+ * @callback valueModifier
+ * @param {string} value - The value to modify.
+ * @returns {string} - Returns the modified value.
+ */
+
+/**
+ * @typedef {object} valueStrategy
+ * @property {tokenPredicate} predicate
+ * @property {valueModifier} action
+ */
 
 /**
  * Notifies the maths evaluator has been configured.
