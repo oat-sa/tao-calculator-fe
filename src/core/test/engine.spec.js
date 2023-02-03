@@ -314,6 +314,74 @@ describe('engine', () => {
 
             expect(action).toHaveBeenCalledTimes(1);
         });
+
+        it.each([
+            ['', 0, 0],
+            ['(5-2)*4/5', 0, 0],
+            ['(5-2)*4/5', 5, 4],
+            ['(5-2)*4/5', 9, 8],
+            ['3*cos PI-2', 5, 2],
+            ['3*cos PI-2', 3, 2],
+            ['3*cos PI-2', 2, 1],
+            ['cos PI-2', 1, 0],
+            [' cos PI-2', 1, 0]
+        ])('moves to the left in %s fom position %s', (expression, position, expected) => {
+            const calculator = engineFactory({ expression, position });
+            expect(calculator.moveLeft()).toBe(calculator);
+            expect(calculator.getPosition()).toEqual(expected);
+        });
+
+        it.each([
+            ['', 0, 0],
+            ['(5-2)*4/5', 0, 1],
+            ['(5-2)*4/5', 5, 6],
+            ['(5-2)*4/5', 8, 9],
+            ['(5-2)*4/5', 9, 9],
+            ['3*cos PI-2', 5, 6],
+            ['3*cos PI-2', 3, 6],
+            ['3*cos PI-2', 2, 6],
+            ['cos PI-2', 1, 4]
+        ])('moves to the right in %s fom position %s', (expression, position, expected) => {
+            const calculator = engineFactory({ expression, position });
+            expect(calculator.moveRight()).toBe(calculator);
+            expect(calculator.getPosition()).toEqual(expected);
+        });
+
+        it.each([
+            ['', 0, '', 0],
+            ['cos', 1, '', 0],
+            [' cos', 1, ' ', 1],
+            ['(5-2)*4/5', 0, '(5-2)*4/5', 0],
+            ['(5-2)*4/5', 1, '5-2)*4/5', 0],
+            ['(5-2)*4/5', 9, '(5-2)*4/', 8],
+            ['3*cos PI-2', 5, '3*PI-2', 2]
+        ])(
+            'deletes on the left in %s fom position %s',
+            (expression, position, expectedExpression, expectedPosition) => {
+                const calculator = engineFactory({ expression, position });
+                expect(calculator.deleteLeft()).toBe(calculator);
+                expect(calculator.getExpression()).toEqual(expectedExpression);
+                expect(calculator.getPosition()).toEqual(expectedPosition);
+            }
+        );
+
+        it.each([
+            ['', 0, '', 0],
+            ['(5-2)*4/5', 0, '5-2)*4/5', 0],
+            ['(5-2)*4/5', 1, '(-2)*4/5', 1],
+            ['(5-2)*4/5', 8, '(5-2)*4/', 8],
+            ['(5-2)*4/5', 9, '(5-2)*4/5', 9],
+            ['3*cos PI-2', 3, '3*PI-2', 2],
+            ['3*cos PI-2', 5, '3*cos -2', 5]
+        ])(
+            'deletes on the right in %s fom position %s',
+            (expression, position, expectedExpression, expectedPosition) => {
+                const calculator = engineFactory({ expression, position });
+                expect(calculator.deleteRight()).toBe(calculator);
+                expect(calculator.getExpression()).toEqual(expectedExpression);
+                expect(calculator.getPosition()).toEqual(expectedPosition);
+            }
+        );
     });
 
     describe('manages the tokens', () => {
@@ -370,6 +438,27 @@ describe('engine', () => {
 
             calculator.setPosition(6);
             expect(calculator.getTokenIndex()).toStrictEqual(4);
+        });
+
+        it('removes a token', () => {
+            const calculator = engineFactory({ expression: '(1 + 2) * 3', position: 2 });
+
+            expect(calculator.removeToken(calculator.getTokens()[1])).toBe(calculator);
+            expect(calculator.getExpression()).toEqual('(+ 2) * 3');
+            expect(calculator.getPosition()).toEqual(1);
+
+            calculator.setPosition(4);
+            expect(calculator.removeToken(calculator.getTokens()[1])).toBe(calculator);
+            expect(calculator.getExpression()).toEqual('(2) * 3');
+            expect(calculator.getPosition()).toEqual(2);
+
+            expect(calculator.removeToken(calculator.getTokens()[4])).toBe(calculator);
+            expect(calculator.getExpression()).toEqual('(2) * ');
+            expect(calculator.getPosition()).toEqual(2);
+
+            expect(calculator.removeToken()).toBe(calculator);
+            expect(calculator.getExpression()).toEqual('(2) * ');
+            expect(calculator.getPosition()).toEqual(2);
         });
     });
 
@@ -1348,6 +1437,77 @@ describe('engine', () => {
             expect(calculator.getVariableValue('x')).toStrictEqual(42);
             expect(remindEvent).toHaveBeenCalledTimes(1);
             expect(remindCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('moveLeft', () => {
+            const calculator = engineFactory({ expression: '3+4*2', position: 2 });
+            const moveEvent = jest.fn().mockImplementation(position => {
+                expect(position).toEqual(1);
+            });
+            const moveCommand = jest.fn();
+
+            calculator.on('positionchange', moveEvent);
+            calculator.on('command-moveLeft', moveCommand);
+            calculator.useCommand('moveLeft');
+
+            expect(calculator.getPosition()).toStrictEqual(1);
+            expect(moveEvent).toHaveBeenCalledTimes(1);
+            expect(moveCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('moveRight', () => {
+            const calculator = engineFactory({ expression: '3+4*2', position: 2 });
+            const moveEvent = jest.fn().mockImplementation(position => {
+                expect(position).toEqual(3);
+            });
+            const moveCommand = jest.fn();
+
+            calculator.on('positionchange', moveEvent);
+            calculator.on('command-moveRight', moveCommand);
+            calculator.useCommand('moveRight');
+
+            expect(calculator.getPosition()).toStrictEqual(3);
+            expect(moveEvent).toHaveBeenCalledTimes(1);
+            expect(moveCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('deleteLeft', () => {
+            const calculator = engineFactory({ expression: '3+4*2', position: 2 });
+            const moveEvent = jest.fn().mockImplementation(position => {
+                expect(position).toEqual(1);
+            });
+            const exprEvent = jest.fn().mockImplementation(expression => {
+                expect(expression).toEqual('34*2');
+            });
+            const deleteCommand = jest.fn();
+
+            calculator.on('positionchange', moveEvent);
+            calculator.on('expressionchange', exprEvent);
+            calculator.on('command-deleteLeft', deleteCommand);
+            calculator.useCommand('deleteLeft');
+
+            expect(calculator.getPosition()).toStrictEqual(1);
+            expect(calculator.getExpression()).toEqual('34*2');
+            expect(moveEvent).toHaveBeenCalledTimes(1);
+            expect(exprEvent).toHaveBeenCalledTimes(1);
+            expect(deleteCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('deleteRight', () => {
+            const calculator = engineFactory({ expression: '3+4*2', position: 2 });
+            const exprEvent = jest.fn().mockImplementation(expression => {
+                expect(expression).toEqual('3+*2');
+            });
+            const deleteCommand = jest.fn();
+
+            calculator.on('expressionchange', exprEvent);
+            calculator.on('command-deleteRight', deleteCommand);
+            calculator.useCommand('deleteRight');
+
+            expect(calculator.getPosition()).toStrictEqual(2);
+            expect(calculator.getExpression()).toEqual('3+*2');
+            expect(exprEvent).toHaveBeenCalledTimes(1);
+            expect(deleteCommand).toHaveBeenCalledTimes(1);
         });
     });
 });

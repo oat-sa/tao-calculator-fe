@@ -401,6 +401,109 @@ function engineFactory({ expression = '', position = 0, variables = {}, maths = 
         },
 
         /**
+         * Moves the current position to the token on the left
+         * @returns {calculator}
+         * @fires positionchange after the position has been changed
+         */
+        moveLeft() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            let token = tokensList[index];
+
+            if (token && position > 0) {
+                if (token.offset === position) {
+                    if (index > 0) {
+                        token = tokensList[index - 1];
+                    } else {
+                        token = null;
+                    }
+                }
+            } else {
+                token = null;
+            }
+
+            const offset = (token && token.offset) || 0;
+
+            if (offset !== position) {
+                this.setPosition(offset);
+            }
+
+            return this;
+        },
+
+        /**
+         * Moves the current position to the token on the right
+         * @returns {calculator}
+         * @fires positionchange after the position has been changed
+         */
+        moveRight() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            let token = tokensList[index];
+            let offset = expression.length;
+
+            if (token && index < tokensList.length - 1) {
+                token = tokensList[index + 1];
+                if (token) {
+                    offset = token.offset;
+                }
+            }
+
+            if (offset !== position) {
+                this.setPosition(offset);
+            }
+
+            return this;
+        },
+
+        /**
+         * Deletes the token on the left
+         * @returns {calculator}
+         * @fires expressionchange after the token on the left has been removed.
+         */
+        deleteLeft() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            const token = tokensList[index];
+
+            if (token) {
+                if (position > token.offset) {
+                    this.removeToken(token);
+                } else {
+                    if (index > 0) {
+                        this.removeToken(tokensList[index - 1]);
+                    } else if (position > 0) {
+                        this.removeToken(tokensList[0]);
+                    }
+                }
+            }
+
+            return this;
+        },
+
+        /**
+         * Deletes the token on the right
+         * @returns {calculator}
+         * @fires expressionchange after the token on the right has been removed.
+         */
+        deleteRight() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            const token = tokensList[index];
+            const next = tokensList[index + 1];
+
+            if (token) {
+                if (position >= token.offset + token.value.length) {
+                    this.removeToken(next);
+                } else {
+                    this.removeToken(token);
+                }
+            }
+
+            return this;
+        },
+
+        /**
          * Gets the tokens from the current expression
          * @returns {token[]}
          */
@@ -436,6 +539,34 @@ function engineFactory({ expression = '', position = 0, variables = {}, maths = 
             });
 
             return index;
+        },
+
+        /**
+         * Removes the given token from the expression.
+         * @param {token} token
+         * @returns {calculator}
+         * @fires expressionchange after the token has been removed.
+         * @fires positionchange if the position has been changed
+         */
+        removeToken(token) {
+            if (!token) {
+                return this;
+            }
+
+            const from = token.offset;
+            let to = from + token.value.length;
+            while (to < expression.length && expression.charAt(to) === ' ') {
+                to++;
+            }
+
+            this.setExpression(expression.substring(0, from) + expression.substring(to));
+            if (position > to) {
+                this.setPosition(position + from - to);
+            } else if (position > from) {
+                this.setPosition(from);
+            }
+
+            return this;
         },
 
         /**
@@ -966,7 +1097,11 @@ function engineFactory({ expression = '', position = 0, variables = {}, maths = 
         .setCommand('radian', () => calculatorApi.setDegreeMode(false))
         .setCommand('remind', () => calculatorApi.useVariable(memoryVariable))
         .setCommand('remindStore', () => calculatorApi.setMemory())
-        .setCommand('remindClear', () => calculatorApi.clearMemory());
+        .setCommand('remindClear', () => calculatorApi.clearMemory())
+        .setCommand('moveLeft', () => calculatorApi.moveLeft())
+        .setCommand('moveRight', () => calculatorApi.moveRight())
+        .setCommand('deleteLeft', () => calculatorApi.deleteLeft())
+        .setCommand('deleteRight', () => calculatorApi.deleteRight());
 
     return calculatorApi;
 }
