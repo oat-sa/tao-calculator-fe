@@ -259,7 +259,7 @@ export const signStrategies = [
  * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
  */
 export function applyTokenStrategies(index, tokens, strategies) {
-    var result = null;
+    let result = null;
 
     strategies.every(strategy => {
         result = strategy(index, tokens);
