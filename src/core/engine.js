@@ -16,19 +16,13 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import { terms } from './terms.js';
+import { isPrefixed, terms } from './terms.js';
 import tokensHelper from './tokens.js';
 import expressionHelper from './expression.js';
 import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import { applyValueStrategies, prefixStrategies, suffixStrategies } from './strategies/value.js';
 import { applyTokenStrategies, signStrategies } from './strategies/token.js';
-
-/**
- * Regex that matches the prefixed function operators
- * @type {RegExp}
- */
-const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
 
 /**
  * Name of the variable that contains the last result
@@ -808,7 +802,7 @@ function engineFactory({
             // - it is the last result, and the term to add is not an operator
             if (
                 !tokensHelper.isOperator(term.type) &&
-                !rePrefixedTerm.test(term.value) &&
+                !isPrefixed(term.value) &&
                 tokensList.length === 1 &&
                 ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')
             ) {
@@ -860,7 +854,7 @@ function engineFactory({
          * @fires term when the term has been added
          */
         term(name) {
-            const prefixed = rePrefixedTerm.test(name);
+            const prefixed = isPrefixed(name);
             if (prefixed) {
                 name = name.substring(1);
             }

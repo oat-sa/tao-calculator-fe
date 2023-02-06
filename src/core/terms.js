@@ -17,6 +17,19 @@
  */
 
 /**
+ * Regex that matches the prefixed function operators
+ * @type {RegExp}
+ */
+const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
+
+/**
+ * Tells if a term is prefixed.
+ * @param {string} name - The term to check.
+ * @returns {boolean} - Returns `true` if the term is prefixed.
+ */
+export const isPrefixed = name => rePrefixedTerm.test(name);
+
+/**
  * Formats a math element as exponent.
  * @param {string} x - The value to place as exponent
  * @returns {string}

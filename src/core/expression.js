@@ -17,7 +17,7 @@
  */
 
 import _ from 'lodash';
-import { terms, types } from './terms';
+import { isPrefixed, terms, types } from './terms';
 import tokensHelper from './tokens';
 import tokenizerFactory from './tokenizer';
 
@@ -40,12 +40,6 @@ import tokenizerFactory from './tokenizer';
  * @type {string}
  */
 const lastResultVariableName = terms.ANS.value;
-
-/**
- * Regex that matches the prefixed function operators
- * @type {RegExp}
- */
-const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
 
 /**
  * Regex that matches the usual error tokens in a result
@@ -236,7 +230,7 @@ const expressionHelper = {
                 exponent: null,
                 startExponent: null,
                 endExponent: [],
-                prefixed: rePrefixedTerm.test(token.value),
+                prefixed: isPrefixed(token.value),
                 elide: false
             };
 
