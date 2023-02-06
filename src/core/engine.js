@@ -48,10 +48,11 @@ const memoryVariable = terms.MEM.value;
  * @param {string} [config.expression=''] - The current expression
  * @param {number} [config.position=0] - The current position in the expression (i.e. the position of the caret)
  * @param {object} [config.variables] - An optional list of variables
+ * @param {object} [config.commands] - An optional list of commands
  * @param {object} [config.maths] - An optional config for the maths evaluator (@see mathsEvaluator)
  * @returns {calculator}
  */
-function engineFactory({ expression = '', position = null, variables = {}, maths = {} } = {}) {
+function engineFactory({ expression = '', position = null, variables = {}, commands = {}, maths = {} } = {}) {
     /**
      * The list of event listeners
      * @type {Map}
@@ -62,13 +63,13 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
      * A list of variables that can be used in the expression
      * @type {Map}
      */
-    const registry = new Map();
+    const variablesRegistry = new Map();
 
     /**
      * A list of registered commands that can be used inside the calculator
      * @type {Map}
      */
-    const commands = new Map();
+    const commandsRegistry = new Map();
 
     /**
      * The tokenizer utilized to split down the expression
@@ -162,11 +163,11 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * The supplied configuration will be merged with the maths configuration given at creation time.
          * @param {object} config - Config for the maths evaluator (@see mathsEvaluator)
          * @returns {calculator}
-         * @fires mathsevaluatorconfigure
+         * @fires configure
          */
         configureMathsEvaluator(config = {}) {
             mathsEvaluator = mathsEvaluatorFactory(Object.assign(maths, config));
-            this.trigger('mathsevaluatorconfigure', config);
+            this.trigger('configure', config);
             return this;
         },
 
@@ -174,7 +175,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * Sets the engine to process the angles in degree (`true`) or in radian ('false').
          * @param {boolean} degree - The state of the degree mode.
          * @returns {calculator}
-         * @fires mathsevaluatorconfigure
+         * @fires configure
          */
         setDegreeMode(degree = true) {
             return this.configureMathsEvaluator({ degree });
@@ -216,13 +217,13 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * Changes the current expression
          * @param {string} expr
          * @returns {calculator}
-         * @fires expressionchange after the expression has been changed
+         * @fires expression after the expression has been changed
          */
         setExpression(expr) {
             expression = String(expr || '');
             tokens = null;
 
-            this.trigger('expressionchange', expression);
+            this.trigger('expression', expression);
 
             return this;
         },
@@ -239,12 +240,12 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * Sets the current position inside the expression
          * @param {number|string} pos
          * @returns {calculator}
-         * @fires positionchange after the position has been changed
+         * @fires position after the position has been changed
          */
         setPosition(pos) {
             position = Math.max(0, Math.min(parseInt(pos, 10) || 0, expression.length));
 
-            this.trigger('positionchange', position);
+            this.trigger('position', position);
 
             return this;
         },
@@ -252,9 +253,9 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
         /**
          * Moves the current position to the token on the left
          * @returns {calculator}
-         * @fires positionchange after the position has been changed
+         * @fires position after the position has been changed
          */
-        moveLeft() {
+        movePositionLeft() {
             const tokensList = this.getTokens();
             const index = this.getTokenIndex();
             let token = tokensList[index];
@@ -283,9 +284,9 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
         /**
          * Moves the current position to the token on the right
          * @returns {calculator}
-         * @fires positionchange after the position has been changed
+         * @fires position after the position has been changed
          */
-        moveRight() {
+        movePositionRight() {
             const tokensList = this.getTokens();
             const index = this.getTokenIndex();
             let token = tokensList[index];
@@ -300,53 +301,6 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
 
             if (offset !== position) {
                 this.setPosition(offset);
-            }
-
-            return this;
-        },
-
-        /**
-         * Deletes the token on the left
-         * @returns {calculator}
-         * @fires expressionchange after the token on the left has been removed.
-         */
-        deleteLeft() {
-            const tokensList = this.getTokens();
-            const index = this.getTokenIndex();
-            const token = tokensList[index];
-
-            if (token) {
-                if (position > token.offset) {
-                    this.removeToken(token);
-                } else {
-                    if (index > 0) {
-                        this.removeToken(tokensList[index - 1]);
-                    } else if (position > 0) {
-                        this.removeToken(tokensList[0]);
-                    }
-                }
-            }
-
-            return this;
-        },
-
-        /**
-         * Deletes the token on the right
-         * @returns {calculator}
-         * @fires expressionchange after the token on the right has been removed.
-         */
-        deleteRight() {
-            const tokensList = this.getTokens();
-            const index = this.getTokenIndex();
-            const token = tokensList[index];
-            const next = tokensList[index + 1];
-
-            if (token) {
-                if (position >= token.offset + token.value.length) {
-                    this.removeToken(next);
-                } else {
-                    this.removeToken(token);
-                }
             }
 
             return this;
@@ -394,10 +348,10 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * Removes the given token from the expression.
          * @param {token} token
          * @returns {calculator}
-         * @fires expressionchange after the token has been removed.
-         * @fires positionchange if the position has been changed
+         * @fires expression after the token has been removed.
+         * @fires position if the position has been changed
          */
-        removeToken(token) {
+        deleteToken(token) {
             if (!token) {
                 return this;
             }
@@ -419,10 +373,59 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
         },
 
         /**
+         * Deletes the token on the left
+         * @returns {calculator}
+         * @fires expression after the token on the left has been removed.
+         * @fires position if the position has been changed
+         */
+        deleteTokenLeft() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            const token = tokensList[index];
+
+            if (token) {
+                if (position > token.offset) {
+                    this.deleteToken(token);
+                } else {
+                    if (index > 0) {
+                        this.deleteToken(tokensList[index - 1]);
+                    } else if (position > 0) {
+                        this.deleteToken(tokensList[0]);
+                    }
+                }
+            }
+
+            return this;
+        },
+
+        /**
+         * Deletes the token on the right
+         * @returns {calculator}
+         * @fires expression after the token on the right has been removed.
+         * @fires position if the position has been changed
+         */
+        deleteTokenRight() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            const token = tokensList[index];
+            const next = tokensList[index + 1];
+
+            if (token) {
+                if (position >= token.offset + token.value.length) {
+                    this.deleteToken(next);
+                } else {
+                    this.deleteToken(token);
+                }
+            }
+
+            return this;
+        },
+
+        /**
          * Changes the sign for the current token.
          * @returns {calculator}
-         * @fires expressionchange after the expression has been updated.
-         * @fires positionchange if the position has been changed.
+         * @fires expression after the expression has been updated.
+         * @fires position if the position has been changed.
          */
         changeSign() {
             const tokensList = this.getTokens();
@@ -447,7 +450,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @returns {Boolean}
          */
         hasVariable(name) {
-            return registry.has(name);
+            return variablesRegistry.has(name);
         },
 
         /**
@@ -456,7 +459,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @returns {mathsExpression} The value. Can be another expression.
          */
         getVariable(name) {
-            return registry.get(name);
+            return variablesRegistry.get(name);
         },
 
         /**
@@ -465,7 +468,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @returns {string|number|Decimal} The computed value, or 0 if the variable does not exist.
          */
         getVariableValue(name) {
-            const variable = registry.get(name);
+            const variable = variablesRegistry.get(name);
             if (!variable) {
                 return 0;
             }
@@ -488,7 +491,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
                 value.expression = expr;
             }
 
-            registry.set(name, value);
+            variablesRegistry.set(name, value);
 
             this.trigger('variableadd', name, value);
 
@@ -502,7 +505,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @fires variabledelete after the variable has been deleted
          */
         deleteVariable(name) {
-            registry.delete(name);
+            variablesRegistry.delete(name);
 
             this.trigger('variabledelete', name);
 
@@ -510,12 +513,12 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
         },
 
         /**
-         * Gets the list of variables defined for the expression.
+         * Gets all variables in a list.
          * @returns {object} The list of defined variables.
          */
-        getVariables() {
+        getAllVariables() {
             const defs = {};
-            registry.forEach((value, name) => (defs[name] = value));
+            variablesRegistry.forEach((value, name) => (defs[name] = value));
             return defs;
         },
 
@@ -523,9 +526,9 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * Gets the values for the variables defined for the expression.
          * @returns {object} The list of variable values.
          */
-        getVariableValues() {
+        getAllVariableValues() {
             const defs = {};
-            registry.forEach((value, name) => (defs[name] = value.result));
+            variablesRegistry.forEach((value, name) => (defs[name] = value.result));
             return defs;
         },
 
@@ -535,7 +538,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @returns {calculator}
          * @fires variableadd after each variable has been set
          */
-        setVariables(defs) {
+        setVariableList(defs) {
             Object.keys(defs).forEach(name => this.setVariable(name, defs[name]));
             return this;
         },
@@ -543,12 +546,12 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
         /**
          * Deletes all variables defined for the expression.
          * @returns {calculator}
-         * @fires variabledelete after the variables has been deleted
+         * @fires variableclear after the variables have been deleted
          */
-        deleteVariables() {
-            registry.clear();
+        clearVariables() {
+            variablesRegistry.clear();
 
-            this.trigger('variabledelete', null);
+            this.trigger('variableclear');
 
             this.setLastResult('0');
             this.clearMemory();
@@ -613,7 +616,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @returns {Boolean}
          */
         hasCommand(name) {
-            return commands.has(name);
+            return commandsRegistry.has(name);
         },
 
         /**
@@ -622,7 +625,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @returns {function} The action for the registered command
          */
         getCommand(name) {
-            return commands.get(name);
+            return commandsRegistry.get(name);
         },
 
         /**
@@ -633,7 +636,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @fires commandadd after the command has been set
          */
         setCommand(name, action) {
-            commands.set(name, action);
+            commandsRegistry.set(name, action);
 
             this.trigger('commandadd', name);
 
@@ -647,7 +650,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @fires commanddelete after the command has been deleted
          */
         deleteCommand(name) {
-            commands.delete(name);
+            commandsRegistry.delete(name);
 
             this.trigger('commanddelete', name);
 
@@ -658,9 +661,9 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * Gets the list of registered commands
          * @returns {object} The list of registered commands
          */
-        getCommands() {
+        getAllCommands() {
             const defs = {};
-            commands.forEach((value, name) => (defs[name] = value));
+            commandsRegistry.forEach((value, name) => (defs[name] = value));
             return defs;
         },
 
@@ -670,7 +673,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @returns {calculator}
          * @fires commandadd after each command has been registered
          */
-        setCommands(defs) {
+        setCommandList(defs) {
             Object.keys(defs).forEach(name => this.setCommand(name, defs[name]));
             return this;
         },
@@ -678,12 +681,12 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
         /**
          * Deletes all commands from the calculator.
          * @returns {calculator}
-         * @fires commanddelete after the commands has been deleted
+         * @fires commandclear after the commands have been deleted
          */
-        deleteCommands() {
-            commands.clear();
+        clearCommands() {
+            commandsRegistry.clear();
 
-            this.trigger('commanddelete', null);
+            this.trigger('commandclear');
 
             return this;
         },
@@ -693,12 +696,12 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @param {string} name - The name of the term to insert
          * @param {object} term - The definition of the term to insert
          * @returns {calculator}
-         * @fires termerror if the term to add is invalid
-         * @fires termadd when the term has been added
+         * @fires error if the term to add is invalid
+         * @fires term when the term has been added
          */
         addTerm(name, term) {
             if ('object' !== typeof term || 'undefined' === typeof term.value) {
-                return this.trigger('termerror', new TypeError(`Invalid term: ${name}`));
+                return this.trigger('error', new TypeError(`Invalid term: ${name}`));
             }
 
             const tokensList = this.getTokens();
@@ -749,7 +752,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
                 this.insert(value, at);
             }
 
-            this.trigger('termadd', name, term);
+            this.trigger('term', name, term);
 
             return this;
         },
@@ -758,10 +761,10 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * Inserts a term in the expression at the current position
          * @param {string} name - The name of the term to insert
          * @returns {calculator}
-         * @fires termerror if the term to add is invalid
-         * @fires termadd when the term has been added
+         * @fires error if the term to add is invalid
+         * @fires term when the term has been added
          */
-        useTerm(name) {
+        term(name) {
             const prefixed = rePrefixedTerm.test(name);
             if (prefixed) {
                 name = name.substring(1);
@@ -770,7 +773,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
             let term = terms[name];
 
             if ('undefined' === typeof term) {
-                return this.trigger('termerror', new TypeError(`Invalid term: ${name}`));
+                return this.trigger('error', new TypeError(`Invalid term: ${name}`));
             }
 
             if (prefixed) {
@@ -786,15 +789,15 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @param {String|String[]} names - The names of the terms to insert.
          *                                  Could be either an array of names or a list separated by spaces.
          * @returns {calculator}
-         * @fires termerror if a term to add is invalid
-         * @fires termadd when a term has been added
+         * @fires error if a term to add is invalid
+         * @fires term when a term has been added
          */
-        useTerms(names) {
+        termList(names) {
             if ('string' === typeof names) {
                 names = names.split(/\s+/);
             }
 
-            names.forEach(name => this.useTerm(name));
+            names.forEach(name => this.term(name));
 
             return this;
         },
@@ -803,12 +806,12 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * Inserts a variable as a term in the expression at the current position
          * @param {string} name - The name of the variable to insert
          * @returns {calculator}
-         * @fires termerror if the term to add is invalid
-         * @fires termadd when the term has been added
+         * @fires error if the term to add is invalid
+         * @fires term when the term has been added
          */
-        useVariable(name) {
-            if (!registry.has(name)) {
-                return this.trigger('termerror', new TypeError(`Invalid variable: ${name}`));
+        variable(name) {
+            if (!variablesRegistry.has(name)) {
+                return this.trigger('error', new TypeError(`Invalid variable: ${name}`));
             }
 
             return this.addTerm(`VAR_${name.toUpperCase()}`, {
@@ -825,20 +828,19 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @returns {calculator}
          * @fires command with the name and the parameters of the command
          * @fires command-<name> with the parameters of the command
-         * @fires commanderror if the command is invalid
+         * @fires error if the command is invalid
          */
-        useCommand(name, ...args) {
-            const action = commands.get(name);
+        command(name, ...args) {
+            const action = commandsRegistry.get(name);
 
             if ('function' !== typeof action) {
-                return this.trigger('commanderror', new TypeError(`Invalid command: ${name}`));
+                return this.trigger('error', new TypeError(`Invalid command: ${name}`));
             }
 
-            action.apply(this, args);
-
+            this.trigger(`command-${name}`, ...args);
             this.trigger('command', name, ...args);
 
-            this.trigger(`command-${name}`, ...args);
+            action.apply(this, args);
 
             return this;
         },
@@ -905,7 +907,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
          * @fires reset after the calculator has been reset
          */
         reset() {
-            this.deleteVariables();
+            this.clearVariables();
             this.clear();
 
             this.trigger('reset');
@@ -923,7 +925,7 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
             let result = null;
             try {
                 if (expression.trim()) {
-                    const vars = this.getVariableValues();
+                    const vars = this.getAllVariableValues();
                     result = mathsEvaluator(expression, vars);
                 } else {
                     result = mathsEvaluator('0');
@@ -963,22 +965,23 @@ function engineFactory({ expression = '', position = null, variables = {}, maths
         .setLastResult('0')
         .setMemory()
         .setPosition(position)
-        .setVariables(variables)
         .setCommand('clear', () => calculatorApi.clear())
         .setCommand('clearAll', () => calculatorApi.reset())
         .setCommand('execute', () => calculatorApi.evaluate())
-        .setCommand('var', name => calculatorApi.useVariable(name))
-        .setCommand('term', name => calculatorApi.useTerms(name))
+        .setCommand('var', name => calculatorApi.variable(name))
+        .setCommand('term', name => calculatorApi.termList(name))
         .setCommand('sign', () => calculatorApi.changeSign())
         .setCommand('degree', () => calculatorApi.setDegreeMode(true))
         .setCommand('radian', () => calculatorApi.setDegreeMode(false))
-        .setCommand('remind', () => calculatorApi.useVariable(memoryVariable))
-        .setCommand('remindStore', () => calculatorApi.setMemory())
-        .setCommand('remindClear', () => calculatorApi.clearMemory())
-        .setCommand('moveLeft', () => calculatorApi.moveLeft())
-        .setCommand('moveRight', () => calculatorApi.moveRight())
-        .setCommand('deleteLeft', () => calculatorApi.deleteLeft())
-        .setCommand('deleteRight', () => calculatorApi.deleteRight());
+        .setCommand('remind', () => calculatorApi.variable(memoryVariable))
+        .setCommand('memorize', () => calculatorApi.setMemory())
+        .setCommand('forget', () => calculatorApi.clearMemory())
+        .setCommand('moveLeft', () => calculatorApi.movePositionLeft())
+        .setCommand('moveRight', () => calculatorApi.movePositionRight())
+        .setCommand('deleteLeft', () => calculatorApi.deleteTokenLeft())
+        .setCommand('deleteRight', () => calculatorApi.deleteTokenRight())
+        .setCommandList(commands)
+        .setVariableList(variables);
 
     return calculatorApi;
 }
@@ -987,19 +990,19 @@ export default engineFactory;
 
 /**
  * Notifies the maths evaluator has been configured.
- * @event mathsevaluatorconfigure
+ * @event configure
  * @param {object} config - Config for the maths evaluator (@see mathsEvaluator)
  */
 
 /**
  * Notifies the expression has changed.
- * @event expressionchange
+ * @event expression
  * @param {string} expression - The new expression.
  */
 
 /**
  * Notifies the position inside the expression has changed.
- * @event positionchange
+ * @event position
  * @param {number} position - The new position.
  */
 
@@ -1017,6 +1020,11 @@ export default engineFactory;
  */
 
 /**
+ * Notifies all variables have been removed.
+ * @event variableclear
+ */
+
+/**
  * Notifies a command has been registered.
  * @event commandadd
  * @param {string} name - The name of the new command.
@@ -1029,9 +1037,8 @@ export default engineFactory;
  */
 
 /**
- * Notifies an error occurred with a command.
- * @event commanderror
- * @param {TypeError} err - The error object.
+ * Notifies all commands have been removed.
+ * @event commandclear
  */
 
 /**
@@ -1049,15 +1056,9 @@ export default engineFactory;
 
 /**
  * Notifies a term has been added to the expression.
- * @event termadd
+ * @event term
  * @param {string} name - The name of the added term
  * @param {object} term - The descriptor of the added term
- */
-
-/**
- * Notifies an errors occurred with a term added the expression.
- * @event termerror
- * @param {TypeError} err - The error object.
  */
 
 /**
@@ -1091,13 +1092,19 @@ export default engineFactory;
  */
 
 /**
+ * Notifies the expression has been rendered into a list of terms.
+ * @event render
+ * @param {renderTerm[]} terms - The list of rendered terms.
+ */
+
+/**
  * Notifies the expression has a syntax error.
  * @event syntaxerror
  * @param {Error} err - The error object.
  */
 
 /**
- * Notifies the expression has been rendered into a list of terms.
- * @event render
- * @param {renderTerm[]} terms - The list of rendered terms.
+ * Notifies an error occurred.
+ * @event error
+ * @param {Error} err - The error object.
  */
