@@ -6,9 +6,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "endExponent": [
       "left-11",
     ],
-    "startExponent": "left-11",
-    "type": "exponent",
-    "value": [
+    "label": [
       {
         "elide": false,
         "endExponent": [],
@@ -57,9 +55,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "endExponent": [
           "right-4",
         ],
-        "startExponent": "right-4",
-        "type": "exponent",
-        "value": [
+        "label": [
           {
             "elide": false,
             "endExponent": [],
@@ -118,6 +114,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
             "value": ")",
           },
         ],
+        "startExponent": "right-4",
+        "type": "exponent",
+        "value": "exponent",
       },
       {
         "elide": false,
@@ -133,6 +132,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": ")",
       },
     ],
+    "startExponent": "left-11",
+    "type": "exponent",
+    "value": "exponent",
   },
   {
     "elide": false,
@@ -182,9 +184,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "endExponent": [
       "right-14",
     ],
-    "startExponent": "right-14",
-    "type": "exponent",
-    "value": [
+    "label": [
       {
         "elide": false,
         "endExponent": [],
@@ -211,9 +211,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "endExponent": [
           "right-17",
         ],
-        "startExponent": "right-17",
-        "type": "exponent",
-        "value": [
+        "label": [
           {
             "elide": false,
             "endExponent": [],
@@ -272,6 +270,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
             "value": ")",
           },
         ],
+        "startExponent": "right-17",
+        "type": "exponent",
+        "value": "exponent",
       },
       {
         "elide": false,
@@ -309,6 +310,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": ")",
       },
     ],
+    "startExponent": "right-14",
+    "type": "exponent",
+    "value": "exponent",
   },
   {
     "elide": false,
@@ -352,9 +356,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "endExponent": [
       "right-1",
     ],
-    "startExponent": "right-1",
-    "type": "exponent",
-    "value": [
+    "label": [
       {
         "elide": false,
         "endExponent": [
@@ -369,6 +371,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "3",
       },
     ],
+    "startExponent": "right-1",
+    "type": "exponent",
+    "value": "exponent",
   },
   {
     "elide": false,
@@ -518,9 +523,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
       "right-5",
       "right-7",
     ],
-    "startExponent": "right-3",
-    "type": "exponent",
-    "value": [
+    "label": [
       {
         "elide": false,
         "endExponent": [],
@@ -538,9 +541,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
           "right-5",
           "right-7",
         ],
-        "startExponent": "right-5",
-        "type": "exponent",
-        "value": [
+        "label": [
           {
             "elide": false,
             "endExponent": [],
@@ -558,9 +559,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
               "right-5",
               "right-7",
             ],
-            "startExponent": "right-7",
-            "type": "exponent",
-            "value": [
+            "label": [
               {
                 "elide": false,
                 "endExponent": [
@@ -577,10 +576,19 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
                 "value": "7",
               },
             ],
+            "startExponent": "right-7",
+            "type": "exponent",
+            "value": "exponent",
           },
         ],
+        "startExponent": "right-5",
+        "type": "exponent",
+        "value": "exponent",
       },
     ],
+    "startExponent": "right-3",
+    "type": "exponent",
+    "value": "exponent",
   },
   {
     "elide": false,
@@ -635,9 +643,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "endExponent": [
       "left-3",
     ],
-    "startExponent": "left-3",
-    "type": "exponent",
-    "value": [
+    "label": [
       {
         "elide": false,
         "endExponent": [
@@ -652,6 +658,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "7",
       },
     ],
+    "startExponent": "left-3",
+    "type": "exponent",
+    "value": "exponent",
   },
   {
     "elide": false,
@@ -668,9 +677,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "endExponent": [
       "left-5",
     ],
-    "startExponent": "left-5",
-    "type": "exponent",
-    "value": [
+    "label": [
       {
         "elide": false,
         "endExponent": [
@@ -685,6 +692,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "5",
       },
     ],
+    "startExponent": "left-5",
+    "type": "exponent",
+    "value": "exponent",
   },
   {
     "elide": false,
@@ -701,9 +711,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
     "endExponent": [
       "left-7",
     ],
-    "startExponent": "left-7",
-    "type": "exponent",
-    "value": [
+    "label": [
       {
         "elide": false,
         "endExponent": [
@@ -718,6 +726,9 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
         "value": "3",
       },
     ],
+    "startExponent": "left-7",
+    "type": "exponent",
+    "value": "exponent",
   },
   {
     "elide": false,

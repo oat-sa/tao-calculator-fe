@@ -101,6 +101,7 @@ export const types = {
     constant: 'constant',
     function: 'function',
     exponent: 'exponent',
+    unknown: 'unknown',
     error: 'error'
 };
 

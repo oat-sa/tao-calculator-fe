@@ -394,6 +394,7 @@ exports[`types defines types 1`] = `
   "operator": "operator",
   "separator": "separator",
   "term": "term",
+  "unknown": "unknown",
   "variable": "variable",
 }
 `;
