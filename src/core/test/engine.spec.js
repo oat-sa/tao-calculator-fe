@@ -808,6 +808,145 @@ describe('engine', () => {
         });
     });
 
+    describe('manages the plugins', () => {
+        it('initializes with a list of plugins', () => {
+            const plugins = {
+                foo: jest.fn(),
+                bar: jest.fn()
+            };
+            const calculator = engineFactory({ plugins });
+
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(calculator.hasPlugin('bar')).toBeTruthy();
+            expect(calculator.hasPlugin('baz')).toBeFalsy();
+
+            expect(plugins.foo).toBeCalledTimes(1);
+            expect(plugins.bar).toBeCalledTimes(1);
+        });
+
+        it('adds a plugin', () => {
+            const calculator = engineFactory();
+            const plugin = jest.fn().mockImplementation(calc => {
+                expect(calc).toBe(calculator);
+            });
+
+            expect(calculator.addPlugin('foo', plugin)).toBe(calculator);
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(plugin).toHaveBeenCalledTimes(1);
+        });
+
+        it('adds a plugin again', () => {
+            const calculator = engineFactory();
+            const uninstall = jest.fn();
+            const plugin = jest.fn().mockImplementation(calc => {
+                expect(calc).toBe(calculator);
+                return uninstall;
+            });
+
+            calculator.addPlugin('foo', plugin);
+            calculator.addPlugin('foo', plugin);
+
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(plugin).toHaveBeenCalledTimes(2);
+            expect(uninstall).toHaveBeenCalledTimes(1);
+        });
+
+        it('emits a pluginadd event', () => {
+            const calculator = engineFactory();
+            const plugin = jest.fn().mockImplementation(calc => {
+                expect(calc).toBe(calculator);
+            });
+            const event = jest.fn().mockImplementation(name => {
+                expect(name).toStrictEqual('foo');
+            });
+
+            calculator.on('pluginadd', event);
+            calculator.addPlugin('foo', plugin);
+
+            expect(plugin).toHaveBeenCalledTimes(1);
+            expect(event).toHaveBeenCalledTimes(1);
+        });
+
+        it('deletes a plugin', () => {
+            const calculator = engineFactory();
+            const uninstall = jest.fn();
+            const plugin = jest.fn().mockImplementation(() => uninstall);
+
+            expect(calculator.hasPlugin('foo')).toBeFalsy();
+
+            calculator.addPlugin('foo', plugin);
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+
+            expect(calculator.removePlugin('foo')).toBe(calculator);
+            expect(calculator.hasPlugin('foo')).toBeFalsy();
+
+            expect(plugin).toHaveBeenCalledTimes(1);
+            expect(uninstall).toHaveBeenCalledTimes(1);
+        });
+
+        it('emits a plugindelete event', () => {
+            const calculator = engineFactory();
+            const plugin = jest.fn();
+            const event = jest.fn().mockImplementation(name => {
+                expect(name).toStrictEqual('foo');
+            });
+
+            calculator.addPlugin('foo', plugin);
+            calculator.on('plugindelete', event);
+            calculator.removePlugin('foo');
+
+            expect(plugin).toHaveBeenCalledTimes(1);
+            expect(event).toHaveBeenCalledTimes(1);
+        });
+
+        it('installs plugins from a list', () => {
+            const calculator = engineFactory();
+            const plugins = {
+                foo: jest.fn(),
+                bar: jest.fn()
+            };
+
+            expect(calculator.hasPlugin('foo')).toBeFalsy();
+            expect(calculator.hasPlugin('bar')).toBeFalsy();
+
+            expect(calculator.addPluginList(plugins)).toBe(calculator);
+
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(calculator.hasPlugin('bar')).toBeTruthy();
+            expect(calculator.hasPlugin('baz')).toBeFalsy();
+
+            expect(plugins.foo).toBeCalledTimes(1);
+            expect(plugins.bar).toBeCalledTimes(1);
+        });
+
+        it('uninstalls all plugins', () => {
+            const uninstallFoo = jest.fn();
+            const uninstallBar = jest.fn();
+            const plugins = {
+                foo: jest.fn().mockImplementation(() => uninstallFoo),
+                bar: jest.fn().mockImplementation(() => uninstallBar)
+            };
+            const calculator = engineFactory({ plugins });
+            const event = jest.fn();
+
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(calculator.hasPlugin('bar')).toBeTruthy();
+
+            expect(plugins.foo).toBeCalledTimes(1);
+            expect(plugins.bar).toBeCalledTimes(1);
+
+            calculator.on('pluginclear', event);
+
+            expect(calculator.clearPlugins()).toBe(calculator);
+            expect(calculator.hasPlugin('foo')).toBeFalsy();
+            expect(calculator.hasPlugin('bar')).toBeFalsy();
+
+            expect(event).toHaveBeenCalledTimes(1);
+            expect(uninstallFoo).toHaveBeenCalledTimes(1);
+            expect(uninstallBar).toHaveBeenCalledTimes(1);
+        });
+    });
+
     describe('manages the terms', () => {
         it('adds a term to the expression', () => {
             const calculator = engineFactory();

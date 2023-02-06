@@ -49,36 +49,51 @@ const memoryVariable = terms.MEM.value;
  * @param {number} [config.position=0] - The current position in the expression (i.e. the position of the caret)
  * @param {object} [config.variables] - An optional list of variables
  * @param {object} [config.commands] - An optional list of commands
+ * @param {object} [config.plugins] - An optional list of plugins
  * @param {object} [config.maths] - An optional config for the maths evaluator (@see mathsEvaluator)
  * @returns {calculator}
  */
-function engineFactory({ expression = '', position = null, variables = {}, commands = {}, maths = {} } = {}) {
+function engineFactory({
+    expression = '',
+    position = null,
+    variables = {},
+    commands = {},
+    plugins = {},
+    maths = {}
+} = {}) {
     /**
-     * The list of event listeners
+     * The list of event listeners.
      * @type {Map}
      */
     const events = new Map();
 
     /**
-     * A list of variables that can be used in the expression
+     * A list of variables that can be used in the expression.
      * @type {Map}
      */
     const variablesRegistry = new Map();
 
     /**
-     * A list of registered commands that can be used inside the calculator
+     * A list of registered commands that can be used inside the calculator.
      * @type {Map}
      */
     const commandsRegistry = new Map();
 
     /**
-     * The tokenizer utilized to split down the expression
+     * A list of registered plugins that have been added to the calculator.
+     * It lists the uninstall callback.
+     * @type {Map}
+     */
+    const pluginsRegistry = new Map();
+
+    /**
+     * The tokenizer utilized to split down the expression.
      * @type {calculatorTokenizer}
      */
     const tokenizer = tokenizerFactory();
 
     /**
-     * The list of tokens extracted from the expression
+     * The list of tokens extracted from the expression.
      * @type {Array|null}
      */
     let tokens = null;
@@ -447,7 +462,7 @@ function engineFactory({ expression = '', position = null, variables = {}, comma
         /**
          * Checks if a variable is registered
          * @param {string} name
-         * @returns {Boolean}
+         * @returns {boolean}
          */
         hasVariable(name) {
             return variablesRegistry.has(name);
@@ -613,7 +628,7 @@ function engineFactory({ expression = '', position = null, variables = {}, comma
         /**
          * Checks if a command is registered
          * @param {string} name
-         * @returns {Boolean}
+         * @returns {boolean}
          */
         hasCommand(name) {
             return commandsRegistry.has(name);
@@ -687,6 +702,86 @@ function engineFactory({ expression = '', position = null, variables = {}, comma
             commandsRegistry.clear();
 
             this.trigger('commandclear');
+
+            return this;
+        },
+
+        /**
+         * Checks if a plugin is installed.
+         * @param {string} name
+         * @returns {boolean}
+         */
+        hasPlugin(name) {
+            return pluginsRegistry.has(name);
+        },
+
+        /**
+         * Installs a plugin onto the calculator.
+         * @param {string} name - The name of the plugin to install.
+         * @param {pluginInstaller} install - The plugin installer. It should returns an uninstall callback.
+         * @returns {calculator} - Chains the instance.
+         * @fires pluginadd after the plugin has been installed
+         * @fires plugindelete if a plugin has been uninstalled before
+         */
+        addPlugin(name, install) {
+            if (this.hasPlugin(name)) {
+                this.removePlugin(name);
+            }
+
+            const plugin = install(this) || true;
+
+            pluginsRegistry.set(name, plugin);
+
+            this.trigger('pluginadd', name);
+
+            return this;
+        },
+
+        /**
+         * Uninstalls a plugin from the calculator.
+         * @param {string} name - The name of the plugin to uninstall.
+         * @returns {calculator} - Chains the instance.
+         * @fires plugindelete after the plugin has been uninstalled
+         */
+        removePlugin(name) {
+            const uninstall = pluginsRegistry.get(name);
+
+            if ('function' === typeof uninstall) {
+                uninstall();
+            }
+
+            pluginsRegistry.delete(name);
+
+            this.trigger('plugindelete', name);
+
+            return this;
+        },
+
+        /**
+         * Installs a list of plugins.
+         * @param {object} defs - A list of plugins to install.
+         * @returns {calculator}
+         * @fires pluginadd after each plugin has been installed
+         */
+        addPluginList(defs) {
+            Object.keys(defs).forEach(name => this.addPlugin(name, defs[name]));
+            return this;
+        },
+
+        /**
+         * Uninstalls all plugins.
+         * @returns {calculator}
+         * @fires pluginclear after the plugins have been uninstalled
+         */
+        clearPlugins() {
+            pluginsRegistry.forEach(uninstall => {
+                if ('function' === typeof uninstall) {
+                    uninstall();
+                }
+            });
+            pluginsRegistry.clear();
+
+            this.trigger('pluginclear');
 
             return this;
         },
@@ -981,12 +1076,19 @@ function engineFactory({ expression = '', position = null, variables = {}, comma
         .setCommand('deleteLeft', () => calculatorApi.deleteTokenLeft())
         .setCommand('deleteRight', () => calculatorApi.deleteTokenRight())
         .setCommandList(commands)
-        .setVariableList(variables);
+        .setVariableList(variables)
+        .addPluginList(plugins);
 
     return calculatorApi;
 }
 
 export default engineFactory;
+
+/**
+ * @callback pluginInstaller
+ * @param {calculator} calculator - The reference to the host calculator the plugin is bound to
+ * @returns {function} - Returns a uninstall callback
+ */
 
 /**
  * Notifies the maths evaluator has been configured.
