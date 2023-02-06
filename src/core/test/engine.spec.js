@@ -1034,6 +1034,11 @@ describe('engine', () => {
             ['TEN', 2, 'exp', 'exp TEN'],
             ['TEN', 3, 'exp', 'exp TEN'],
 
+            ['@NTHRT', 0, '1+2', '@nthrt 1+2'],
+            ['@NTHRT', 1, '1+2', '1@nthrt+2'],
+            ['@NTHRT', 2, '1+2', '1+@nthrt 2'],
+            ['@NTHRT', 3, '1+2', '1+2@nthrt'],
+
             ['SQRT', 0, '1+2', 'sqrt 1+2'],
             ['SQRT', 1, '1+2', '1*sqrt+2'],
             ['SQRT', 2, '1+2', '1+sqrt 2'],

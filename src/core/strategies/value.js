@@ -64,7 +64,11 @@ export const prefixStrategies = [
         // adding an identifier or a value after a closing parenthesis
         predicate(previous, next) {
             const nextTerm = terms[next];
-            return previous === 'RPAR' && (tokensHelper.isValue(nextTerm) || tokensHelper.isFunction(nextTerm));
+            return (
+                previous === 'RPAR' &&
+                nextTerm.exponent !== 'left' &&
+                (tokensHelper.isValue(nextTerm) || tokensHelper.isFunction(nextTerm))
+            );
         },
         action: multiplyBefore
     },
@@ -73,7 +77,11 @@ export const prefixStrategies = [
         predicate(previous, next) {
             const previousTerm = terms[previous];
             const nextTerm = terms[next];
-            return tokensHelper.isValue(previousTerm) && tokensHelper.isIdentifier(nextTerm);
+            return (
+                tokensHelper.isValue(previousTerm) &&
+                tokensHelper.isIdentifier(nextTerm) &&
+                nextTerm.exponent !== 'left'
+            );
         },
         action: multiplyBefore
     },

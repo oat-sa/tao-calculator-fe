@@ -81,6 +81,8 @@ describe('prefixStrategies', () => {
         ['1', 'RPAR', 'NUM1', '*1'],
         ['cos', 'RPAR', 'COS', '*cos'],
         ['cos', 'NUM1', 'COS', '*cos'],
+        ['@nthrt', 'RPAR', 'NTHRT', '@nthrt'],
+        ['@nthrt', 'NUM1', 'NTHRT', '@nthrt'],
         ['PI', 'NUM1', 'PI', '*PI'],
         ['1', 'PI', 'NUM1', '*1'],
         ['1', 'COS', 'NUM1', ' 1'],
