@@ -16,5 +16,4 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
-export * from './core';
-export * from './plugins';
+export { default as historyPlugin } from './history.js';
