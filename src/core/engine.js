@@ -1061,7 +1061,7 @@ function engineFactory({
         .setMemory()
         .setPosition(position)
         .setCommand('clear', () => calculatorApi.clear())
-        .setCommand('clearAll', () => calculatorApi.reset())
+        .setCommand('reset', () => calculatorApi.reset())
         .setCommand('execute', () => calculatorApi.evaluate())
         .setCommand('var', name => calculatorApi.variable(name))
         .setCommand('term', name => calculatorApi.termList(name))

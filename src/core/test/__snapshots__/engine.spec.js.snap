@@ -97,7 +97,6 @@ exports[`engine manages the commands gets commands 1`] = `
 {
   "bar": [Function],
   "clear": [Function],
-  "clearAll": [Function],
   "degree": [Function],
   "deleteLeft": [Function],
   "deleteRight": [Function],
@@ -109,6 +108,7 @@ exports[`engine manages the commands gets commands 1`] = `
   "moveRight": [Function],
   "radian": [Function],
   "remind": [Function],
+  "reset": [Function],
   "sign": [Function],
   "term": [Function],
   "var": [Function],
@@ -119,7 +119,6 @@ exports[`engine manages the commands initializes with a list of commands 1`] = `
 {
   "bar": [Function],
   "clear": [Function],
-  "clearAll": [Function],
   "degree": [Function],
   "deleteLeft": [Function],
   "deleteRight": [Function],
@@ -131,6 +130,7 @@ exports[`engine manages the commands initializes with a list of commands 1`] = `
   "moveRight": [Function],
   "radian": [Function],
   "remind": [Function],
+  "reset": [Function],
   "sign": [Function],
   "term": [Function],
   "var": [Function],
@@ -141,7 +141,6 @@ exports[`engine manages the commands sets commands from a list 1`] = `
 {
   "bar": [Function],
   "clear": [Function],
-  "clearAll": [Function],
   "degree": [Function],
   "deleteLeft": [Function],
   "deleteRight": [Function],
@@ -153,6 +152,7 @@ exports[`engine manages the commands sets commands from a list 1`] = `
   "moveRight": [Function],
   "radian": [Function],
   "remind": [Function],
+  "reset": [Function],
   "sign": [Function],
   "term": [Function],
   "var": [Function],

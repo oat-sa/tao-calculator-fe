@@ -1389,7 +1389,7 @@ describe('engine', () => {
             expect(clearCommand).toHaveBeenCalledTimes(1);
         });
 
-        it('clearAll', () => {
+        it('reset', () => {
             const expression = '.1 + .2';
             const position = 2;
             const variables = { x: '42' };
@@ -1402,7 +1402,7 @@ describe('engine', () => {
             calculator.setMemory();
             calculator.setLastResult(10);
             calculator.on('reset', resetEvent);
-            calculator.on('command-clearAll', clearCommand);
+            calculator.on('command-reset', clearCommand);
 
             expect(calculator.getExpression()).toStrictEqual(expression);
             expect(calculator.getPosition()).toStrictEqual(position);
@@ -1410,7 +1410,7 @@ describe('engine', () => {
             expect(calculator.getVariableValue('mem')).toStrictEqual(2);
             expect(calculator.getVariableValue('x')).toStrictEqual(42);
 
-            calculator.command('clearAll');
+            calculator.command('reset');
 
             expect(calculator.getExpression()).toStrictEqual('');
             expect(calculator.getPosition()).toStrictEqual(0);
