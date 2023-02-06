@@ -1037,7 +1037,7 @@ function engineFactory({
          * @fires render when the expression has been rendered
          */
         render() {
-            const renderedTerms = expressionHelper.render(this.getTokens(), this.getVariable(), tokenizer);
+            const renderedTerms = expressionHelper.render(this.getTokens(), this.getAllVariables(), tokenizer);
 
             this.trigger('render', renderedTerms);
 
