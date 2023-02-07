@@ -37,6 +37,12 @@ const lastResultVariable = terms.ANS.value;
 const memoryVariable = terms.MEM.value;
 
 /**
+ * Match the space separators
+ * @type {RegExp}
+ */
+const reSpace = /\s+/;
+
+/**
  * Defines the engine for a calculator
  * @param {object} [config]
  * @param {string} [config.expression=''] - The current expression
@@ -105,20 +111,22 @@ function engineFactory({
     const calculatorApi = {
         /**
          * Registers an event listener.
-         * @param {string} name - The name of the event to listen to.
+         * @param {string} names - The name of the event to listen to. It can be a list separated by spaces.
          * @param {function} listener - The listener to call when the event happen.
          * @returns {calculator} - Chains the instance.
          */
-        on(name, listener) {
-            if ('undefined' !== typeof name && 'function' === typeof listener) {
-                let listeners = events.get(name);
+        on(names, listener) {
+            if ('string' === typeof names && 'function' === typeof listener) {
+                names.split(reSpace).forEach(name => {
+                    let listeners = events.get(name);
 
-                if (!listeners) {
-                    listeners = new Set();
-                    events.set(name, listeners);
-                }
+                    if (!listeners) {
+                        listeners = new Set();
+                        events.set(name, listeners);
+                    }
 
-                listeners.add(listener);
+                    listeners.add(listener);
+                });
             }
 
             return this;
@@ -126,27 +134,31 @@ function engineFactory({
 
         /**
          * Removes an event listener.
-         * @param {string} name - The name of the event to free.
+         * @param {string} names - The name of the event to free. It can be a list separated by spaces.
          * @param {function} listener - The listener to remove from the list.
          * @returns {calculator} - Chains the instance.
          */
-        off(name, listener = null) {
-            if ('undefined' === typeof name) {
+        off(names, listener = null) {
+            if ('undefined' === typeof names) {
                 events.clear();
                 return this;
             }
 
-            const listeners = events.get(name);
-            if (!listeners) {
-                return this;
+            if (names && 'string' === typeof names) {
+                names.split(reSpace).forEach(name => {
+                    const listeners = events.get(name);
+                    if (!listeners) {
+                        return;
+                    }
+
+                    if (listener) {
+                        listeners.delete(listener);
+                    } else {
+                        listeners.clear();
+                    }
+                });
             }
 
-            if (!listener) {
-                listeners.clear();
-                return this;
-            }
-
-            listeners.delete(listener);
             return this;
         },
 
@@ -883,7 +895,7 @@ function engineFactory({
          */
         termList(names) {
             if ('string' === typeof names) {
-                names = names.split(/\s+/);
+                names = names.split(reSpace);
             }
 
             names.forEach(name => this.term(name));

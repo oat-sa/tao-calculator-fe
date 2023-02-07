@@ -27,7 +27,7 @@ describe('engine', () => {
     });
 
     describe('manages events', () => {
-        it('registers event listener', () => {
+        it('registers an event listener', () => {
             const calculator = engineFactory();
             const action = jest.fn();
 
@@ -38,16 +38,48 @@ describe('engine', () => {
             expect(action).toHaveBeenCalledTimes(1);
         });
 
-        it('removes event listener', () => {
+        it('registers multiple events to one listener', () => {
+            const calculator = engineFactory();
+            const action = jest.fn();
+
+            expect(calculator.on('foo bar', action)).toBe(calculator);
+
+            calculator.trigger('foo');
+            calculator.trigger('bar');
+
+            expect(action).toHaveBeenCalledTimes(2);
+        });
+
+        it('removes an event listener', () => {
             const calculator = engineFactory();
             const action1 = jest.fn();
             const action2 = jest.fn();
 
             calculator.on('test', action1);
             calculator.on('test', action2);
+            calculator.on('', action2);
 
             expect(calculator.off('test', action1)).toBe(calculator);
 
+            calculator.trigger('test');
+
+            expect(action1).toHaveBeenCalledTimes(0);
+            expect(action2).toHaveBeenCalledTimes(1);
+        });
+
+        it('removes a listener from multiple events', () => {
+            const calculator = engineFactory();
+            const action1 = jest.fn();
+            const action2 = jest.fn();
+
+            calculator.on('foo', action1);
+            calculator.on('bar', action1);
+            calculator.on('test', action2);
+
+            expect(calculator.off('foo bar', action1)).toBe(calculator);
+
+            calculator.trigger('foo');
+            calculator.trigger('bar');
             calculator.trigger('test');
 
             expect(action1).toHaveBeenCalledTimes(0);
