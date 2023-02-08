@@ -69,16 +69,16 @@ describe('history plugin', () => {
 
         calculator.setExpression('');
 
-        calculator.command('historyUp');
+        calculator.invoke('historyUp');
         expect(calculator.getExpression()).toEqual(expressions[2]);
 
-        calculator.command('historyUp');
+        calculator.invoke('historyUp');
         expect(calculator.getExpression()).toEqual(expressions[1]);
 
-        calculator.command('historyUp');
+        calculator.invoke('historyUp');
         expect(calculator.getExpression()).toEqual(expressions[0]);
 
-        calculator.command('historyDown');
+        calculator.invoke('historyDown');
         expect(calculator.getExpression()).toEqual(expressions[1]);
     });
 
@@ -95,12 +95,12 @@ describe('history plugin', () => {
         });
 
         calculator.setExpression('');
-        calculator.command('historyClear');
+        calculator.invoke('historyClear');
 
-        calculator.command('historyUp');
+        calculator.invoke('historyUp');
         expect(calculator.getExpression()).toEqual('');
 
-        calculator.command('historyDown');
+        calculator.invoke('historyDown');
         expect(calculator.getExpression()).toEqual('');
     });
 });

@@ -792,7 +792,7 @@ describe('engine', () => {
 
             calculator.setCommand('foo', cmd);
 
-            expect(calculator.command('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
 
             expect(cmd).toHaveBeenCalledTimes(1);
         });
@@ -818,7 +818,7 @@ describe('engine', () => {
             calculator.on('command', commandEvt);
             calculator.on('command-foo', actionEvt);
 
-            expect(calculator.command('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
 
             expect(cmd).toHaveBeenCalledTimes(1);
             expect(commandEvt).toHaveBeenCalledTimes(1);
@@ -834,7 +834,7 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.command('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
         });
@@ -985,7 +985,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.term('NUM6')).toBe(calculator);
+            expect(calculator.insertTerm('NUM6')).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual('6');
             expect(calculator.getPosition()).toStrictEqual(1);
         });
@@ -995,7 +995,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.term('@NTHRT')).toBe(calculator);
+            expect(calculator.insertTerm('@NTHRT')).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual('@nthrt');
             expect(calculator.getPosition()).toStrictEqual(6);
         });
@@ -1006,7 +1006,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.variable('ans')).toBe(calculator);
+            expect(calculator.insertVariable('ans')).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual('ans');
             expect(calculator.getPosition()).toStrictEqual(3);
         });
@@ -1017,7 +1017,7 @@ describe('engine', () => {
         ])('replaces the expression by the term if %s', (title, expression, term, expected) => {
             const calculator = engineFactory({ expression });
 
-            expect(calculator.term(term)).toBe(calculator);
+            expect(calculator.insertTerm(term)).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual(expected);
         });
 
@@ -1178,7 +1178,7 @@ describe('engine', () => {
             const calculator = engineFactory({ expression, position });
             calculator.setLastResult('42');
 
-            expect(calculator.term(term)).toBe(calculator);
+            expect(calculator.insertTerm(term)).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual(expected);
         });
 
@@ -1248,7 +1248,7 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.term('foo')).toBe(calculator);
+            expect(calculator.insertTerm('foo')).toBe(calculator);
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
         });
@@ -1262,7 +1262,7 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.variable('foo')).toBe(calculator);
+            expect(calculator.insertVariable('foo')).toBe(calculator);
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
         });
@@ -1275,7 +1275,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.termList(terms)).toBe(calculator);
+            expect(calculator.insertTermList(terms)).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual(expected);
             expect(calculator.getPosition()).toStrictEqual(3);
         });
@@ -1415,7 +1415,7 @@ describe('engine', () => {
             expect(calculator.getVariableValue('mem')).toStrictEqual(2);
             expect(calculator.getVariableValue('x')).toStrictEqual(42);
 
-            calculator.command('clear');
+            calculator.invoke('clear');
 
             expect(calculator.getExpression()).toStrictEqual('');
             expect(calculator.getPosition()).toStrictEqual(0);
@@ -1447,7 +1447,7 @@ describe('engine', () => {
             expect(calculator.getVariableValue('mem')).toStrictEqual(2);
             expect(calculator.getVariableValue('x')).toStrictEqual(42);
 
-            calculator.command('reset');
+            calculator.invoke('reset');
 
             expect(calculator.getExpression()).toStrictEqual('');
             expect(calculator.getPosition()).toStrictEqual(0);
@@ -1471,7 +1471,7 @@ describe('engine', () => {
             calculator.setVariableList(variables);
             calculator.on('evaluate', evaluateEvent);
             calculator.on('command-execute', executeCommand);
-            calculator.command('execute');
+            calculator.invoke('execute');
 
             expect(calculator.getVariableValue('ans').toString()).toEqual('126');
             expect(evaluateEvent).toHaveBeenCalledTimes(1);
@@ -1491,7 +1491,7 @@ describe('engine', () => {
             calculator.setVariableList({ x: 42 });
             calculator.on('term', varEvent);
             calculator.on('command-var', varCommand);
-            calculator.command('var', 'x');
+            calculator.invoke('var', 'x');
 
             expect(calculator.getExpression()).toStrictEqual('x');
             expect(calculator.getPosition()).toStrictEqual(1);
@@ -1511,7 +1511,7 @@ describe('engine', () => {
 
             calculator.on('term', termEvent);
             calculator.on('command-term', termCommand);
-            calculator.command('term', 'NUM3');
+            calculator.invoke('term', 'NUM3');
 
             expect(calculator.getExpression()).toStrictEqual('3');
             expect(calculator.getPosition()).toStrictEqual(1);
@@ -1534,7 +1534,7 @@ describe('engine', () => {
 
             calculator.on('term', termEvent);
             calculator.on('command-term', termCommand);
-            calculator.command('term', terms);
+            calculator.invoke('term', terms);
 
             expect(calculator.getExpression()).toStrictEqual('3+2');
             expect(calculator.getPosition()).toStrictEqual(3);
@@ -1549,7 +1549,7 @@ describe('engine', () => {
 
             calculator.on('expression', signEvent);
             calculator.on('command-sign', signCommand);
-            calculator.command('sign');
+            calculator.invoke('sign');
 
             expect(calculator.getExpression()).toStrictEqual('3*-2');
             expect(calculator.getPosition()).toStrictEqual(4);
@@ -1566,7 +1566,7 @@ describe('engine', () => {
 
             calculator.on('configure', configEvent);
             calculator.on('command-degree', degreeCommand);
-            calculator.command('degree');
+            calculator.invoke('degree');
 
             expect(calculator.isDegreeMode()).toBeTruthy();
             expect(configEvent).toHaveBeenCalledTimes(1);
@@ -1582,7 +1582,7 @@ describe('engine', () => {
 
             calculator.on('configure', configEvent);
             calculator.on('command-radian', radianCommand);
-            calculator.command('radian');
+            calculator.invoke('radian');
 
             expect(calculator.isDegreeMode()).toBeFalsy();
             expect(configEvent).toHaveBeenCalledTimes(1);
@@ -1602,7 +1602,7 @@ describe('engine', () => {
             expect(calculator.getExpression()).toStrictEqual('');
             expect(calculator.getPosition()).toStrictEqual(0);
 
-            calculator.command('remind');
+            calculator.invoke('remind');
 
             expect(calculator.getExpression()).toStrictEqual('mem');
             expect(calculator.getPosition()).toStrictEqual(3);
@@ -1628,7 +1628,7 @@ describe('engine', () => {
             expect(calculator.getVariableValue('mem')).toStrictEqual(0);
             expect(calculator.getVariableValue('x')).toStrictEqual(42);
 
-            calculator.command('memorize');
+            calculator.invoke('memorize');
 
             expect(calculator.getVariableValue('ans')).toStrictEqual(2);
             expect(calculator.getVariableValue('mem')).toStrictEqual(2);
@@ -1656,7 +1656,7 @@ describe('engine', () => {
             expect(calculator.getVariableValue('mem')).toStrictEqual(2);
             expect(calculator.getVariableValue('x')).toStrictEqual(42);
 
-            calculator.command('forget');
+            calculator.invoke('forget');
 
             expect(calculator.getVariableValue('ans')).toStrictEqual(2);
             expect(calculator.getVariableValue('mem')).toStrictEqual(0);
@@ -1674,7 +1674,7 @@ describe('engine', () => {
 
             calculator.on('position', moveEvent);
             calculator.on('command-moveLeft', moveCommand);
-            calculator.command('moveLeft');
+            calculator.invoke('moveLeft');
 
             expect(calculator.getPosition()).toStrictEqual(1);
             expect(moveEvent).toHaveBeenCalledTimes(1);
@@ -1690,7 +1690,7 @@ describe('engine', () => {
 
             calculator.on('position', moveEvent);
             calculator.on('command-moveRight', moveCommand);
-            calculator.command('moveRight');
+            calculator.invoke('moveRight');
 
             expect(calculator.getPosition()).toStrictEqual(3);
             expect(moveEvent).toHaveBeenCalledTimes(1);
@@ -1710,7 +1710,7 @@ describe('engine', () => {
             calculator.on('position', moveEvent);
             calculator.on('expression', exprEvent);
             calculator.on('command-deleteLeft', deleteCommand);
-            calculator.command('deleteLeft');
+            calculator.invoke('deleteLeft');
 
             expect(calculator.getPosition()).toStrictEqual(1);
             expect(calculator.getExpression()).toEqual('34*2');
@@ -1728,7 +1728,7 @@ describe('engine', () => {
 
             calculator.on('expression', exprEvent);
             calculator.on('command-deleteRight', deleteCommand);
-            calculator.command('deleteRight');
+            calculator.invoke('deleteRight');
 
             expect(calculator.getPosition()).toStrictEqual(2);
             expect(calculator.getExpression()).toEqual('3+*2');

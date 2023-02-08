@@ -865,7 +865,7 @@ function engineFactory({
          * @fires error if the term to add is invalid
          * @fires term when the term has been added
          */
-        term(name) {
+        insertTerm(name) {
             const prefixed = isFunctionOperator(name);
             if (prefixed) {
                 name = name.substring(1);
@@ -893,12 +893,12 @@ function engineFactory({
          * @fires error if a term to add is invalid
          * @fires term when a term has been added
          */
-        termList(names) {
+        insertTermList(names) {
             if ('string' === typeof names) {
                 names = names.split(reSpace);
             }
 
-            names.forEach(name => this.term(name));
+            names.forEach(name => this.insertTerm(name));
 
             return this;
         },
@@ -910,7 +910,7 @@ function engineFactory({
          * @fires error if the term to add is invalid
          * @fires term when the term has been added
          */
-        variable(name) {
+        insertVariable(name) {
             if (!variablesRegistry.has(name)) {
                 return this.trigger('error', new TypeError(`Invalid variable: ${name}`));
             }
@@ -931,7 +931,7 @@ function engineFactory({
          * @fires command-<name> with the parameters of the command
          * @fires error if the command is invalid
          */
-        command(name, ...args) {
+        invoke(name, ...args) {
             const action = commandsRegistry.get(name);
 
             if ('function' !== typeof action) {
@@ -1069,12 +1069,12 @@ function engineFactory({
         .setCommand('clear', () => calculatorApi.clear())
         .setCommand('reset', () => calculatorApi.reset())
         .setCommand('execute', () => calculatorApi.evaluate())
-        .setCommand('var', name => calculatorApi.variable(name))
-        .setCommand('term', name => calculatorApi.termList(name))
+        .setCommand('var', name => calculatorApi.insertVariable(name))
+        .setCommand('term', name => calculatorApi.insertTermList(name))
         .setCommand('sign', () => calculatorApi.changeSign())
         .setCommand('degree', () => calculatorApi.setDegreeMode(true))
         .setCommand('radian', () => calculatorApi.setDegreeMode(false))
-        .setCommand('remind', () => calculatorApi.variable(memoryVariable))
+        .setCommand('remind', () => calculatorApi.insertVariable(memoryVariable))
         .setCommand('memorize', () => calculatorApi.setMemory())
         .setCommand('forget', () => calculatorApi.clearMemory())
         .setCommand('moveLeft', () => calculatorApi.movePositionLeft())
