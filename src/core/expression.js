@@ -16,9 +16,9 @@
  * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 
-import { isPrefixed, terms, types } from './terms.js';
-import tokensHelper from './tokens';
-import tokenizerFactory from './tokenizer';
+import { isFunctionOperator, terms, types } from './terms.js';
+import tokensHelper from './tokens.js';
+import tokenizerFactory from './tokenizer.js';
 
 /**
  * @typedef {term} renderTerm - Represents a renderable tokenizable term
@@ -229,7 +229,7 @@ const expressionHelper = {
                 exponent: null,
                 startExponent: null,
                 endExponent: [],
-                prefixed: isPrefixed(token.value),
+                prefixed: isFunctionOperator(token.value),
                 elide: false
             };
 

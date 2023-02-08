@@ -23,11 +23,13 @@
 const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
 
 /**
- * Tells if a term is prefixed.
+ * Tells if a term is prefixed for turning a function into a binary operator.
+ * This allows using a function like `nthrt(x, y)` as `x @nthrt y`.
+ * This tweak simplifies the expression's renderer.
  * @param {string} name - The term to check.
  * @returns {boolean} - Returns `true` if the term is prefixed.
  */
-export const isPrefixed = name => rePrefixedTerm.test(name);
+export const isFunctionOperator = name => rePrefixedTerm.test(name);
 
 /**
  * Formats a math element as exponent.

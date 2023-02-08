@@ -16,7 +16,7 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import { isPrefixed, terms } from './terms.js';
+import { isFunctionOperator, terms } from './terms.js';
 import tokensHelper from './tokens.js';
 import expressionHelper from './expression.js';
 import tokenizerFactory from './tokenizer.js';
@@ -814,7 +814,7 @@ function engineFactory({
             // - it is the last result, and the term to add is not an operator
             if (
                 !tokensHelper.isOperator(term.type) &&
-                !isPrefixed(term.value) &&
+                !isFunctionOperator(term.value) &&
                 tokensList.length === 1 &&
                 ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')
             ) {
@@ -866,7 +866,7 @@ function engineFactory({
          * @fires term when the term has been added
          */
         term(name) {
-            const prefixed = isPrefixed(name);
+            const prefixed = isFunctionOperator(name);
             if (prefixed) {
                 name = name.substring(1);
             }

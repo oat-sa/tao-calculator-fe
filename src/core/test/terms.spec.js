@@ -25,12 +25,12 @@ import {
     exponentRight,
     exponentLeft,
     subscriptRight,
-    isPrefixed
+    isFunctionOperator
 } from '../terms.js';
 
-describe('isPrefixed', () => {
+describe('isFunctionOperator', () => {
     it('is a helper', () => {
-        expect(isPrefixed).toEqual(expect.any(Function));
+        expect(isFunctionOperator).toEqual(expect.any(Function));
     });
 
     it.each([
@@ -38,7 +38,7 @@ describe('isPrefixed', () => {
         ['sqrt', false],
         ['', false]
     ])('tells if %s is prefixed', (value, expected) => {
-        expect(isPrefixed(value)).toStrictEqual(expected);
+        expect(isFunctionOperator(value)).toStrictEqual(expected);
     });
 });
 
