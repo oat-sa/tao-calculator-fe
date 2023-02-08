@@ -91,7 +91,7 @@ const continueExponent = ['POW', 'NTHRT'];
  * Default number of significant digits used to round displayed variables
  * @type {number}
  */
-const defaultDecimalDigits = 5;
+export const defaultDecimalDigits = 5;
 
 /**
  * List of helpers that apply on expression

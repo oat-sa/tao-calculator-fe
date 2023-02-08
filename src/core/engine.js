@@ -18,7 +18,7 @@
 
 import { isFunctionOperator, terms } from './terms.js';
 import tokensHelper from './tokens.js';
-import expressionHelper from './expression.js';
+import expressionHelper, { defaultDecimalDigits } from './expression.js';
 import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import { applyValueStrategies, prefixStrategies, suffixStrategies } from './strategies/value.js';
@@ -1045,11 +1045,13 @@ function engineFactory({
         /**
          * Renders the current expression into a list of terms.
          * This list can then be applied to a template.
+         * @param {number} decimals - The number of decimals to present after the dot in the last result variable.
          * @returns {renderTerm[]}
          * @fires render when the expression has been rendered
          */
-        render() {
-            const renderedTerms = expressionHelper.render(this.getTokens(), this.getAllVariables(), tokenizer);
+        render(decimals = defaultDecimalDigits) {
+            const formattedVariables = expressionHelper.roundLastResultVariable(this.getAllVariables(), decimals);
+            const renderedTerms = expressionHelper.render(this.getTokens(), formattedVariables, tokenizer);
 
             this.trigger('render', renderedTerms);
 

@@ -1354,6 +1354,15 @@ describe('engine', () => {
             expect(calculator.render()).toMatchSnapshot();
         });
 
+        it('using the last result with an irrational number', () => {
+            const calculator = engineFactory();
+            calculator.setExpression('1/3');
+            calculator.evaluate();
+            calculator.setExpression('ans*3');
+
+            expect(calculator.render()).toMatchSnapshot();
+        });
+
         it('emits a render event', () => {
             const calculator = engineFactory({ expression: '.1 + .2' });
             const action = jest.fn().mockImplementation(result => {

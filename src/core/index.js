@@ -19,6 +19,6 @@
 export { default as engineFactory } from './engine.js';
 export { default as mathsEvaluatorFactory } from './mathsEvaluator.js';
 export { default as tokenizerFactory } from './tokenizer.js';
-export { default as expressionHelper } from './expression.js';
+export { default as expressionHelper, defaultDecimalDigits } from './expression.js';
 export { default as tokensHelper } from './tokens.js';
 export * from './terms.js';
