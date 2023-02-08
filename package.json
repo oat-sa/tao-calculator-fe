@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "displayName": "TAO Calculator's engine",
     "description": "A calculator's engine for TAO",
-    "main": "dist/index.js",
+    "main": "src/index.js",
     "files": [
         "dist",
         "src",
