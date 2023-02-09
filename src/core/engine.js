@@ -1050,7 +1050,7 @@ function engineFactory({
          * @fires render when the expression has been rendered
          */
         render(decimals = defaultDecimalDigits) {
-            const formattedVariables = expressionHelper.roundLastResultVariable(this.getAllVariables(), decimals);
+            const formattedVariables = expressionHelper.roundAllVariables(this.getAllVariables(), decimals);
             const renderedTerms = expressionHelper.render(this.getTokens(), formattedVariables, tokenizer);
 
             this.trigger('render', renderedTerms);

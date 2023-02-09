@@ -150,13 +150,13 @@ const expressionHelper = {
      * @param {number} [decimalDigits=5]
      * @returns {object}
      */
-    roundLastResultVariable(variables, decimalDigits) {
-        if (variables && 'undefined' !== typeof variables[lastResultVariableName]) {
-            variables[lastResultVariableName] = expressionHelper.roundVariable(
-                variables[lastResultVariableName],
-                decimalDigits
-            );
+    roundAllVariables(variables, decimalDigits) {
+        if (!variables) {
+            return variables;
         }
+        Object.keys(variables).forEach(name => {
+            variables[name] = expressionHelper.roundVariable(variables[name], decimalDigits);
+        });
         return variables;
     },
 
