@@ -75,8 +75,8 @@ export const subscriptRight = (a, x) => a + subscript(x);
  */
 export const symbols = {
     minusOne: '\uFE631',
-    minus: '\uFF0D',
-    plus: '\uFF0B',
+    minus: '\u2212',
+    plus: '\u002B',
     positive: '+',
     negative: '-',
     multiply: '\u00D7',

@@ -7,12 +7,12 @@ exports[`symbols defines symbols 1`] = `
   "ellipsis": "…",
   "euler": "e",
   "fourthRoot": "∜",
-  "minus": "－",
+  "minus": "−",
   "minusOne": "﹣1",
   "multiply": "×",
   "negative": "-",
   "pi": "π",
-  "plus": "＋",
+  "plus": "+",
   "positive": "+",
   "squareRoot": "√",
 }
@@ -40,7 +40,7 @@ exports[`terms defines terms 1`] = `
   },
   "ADD": {
     "exponent": false,
-    "label": "＋",
+    "label": "+",
     "type": "operator",
     "value": "+",
   },
@@ -352,7 +352,7 @@ exports[`terms defines terms 1`] = `
   },
   "SUB": {
     "exponent": false,
-    "label": "－",
+    "label": "−",
     "type": "operator",
     "value": "-",
   },
