@@ -225,9 +225,9 @@ describe('expression', () => {
                 expect(expressionHelper.renderSign('-42')).toStrictEqual(`-42`);
                 expect(expressionHelper.renderSign('+42')).toStrictEqual(`+42`);
                 expect(expressionHelper.renderSign('3-4+2')).toStrictEqual(`3-4+2`);
-                expect(expressionHelper.renderSign('\uFF0D42')).toStrictEqual(`-42`);
-                expect(expressionHelper.renderSign('\uFF0B42')).toStrictEqual(`+42`);
-                expect(expressionHelper.renderSign('3\uFF0D4\uFF0B2')).toStrictEqual(`3-4+2`);
+                expect(expressionHelper.renderSign('\u221242')).toStrictEqual(`-42`);
+                expect(expressionHelper.renderSign('\u002B42')).toStrictEqual(`+42`);
+                expect(expressionHelper.renderSign('3\u22124\u002B2')).toStrictEqual(`3-4+2`);
             });
         });
 
