@@ -105,6 +105,15 @@ function engineFactory({
     let mathsEvaluator;
 
     /**
+     * Internal state for the engine.
+     * @type {object}
+     */
+    const state = {
+        changed: false, // Did the expression change since the last calculation?
+        error: false // Do the expression have error?
+    };
+
+    /**
      * Engine API
      * @type {object}
      */
@@ -211,6 +220,22 @@ function engineFactory({
         },
 
         /**
+         * Tells if the expression has changed since the last calculation.
+         * @type {boolean}
+         */
+        get changed() {
+            return state.changed;
+        },
+
+        /**
+         * Tells if the expression has or produces error.
+         * @type {boolean}
+         */
+        get error() {
+            return state.error;
+        },
+
+        /**
          * Gets access to the mathsEvaluator
          * @returns {function}
          */
@@ -243,6 +268,8 @@ function engineFactory({
         setExpression(expr) {
             expression = String(expr || '');
             tokens = null;
+            state.changed = true;
+            state.error = false;
 
             this.trigger('expression', expression);
 
@@ -1024,6 +1051,8 @@ function engineFactory({
          */
         evaluate() {
             let result = null;
+            state.changed = false;
+
             try {
                 if (expression.trim()) {
                     const vars = this.getAllVariableValues();
@@ -1032,10 +1061,13 @@ function engineFactory({
                     result = mathsEvaluator('0');
                 }
 
+                state.error = expressionHelper.containsError(result);
+
                 this.setLastResult(result);
 
                 this.trigger('evaluate', result);
             } catch (e) {
+                state.error = true;
                 this.trigger('syntaxerror', e);
             }
 
@@ -1067,6 +1099,7 @@ function engineFactory({
         .configureMathsEvaluator()
         .setLastResult('0')
         .setMemory()
+        .setExpression(expression)
         .setPosition(position)
         .setCommand('clear', () => calculatorApi.clear())
         .setCommand('reset', () => calculatorApi.reset())

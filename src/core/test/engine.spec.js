@@ -1334,6 +1334,69 @@ describe('engine', () => {
         });
     });
 
+    describe('has state', () => {
+        describe('changed', () => {
+            it('is initially true', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+
+                expect(calculator.changed).toBeTruthy();
+            });
+
+            it('is false once the expression has been processed', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+                calculator.evaluate();
+
+                expect(calculator.changed).toBeFalsy();
+            });
+
+            it('is true again as as soon as the expression is modified', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+                calculator.evaluate();
+
+                calculator.setExpression('');
+
+                expect(calculator.changed).toBeTruthy();
+            });
+        });
+
+        describe('error', () => {
+            it('is initially false', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+
+                expect(calculator.error).toBeFalsy();
+            });
+
+            it('remains false if the expression is successfully evaluated', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+                calculator.evaluate();
+
+                expect(calculator.error).toBeFalsy();
+            });
+
+            it('is true if the expression failed to be calculated', () => {
+                const calculator = engineFactory({ expression: '1+' });
+                calculator.evaluate();
+
+                expect(calculator.error).toBeTruthy();
+            });
+
+            it('is true if the expression produced a wrong result', () => {
+                const calculator = engineFactory({ expression: '0/0' });
+                calculator.evaluate();
+
+                expect(calculator.error).toBeTruthy();
+            });
+
+            it('is false if the expression has changed', () => {
+                const calculator = engineFactory({ expression: '1+' });
+                calculator.evaluate();
+                calculator.insertTerm('NUM3');
+
+                expect(calculator.error).toBeFalsy();
+            });
+        });
+    });
+
     describe('renders the expression', () => {
         it('from an empty expression', () => {
             const calculator = engineFactory();
