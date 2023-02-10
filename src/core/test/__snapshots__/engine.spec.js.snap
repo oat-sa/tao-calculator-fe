@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`engine evaluates the expression does not update the last result if an error occurred 1`] = `
+{
+  "expression": "3*4",
+  "result": "12",
+  "value": 12,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
 exports[`engine evaluates the expression emits an evaluate event 1`] = `
 {
   "expression": ".1 + .2",

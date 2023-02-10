@@ -1062,8 +1062,9 @@ function engineFactory({
                 }
 
                 state.error = expressionHelper.containsError(result);
-
-                this.setLastResult(result);
+                if (!state.error) {
+                    this.setLastResult(result);
+                }
 
                 this.trigger('evaluate', result);
             } catch (e) {

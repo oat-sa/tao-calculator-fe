@@ -1302,6 +1302,17 @@ describe('engine', () => {
             expect(calculator.getLastResult()).toMatchSnapshot();
         });
 
+        it('does not update the last result if an error occurred', () => {
+            const calculator = engineFactory({ expression: '3*4' });
+
+            calculator.evaluate();
+            calculator.insertTerm('DIV');
+            calculator.insertTerm('NUM0');
+            calculator.evaluate();
+
+            expect(calculator.getLastResult()).toMatchSnapshot();
+        });
+
         it('using the last result', () => {
             const calculator = engineFactory({ expression: 'ans / 2' });
             calculator.setLastResult('42');
