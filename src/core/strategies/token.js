@@ -91,8 +91,8 @@ function replaceByPositiveSign(token, index, tokens) {
  * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
  */
 function applySignChange(index, tokens) {
-    const token = tokens[index] || null;
-    const nextToken = tokens[index + 1] || null;
+    const token = tokens[index];
+    const nextToken = tokens[index + 1];
     const type = tokensHelper.getType(token);
     let result = null;
 
@@ -131,7 +131,7 @@ export const signStrategies = [
      * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
      */
     function strategyNumeric(index, tokens) {
-        let token = tokens[index] || null;
+        let token = tokens[index];
         let type = tokensHelper.getType(token);
         let result = null;
 
@@ -139,7 +139,7 @@ export const signStrategies = [
             // find the first token on the left of the operand
             while (index && tokensHelper.isDigit(type)) {
                 index--;
-                token = tokens[index] || null;
+                token = tokens[index];
                 type = tokensHelper.getType(token);
             }
 
@@ -162,7 +162,7 @@ export const signStrategies = [
      * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
      */
     function strategyOperator(index, tokens) {
-        let token = tokens[index] || null;
+        let token = tokens[index];
         let type = tokensHelper.getType(token);
         let result = null;
 
@@ -189,7 +189,7 @@ export const signStrategies = [
      * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
      */
     function strategyIdentifier(index, tokens) {
-        let token = tokens[index] || null;
+        let token = tokens[index];
         let type = tokensHelper.getType(token);
         let result = null;
 
@@ -213,7 +213,7 @@ export const signStrategies = [
      * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
      */
     function strategyExpression(index, tokens) {
-        let token = tokens[index] || null;
+        let token = tokens[index];
         let type = tokensHelper.getType(token);
         let result = null;
         let count = 0;
@@ -226,7 +226,7 @@ export const signStrategies = [
             // find the opening parenthesis
             while (index && (token.type !== 'LPAR' || count)) {
                 index--;
-                token = tokens[index] || null;
+                token = tokens[index];
 
                 if (token.type === 'RPAR') {
                     count++;
