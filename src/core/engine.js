@@ -1047,6 +1047,7 @@ function engineFactory({
          * Evaluates the current expression
          * @returns {mathsExpression|null}
          * @fires evaluate when the expression has been evaluated
+         * @fires result when the result is available
          * @fires syntaxerror when the expression contains an error
          */
         evaluate() {
@@ -1062,11 +1063,14 @@ function engineFactory({
                 }
 
                 state.error = expressionHelper.containsError(result);
+
+                this.trigger('evaluate', result);
+
                 if (!state.error) {
                     this.setLastResult(result);
                 }
 
-                this.trigger('evaluate', result);
+                this.trigger('result', result);
             } catch (e) {
                 state.error = true;
                 this.trigger('syntaxerror', e);
@@ -1232,6 +1236,12 @@ export default engineFactory;
 /**
  * Notifies the expression has been evaluated.
  * @event evaluate
+ * @param {mathsExpression} result - The result of the expression.
+ */
+
+/**
+ * Notifies the result is available.
+ * @event result
  * @param {mathsExpression} result - The result of the expression.
  */
 

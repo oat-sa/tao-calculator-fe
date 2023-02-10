@@ -82,6 +82,22 @@ describe('history plugin', () => {
         expect(calculator.getExpression()).toEqual(expressions[1]);
     });
 
+    it('memorizes the expression with variables', () => {
+        const plugins = {
+            history: historyPlugin
+        };
+        const calculator = engineFactory({ plugins });
+
+        calculator.setExpression('3*4');
+        calculator.evaluate();
+
+        calculator.setExpression('ans/3');
+        expect(calculator.evaluate().result.toString()).toEqual('4');
+
+        calculator.invoke('historyUp');
+        expect(calculator.evaluate().result.toString()).toEqual('4');
+    });
+
     it('clears the memory', () => {
         const plugins = {
             history: historyPlugin

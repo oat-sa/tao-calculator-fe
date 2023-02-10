@@ -12,18 +12,6 @@ exports[`engine evaluates the expression does not update the last result if an e
 }
 `;
 
-exports[`engine evaluates the expression emits an evaluate event 1`] = `
-{
-  "expression": ".1 + .2",
-  "result": "0.3",
-  "value": 0.3,
-  "variables": {
-    "ans": 0,
-    "mem": 0,
-  },
-}
-`;
-
 exports[`engine evaluates the expression from a simple expression 1`] = `
 {
   "expression": ".1 + .2",

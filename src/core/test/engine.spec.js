@@ -1322,14 +1322,32 @@ describe('engine', () => {
 
         it('emits an evaluate event', () => {
             const calculator = engineFactory({ expression: '.1 + .2' });
-            const action = jest.fn().mockImplementation(result => {
-                expect(result).toMatchSnapshot();
+            let variable;
+            const eventListener = jest.fn().mockImplementation(() => {
+                variable = calculator.getVariableValue('ans');
             });
 
-            calculator.on('evaluate', action);
-            calculator.evaluate();
+            calculator.on('evaluate', eventListener);
+            const result = calculator.evaluate();
 
-            expect(action).toHaveBeenCalledTimes(1);
+            expect(eventListener).toHaveBeenCalledTimes(1);
+            expect(eventListener.mock.calls[0][0]).toStrictEqual(result);
+            expect(variable.toString()).toEqual('0');
+        });
+
+        it('emits a result event', () => {
+            const calculator = engineFactory({ expression: '.1 + .2' });
+            let variable;
+            const eventListener = jest.fn().mockImplementation(() => {
+                variable = calculator.getVariableValue('ans');
+            });
+
+            calculator.on('result', eventListener);
+            const result = calculator.evaluate();
+
+            expect(eventListener).toHaveBeenCalledTimes(1);
+            expect(eventListener.mock.calls[0][0]).toStrictEqual(result);
+            expect(variable.toString()).toEqual('0.3');
         });
 
         it('emits a syntaxerror event', () => {
@@ -1546,18 +1564,19 @@ describe('engine', () => {
             const position = 2;
             const variables = { x: '42' };
             const calculator = engineFactory({ expression, position });
-            const evaluateEvent = jest.fn().mockImplementation(result => {
-                expect(result).toBe(calculator.getLastResult());
-            });
+            const evaluateEvent = jest.fn();
+            const resultEvent = jest.fn();
             const executeCommand = jest.fn();
 
             calculator.setVariableList(variables);
             calculator.on('evaluate', evaluateEvent);
+            calculator.on('result', resultEvent);
             calculator.on('command-execute', executeCommand);
             calculator.invoke('execute');
 
             expect(calculator.getVariableValue('ans').toString()).toEqual('126');
             expect(evaluateEvent).toHaveBeenCalledTimes(1);
+            expect(resultEvent).toHaveBeenCalledTimes(1);
             expect(executeCommand).toHaveBeenCalledTimes(1);
         });
 
