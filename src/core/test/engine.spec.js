@@ -16,6 +16,7 @@
  * Copyright (c) 2018-2023 (original work) Open Assessment Technologies SA ;
  */
 
+import Decimal from 'decimal.js';
 import engineFactory from '../engine.js';
 
 describe('engine', () => {
@@ -26,7 +27,7 @@ describe('engine', () => {
     });
 
     describe('manages events', () => {
-        it('registers event listener', () => {
+        it('registers an event listener', () => {
             const calculator = engineFactory();
             const action = jest.fn();
 
@@ -37,16 +38,48 @@ describe('engine', () => {
             expect(action).toHaveBeenCalledTimes(1);
         });
 
-        it('removes event listener', () => {
+        it('registers multiple events to one listener', () => {
+            const calculator = engineFactory();
+            const action = jest.fn();
+
+            expect(calculator.on('foo bar', action)).toBe(calculator);
+
+            calculator.trigger('foo');
+            calculator.trigger('bar');
+
+            expect(action).toHaveBeenCalledTimes(2);
+        });
+
+        it('removes an event listener', () => {
             const calculator = engineFactory();
             const action1 = jest.fn();
             const action2 = jest.fn();
 
             calculator.on('test', action1);
             calculator.on('test', action2);
+            calculator.on('', action2);
 
             expect(calculator.off('test', action1)).toBe(calculator);
 
+            calculator.trigger('test');
+
+            expect(action1).toHaveBeenCalledTimes(0);
+            expect(action2).toHaveBeenCalledTimes(1);
+        });
+
+        it('removes a listener from multiple events', () => {
+            const calculator = engineFactory();
+            const action1 = jest.fn();
+            const action2 = jest.fn();
+
+            calculator.on('foo', action1);
+            calculator.on('bar', action1);
+            calculator.on('test', action2);
+
+            expect(calculator.off('foo bar', action1)).toBe(calculator);
+
+            calculator.trigger('foo');
+            calculator.trigger('bar');
             calculator.trigger('test');
 
             expect(action1).toHaveBeenCalledTimes(0);
@@ -90,23 +123,23 @@ describe('engine', () => {
 
         it('triggers event listeners', () => {
             const calculator = engineFactory();
-            const action1 = jest.fn().mockImplementation(function (param1, param2) {
-                expect(this).toBe(calculator);
-                expect(param1).toEqual('foo');
-                expect(param2).toEqual('bar');
-            });
-            const action2 = jest.fn().mockImplementation(function (param1, param2) {
-                expect(this).toBe(calculator);
-                expect(param1).toEqual('foo');
-                expect(param2).toEqual('bar');
-            });
+            const action1 = jest.fn();
+            const action2 = jest.fn();
 
             calculator.on('test', action1);
             calculator.on('test', action2);
 
             expect(calculator.trigger('test', 'foo', 'bar')).toBe(calculator);
+
             expect(action1).toHaveBeenCalledTimes(1);
+            expect(action1.mock.contexts[0]).toBe(calculator);
+            expect(action1.mock.calls[0][0]).toEqual('foo');
+            expect(action1.mock.calls[0][1]).toEqual('bar');
+
             expect(action2).toHaveBeenCalledTimes(1);
+            expect(action2.mock.contexts[0]).toBe(calculator);
+            expect(action2.mock.calls[0][0]).toEqual('foo');
+            expect(action2.mock.calls[0][1]).toEqual('bar');
         });
     });
 
@@ -118,19 +151,65 @@ describe('engine', () => {
             expect(calculator.getTokenizer().iterator).toEqual(expect.any(Function));
             expect(calculator.getTokenizer().tokenize).toEqual(expect.any(Function));
         });
+    });
 
-        it('the evaluator', () => {
+    describe('manages the evaluator', () => {
+        it('access the evaluator', () => {
             const calculator = engineFactory();
 
             expect(calculator.getMathsEvaluator()).toEqual(expect.any(Function));
         });
+
+        it('configure the evaluator', () => {
+            const expression = 'cos PI';
+            const calculator = engineFactory({ expression });
+            const evaluator = calculator.getMathsEvaluator();
+
+            expect(calculator.evaluate().value).toEqual(-1);
+            expect(calculator.configureMathsEvaluator({ degree: true })).toBe(calculator);
+            expect(calculator.getMathsEvaluator()).not.toBe(evaluator);
+            expect(calculator.evaluate().value).toEqual(0.9984971498638638);
+        });
+
+        it('emits a configure event', () => {
+            const calculator = engineFactory();
+            const config = { degree: true };
+            const action = jest.fn();
+
+            calculator.on('configure', action);
+            calculator.configureMathsEvaluator(config);
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(config);
+        });
+
+        it('set the degree mode', () => {
+            const expression = 'cos PI';
+            const calculator = engineFactory({ expression });
+
+            expect(calculator.isDegreeMode()).toBeFalsy();
+            expect(calculator.evaluate().value).toEqual(-1);
+
+            expect(calculator.setDegreeMode()).toBe(calculator);
+            expect(calculator.isDegreeMode()).toBeTruthy();
+            expect(calculator.evaluate().value).toEqual(0.9984971498638638);
+
+            expect(calculator.setDegreeMode(false)).toBe(calculator);
+            expect(calculator.isDegreeMode()).toBeFalsy();
+            expect(calculator.evaluate().value).toEqual(-1);
+
+            expect(calculator.setDegreeMode(true)).toBe(calculator);
+            expect(calculator.isDegreeMode()).toBeTruthy();
+            expect(calculator.evaluate().value).toEqual(0.9984971498638638);
+        });
     });
 
     describe('manages the expression', () => {
-        it('reads the expression', () => {
+        it('initializes with the expression', () => {
             const calculator = engineFactory({ expression: '1+2' });
 
             expect(calculator.getExpression()).toStrictEqual('1+2');
+            expect(calculator.getPosition()).toStrictEqual(3);
         });
 
         it('sets the expression', () => {
@@ -141,17 +220,16 @@ describe('engine', () => {
             expect(calculator.getExpression()).toStrictEqual('1+2');
         });
 
-        it('emits an expressionchange event', () => {
+        it('emits an expression event', () => {
             const calculator = engineFactory();
             const expression = '(1 + 2) * 3';
-            const action = jest.fn().mockImplementation(expr => {
-                expect(expr).toStrictEqual(expression);
-            });
+            const action = jest.fn();
 
-            calculator.on('expressionchange', action);
+            calculator.on('expression', action);
             calculator.setExpression(expression);
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(expression);
         });
 
         it('clears the expression', () => {
@@ -182,23 +260,24 @@ describe('engine', () => {
             const calculator = engineFactory({ expression: '1+2' });
 
             expect(calculator.getExpression()).toStrictEqual('1+2');
-            expect(calculator.getPosition()).toStrictEqual(0);
+            expect(calculator.getPosition()).toStrictEqual(3);
             expect(calculator.replace('3*4', 2)).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual('3*4');
             expect(calculator.getPosition()).toStrictEqual(2);
         });
 
         it('emits a replace event', () => {
-            const calculator = engineFactory({ expression: '1+2', position: 1 });
-            const action = jest.fn().mockImplementation((oldExpression, oldPosition) => {
-                expect(oldExpression).toStrictEqual('1+2');
-                expect(oldPosition).toStrictEqual(1);
-            });
+            const expression = '1+2';
+            const position = 1;
+            const calculator = engineFactory({ expression, position });
+            const action = jest.fn();
 
             calculator.on('replace', action);
             calculator.replace('3*4', 2);
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(expression);
+            expect(action.mock.calls[0][1]).toStrictEqual(position);
         });
 
         it('inserts a sub-expression', () => {
@@ -222,19 +301,20 @@ describe('engine', () => {
         });
 
         it('emits an insert event', () => {
-            const calculator = engineFactory({ expression: '1+2', position: 1 });
-            const action = jest.fn().mockImplementation((oldExpression, oldPosition) => {
-                expect(oldExpression).toStrictEqual('1+2');
-                expect(oldPosition).toStrictEqual(1);
-            });
+            const expression = '1+2';
+            const position = 1;
+            const calculator = engineFactory({ expression, position });
+            const action = jest.fn();
 
             calculator.on('insert', action);
             calculator.insert('-3');
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(expression);
+            expect(action.mock.calls[0][1]).toStrictEqual(position);
         });
 
-        it('reads the position', () => {
+        it('initializes with the position', () => {
             const calculator = engineFactory({ expression: '1+2', position: 1 });
 
             expect(calculator.getExpression()).toStrictEqual('1+2');
@@ -255,18 +335,85 @@ describe('engine', () => {
             expect(calculator.getPosition()).toStrictEqual(expected);
         });
 
-        it('emits a positionchange event', () => {
+        it('emits a position event', () => {
             const expression = '(1 + 2) * 3';
             const calculator = engineFactory({ expression });
-            const action = jest.fn().mockImplementation(position => {
-                expect(position).toStrictEqual(2);
-            });
+            const action = jest.fn();
 
-            calculator.on('positionchange', action);
+            calculator.on('position', action);
             calculator.setPosition(2);
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(2);
         });
+
+        it.each([
+            ['', 0, 0],
+            ['(5-2)*4/5', 0, 0],
+            ['(5-2)*4/5', 5, 4],
+            ['(5-2)*4/5', 9, 8],
+            ['3*cos PI-2', 5, 2],
+            ['3*cos PI-2', 3, 2],
+            ['3*cos PI-2', 2, 1],
+            ['cos PI-2', 1, 0],
+            [' cos PI-2', 1, 0]
+        ])('moves to the left in %s fom position %s', (expression, position, expected) => {
+            const calculator = engineFactory({ expression, position });
+            expect(calculator.movePositionLeft()).toBe(calculator);
+            expect(calculator.getPosition()).toEqual(expected);
+        });
+
+        it.each([
+            ['', 0, 0],
+            ['(5-2)*4/5', 0, 1],
+            ['(5-2)*4/5', 5, 6],
+            ['(5-2)*4/5', 8, 9],
+            ['(5-2)*4/5', 9, 9],
+            ['3*cos PI-2', 5, 6],
+            ['3*cos PI-2', 3, 6],
+            ['3*cos PI-2', 2, 6],
+            ['cos PI-2', 1, 4]
+        ])('moves to the right in %s fom position %s', (expression, position, expected) => {
+            const calculator = engineFactory({ expression, position });
+            expect(calculator.movePositionRight()).toBe(calculator);
+            expect(calculator.getPosition()).toEqual(expected);
+        });
+
+        it.each([
+            ['', 0, '', 0],
+            ['cos', 1, '', 0],
+            [' cos', 1, ' ', 1],
+            ['(5-2)*4/5', 0, '(5-2)*4/5', 0],
+            ['(5-2)*4/5', 1, '5-2)*4/5', 0],
+            ['(5-2)*4/5', 9, '(5-2)*4/', 8],
+            ['3*cos PI-2', 5, '3*PI-2', 2]
+        ])(
+            'deletes on the left in %s fom position %s',
+            (expression, position, expectedExpression, expectedPosition) => {
+                const calculator = engineFactory({ expression, position });
+                expect(calculator.deleteTokenLeft()).toBe(calculator);
+                expect(calculator.getExpression()).toEqual(expectedExpression);
+                expect(calculator.getPosition()).toEqual(expectedPosition);
+            }
+        );
+
+        it.each([
+            ['', 0, '', 0],
+            ['(5-2)*4/5', 0, '5-2)*4/5', 0],
+            ['(5-2)*4/5', 1, '(-2)*4/5', 1],
+            ['(5-2)*4/5', 8, '(5-2)*4/', 8],
+            ['(5-2)*4/5', 9, '(5-2)*4/5', 9],
+            ['3*cos PI-2', 3, '3*PI-2', 2],
+            ['3*cos PI-2', 5, '3*cos -2', 5]
+        ])(
+            'deletes on the right in %s fom position %s',
+            (expression, position, expectedExpression, expectedPosition) => {
+                const calculator = engineFactory({ expression, position });
+                expect(calculator.deleteTokenRight()).toBe(calculator);
+                expect(calculator.getExpression()).toEqual(expectedExpression);
+                expect(calculator.getPosition()).toEqual(expectedPosition);
+            }
+        );
     });
 
     describe('manages the tokens', () => {
@@ -324,9 +471,38 @@ describe('engine', () => {
             calculator.setPosition(6);
             expect(calculator.getTokenIndex()).toStrictEqual(4);
         });
+
+        it('removes a token', () => {
+            const calculator = engineFactory({ expression: '(1 + 2) * 3', position: 2 });
+
+            expect(calculator.deleteToken(calculator.getTokens()[1])).toBe(calculator);
+            expect(calculator.getExpression()).toEqual('(+ 2) * 3');
+            expect(calculator.getPosition()).toEqual(1);
+
+            calculator.setPosition(4);
+            expect(calculator.deleteToken(calculator.getTokens()[1])).toBe(calculator);
+            expect(calculator.getExpression()).toEqual('(2) * 3');
+            expect(calculator.getPosition()).toEqual(2);
+
+            expect(calculator.deleteToken(calculator.getTokens()[4])).toBe(calculator);
+            expect(calculator.getExpression()).toEqual('(2) * ');
+            expect(calculator.getPosition()).toEqual(2);
+
+            expect(calculator.deleteToken()).toBe(calculator);
+            expect(calculator.getExpression()).toEqual('(2) * ');
+            expect(calculator.getPosition()).toEqual(2);
+        });
     });
 
     describe('manages the variables', () => {
+        it('initializes with a list of variables', () => {
+            const calculator = engineFactory({ variables: { ans: -3, mem: 10, foo: 42, expr: '4*3' } });
+
+            expect(calculator.getVariable('foo')).toMatchSnapshot();
+            expect(calculator.getVariable('expr')).toMatchSnapshot();
+            expect(calculator.getAllVariables()).toMatchSnapshot();
+        });
+
         it('sets a variable as a value', () => {
             const calculator = engineFactory();
 
@@ -357,17 +533,16 @@ describe('engine', () => {
             expect(calculator.getVariable('foo')).toMatchSnapshot();
         });
 
-        it('emits an variableadd event', () => {
+        it('emits a variableadd event', () => {
             const calculator = engineFactory();
-            const action = jest.fn().mockImplementation((name, value) => {
-                expect(name).toStrictEqual('foo');
-                expect(value).toBe(calculator.getVariable('foo'));
-            });
+            const action = jest.fn();
 
             calculator.on('variableadd', action);
             calculator.setVariable('foo', '3*4');
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual('foo');
+            expect(action.mock.calls[0][1]).toBe(calculator.getVariable('foo'));
         });
 
         it('deletes a variable', () => {
@@ -382,17 +557,16 @@ describe('engine', () => {
             expect(calculator.hasVariable('foo')).toBeFalsy();
         });
 
-        it('emits an variabledelete event', () => {
+        it('emits a variabledelete event', () => {
             const calculator = engineFactory();
-            const action = jest.fn().mockImplementation(name => {
-                expect(name).toStrictEqual('foo');
-            });
+            const action = jest.fn();
 
             calculator.setVariable('foo', '3*4');
             calculator.on('variabledelete', action);
             calculator.deleteVariable('foo');
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual('foo');
         });
 
         it('gets variables', () => {
@@ -403,33 +577,48 @@ describe('engine', () => {
 
             expect(calculator.getVariable('foo')).toMatchSnapshot();
             expect(calculator.getVariable('expr')).toMatchSnapshot();
-            expect(calculator.getVariables()).toMatchSnapshot();
+            expect(calculator.getAllVariables()).toMatchSnapshot();
+        });
+
+        it('gets variable values', () => {
+            const calculator = engineFactory();
+
+            calculator.setVariable('foo', 42);
+            calculator.setVariable('expr', '4*3');
+
+            expect(calculator.getVariableValue('foo')).toStrictEqual(42);
+            expect(calculator.getVariableValue('bar')).toStrictEqual(0);
+            expect(calculator.getVariableValue('expr')).toBeInstanceOf(Decimal);
+            expect(calculator.getVariableValue('expr').toString()).toStrictEqual('12');
+            expect(calculator.getAllVariableValues()).toMatchSnapshot();
         });
 
         it('sets variables from a list', () => {
             const calculator = engineFactory();
 
-            expect(calculator.setVariables({ foo: 42, expr: '4*3' })).toBe(calculator);
+            expect(calculator.setVariableList({ foo: 42, expr: '4*3' })).toBe(calculator);
 
             expect(calculator.getVariable('foo')).toMatchSnapshot();
             expect(calculator.getVariable('expr')).toMatchSnapshot();
-            expect(calculator.getVariables()).toMatchSnapshot();
+            expect(calculator.getAllVariables()).toMatchSnapshot();
         });
 
         it('deletes all variables', () => {
             const calculator = engineFactory();
-            const action = jest.fn().mockImplementation(name => {
-                expect(name).toBeNull();
-            });
+            const action = jest.fn();
 
-            calculator.on('variabledelete', action);
+            calculator.on('variableclear', action);
             calculator.setVariable('foo', 42);
             calculator.setVariable('expr', '4*3');
 
+            expect(calculator.hasVariable('ans')).toBeTruthy();
+            expect(calculator.hasVariable('mem')).toBeTruthy();
             expect(calculator.hasVariable('foo')).toBeTruthy();
             expect(calculator.hasVariable('expr')).toBeTruthy();
 
-            expect(calculator.deleteVariables()).toBe(calculator);
+            expect(calculator.clearVariables()).toBe(calculator);
+            expect(calculator.hasVariable('ans')).toBeTruthy();
+            expect(calculator.hasVariable('mem')).toBeTruthy();
             expect(calculator.hasVariable('foo')).toBeFalsy();
             expect(calculator.hasVariable('expr')).toBeFalsy();
             expect(action).toHaveBeenCalledTimes(1);
@@ -460,7 +649,40 @@ describe('engine', () => {
         });
     });
 
+    describe('manages a memory', () => {
+        it('set the memory from last result', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.getMemory()).toMatchSnapshot();
+
+            calculator.setLastResult(42);
+            expect(calculator.setMemory()).toBe(calculator);
+            expect(calculator.getMemory()).toMatchSnapshot();
+        });
+
+        it('clears the memory', () => {
+            const calculator = engineFactory();
+
+            calculator.setLastResult(42);
+            calculator.setMemory();
+
+            expect(calculator.getMemory()).toMatchSnapshot();
+            expect(calculator.clearMemory()).toBe(calculator);
+            expect(calculator.getMemory()).toMatchSnapshot();
+        });
+    });
+
     describe('manages the commands', () => {
+        it('initializes with a list of commands', () => {
+            const commands = {
+                foo() {},
+                bar() {}
+            };
+            const calculator = engineFactory({ commands });
+
+            expect(calculator.getAllCommands()).toMatchSnapshot();
+        });
+
         it('sets a command', () => {
             const calculator = engineFactory();
             const cmd = () => {};
@@ -472,17 +694,16 @@ describe('engine', () => {
             expect(calculator.getCommand('foo')).toBe(cmd);
         });
 
-        it('emits an commandadd event', () => {
+        it('emits a commandadd event', () => {
             const calculator = engineFactory();
             const cmd = () => {};
-            const action = jest.fn().mockImplementation(name => {
-                expect(name).toStrictEqual('foo');
-            });
+            const action = jest.fn();
 
             calculator.on('commandadd', action);
             calculator.setCommand('foo', cmd);
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual('foo');
         });
 
         it('deletes a command', () => {
@@ -498,18 +719,17 @@ describe('engine', () => {
             expect(calculator.hasCommand('foo')).toBeFalsy();
         });
 
-        it('emits an commanddelete event', () => {
+        it('emits a commanddelete event', () => {
             const calculator = engineFactory();
             const cmd = () => {};
-            const action = jest.fn().mockImplementation(name => {
-                expect(name).toStrictEqual('foo');
-            });
+            const action = jest.fn();
 
             calculator.setCommand('foo', cmd);
             calculator.on('commanddelete', action);
             calculator.deleteCommand('foo');
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual('foo');
         });
 
         it('gets commands', () => {
@@ -522,7 +742,7 @@ describe('engine', () => {
 
             expect(calculator.getCommand('foo')).toBe(cmd1);
             expect(calculator.getCommand('bar')).toBe(cmd2);
-            expect(calculator.getCommands()).toMatchSnapshot();
+            expect(calculator.getAllCommands()).toMatchSnapshot();
         });
 
         it('sets commands from a list', () => {
@@ -532,29 +752,27 @@ describe('engine', () => {
                 bar() {}
             };
 
-            expect(calculator.setCommands(cmds)).toBe(calculator);
+            expect(calculator.setCommandList(cmds)).toBe(calculator);
 
             expect(calculator.getCommand('foo')).toBe(cmds.foo);
             expect(calculator.getCommand('bar')).toBe(cmds.bar);
-            expect(calculator.getCommands()).toMatchSnapshot();
+            expect(calculator.getAllCommands()).toMatchSnapshot();
         });
 
         it('deletes all commands', () => {
             const calculator = engineFactory();
             const cmd1 = () => {};
             const cmd2 = () => {};
-            const action = jest.fn().mockImplementation(name => {
-                expect(name).toBeNull();
-            });
+            const action = jest.fn();
 
-            calculator.on('commanddelete', action);
+            calculator.on('commandclear', action);
             calculator.setCommand('foo', cmd1);
             calculator.setCommand('bar', cmd2);
 
             expect(calculator.hasCommand('foo')).toBeTruthy();
             expect(calculator.hasCommand('bar')).toBeTruthy();
 
-            expect(calculator.deleteCommands()).toBe(calculator);
+            expect(calculator.clearCommands()).toBe(calculator);
             expect(calculator.hasCommand('foo')).toBeFalsy();
             expect(calculator.hasCommand('bar')).toBeFalsy();
             expect(action).toHaveBeenCalledTimes(1);
@@ -562,58 +780,190 @@ describe('engine', () => {
 
         it('calls a command', () => {
             const calculator = engineFactory();
-            const cmd = jest.fn().mockImplementation((arg1, arg2) => {
-                expect(arg1).toStrictEqual(42);
-                expect(arg2).toStrictEqual('bar');
-            });
+            const action = jest.fn();
 
-            calculator.setCommand('foo', cmd);
+            calculator.setCommand('foo', action);
 
-            expect(calculator.useCommand('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
 
-            expect(cmd).toHaveBeenCalledTimes(1);
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(42);
+            expect(action.mock.calls[0][1]).toStrictEqual('bar');
         });
 
         it('emits a command event', () => {
             const calculator = engineFactory();
-            const cmd = jest.fn().mockImplementation((arg1, arg2) => {
-                expect(arg1).toStrictEqual(42);
-                expect(arg2).toStrictEqual('bar');
-            });
-            const commandEvt = jest.fn().mockImplementation((name, arg1, arg2) => {
-                expect(name).toStrictEqual('foo');
-                expect(arg1).toStrictEqual(42);
-                expect(arg2).toStrictEqual('bar');
-            });
-            const actionEvt = jest.fn().mockImplementation((arg1, arg2) => {
-                expect(arg1).toStrictEqual(42);
-                expect(arg2).toStrictEqual('bar');
-            });
+            const action = jest.fn();
+            const commandEvt = jest.fn();
+            const actionEvt = jest.fn();
 
-            calculator.setCommand('foo', cmd);
+            calculator.setCommand('foo', action);
             calculator.setCommand('bar', () => {});
             calculator.on('command', commandEvt);
             calculator.on('command-foo', actionEvt);
 
-            expect(calculator.useCommand('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
 
-            expect(cmd).toHaveBeenCalledTimes(1);
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(42);
+            expect(action.mock.calls[0][1]).toStrictEqual('bar');
+
             expect(commandEvt).toHaveBeenCalledTimes(1);
+            expect(commandEvt.mock.calls[0][0]).toStrictEqual('foo');
+            expect(commandEvt.mock.calls[0][1]).toStrictEqual(42);
+            expect(commandEvt.mock.calls[0][2]).toStrictEqual('bar');
+
             expect(actionEvt).toHaveBeenCalledTimes(1);
+            expect(actionEvt.mock.calls[0][0]).toStrictEqual(42);
+            expect(actionEvt.mock.calls[0][1]).toStrictEqual('bar');
         });
 
-        it('emits a commanderror event', () => {
+        it('emits an error event', () => {
             const calculator = engineFactory();
-            const errorEvt = jest.fn().mockImplementation(error => {
-                expect(error).toEqual(expect.any(TypeError));
-                expect(error.message).toStrictEqual('Invalid command: foo');
-            });
+            const errorEvt = jest.fn();
 
-            calculator.on('commanderror', errorEvt);
+            calculator.on('error', errorEvt);
 
-            expect(calculator.useCommand('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
+            expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
+            expect(errorEvt.mock.calls[0][0].message).toStrictEqual('Invalid command: foo');
+        });
+    });
+
+    describe('manages the plugins', () => {
+        it('initializes with a list of plugins', () => {
+            const plugins = {
+                foo: jest.fn(),
+                bar: jest.fn()
+            };
+            const calculator = engineFactory({ plugins });
+
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(calculator.hasPlugin('bar')).toBeTruthy();
+            expect(calculator.hasPlugin('baz')).toBeFalsy();
+
+            expect(plugins.foo).toBeCalledTimes(1);
+            expect(plugins.bar).toBeCalledTimes(1);
+        });
+
+        it('adds a plugin', () => {
+            const calculator = engineFactory();
+            const plugin = jest.fn();
+
+            expect(calculator.addPlugin('foo', plugin)).toBe(calculator);
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(plugin).toHaveBeenCalledTimes(1);
+            expect(plugin.mock.calls[0][0]).toBe(calculator);
+        });
+
+        it('adds a plugin again', () => {
+            const calculator = engineFactory();
+            const uninstall = jest.fn();
+            const plugin = jest.fn().mockImplementation(() => uninstall);
+
+            calculator.addPlugin('foo', plugin);
+            calculator.addPlugin('foo', plugin);
+
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(plugin).toHaveBeenCalledTimes(2);
+            expect(plugin.mock.calls[0][0]).toBe(calculator);
+            expect(plugin.mock.calls[1][0]).toBe(calculator);
+            expect(uninstall).toHaveBeenCalledTimes(1);
+        });
+
+        it('emits a pluginadd event', () => {
+            const calculator = engineFactory();
+            const plugin = jest.fn();
+            const event = jest.fn();
+
+            calculator.on('pluginadd', event);
+            calculator.addPlugin('foo', plugin);
+
+            expect(plugin).toHaveBeenCalledTimes(1);
+            expect(plugin.mock.calls[0][0]).toBe(calculator);
+
+            expect(event).toHaveBeenCalledTimes(1);
+            expect(event.mock.calls[0][0]).toStrictEqual('foo');
+        });
+
+        it('deletes a plugin', () => {
+            const calculator = engineFactory();
+            const uninstall = jest.fn();
+            const plugin = jest.fn().mockImplementation(() => uninstall);
+
+            expect(calculator.hasPlugin('foo')).toBeFalsy();
+
+            calculator.addPlugin('foo', plugin);
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+
+            expect(calculator.removePlugin('foo')).toBe(calculator);
+            expect(calculator.hasPlugin('foo')).toBeFalsy();
+
+            expect(plugin).toHaveBeenCalledTimes(1);
+            expect(uninstall).toHaveBeenCalledTimes(1);
+        });
+
+        it('emits a plugindelete event', () => {
+            const calculator = engineFactory();
+            const plugin = jest.fn();
+            const event = jest.fn();
+
+            calculator.addPlugin('foo', plugin);
+            calculator.on('plugindelete', event);
+            calculator.removePlugin('foo');
+
+            expect(plugin).toHaveBeenCalledTimes(1);
+            expect(event).toHaveBeenCalledTimes(1);
+            expect(event.mock.calls[0][0]).toStrictEqual('foo');
+        });
+
+        it('installs plugins from a list', () => {
+            const calculator = engineFactory();
+            const plugins = {
+                foo: jest.fn(),
+                bar: jest.fn()
+            };
+
+            expect(calculator.hasPlugin('foo')).toBeFalsy();
+            expect(calculator.hasPlugin('bar')).toBeFalsy();
+
+            expect(calculator.addPluginList(plugins)).toBe(calculator);
+
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(calculator.hasPlugin('bar')).toBeTruthy();
+            expect(calculator.hasPlugin('baz')).toBeFalsy();
+
+            expect(plugins.foo).toBeCalledTimes(1);
+            expect(plugins.bar).toBeCalledTimes(1);
+        });
+
+        it('uninstalls all plugins', () => {
+            const uninstallFoo = jest.fn();
+            const uninstallBar = jest.fn();
+            const plugins = {
+                foo: jest.fn().mockImplementation(() => uninstallFoo),
+                bar: jest.fn().mockImplementation(() => uninstallBar)
+            };
+            const calculator = engineFactory({ plugins });
+            const event = jest.fn();
+
+            expect(calculator.hasPlugin('foo')).toBeTruthy();
+            expect(calculator.hasPlugin('bar')).toBeTruthy();
+
+            expect(plugins.foo).toBeCalledTimes(1);
+            expect(plugins.bar).toBeCalledTimes(1);
+
+            calculator.on('pluginclear', event);
+
+            expect(calculator.clearPlugins()).toBe(calculator);
+            expect(calculator.hasPlugin('foo')).toBeFalsy();
+            expect(calculator.hasPlugin('bar')).toBeFalsy();
+
+            expect(event).toHaveBeenCalledTimes(1);
+            expect(uninstallFoo).toHaveBeenCalledTimes(1);
+            expect(uninstallBar).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -623,7 +973,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.useTerm('NUM6')).toBe(calculator);
+            expect(calculator.insertTerm('NUM6')).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual('6');
             expect(calculator.getPosition()).toStrictEqual(1);
         });
@@ -633,7 +983,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.useTerm('@NTHRT')).toBe(calculator);
+            expect(calculator.insertTerm('@NTHRT')).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual('@nthrt');
             expect(calculator.getPosition()).toStrictEqual(6);
         });
@@ -644,7 +994,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.useVariable('ans')).toBe(calculator);
+            expect(calculator.insertVariable('ans')).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual('ans');
             expect(calculator.getPosition()).toStrictEqual(3);
         });
@@ -655,18 +1005,64 @@ describe('engine', () => {
         ])('replaces the expression by the term if %s', (title, expression, term, expected) => {
             const calculator = engineFactory({ expression });
 
-            expect(calculator.useTerm(term)).toBe(calculator);
+            expect(calculator.insertTerm(term)).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual(expected);
         });
 
         it.each([
             ['SQRT', 0, '1', 'sqrt 1'],
-            ['SQRT', 1, '1', '1 sqrt'],
+            ['SQRT', 1, '1', '1*sqrt'],
+
+            ['SQRT', 0, '(', 'sqrt('],
+            ['SQRT', 1, '(', '(sqrt'],
+            ['SQRT', 0, ')', 'sqrt)'],
+            ['SQRT', 1, ')', ')*sqrt'],
+
+            ['NUM1', 0, '(', '1*('],
+            ['NUM1', 1, '(', '(1'],
+            ['NUM1', 0, ')', '1)'],
+            ['NUM1', 1, ')', ')*1'],
+
+            ['LPAR', 0, ')', '()'],
+            ['LPAR', 1, ')', ')*('],
+
+            ['LPAR', 0, 'PI', '(PI'],
+            ['LPAR', 1, 'PI', 'PI*('],
+            ['LPAR', 2, 'PI', 'PI*('],
+
+            ['LPAR', 0, '2', '(2'],
+            ['LPAR', 1, '2', '2*('],
+
+            ['RPAR', 0, '(', ')*('],
+            ['RPAR', 1, '(', '()'],
+
+            ['RPAR', 0, '3', ')*3'],
+            ['RPAR', 1, '3', '3)'],
+
+            ['RPAR', 0, 'ln', ')*ln'],
+            ['RPAR', 1, 'ln', 'ln)'],
+            ['RPAR', 2, 'ln', 'ln)'],
+
+            ['TEN', 0, '5', 'TEN*5'],
+            ['TEN', 1, '5', '5*TEN'],
+
+            ['TEN', 0, '+', 'TEN+'],
+            ['TEN', 1, '+', '+TEN'],
+
+            ['TEN', 0, 'exp', 'TEN*exp'],
+            ['TEN', 1, 'exp', 'exp TEN'],
+            ['TEN', 2, 'exp', 'exp TEN'],
+            ['TEN', 3, 'exp', 'exp TEN'],
+
+            ['@NTHRT', 0, '1+2', '@nthrt 1+2'],
+            ['@NTHRT', 1, '1+2', '1@nthrt+2'],
+            ['@NTHRT', 2, '1+2', '1+@nthrt 2'],
+            ['@NTHRT', 3, '1+2', '1+2@nthrt'],
 
             ['SQRT', 0, '1+2', 'sqrt 1+2'],
-            ['SQRT', 1, '1+2', '1 sqrt+2'],
+            ['SQRT', 1, '1+2', '1*sqrt+2'],
             ['SQRT', 2, '1+2', '1+sqrt 2'],
-            ['SQRT', 3, '1+2', '1+2 sqrt'],
+            ['SQRT', 3, '1+2', '1+2*sqrt'],
 
             ['SQRT', 0, 'exp', 'sqrt exp'],
             ['SQRT', 1, 'exp', 'exp sqrt'],
@@ -681,11 +1077,15 @@ describe('engine', () => {
             ['COS', 5, 'exp ln', 'exp ln cos'],
             ['COS', 6, 'exp ln', 'exp ln cos'],
 
-            ['NUM3', 0, 'exp ln', '3 exp ln'],
-            ['NUM3', 1, 'exp ln', 'exp 3 ln'],
-            ['NUM3', 2, 'exp ln', 'exp 3 ln'],
-            ['NUM3', 3, 'exp ln', 'exp 3 ln'],
-            ['NUM3', 4, 'exp ln', 'exp 3 ln'],
+            ['NUM3', 0, 'PI', '3*PI'],
+            ['NUM3', 1, 'PI', 'PI*3'],
+            ['NUM3', 2, 'PI', 'PI*3'],
+
+            ['NUM3', 0, 'exp ln', '3*exp ln'],
+            ['NUM3', 1, 'exp ln', 'exp 3* ln'],
+            ['NUM3', 2, 'exp ln', 'exp 3* ln'],
+            ['NUM3', 3, 'exp ln', 'exp 3* ln'],
+            ['NUM3', 4, 'exp ln', 'exp 3*ln'],
             ['NUM3', 5, 'exp ln', 'exp ln 3'],
             ['NUM3', 6, 'exp ln', 'exp ln 3'],
 
@@ -702,9 +1102,9 @@ describe('engine', () => {
             ['COS', 2, 'exp 2', 'exp cos 2'],
             ['COS', 3, 'exp 2', 'exp cos 2'],
             ['COS', 4, 'exp 2', 'exp cos 2'],
-            ['COS', 5, 'exp 2', 'exp 2 cos'],
+            ['COS', 5, 'exp 2', 'exp 2*cos'],
 
-            ['NUM3', 0, 'exp 2', '3 exp 2'],
+            ['NUM3', 0, 'exp 2', '3*exp 2'],
             ['NUM3', 1, 'exp 2', 'exp 3 2'],
             ['NUM3', 2, 'exp 2', 'exp 3 2'],
             ['NUM3', 3, 'exp 2', 'exp 3 2'],
@@ -718,45 +1118,45 @@ describe('engine', () => {
             ['ADD', 4, 'exp 2', 'exp +2'],
             ['ADD', 5, 'exp 2', 'exp 2+'],
 
-            ['COS', 0, '2 exp', 'cos 2 exp'],
-            ['COS', 1, '2 exp', '2 cos exp'],
-            ['COS', 2, '2 exp', '2 cos exp'],
-            ['COS', 3, '2 exp', '2 exp cos'],
-            ['COS', 4, '2 exp', '2 exp cos'],
-            ['COS', 5, '2 exp', '2 exp cos'],
+            ['COS', 0, '2*exp', 'cos 2*exp'],
+            ['COS', 1, '2*exp', '2*cos*exp'],
+            ['COS', 2, '2*exp', '2*cos exp'],
+            ['COS', 3, '2*exp', '2*exp cos'],
+            ['COS', 4, '2*exp', '2*exp cos'],
+            ['COS', 5, '2*exp', '2*exp cos'],
 
-            ['NUM3', 0, '2 exp', '32 exp'],
-            ['NUM3', 1, '2 exp', '23 exp'],
-            ['NUM3', 2, '2 exp', '2 3 exp'],
-            ['NUM3', 3, '2 exp', '2 exp 3'],
-            ['NUM3', 4, '2 exp', '2 exp 3'],
-            ['NUM3', 5, '2 exp', '2 exp 3'],
+            ['NUM3', 0, '2*exp', '32*exp'],
+            ['NUM3', 1, '2*exp', '23*exp'],
+            ['NUM3', 2, '2*exp', '2*3*exp'],
+            ['NUM3', 3, '2*exp', '2*exp 3'],
+            ['NUM3', 4, '2*exp', '2*exp 3'],
+            ['NUM3', 5, '2*exp', '2*exp 3'],
 
-            ['ADD', 0, '2 exp', '+2 exp'],
-            ['ADD', 1, '2 exp', '2+ exp'],
-            ['ADD', 2, '2 exp', '2 +exp'],
-            ['ADD', 3, '2 exp', '2 exp+'],
-            ['ADD', 4, '2 exp', '2 exp+'],
-            ['ADD', 5, '2 exp', '2 exp+'],
+            ['ADD', 0, '2*exp', '+2*exp'],
+            ['ADD', 1, '2*exp', '2+*exp'],
+            ['ADD', 2, '2*exp', '2*+exp'],
+            ['ADD', 3, '2*exp', '2*exp+'],
+            ['ADD', 4, '2*exp', '2*exp+'],
+            ['ADD', 5, '2*exp', '2*exp+'],
 
             ['ADD', 0, 'exp', '+exp'],
             ['ADD', 1, 'exp', 'exp+'],
             ['ADD', 2, 'exp', 'exp+'],
             ['ADD', 3, 'exp', 'exp+'],
 
-            ['NUM2', 0, 'exp', '2 exp'],
+            ['NUM2', 0, 'exp', '2*exp'],
             ['NUM2', 1, 'exp', 'exp 2'],
             ['NUM2', 2, 'exp', 'exp 2'],
             ['NUM2', 3, 'exp', 'exp 2'],
 
             ['NUM1', 0, '2+exp', '12+exp'],
             ['NUM1', 1, '2+exp', '21+exp'],
-            ['NUM1', 2, '2+exp', '2+1 exp'],
+            ['NUM1', 2, '2+exp', '2+1*exp'],
             ['NUM1', 3, '2+exp', '2+exp 1'],
             ['NUM1', 4, '2+exp', '2+exp 1'],
             ['NUM1', 5, '2+exp', '2+exp 1'],
 
-            ['NUM1', 0, 'exp+2', '1 exp+2'],
+            ['NUM1', 0, 'exp+2', '1*exp+2'],
             ['NUM1', 1, 'exp+2', 'exp 1+2'],
             ['NUM1', 2, 'exp+2', 'exp 1+2'],
             ['NUM1', 3, 'exp+2', 'exp 1+2'],
@@ -766,70 +1166,91 @@ describe('engine', () => {
             const calculator = engineFactory({ expression, position });
             calculator.setLastResult('42');
 
-            expect(calculator.useTerm(term)).toBe(calculator);
+            expect(calculator.insertTerm(term)).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual(expected);
         });
 
-        it('emits a termadd event', () => {
+        it.each([
+            ['', 0, ''],
+            ['1', 0, '-1'],
+            ['1', 1, '-1'],
+            ['-1', 0, '1'],
+            ['-1', 1, '1'],
+            ['-1', 2, '1'],
+            ['3*2', 3, '3*-2'],
+            ['3*-2', 4, '3*2'],
+            ['3*(5-2)', 5, '3*(5+2)'],
+            ['3*(5-2)', 6, '3*-(5-2)'],
+            ['3*(5-2)', 7, '3*-(5-2)'],
+            ['cos', 0, '-cos'],
+            ['cos 2', 0, '-cos 2'],
+            ['cos 2', 5, 'cos -2'],
+            ['PI', 0, '-PI']
+        ])('change the sign in %s at %s', (expression, position, expected) => {
+            const calculator = engineFactory({ expression, position });
+
+            expect(calculator.changeSign()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual(expected);
+        });
+
+        it('emits a term event', () => {
             const calculator = engineFactory();
             const term = {
                 name: 'foo',
                 value: 'foo',
                 type: 'term'
             };
-            const termEvt = jest.fn().mockImplementation((name, addedTerm) => {
-                expect(name).toStrictEqual(term.name);
-                expect(addedTerm).toBe(term);
-            });
+            const termEvt = jest.fn();
 
-            calculator.on('termadd', termEvt);
+            calculator.on('term', termEvt);
 
             expect(calculator.addTerm('foo', term)).toBe(calculator);
 
             expect(termEvt).toHaveBeenCalledTimes(1);
+            expect(termEvt.mock.calls[0][0]).toStrictEqual(term.name);
+            expect(termEvt.mock.calls[0][1]).toBe(term);
         });
 
-        it('emits a termerror event when an invalid term is used', () => {
+        it('emits an error event when an invalid term is used', () => {
             const calculator = engineFactory();
-            const errorEvt = jest.fn().mockImplementation(error => {
-                expect(error).toEqual(expect.any(TypeError));
-                expect(error.message).toStrictEqual('Invalid term: foo');
-            });
+            const errorEvt = jest.fn();
 
-            calculator.on('termerror', errorEvt);
+            calculator.on('error', errorEvt);
 
             expect(calculator.addTerm('foo')).toBe(calculator);
             expect(calculator.addTerm('foo', {})).toBe(calculator);
 
             expect(errorEvt).toHaveBeenCalledTimes(2);
+            expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
+            expect(errorEvt.mock.calls[0][0].message).toStrictEqual('Invalid term: foo');
+            expect(errorEvt.mock.calls[1][0]).toEqual(expect.any(TypeError));
+            expect(errorEvt.mock.calls[1][0].message).toStrictEqual('Invalid term: foo');
         });
 
-        it('emits a termerror event when an unknown term is used', () => {
+        it('emits an error event when an unknown term is used', () => {
             const calculator = engineFactory();
-            const errorEvt = jest.fn().mockImplementation(error => {
-                expect(error).toEqual(expect.any(TypeError));
-                expect(error.message).toStrictEqual('Invalid term: foo');
-            });
+            const errorEvt = jest.fn();
 
-            calculator.on('termerror', errorEvt);
+            calculator.on('error', errorEvt);
 
-            expect(calculator.useTerm('foo')).toBe(calculator);
+            expect(calculator.insertTerm('foo')).toBe(calculator);
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
+            expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
+            expect(errorEvt.mock.calls[0][0].message).toStrictEqual('Invalid term: foo');
         });
 
-        it('emits a termerror event when an unknown variable is used', () => {
+        it('emits an error event when an unknown variable is used', () => {
             const calculator = engineFactory();
-            const errorEvt = jest.fn().mockImplementation(error => {
-                expect(error).toEqual(expect.any(TypeError));
-                expect(error.message).toStrictEqual('Invalid variable: foo');
-            });
+            const errorEvt = jest.fn();
 
-            calculator.on('termerror', errorEvt);
+            calculator.on('error', errorEvt);
 
-            expect(calculator.useVariable('foo')).toBe(calculator);
+            expect(calculator.insertVariable('foo')).toBe(calculator);
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
+            expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
+            expect(errorEvt.mock.calls[0][0].message).toStrictEqual('Invalid variable: foo');
         });
 
         it.each([
@@ -840,7 +1261,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.useTerms(terms)).toBe(calculator);
+            expect(calculator.insertTermList(terms)).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual(expected);
             expect(calculator.getPosition()).toStrictEqual(3);
         });
@@ -859,6 +1280,25 @@ describe('engine', () => {
             expect(calculator.evaluate()).toMatchSnapshot();
         });
 
+        it('set the last result', () => {
+            const calculator = engineFactory({ expression: '.1 + .2' });
+
+            calculator.evaluate();
+
+            expect(calculator.getLastResult()).toMatchSnapshot();
+        });
+
+        it('does not update the last result if an error occurred', () => {
+            const calculator = engineFactory({ expression: '3*4' });
+
+            calculator.evaluate();
+            calculator.insertTerm('DIV');
+            calculator.insertTerm('NUM0');
+            calculator.evaluate();
+
+            expect(calculator.getLastResult()).toMatchSnapshot();
+        });
+
         it('using the last result', () => {
             const calculator = engineFactory({ expression: 'ans / 2' });
             calculator.setLastResult('42');
@@ -868,26 +1308,106 @@ describe('engine', () => {
 
         it('emits an evaluate event', () => {
             const calculator = engineFactory({ expression: '.1 + .2' });
-            const action = jest.fn().mockImplementation(result => {
-                expect(result).toMatchSnapshot();
+            let variable;
+            const eventListener = jest.fn().mockImplementation(() => {
+                variable = calculator.getVariableValue('ans');
             });
 
-            calculator.on('evaluate', action);
-            calculator.evaluate();
+            calculator.on('evaluate', eventListener);
+            const result = calculator.evaluate();
 
-            expect(action).toHaveBeenCalledTimes(1);
+            expect(eventListener).toHaveBeenCalledTimes(1);
+            expect(eventListener.mock.calls[0][0]).toStrictEqual(result);
+            expect(variable.toString()).toEqual('0');
+        });
+
+        it('emits a result event', () => {
+            const calculator = engineFactory({ expression: '.1 + .2' });
+            let variable;
+            const eventListener = jest.fn().mockImplementation(() => {
+                variable = calculator.getVariableValue('ans');
+            });
+
+            calculator.on('result', eventListener);
+            const result = calculator.evaluate();
+
+            expect(eventListener).toHaveBeenCalledTimes(1);
+            expect(eventListener.mock.calls[0][0]).toStrictEqual(result);
+            expect(variable.toString()).toEqual('0.3');
         });
 
         it('emits a syntaxerror event', () => {
             const calculator = engineFactory({ expression: '3 *' });
-            const action = jest.fn().mockImplementation(error => {
-                expect(String(error)).toStrictEqual('Error: unexpected TEOF: EOF');
-            });
+            const action = jest.fn();
 
             calculator.on('syntaxerror', action);
             calculator.evaluate();
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0].toString()).toStrictEqual('Error: unexpected TEOF: EOF');
+        });
+    });
+
+    describe('has state', () => {
+        describe('changed', () => {
+            it('is initially true', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+
+                expect(calculator.changed).toBeTruthy();
+            });
+
+            it('is false once the expression has been processed', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+                calculator.evaluate();
+
+                expect(calculator.changed).toBeFalsy();
+            });
+
+            it('is true again as as soon as the expression is modified', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+                calculator.evaluate();
+
+                calculator.setExpression('');
+
+                expect(calculator.changed).toBeTruthy();
+            });
+        });
+
+        describe('error', () => {
+            it('is initially false', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+
+                expect(calculator.error).toBeFalsy();
+            });
+
+            it('remains false if the expression is successfully evaluated', () => {
+                const calculator = engineFactory({ expression: '1+2' });
+                calculator.evaluate();
+
+                expect(calculator.error).toBeFalsy();
+            });
+
+            it('is true if the expression failed to be calculated', () => {
+                const calculator = engineFactory({ expression: '1+' });
+                calculator.evaluate();
+
+                expect(calculator.error).toBeTruthy();
+            });
+
+            it('is true if the expression produced a wrong result', () => {
+                const calculator = engineFactory({ expression: '0/0' });
+                calculator.evaluate();
+
+                expect(calculator.error).toBeTruthy();
+            });
+
+            it('is false if the expression has changed', () => {
+                const calculator = engineFactory({ expression: '1+' });
+                calculator.evaluate();
+                calculator.insertTerm('NUM3');
+
+                expect(calculator.error).toBeFalsy();
+            });
         });
     });
 
@@ -911,16 +1431,384 @@ describe('engine', () => {
             expect(calculator.render()).toMatchSnapshot();
         });
 
+        it('using the last result with an irrational number', () => {
+            const calculator = engineFactory();
+            calculator.setExpression('1/3');
+            calculator.evaluate();
+            calculator.setExpression('ans*3');
+
+            expect(calculator.render()).toMatchSnapshot();
+        });
+
         it('emits a render event', () => {
             const calculator = engineFactory({ expression: '.1 + .2' });
-            const action = jest.fn().mockImplementation(result => {
-                expect(result).toMatchSnapshot();
-            });
+            const action = jest.fn();
 
             calculator.on('render', action);
             calculator.render();
 
             expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toMatchSnapshot();
+        });
+    });
+
+    it('resets the calculator', () => {
+        const variables = { x: '42' };
+        const calculator = engineFactory({ expression: '1+2', position: 2 });
+        const action = jest.fn();
+
+        calculator.setVariableList(variables);
+        calculator.setLastResult(2);
+        calculator.setMemory();
+        calculator.setLastResult(10);
+        calculator.on('reset', action);
+
+        expect(calculator.getVariableValue('ans')).toStrictEqual(10);
+        expect(calculator.getVariableValue('mem')).toStrictEqual(2);
+        expect(calculator.getVariableValue('x')).toStrictEqual(42);
+        expect(calculator.getExpression()).toStrictEqual('1+2');
+        expect(calculator.getPosition()).toStrictEqual(2);
+
+        expect(calculator.reset()).toBe(calculator);
+        expect(calculator.getVariableValue('ans')).toStrictEqual(0);
+        expect(calculator.getVariableValue('mem')).toStrictEqual(0);
+        expect(calculator.hasVariable('x')).toBeFalsy();
+        expect(calculator.getExpression()).toStrictEqual('');
+        expect(calculator.getPosition()).toStrictEqual(0);
+        expect(action).toHaveBeenCalledTimes(1);
+    });
+
+    describe('has built-in command', () => {
+        it('clear', () => {
+            const expression = '.1 + .2';
+            const position = 2;
+            const variables = { x: '42' };
+            const calculator = engineFactory({ expression, position });
+            const clearEvent = jest.fn();
+            const clearCommand = jest.fn();
+
+            calculator.setVariableList(variables);
+            calculator.setLastResult(2);
+            calculator.setMemory();
+            calculator.setLastResult(10);
+            calculator.on('clear', clearEvent);
+            calculator.on('command-clear', clearCommand);
+
+            expect(calculator.getExpression()).toStrictEqual(expression);
+            expect(calculator.getPosition()).toStrictEqual(position);
+            expect(calculator.getVariableValue('ans')).toStrictEqual(10);
+            expect(calculator.getVariableValue('mem')).toStrictEqual(2);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+
+            calculator.invoke('clear');
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+            expect(calculator.getVariableValue('ans')).toStrictEqual(10);
+            expect(calculator.getVariableValue('mem')).toStrictEqual(2);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+            expect(clearEvent).toHaveBeenCalledTimes(1);
+            expect(clearCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('reset', () => {
+            const expression = '.1 + .2';
+            const position = 2;
+            const variables = { x: '42' };
+            const calculator = engineFactory({ expression, position });
+            const resetEvent = jest.fn();
+            const clearCommand = jest.fn();
+
+            calculator.setVariableList(variables);
+            calculator.setLastResult(2);
+            calculator.setMemory();
+            calculator.setLastResult(10);
+            calculator.on('reset', resetEvent);
+            calculator.on('command-reset', clearCommand);
+
+            expect(calculator.getExpression()).toStrictEqual(expression);
+            expect(calculator.getPosition()).toStrictEqual(position);
+            expect(calculator.getVariableValue('ans')).toStrictEqual(10);
+            expect(calculator.getVariableValue('mem')).toStrictEqual(2);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+
+            calculator.invoke('reset');
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+            expect(calculator.getVariableValue('ans')).toStrictEqual(0);
+            expect(calculator.getVariableValue('mem')).toStrictEqual(0);
+            expect(calculator.hasVariable('x')).toBeFalsy();
+            expect(resetEvent).toHaveBeenCalledTimes(1);
+            expect(clearCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('execute', () => {
+            const expression = '3 * x';
+            const position = 2;
+            const variables = { x: '42' };
+            const calculator = engineFactory({ expression, position });
+            const evaluateEvent = jest.fn();
+            const resultEvent = jest.fn();
+            const executeCommand = jest.fn();
+
+            calculator.setVariableList(variables);
+            calculator.on('evaluate', evaluateEvent);
+            calculator.on('result', resultEvent);
+            calculator.on('command-execute', executeCommand);
+            calculator.invoke('execute');
+
+            expect(calculator.getVariableValue('ans').toString()).toEqual('126');
+            expect(evaluateEvent).toHaveBeenCalledTimes(1);
+            expect(resultEvent).toHaveBeenCalledTimes(1);
+            expect(executeCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('var', () => {
+            const calculator = engineFactory();
+            const varEvent = jest.fn();
+            const varCommand = jest.fn();
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+
+            calculator.setVariableList({ x: 42 });
+            calculator.on('term', varEvent);
+            calculator.on('command-var', varCommand);
+            calculator.invoke('var', 'x');
+
+            expect(calculator.getExpression()).toStrictEqual('x');
+            expect(calculator.getPosition()).toStrictEqual(1);
+            expect(varEvent).toHaveBeenCalledTimes(1);
+            expect(varEvent.mock.calls[0][0]).toEqual('VAR_X');
+            expect(varCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('term with a single parameter', () => {
+            const calculator = engineFactory();
+            const termEvent = jest.fn();
+            const termCommand = jest.fn();
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+
+            calculator.on('term', termEvent);
+            calculator.on('command-term', termCommand);
+            calculator.invoke('term', 'NUM3');
+
+            expect(calculator.getExpression()).toStrictEqual('3');
+            expect(calculator.getPosition()).toStrictEqual(1);
+            expect(termEvent).toHaveBeenCalledTimes(1);
+            expect(termEvent.mock.calls[0][0]).toEqual('NUM3');
+            expect(termCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('term with multiple parameters', () => {
+            const calculator = engineFactory();
+            const terms = ['NUM3', 'ADD', 'NUM2'];
+            const termEvent = jest.fn();
+            const termCommand = jest.fn();
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+
+            calculator.on('term', termEvent);
+            calculator.on('command-term', termCommand);
+            calculator.invoke('term', terms);
+
+            expect(calculator.getExpression()).toStrictEqual('3+2');
+            expect(calculator.getPosition()).toStrictEqual(3);
+            expect(termEvent).toHaveBeenCalledTimes(3);
+            expect(termEvent.mock.calls[0][0]).toEqual('NUM3');
+            expect(termEvent.mock.calls[1][0]).toEqual('ADD');
+            expect(termEvent.mock.calls[2][0]).toEqual('NUM2');
+            expect(termCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('sign', () => {
+            const calculator = engineFactory({ expression: '3*2' });
+            const signEvent = jest.fn();
+            const signCommand = jest.fn();
+
+            calculator.on('expression', signEvent);
+            calculator.on('command-sign', signCommand);
+            calculator.invoke('sign');
+
+            expect(calculator.getExpression()).toStrictEqual('3*-2');
+            expect(calculator.getPosition()).toStrictEqual(4);
+            expect(signEvent).toHaveBeenCalledTimes(1);
+            expect(signCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('degree', () => {
+            const calculator = engineFactory();
+            const configEvent = jest.fn();
+            const degreeCommand = jest.fn();
+
+            expect(calculator.isDegreeMode()).toBeFalsy();
+
+            calculator.on('configure', configEvent);
+            calculator.on('command-degree', degreeCommand);
+            calculator.invoke('degree');
+
+            expect(calculator.isDegreeMode()).toBeTruthy();
+            expect(configEvent).toHaveBeenCalledTimes(1);
+            expect(degreeCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('radian', () => {
+            const calculator = engineFactory({ maths: { degree: true } });
+            const configEvent = jest.fn();
+            const radianCommand = jest.fn();
+
+            expect(calculator.isDegreeMode()).toBeTruthy();
+
+            calculator.on('configure', configEvent);
+            calculator.on('command-radian', radianCommand);
+            calculator.invoke('radian');
+
+            expect(calculator.isDegreeMode()).toBeFalsy();
+            expect(configEvent).toHaveBeenCalledTimes(1);
+            expect(radianCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('remind', () => {
+            const calculator = engineFactory();
+            const remindEvent = jest.fn();
+            const remindCommand = jest.fn();
+
+            calculator.on('term', remindEvent);
+            calculator.on('command-remind', remindCommand);
+
+            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getPosition()).toStrictEqual(0);
+
+            calculator.invoke('remind');
+
+            expect(calculator.getExpression()).toStrictEqual('mem');
+            expect(calculator.getPosition()).toStrictEqual(3);
+            expect(remindEvent).toHaveBeenCalledTimes(1);
+            expect(remindEvent.mock.calls[0][0]).toEqual('VAR_MEM');
+            expect(remindCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('memorize', () => {
+            const variables = { x: '42' };
+            const calculator = engineFactory();
+            const memorizeEvent = jest.fn();
+            const memorizeCommand = jest.fn();
+
+            calculator.setVariableList(variables);
+            calculator.setLastResult(2);
+            calculator.on('variableadd', memorizeEvent);
+            calculator.on('command-memorize', memorizeCommand);
+
+            expect(calculator.getVariableValue('ans')).toStrictEqual(2);
+            expect(calculator.getVariableValue('mem')).toStrictEqual(0);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+
+            calculator.invoke('memorize');
+
+            expect(calculator.getVariableValue('ans')).toStrictEqual(2);
+            expect(calculator.getVariableValue('mem')).toStrictEqual(2);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+            expect(memorizeEvent).toHaveBeenCalledTimes(1);
+            expect(memorizeEvent.mock.calls[0][0]).toEqual('mem');
+            expect(memorizeEvent.mock.calls[0][1].result).toEqual(2);
+            expect(memorizeCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('forget', () => {
+            const variables = { x: '42' };
+            const calculator = engineFactory();
+            const forgetEvent = jest.fn();
+            const forgetCommand = jest.fn();
+
+            calculator.setVariableList(variables);
+            calculator.setLastResult(2);
+            calculator.setMemory();
+            calculator.on('variableadd', forgetEvent);
+            calculator.on('command-forget', forgetCommand);
+
+            expect(calculator.getVariableValue('ans')).toStrictEqual(2);
+            expect(calculator.getVariableValue('mem')).toStrictEqual(2);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+
+            calculator.invoke('forget');
+
+            expect(calculator.getVariableValue('ans')).toStrictEqual(2);
+            expect(calculator.getVariableValue('mem')).toStrictEqual(0);
+            expect(calculator.getVariableValue('x')).toStrictEqual(42);
+            expect(forgetEvent).toHaveBeenCalledTimes(1);
+            expect(forgetEvent.mock.calls[0][0]).toEqual('mem');
+            expect(forgetEvent.mock.calls[0][1].result).toEqual(0);
+            expect(forgetCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('moveLeft', () => {
+            const calculator = engineFactory({ expression: '3+4*2', position: 2 });
+            const moveEvent = jest.fn();
+            const moveCommand = jest.fn();
+
+            calculator.on('position', moveEvent);
+            calculator.on('command-moveLeft', moveCommand);
+            calculator.invoke('moveLeft');
+
+            expect(calculator.getPosition()).toStrictEqual(1);
+            expect(moveEvent).toHaveBeenCalledTimes(1);
+            expect(moveEvent.mock.calls[0][0]).toEqual(1);
+            expect(moveCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('moveRight', () => {
+            const calculator = engineFactory({ expression: '3+4*2', position: 2 });
+            const moveEvent = jest.fn();
+            const moveCommand = jest.fn();
+
+            calculator.on('position', moveEvent);
+            calculator.on('command-moveRight', moveCommand);
+            calculator.invoke('moveRight');
+
+            expect(calculator.getPosition()).toStrictEqual(3);
+            expect(moveEvent).toHaveBeenCalledTimes(1);
+            expect(moveEvent.mock.calls[0][0]).toEqual(3);
+            expect(moveCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('deleteLeft', () => {
+            const calculator = engineFactory({ expression: '3+4*2', position: 2 });
+            const moveEvent = jest.fn();
+            const exprEvent = jest.fn();
+            const deleteCommand = jest.fn();
+
+            calculator.on('position', moveEvent);
+            calculator.on('expression', exprEvent);
+            calculator.on('command-deleteLeft', deleteCommand);
+            calculator.invoke('deleteLeft');
+
+            expect(calculator.getPosition()).toStrictEqual(1);
+            expect(calculator.getExpression()).toEqual('34*2');
+            expect(moveEvent).toHaveBeenCalledTimes(1);
+            expect(moveEvent.mock.calls[0][0]).toEqual(1);
+            expect(exprEvent).toHaveBeenCalledTimes(1);
+            expect(exprEvent.mock.calls[0][0]).toEqual('34*2');
+            expect(deleteCommand).toHaveBeenCalledTimes(1);
+        });
+
+        it('deleteRight', () => {
+            const calculator = engineFactory({ expression: '3+4*2', position: 2 });
+            const exprEvent = jest.fn();
+            const deleteCommand = jest.fn();
+
+            calculator.on('expression', exprEvent);
+            calculator.on('command-deleteRight', deleteCommand);
+            calculator.invoke('deleteRight');
+
+            expect(calculator.getPosition()).toStrictEqual(2);
+            expect(calculator.getExpression()).toEqual('3+*2');
+            expect(exprEvent).toHaveBeenCalledTimes(1);
+            expect(exprEvent.mock.calls[0][0]).toEqual('3+*2');
+            expect(deleteCommand).toHaveBeenCalledTimes(1);
         });
     });
 });

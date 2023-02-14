@@ -5,14 +5,14 @@ exports[`symbols defines symbols 1`] = `
   "cubeRoot": "∛",
   "divide": "÷",
   "ellipsis": "…",
-  "euler": "℮",
+  "euler": "e",
   "fourthRoot": "∜",
-  "minus": "－",
+  "minus": "−",
   "minusOne": "﹣1",
   "multiply": "×",
   "negative": "-",
   "pi": "π",
-  "plus": "＋",
+  "plus": "+",
   "positive": "+",
   "squareRoot": "√",
 }
@@ -40,7 +40,7 @@ exports[`terms defines terms 1`] = `
   },
   "ADD": {
     "exponent": false,
-    "label": "＋",
+    "label": "+",
     "type": "operator",
     "value": "+",
   },
@@ -200,6 +200,12 @@ exports[`terms defines terms 1`] = `
     "type": "aggregator",
     "value": "(",
   },
+  "MEM": {
+    "exponent": false,
+    "label": "Mem",
+    "type": "variable",
+    "value": "mem",
+  },
   "MOD": {
     "exponent": false,
     "label": "modulo",
@@ -346,7 +352,7 @@ exports[`terms defines terms 1`] = `
   },
   "SUB": {
     "exponent": false,
-    "label": "－",
+    "label": "−",
     "type": "operator",
     "value": "-",
   },
@@ -361,6 +367,12 @@ exports[`terms defines terms 1`] = `
     "label": "tanh",
     "type": "function",
     "value": "tanh",
+  },
+  "TEN": {
+    "exponent": false,
+    "label": "10",
+    "type": "constant",
+    "value": "TEN",
   },
   "TRUNC": {
     "exponent": false,
@@ -382,6 +394,7 @@ exports[`types defines types 1`] = `
   "operator": "operator",
   "separator": "separator",
   "term": "term",
+  "unknown": "unknown",
   "variable": "variable",
 }
 `;

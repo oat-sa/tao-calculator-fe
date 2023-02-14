@@ -16,10 +16,9 @@
  * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 
-import _ from 'lodash';
-import { terms, types } from './terms';
-import tokensHelper from './tokens';
-import tokenizerFactory from './tokenizer';
+import { isFunctionOperator, terms, types } from './terms.js';
+import tokensHelper from './tokens.js';
+import tokenizerFactory from './tokenizer.js';
 
 /**
  * @typedef {term} renderTerm - Represents a renderable tokenizable term
@@ -40,12 +39,6 @@ import tokenizerFactory from './tokenizer';
  * @type {string}
  */
 const lastResultVariableName = terms.ANS.value;
-
-/**
- * Regex that matches the prefixed function operators
- * @type {RegExp}
- */
-const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
 
 /**
  * Regex that matches the usual error tokens in a result
@@ -98,7 +91,7 @@ const continueExponent = ['POW', 'NTHRT'];
  * Default number of significant digits used to round displayed variables
  * @type {number}
  */
-const defaultDecimalDigits = 5;
+export const defaultDecimalDigits = 5;
 
 /**
  * List of helpers that apply on expression
@@ -157,13 +150,13 @@ const expressionHelper = {
      * @param {number} [decimalDigits=5]
      * @returns {object}
      */
-    roundLastResultVariable(variables, decimalDigits) {
-        if (variables && 'undefined' !== typeof variables[lastResultVariableName]) {
-            variables[lastResultVariableName] = expressionHelper.roundVariable(
-                variables[lastResultVariableName],
-                decimalDigits
-            );
+    roundAllVariables(variables, decimalDigits) {
+        if (!variables) {
+            return variables;
         }
+        Object.keys(variables).forEach(name => {
+            variables[name] = expressionHelper.roundVariable(variables[name], decimalDigits);
+        });
         return variables;
     },
 
@@ -236,12 +229,12 @@ const expressionHelper = {
                 exponent: null,
                 startExponent: null,
                 endExponent: [],
-                prefixed: rePrefixedTerm.test(token.value),
+                prefixed: isFunctionOperator(token.value),
                 elide: false
             };
 
             if (registeredTerm) {
-                _.merge(term, registeredTerm);
+                Object.assign(term, registeredTerm);
 
                 // always display the actual value of the last result variable
                 // also takes care of the value's sign
@@ -251,9 +244,9 @@ const expressionHelper = {
             } else if (term.token === 'term') {
                 // unspecified token can be a variable
                 if ('undefined' !== typeof variables[term.value]) {
-                    term.type = 'variable';
+                    term.type = types.variable;
                 } else {
-                    term.type = 'unknown';
+                    term.type = types.unknown;
                 }
             }
 
@@ -356,7 +349,8 @@ function extractExponent(renderedTerms, index = 0) {
     const last = extract[extract.length - 1];
     const exponent = {
         type: types.exponent,
-        value: extract,
+        value: types.exponent,
+        label: extract,
         startExponent: level,
         endExponent: last.endExponent
     };

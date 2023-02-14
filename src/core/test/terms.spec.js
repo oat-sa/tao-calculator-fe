@@ -16,7 +16,31 @@
  * Copyright (c) 2018-2023 (original work) Open Assessment Technologies SA ;
  */
 
-import { terms, types, symbols, exponent, subscript, exponentRight, exponentLeft, subscriptRight } from '../terms.js';
+import {
+    terms,
+    types,
+    symbols,
+    exponent,
+    subscript,
+    exponentRight,
+    exponentLeft,
+    subscriptRight,
+    isFunctionOperator
+} from '../terms.js';
+
+describe('isFunctionOperator', () => {
+    it('is a helper', () => {
+        expect(isFunctionOperator).toEqual(expect.any(Function));
+    });
+
+    it.each([
+        ['@nthrt', true],
+        ['sqrt', false],
+        ['', false]
+    ])('tells if %s is prefixed', (value, expected) => {
+        expect(isFunctionOperator(value)).toStrictEqual(expected);
+    });
+});
 
 describe('exponent', () => {
     it('is a helper', () => {

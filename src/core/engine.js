@@ -16,62 +16,102 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import { terms } from './terms.js';
+import { isFunctionOperator, terms } from './terms.js';
 import tokensHelper from './tokens.js';
-import expressionHelper from './expression.js';
+import expressionHelper, { defaultDecimalDigits } from './expression.js';
 import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
+import { applyValueStrategies, prefixStrategies, suffixStrategies } from './strategies/value.js';
+import { applyTokenStrategies, signStrategies } from './strategies/token.js';
 
 /**
- * Regex that matches the prefixed function operators
+ * Name of the variable that contains the last result
+ * @type {string}
+ */
+const lastResultVariable = terms.ANS.value;
+
+/**
+ * Name of the variable that contains the memory
+ * @type {string}
+ */
+const memoryVariable = terms.MEM.value;
+
+/**
+ * Match the space separators
  * @type {RegExp}
  */
-const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
+const reSpace = /\s+/;
 
 /**
  * Defines the engine for a calculator
  * @param {object} [config]
  * @param {string} [config.expression=''] - The current expression
  * @param {number} [config.position=0] - The current position in the expression (i.e. the position of the caret)
- * @param {object} [config.maths] - Optional config for the maths evaluator (@see mathsEvaluator)
+ * @param {object} [config.variables] - An optional list of variables
+ * @param {object} [config.commands] - An optional list of commands
+ * @param {object} [config.plugins] - An optional list of plugins
+ * @param {object} [config.maths] - An optional config for the maths evaluator (@see mathsEvaluator)
  * @returns {calculator}
  */
-function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
+function engineFactory({
+    expression = '',
+    position = null,
+    variables = {},
+    commands = {},
+    plugins = {},
+    maths = {}
+} = {}) {
     /**
-     * Maths expression parser.
-     * @type {function}
-     */
-    let mathsEvaluator = mathsEvaluatorFactory(maths);
-
-    /**
-     * The list of event listeners
+     * The list of event listeners.
      * @type {Map}
      */
     const events = new Map();
 
     /**
-     * A list of variables that can be used in the expression
+     * A list of variables that can be used in the expression.
      * @type {Map}
      */
-    const variables = new Map();
+    const variablesRegistry = new Map();
 
     /**
-     * A list of registered commands that can be used inside the calculator
+     * A list of registered commands that can be used inside the calculator.
      * @type {Map}
      */
-    const commands = new Map();
+    const commandsRegistry = new Map();
 
     /**
-     * The tokenizer utilized to split down the expression
+     * A list of registered plugins that have been added to the calculator.
+     * It lists the uninstall callback.
+     * @type {Map}
+     */
+    const pluginsRegistry = new Map();
+
+    /**
+     * The tokenizer utilized to split down the expression.
      * @type {calculatorTokenizer}
      */
     const tokenizer = tokenizerFactory();
 
     /**
-     * The list of tokens extracted from the expression
+     * The list of tokens extracted from the expression.
      * @type {Array|null}
      */
     let tokens = null;
+
+    /**
+     * Maths expression parser.
+     * @type {function}
+     */
+    let mathsEvaluator;
+
+    /**
+     * Internal state for the engine.
+     * @type {object}
+     */
+    const state = {
+        changed: false, // Did the expression change since the last calculation?
+        error: false // Do the expression have error?
+    };
 
     /**
      * Engine API
@@ -80,20 +120,22 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
     const calculatorApi = {
         /**
          * Registers an event listener.
-         * @param {string} name - The name of the event to listen to.
+         * @param {string} names - The name of the event to listen to. It can be a list separated by spaces.
          * @param {function} listener - The listener to call when the event happen.
          * @returns {calculator} - Chains the instance.
          */
-        on(name, listener) {
-            if ('undefined' !== typeof name && 'function' === typeof listener) {
-                let listeners = events.get(name);
+        on(names, listener) {
+            if ('string' === typeof names && 'function' === typeof listener) {
+                names.split(reSpace).forEach(name => {
+                    let listeners = events.get(name);
 
-                if (!listeners) {
-                    listeners = new Set();
-                    events.set(name, listeners);
-                }
+                    if (!listeners) {
+                        listeners = new Set();
+                        events.set(name, listeners);
+                    }
 
-                listeners.add(listener);
+                    listeners.add(listener);
+                });
             }
 
             return this;
@@ -101,27 +143,31 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
 
         /**
          * Removes an event listener.
-         * @param {string} name - The name of the event to free.
+         * @param {string} names - The name of the event to free. It can be a list separated by spaces.
          * @param {function} listener - The listener to remove from the list.
          * @returns {calculator} - Chains the instance.
          */
-        off(name, listener = null) {
-            if ('undefined' === typeof name) {
+        off(names, listener = null) {
+            if ('undefined' === typeof names) {
                 events.clear();
                 return this;
             }
 
-            const listeners = events.get(name);
-            if (!listeners) {
-                return this;
+            if (names && 'string' === typeof names) {
+                names.split(reSpace).forEach(name => {
+                    const listeners = events.get(name);
+                    if (!listeners) {
+                        return;
+                    }
+
+                    if (listener) {
+                        listeners.delete(listener);
+                    } else {
+                        listeners.clear();
+                    }
+                });
             }
 
-            if (!listener) {
-                listeners.clear();
-                return this;
-            }
-
-            listeners.delete(listener);
             return this;
         },
 
@@ -140,6 +186,53 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             listeners.forEach(listener => listener.apply(this, args));
 
             return this;
+        },
+
+        /**
+         * Sets up the mathsEvaluator.
+         * The supplied configuration will be merged with the maths configuration given at creation time.
+         * @param {object} config - Config for the maths evaluator (@see mathsEvaluator)
+         * @returns {calculator}
+         * @fires configure
+         */
+        configureMathsEvaluator(config = {}) {
+            mathsEvaluator = mathsEvaluatorFactory(Object.assign(maths, config));
+            this.trigger('configure', config);
+            return this;
+        },
+
+        /**
+         * Sets the engine to process the angles in degree (`true`) or in radian ('false').
+         * @param {boolean} degree - The state of the degree mode.
+         * @returns {calculator}
+         * @fires configure
+         */
+        setDegreeMode(degree = true) {
+            return this.configureMathsEvaluator({ degree });
+        },
+
+        /**
+         * Tells if the engine process the angles in degree (`true`) or in radian ('false').
+         * @returns {boolean} - Whether the engine processes the angles in degree (`true`) or in radian ('false').
+         */
+        isDegreeMode() {
+            return !!maths.degree;
+        },
+
+        /**
+         * Tells if the expression has changed since the last calculation.
+         * @type {boolean}
+         */
+        get changed() {
+            return state.changed;
+        },
+
+        /**
+         * Tells if the expression has or produces error.
+         * @type {boolean}
+         */
+        get error() {
+            return state.error;
         },
 
         /**
@@ -170,13 +263,15 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * Changes the current expression
          * @param {string} expr
          * @returns {calculator}
-         * @fires expressionchange after the expression has been changed
+         * @fires expression after the expression has been changed
          */
         setExpression(expr) {
             expression = String(expr || '');
             tokens = null;
+            state.changed = true;
+            state.error = false;
 
-            this.trigger('expressionchange', expression);
+            this.trigger('expression', expression);
 
             return this;
         },
@@ -193,12 +288,68 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * Sets the current position inside the expression
          * @param {number|string} pos
          * @returns {calculator}
-         * @fires positionchange after the position has been changed
+         * @fires position after the position has been changed
          */
         setPosition(pos) {
             position = Math.max(0, Math.min(parseInt(pos, 10) || 0, expression.length));
 
-            this.trigger('positionchange', position);
+            this.trigger('position', position);
+
+            return this;
+        },
+
+        /**
+         * Moves the current position to the token on the left
+         * @returns {calculator}
+         * @fires position after the position has been changed
+         */
+        movePositionLeft() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            let token = tokensList[index];
+
+            if (token && position > 0) {
+                if (token.offset === position) {
+                    if (index > 0) {
+                        token = tokensList[index - 1];
+                    } else {
+                        token = null;
+                    }
+                }
+            } else {
+                token = null;
+            }
+
+            const offset = (token && token.offset) || 0;
+
+            if (offset !== position) {
+                this.setPosition(offset);
+            }
+
+            return this;
+        },
+
+        /**
+         * Moves the current position to the token on the right
+         * @returns {calculator}
+         * @fires position after the position has been changed
+         */
+        movePositionRight() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            let token = tokensList[index];
+            let offset = expression.length;
+
+            if (token && index < tokensList.length - 1) {
+                token = tokensList[index + 1];
+                if (token) {
+                    offset = token.offset;
+                }
+            }
+
+            if (offset !== position) {
+                this.setPosition(offset);
+            }
 
             return this;
         },
@@ -242,12 +393,112 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         },
 
         /**
+         * Removes the given token from the expression.
+         * @param {token} token
+         * @returns {calculator}
+         * @fires expression after the token has been removed.
+         * @fires position if the position has been changed
+         */
+        deleteToken(token) {
+            if (!token) {
+                return this;
+            }
+
+            const from = token.offset;
+            let to = from + token.value.length;
+            while (to < expression.length && expression.charAt(to) === ' ') {
+                to++;
+            }
+
+            this.setExpression(expression.substring(0, from) + expression.substring(to));
+            if (position > to) {
+                this.setPosition(position + from - to);
+            } else if (position > from) {
+                this.setPosition(from);
+            }
+
+            return this;
+        },
+
+        /**
+         * Deletes the token on the left
+         * @returns {calculator}
+         * @fires expression after the token on the left has been removed.
+         * @fires position if the position has been changed
+         */
+        deleteTokenLeft() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            const token = tokensList[index];
+
+            if (token) {
+                if (position > token.offset) {
+                    this.deleteToken(token);
+                } else {
+                    if (index > 0) {
+                        this.deleteToken(tokensList[index - 1]);
+                    } else if (position > 0) {
+                        this.deleteToken(tokensList[0]);
+                    }
+                }
+            }
+
+            return this;
+        },
+
+        /**
+         * Deletes the token on the right
+         * @returns {calculator}
+         * @fires expression after the token on the right has been removed.
+         * @fires position if the position has been changed
+         */
+        deleteTokenRight() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+            const token = tokensList[index];
+            const next = tokensList[index + 1];
+
+            if (token) {
+                if (position >= token.offset + token.value.length) {
+                    this.deleteToken(next);
+                } else {
+                    this.deleteToken(token);
+                }
+            }
+
+            return this;
+        },
+
+        /**
+         * Changes the sign for the current token.
+         * @returns {calculator}
+         * @fires expression after the expression has been updated.
+         * @fires position if the position has been changed.
+         */
+        changeSign() {
+            const tokensList = this.getTokens();
+            const index = this.getTokenIndex();
+
+            if (expression.trim() !== '0') {
+                const result = applyTokenStrategies(index, tokensList, signStrategies);
+                if (result) {
+                    const { value, offset, length, move } = result;
+                    expression = expression.substring(0, offset) + value + expression.substring(offset + length);
+
+                    this.replace(expression, this.getPosition() + move);
+                }
+            }
+
+            return this;
+        },
+
+        /**
          * Checks if a variable is registered
          * @param {string} name
-         * @returns {Boolean}
+         * @returns {boolean}
          */
         hasVariable(name) {
-            return variables.has(name);
+            return variablesRegistry.has(name);
         },
 
         /**
@@ -256,13 +507,26 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {mathsExpression} The value. Can be another expression.
          */
         getVariable(name) {
-            return variables.get(name);
+            return variablesRegistry.get(name);
+        },
+
+        /**
+         * Gets the value of a variable.
+         * @param {string} name - The variable name
+         * @returns {string|number|Decimal} The computed value, or 0 if the variable does not exist.
+         */
+        getVariableValue(name) {
+            const variable = variablesRegistry.get(name);
+            if (!variable) {
+                return 0;
+            }
+            return variable.result;
         },
 
         /**
          * Sets a variable that can be used by the expression.
          * @param {string} name - The variable name
-         * @param {String|Number|mathsExpression} value - The value. Can be another expression.
+         * @param {string|number|mathsExpression} value - The value. Can be another expression.
          * @returns {calculator}
          * @fires variableadd after the variable has been set
          */
@@ -275,7 +539,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                 value.expression = expr;
             }
 
-            variables.set(name, value);
+            variablesRegistry.set(name, value);
 
             this.trigger('variableadd', name, value);
 
@@ -289,7 +553,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @fires variabledelete after the variable has been deleted
          */
         deleteVariable(name) {
-            variables.delete(name);
+            variablesRegistry.delete(name);
 
             this.trigger('variabledelete', name);
 
@@ -297,15 +561,22 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         },
 
         /**
-         * Gets the list of variables defined for the expression.
+         * Gets all variables in a list.
          * @returns {object} The list of defined variables.
          */
-        getVariables() {
+        getAllVariables() {
             const defs = {};
-            variables.forEach(function (value, name) {
-                defs[name] = value;
-            });
+            variablesRegistry.forEach((value, name) => (defs[name] = value));
+            return defs;
+        },
 
+        /**
+         * Gets the values for the variables defined for the expression.
+         * @returns {object} The list of variable values.
+         */
+        getAllVariableValues() {
+            const defs = {};
+            variablesRegistry.forEach((value, name) => (defs[name] = value.result));
             return defs;
         },
 
@@ -315,7 +586,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {calculator}
          * @fires variableadd after each variable has been set
          */
-        setVariables(defs) {
+        setVariableList(defs) {
             Object.keys(defs).forEach(name => this.setVariable(name, defs[name]));
             return this;
         },
@@ -323,21 +594,22 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         /**
          * Deletes all variables defined for the expression.
          * @returns {calculator}
-         * @fires variabledelete after the variables has been deleted
+         * @fires variableclear after the variables have been deleted
          */
-        deleteVariables() {
-            variables.clear();
+        clearVariables() {
+            variablesRegistry.clear();
 
-            this.trigger('variabledelete', null);
+            this.trigger('variableclear');
 
             this.setLastResult('0');
+            this.clearMemory();
 
             return this;
         },
 
         /**
          * Sets the value of the last result
-         * @param {String|Number|mathsExpression} [result='0']
+         * @param {string|number|mathsExpression} [result='0']
          * @returns {calculator}
          */
         setLastResult(result) {
@@ -345,7 +617,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                 result = '0';
             }
 
-            this.setVariable(terms.ANS.value, result);
+            this.setVariable(lastResultVariable, result);
 
             return this;
         },
@@ -355,16 +627,44 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {mathsExpression}
          */
         getLastResult() {
-            return this.getVariable(terms.ANS.value);
+            return this.getVariable(lastResultVariable);
+        },
+
+        /**
+         * Sets the value of the last result into the memory
+         * @returns {calculator}
+         */
+        setMemory() {
+            this.setVariable(memoryVariable, this.getLastResult());
+
+            return this;
+        },
+
+        /**
+         * Gets the value of the memory
+         * @returns {mathsExpression}
+         */
+        getMemory() {
+            return this.getVariable(memoryVariable);
+        },
+
+        /**
+         * Clears the value of the memory
+         * @returns {calculator}
+         */
+        clearMemory() {
+            this.setVariable(memoryVariable, 0);
+
+            return this;
         },
 
         /**
          * Checks if a command is registered
          * @param {string} name
-         * @returns {Boolean}
+         * @returns {boolean}
          */
         hasCommand(name) {
-            return commands.has(name);
+            return commandsRegistry.has(name);
         },
 
         /**
@@ -373,7 +673,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {function} The action for the registered command
          */
         getCommand(name) {
-            return commands.get(name);
+            return commandsRegistry.get(name);
         },
 
         /**
@@ -384,7 +684,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @fires commandadd after the command has been set
          */
         setCommand(name, action) {
-            commands.set(name, action);
+            commandsRegistry.set(name, action);
 
             this.trigger('commandadd', name);
 
@@ -398,7 +698,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @fires commanddelete after the command has been deleted
          */
         deleteCommand(name) {
-            commands.delete(name);
+            commandsRegistry.delete(name);
 
             this.trigger('commanddelete', name);
 
@@ -409,9 +709,9 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * Gets the list of registered commands
          * @returns {object} The list of registered commands
          */
-        getCommands() {
+        getAllCommands() {
             const defs = {};
-            commands.forEach((value, name) => (defs[name] = value));
+            commandsRegistry.forEach((value, name) => (defs[name] = value));
             return defs;
         },
 
@@ -421,7 +721,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {calculator}
          * @fires commandadd after each command has been registered
          */
-        setCommands(defs) {
+        setCommandList(defs) {
             Object.keys(defs).forEach(name => this.setCommand(name, defs[name]));
             return this;
         },
@@ -429,12 +729,92 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         /**
          * Deletes all commands from the calculator.
          * @returns {calculator}
-         * @fires commanddelete after the commands has been deleted
+         * @fires commandclear after the commands have been deleted
          */
-        deleteCommands() {
-            commands.clear();
+        clearCommands() {
+            commandsRegistry.clear();
 
-            this.trigger('commanddelete', null);
+            this.trigger('commandclear');
+
+            return this;
+        },
+
+        /**
+         * Checks if a plugin is installed.
+         * @param {string} name
+         * @returns {boolean}
+         */
+        hasPlugin(name) {
+            return pluginsRegistry.has(name);
+        },
+
+        /**
+         * Installs a plugin onto the calculator.
+         * @param {string} name - The name of the plugin to install.
+         * @param {pluginInstaller} install - The plugin installer. It should returns an uninstall callback.
+         * @returns {calculator} - Chains the instance.
+         * @fires pluginadd after the plugin has been installed
+         * @fires plugindelete if a plugin has been uninstalled before
+         */
+        addPlugin(name, install) {
+            if (this.hasPlugin(name)) {
+                this.removePlugin(name);
+            }
+
+            const plugin = install(this) || true;
+
+            pluginsRegistry.set(name, plugin);
+
+            this.trigger('pluginadd', name);
+
+            return this;
+        },
+
+        /**
+         * Uninstalls a plugin from the calculator.
+         * @param {string} name - The name of the plugin to uninstall.
+         * @returns {calculator} - Chains the instance.
+         * @fires plugindelete after the plugin has been uninstalled
+         */
+        removePlugin(name) {
+            const uninstall = pluginsRegistry.get(name);
+
+            if ('function' === typeof uninstall) {
+                uninstall();
+            }
+
+            pluginsRegistry.delete(name);
+
+            this.trigger('plugindelete', name);
+
+            return this;
+        },
+
+        /**
+         * Installs a list of plugins.
+         * @param {object} defs - A list of plugins to install.
+         * @returns {calculator}
+         * @fires pluginadd after each plugin has been installed
+         */
+        addPluginList(defs) {
+            Object.keys(defs).forEach(name => this.addPlugin(name, defs[name]));
+            return this;
+        },
+
+        /**
+         * Uninstalls all plugins.
+         * @returns {calculator}
+         * @fires pluginclear after the plugins have been uninstalled
+         */
+        clearPlugins() {
+            pluginsRegistry.forEach(uninstall => {
+                if ('function' === typeof uninstall) {
+                    uninstall();
+                }
+            });
+            pluginsRegistry.clear();
+
+            this.trigger('pluginclear');
 
             return this;
         },
@@ -444,12 +824,12 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @param {string} name - The name of the term to insert
          * @param {object} term - The definition of the term to insert
          * @returns {calculator}
-         * @fires termerror if the term to add is invalid
-         * @fires termadd when the term has been added
+         * @fires error if the term to add is invalid
+         * @fires term when the term has been added
          */
         addTerm(name, term) {
             if ('object' !== typeof term || 'undefined' === typeof term.value) {
-                return this.trigger('termerror', new TypeError(`Invalid term: ${name}`));
+                return this.trigger('error', new TypeError(`Invalid term: ${name}`));
             }
 
             const tokensList = this.getTokens();
@@ -461,7 +841,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             // - it is the last result, and the term to add is not an operator
             if (
                 !tokensHelper.isOperator(term.type) &&
-                !rePrefixedTerm.test(term.value) &&
+                !isFunctionOperator(term.value) &&
                 tokensList.length === 1 &&
                 ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')
             ) {
@@ -472,33 +852,35 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
                 let value = term.value;
                 let at = position;
 
+                // we need a position at token boundaries, either on the start or on the end
                 if (currentToken && at > currentToken.offset) {
                     at = currentToken.offset + currentToken.text.length;
                     previousToken = currentToken;
                     nextToken = tokensList[index + 1];
                 }
 
-                // simply add the term, with potentially spaces around
-                if (expression && !tokensHelper.isSeparator(term.type)) {
-                    const isIdentifier = tokensHelper.isIdentifier(term.type);
-                    const tokenNeedsSpace = token =>
-                        tokensHelper.isIdentifier(token) || (isIdentifier && token && !tokensHelper.isSeparator(token));
-
-                    // prepend space when either the term to add or the previous term is an identifier
-                    if (tokenNeedsSpace(previousToken) && expression.charAt(at - 1) !== ' ') {
-                        value = ` ${value}`;
+                // append the appropriate separator to the term to add
+                if (expression) {
+                    if (previousToken) {
+                        value = applyValueStrategies(value, previousToken.type, name, prefixStrategies);
                     }
-
-                    // append space when either the term to add or the next term is an identifier
-                    if (tokenNeedsSpace(nextToken) && expression.charAt(at) !== ' ') {
-                        value += ' ';
+                    if (nextToken) {
+                        value = applyValueStrategies(value, name, nextToken.type, suffixStrategies);
                     }
+                }
+
+                // trim extraneous spaces
+                if (value.startsWith(' ') && expression.charAt(at - 1) === ' ') {
+                    value = value.trimStart();
+                }
+                if (value.endsWith(' ') && expression.charAt(at) === ' ') {
+                    value = value.trimEnd();
                 }
 
                 this.insert(value, at);
             }
 
-            this.trigger('termadd', name, term);
+            this.trigger('term', name, term);
 
             return this;
         },
@@ -507,11 +889,11 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * Inserts a term in the expression at the current position
          * @param {string} name - The name of the term to insert
          * @returns {calculator}
-         * @fires termerror if the term to add is invalid
-         * @fires termadd when the term has been added
+         * @fires error if the term to add is invalid
+         * @fires term when the term has been added
          */
-        useTerm(name) {
-            const prefixed = rePrefixedTerm.test(name);
+        insertTerm(name) {
+            const prefixed = isFunctionOperator(name);
             if (prefixed) {
                 name = name.substring(1);
             }
@@ -519,7 +901,7 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
             let term = terms[name];
 
             if ('undefined' === typeof term) {
-                return this.trigger('termerror', new TypeError(`Invalid term: ${name}`));
+                return this.trigger('error', new TypeError(`Invalid term: ${name}`));
             }
 
             if (prefixed) {
@@ -535,15 +917,15 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @param {String|String[]} names - The names of the terms to insert.
          *                                  Could be either an array of names or a list separated by spaces.
          * @returns {calculator}
-         * @fires termerror if a term to add is invalid
-         * @fires termadd when a term has been added
+         * @fires error if a term to add is invalid
+         * @fires term when a term has been added
          */
-        useTerms(names) {
+        insertTermList(names) {
             if ('string' === typeof names) {
-                names = names.split(/\s+/);
+                names = names.split(reSpace);
             }
 
-            names.forEach(name => this.useTerm(name));
+            names.forEach(name => this.insertTerm(name));
 
             return this;
         },
@@ -552,12 +934,12 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * Inserts a variable as a term in the expression at the current position
          * @param {string} name - The name of the variable to insert
          * @returns {calculator}
-         * @fires termerror if the term to add is invalid
-         * @fires termadd when the term has been added
+         * @fires error if the term to add is invalid
+         * @fires term when the term has been added
          */
-        useVariable(name) {
-            if (!variables.has(name)) {
-                return this.trigger('termerror', new TypeError(`Invalid variable: ${name}`));
+        insertVariable(name) {
+            if (!variablesRegistry.has(name)) {
+                return this.trigger('error', new TypeError(`Invalid variable: ${name}`));
             }
 
             return this.addTerm(`VAR_${name.toUpperCase()}`, {
@@ -574,20 +956,19 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
          * @returns {calculator}
          * @fires command with the name and the parameters of the command
          * @fires command-<name> with the parameters of the command
-         * @fires commanderror if the command is invalid
+         * @fires error if the command is invalid
          */
-        useCommand(name, ...args) {
-            const action = commands.get(name);
+        invoke(name, ...args) {
+            const action = commandsRegistry.get(name);
 
             if ('function' !== typeof action) {
-                return this.trigger('commanderror', new TypeError(`Invalid command: ${name}`));
+                return this.trigger('error', new TypeError(`Invalid command: ${name}`));
             }
 
-            action.apply(this, args);
-
+            this.trigger(`command-${name}`, ...args);
             this.trigger('command', name, ...args);
 
-            this.trigger(`command-${name}`, ...args);
+            action.apply(this, args);
 
             return this;
         },
@@ -649,29 +1030,49 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         },
 
         /**
+         * Resets the calculator
+         * @returns {calculator}
+         * @fires reset after the calculator has been reset
+         */
+        reset() {
+            this.clearVariables();
+            this.clear();
+
+            this.trigger('reset');
+
+            return this;
+        },
+
+        /**
          * Evaluates the current expression
          * @returns {mathsExpression|null}
          * @fires evaluate when the expression has been evaluated
+         * @fires result when the result is available
          * @fires syntaxerror when the expression contains an error
          */
         evaluate() {
             let result = null;
+            state.changed = false;
+
             try {
                 if (expression.trim()) {
-                    const vars = Object.entries(this.getVariables()).reduce(
-                        (a, [key, entry]) => (a[key] = entry.result),
-                        {}
-                    );
-
+                    const vars = this.getAllVariableValues();
                     result = mathsEvaluator(expression, vars);
                 } else {
                     result = mathsEvaluator('0');
                 }
 
+                state.error = expressionHelper.containsError(result);
+
                 this.trigger('evaluate', result);
 
-                this.setLastResult(result);
+                if (!state.error) {
+                    this.setLastResult(result);
+                }
+
+                this.trigger('result', result);
             } catch (e) {
+                state.error = true;
                 this.trigger('syntaxerror', e);
             }
 
@@ -681,11 +1082,13 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         /**
          * Renders the current expression into a list of terms.
          * This list can then be applied to a template.
+         * @param {number} decimals - The number of decimals to present after the dot in the last result variable.
          * @returns {renderTerm[]}
          * @fires render when the expression has been rendered
          */
-        render() {
-            const renderedTerms = expressionHelper.render(this.getTokens(), this.getVariable(), tokenizer);
+        render(decimals = defaultDecimalDigits) {
+            const formattedVariables = expressionHelper.roundAllVariables(this.getAllVariables(), decimals);
+            const renderedTerms = expressionHelper.render(this.getTokens(), formattedVariables, tokenizer);
 
             this.trigger('render', renderedTerms);
 
@@ -693,14 +1096,34 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
         }
     };
 
+    if (position === null) {
+        position = expression.length;
+    }
+
     calculatorApi
+        .configureMathsEvaluator()
         .setLastResult('0')
+        .setMemory()
+        .setExpression(expression)
         .setPosition(position)
         .setCommand('clear', () => calculatorApi.clear())
-        .setCommand('clearAll', () => calculatorApi.deleteVariables().clear())
+        .setCommand('reset', () => calculatorApi.reset())
         .setCommand('execute', () => calculatorApi.evaluate())
-        .setCommand('var', name => calculatorApi.useVariable(name))
-        .setCommand('term', name => calculatorApi.useTerms(name));
+        .setCommand('var', name => calculatorApi.insertVariable(name))
+        .setCommand('term', name => calculatorApi.insertTermList(name))
+        .setCommand('sign', () => calculatorApi.changeSign())
+        .setCommand('degree', () => calculatorApi.setDegreeMode(true))
+        .setCommand('radian', () => calculatorApi.setDegreeMode(false))
+        .setCommand('remind', () => calculatorApi.insertVariable(memoryVariable))
+        .setCommand('memorize', () => calculatorApi.setMemory())
+        .setCommand('forget', () => calculatorApi.clearMemory())
+        .setCommand('moveLeft', () => calculatorApi.movePositionLeft())
+        .setCommand('moveRight', () => calculatorApi.movePositionRight())
+        .setCommand('deleteLeft', () => calculatorApi.deleteTokenLeft())
+        .setCommand('deleteRight', () => calculatorApi.deleteTokenRight())
+        .setCommandList(commands)
+        .setVariableList(variables)
+        .addPluginList(plugins);
 
     return calculatorApi;
 }
@@ -708,14 +1131,26 @@ function engineFactory({ expression = '', position = 0, maths = {} } = {}) {
 export default engineFactory;
 
 /**
+ * @callback pluginInstaller
+ * @param {calculator} calculator - The reference to the host calculator the plugin is bound to
+ * @returns {function} - Returns a uninstall callback
+ */
+
+/**
+ * Notifies the maths evaluator has been configured.
+ * @event configure
+ * @param {object} config - Config for the maths evaluator (@see mathsEvaluator)
+ */
+
+/**
  * Notifies the expression has changed.
- * @event expressionchange
+ * @event expression
  * @param {string} expression - The new expression.
  */
 
 /**
  * Notifies the position inside the expression has changed.
- * @event positionchange
+ * @event position
  * @param {number} position - The new position.
  */
 
@@ -733,6 +1168,11 @@ export default engineFactory;
  */
 
 /**
+ * Notifies all variables have been removed.
+ * @event variableclear
+ */
+
+/**
  * Notifies a command has been registered.
  * @event commandadd
  * @param {string} name - The name of the new command.
@@ -745,9 +1185,8 @@ export default engineFactory;
  */
 
 /**
- * Notifies an error occurred with a command.
- * @event commanderror
- * @param {TypeError} err - The error object.
+ * Notifies all commands have been removed.
+ * @event commandclear
  */
 
 /**
@@ -765,15 +1204,9 @@ export default engineFactory;
 
 /**
  * Notifies a term has been added to the expression.
- * @event termadd
+ * @event term
  * @param {string} name - The name of the added term
  * @param {object} term - The descriptor of the added term
- */
-
-/**
- * Notifies an errors occurred with a term added the expression.
- * @event termerror
- * @param {TypeError} err - The error object.
  */
 
 /**
@@ -796,9 +1229,26 @@ export default engineFactory;
  */
 
 /**
+ * Notifies the calculator has been reset.
+ * @event reset
+ */
+
+/**
  * Notifies the expression has been evaluated.
  * @event evaluate
  * @param {mathsExpression} result - The result of the expression.
+ */
+
+/**
+ * Notifies the result is available.
+ * @event result
+ * @param {mathsExpression} result - The result of the expression.
+ */
+
+/**
+ * Notifies the expression has been rendered into a list of terms.
+ * @event render
+ * @param {renderTerm[]} terms - The list of rendered terms.
  */
 
 /**
@@ -808,7 +1258,7 @@ export default engineFactory;
  */
 
 /**
- * Notifies the expression has been rendered into a list of terms.
- * @event render
- * @param {renderTerm[]} terms - The list of rendered terms.
+ * Notifies an error occurred.
+ * @event error
+ * @param {Error} err - The error object.
  */
