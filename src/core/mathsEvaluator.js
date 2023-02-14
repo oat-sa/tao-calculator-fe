@@ -406,6 +406,10 @@ function mathsEvaluatorFactory(config) {
             {
                 entry: 'EPSILON',
                 value: EPSILON
+            },
+            {
+                entry: 'TEN',
+                value: 10
             }
         ]
     };
@@ -586,6 +590,9 @@ function mathsEvaluatorFactory(config) {
         if (_.isPlainObject(expression)) {
             variables = variables || expression.variables;
             expression = expression.expression;
+        }
+        if ('string' !== typeof expression) {
+            expression = `${expression}`;
         }
 
         const parsedExpression = parser.parse(expression);

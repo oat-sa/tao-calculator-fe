@@ -16,9 +16,4 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
-export { default as engineFactory } from './engine.js';
-export { default as mathsEvaluatorFactory } from './mathsEvaluator.js';
-export { default as tokenizerFactory } from './tokenizer.js';
-export { default as expressionHelper, defaultDecimalDigits } from './expression.js';
-export { default as tokensHelper } from './tokens.js';
-export * from './terms.js';
+export { default as historyPlugin } from './history.js';

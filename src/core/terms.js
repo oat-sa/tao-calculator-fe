@@ -17,6 +17,21 @@
  */
 
 /**
+ * Regex that matches the prefixed function operators
+ * @type {RegExp}
+ */
+const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
+
+/**
+ * Tells if a term is prefixed for turning a function into a binary operator.
+ * This allows using a function like `nthrt(x, y)` as `x @nthrt y`.
+ * This tweak simplifies the expression's renderer.
+ * @param {string} name - The term to check.
+ * @returns {boolean} - Returns `true` if the term is prefixed.
+ */
+export const isFunctionOperator = name => rePrefixedTerm.test(name);
+
+/**
  * Formats a math element as exponent.
  * @param {string} x - The value to place as exponent
  * @returns {string}
@@ -60,8 +75,8 @@ export const subscriptRight = (a, x) => a + subscript(x);
  */
 export const symbols = {
     minusOne: '\uFE631',
-    minus: '\uFF0D',
-    plus: '\uFF0B',
+    minus: '\u2212',
+    plus: '\u002B',
     positive: '+',
     negative: '-',
     multiply: '\u00D7',
@@ -71,7 +86,7 @@ export const symbols = {
     fourthRoot: '\u221C',
     ellipsis: '\u2026',
     pi: '\u03C0',
-    euler: '\u212E'
+    euler: 'e'
 };
 
 /**
@@ -88,6 +103,7 @@ export const types = {
     constant: 'constant',
     function: 'function',
     exponent: 'exponent',
+    unknown: 'unknown',
     error: 'error'
 };
 
@@ -275,6 +291,12 @@ export const terms = {
         type: types.variable,
         exponent: false
     },
+    MEM: {
+        label: 'Mem',
+        value: 'mem',
+        type: types.variable,
+        exponent: false
+    },
 
     // Constants
     PI: {
@@ -284,8 +306,14 @@ export const terms = {
         exponent: false
     },
     E: {
-        label: 'e',
+        label: symbols.euler,
         value: 'E',
+        type: types.constant,
+        exponent: false
+    },
+    TEN: {
+        label: '10',
+        value: 'TEN',
         type: types.constant,
         exponent: false
     },

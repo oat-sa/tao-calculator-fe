@@ -130,44 +130,86 @@ describe('expression', () => {
             });
         });
 
-        describe('roundLastResultVariable', () => {
+        describe('roundAllVariables', () => {
             it('is function', () => {
-                expect(expressionHelper.roundLastResultVariable).toEqual(expect.any(Function));
+                expect(expressionHelper.roundAllVariables).toEqual(expect.any(Function));
             });
 
             it.each([
                 ['Undefined list of variables', {}],
                 ['Empty list of variables', { variables: {}, expected: {} }],
-                ['Native number', { variables: { ans: 5 }, decimalDigits: 8, expected: { ans: '5' } }],
+                [
+                    'Native number',
+                    { variables: { ans: 5, foo: 5 }, decimalDigits: 8, expected: { ans: '5', foo: '5' } }
+                ],
                 [
                     'String value',
                     {
-                        variables: { ans: '3.14159265358979323846264' },
+                        variables: { ans: '3.14159265358979323846264', foo: '1.23456789123456789' },
                         decimalDigits: 8,
-                        expected: { ans: '3.14159265358979323846264' }
+                        expected: { ans: '3.14159265358979323846264', foo: '1.23456789123456789' }
                     }
                 ],
-                ['Regular integer result', { variables: { ans: mathsResults['3*4'] }, expected: { ans: '12' } }],
-                ['Regular decimal result', { variables: { ans: mathsResults.PI }, expected: { ans: '3.14159~' } }],
+                [
+                    'Regular integer result',
+                    {
+                        variables: { ans: mathsResults['3*4'], foo: mathsResults['3*4'] },
+                        expected: { ans: '12', foo: '12' }
+                    }
+                ],
+                [
+                    'Regular decimal result',
+                    {
+                        variables: { ans: mathsResults.PI, foo: mathsResults['1/3'] },
+                        expected: { ans: '3.14159~', foo: '0.33333~' }
+                    }
+                ],
                 [
                     '5 significant digits',
-                    { variables: { ans: mathsResults.PI }, decimalDigits: 3, expected: { ans: '3.142~' } }
+                    {
+                        variables: { ans: mathsResults.PI, foo: mathsResults['1/3'] },
+                        decimalDigits: 3,
+                        expected: { ans: '3.142~', foo: '0.333~' }
+                    }
                 ],
                 [
                     '10 significant digits',
-                    { variables: { ans: mathsResults.PI }, decimalDigits: 10, expected: { ans: '3.1415926536~' } }
+                    {
+                        variables: { ans: mathsResults.PI, foo: mathsResults['1/3'] },
+                        decimalDigits: 10,
+                        expected: { ans: '3.1415926536~', foo: '0.3333333333~' }
+                    }
                 ],
-                ['Irrational 1/3', { variables: { ans: mathsResults['1/3'] }, expected: { ans: '0.33333~' } }],
-                ['Irrational 2/3', { variables: { ans: mathsResults['2/3'] }, expected: { ans: '0.66667~' } }],
-                ['Exponential integer', { variables: { ans: mathsResults['123e50'] }, expected: { ans: '1.23e+52' } }],
+                [
+                    'Irrational 1/3',
+                    {
+                        variables: { ans: mathsResults['1/3'], foo: mathsResults['1/3'] },
+                        expected: { ans: '0.33333~', foo: '0.33333~' }
+                    }
+                ],
+                [
+                    'Irrational 2/3',
+                    {
+                        variables: { ans: mathsResults['2/3'], foo: mathsResults['2/3'] },
+                        expected: { ans: '0.66667~', foo: '0.66667~' }
+                    }
+                ],
+                [
+                    'Exponential integer',
+                    {
+                        variables: { ans: mathsResults['123e50'], foo: mathsResults['123e50'] },
+                        expected: { ans: '1.23e+52', foo: '1.23e+52' }
+                    }
+                ],
                 [
                     'Exponential decimal',
-                    { variables: { ans: mathsResults['PI*10^50'] }, expected: { ans: '3.14159e+50~' } }
+                    {
+                        variables: { ans: mathsResults['PI*10^50'], foo: mathsResults['PI*10^50'] },
+                        expected: { ans: '3.14159e+50~', foo: '3.14159e+50~' }
+                    }
                 ]
             ])('round the last result variable in "%s"', (title, data) => {
-                expect(expressionHelper.roundLastResultVariable(data.variables, data.decimalDigits)).toEqual(
-                    data.expected
-                );
+                expect(expressionHelper.roundAllVariables(data.variables, data.decimalDigits)).toEqual(data.expected);
             });
         });
 
@@ -183,9 +225,9 @@ describe('expression', () => {
                 expect(expressionHelper.renderSign('-42')).toStrictEqual(`-42`);
                 expect(expressionHelper.renderSign('+42')).toStrictEqual(`+42`);
                 expect(expressionHelper.renderSign('3-4+2')).toStrictEqual(`3-4+2`);
-                expect(expressionHelper.renderSign('\uFF0D42')).toStrictEqual(`-42`);
-                expect(expressionHelper.renderSign('\uFF0B42')).toStrictEqual(`+42`);
-                expect(expressionHelper.renderSign('3\uFF0D4\uFF0B2')).toStrictEqual(`3-4+2`);
+                expect(expressionHelper.renderSign('\u221242')).toStrictEqual(`-42`);
+                expect(expressionHelper.renderSign('\u002B42')).toStrictEqual(`+42`);
+                expect(expressionHelper.renderSign('3\u22124\u002B2')).toStrictEqual(`3-4+2`);
             });
         });
 

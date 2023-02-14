@@ -1,11 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`engine evaluates the expression emits an evaluate event 1`] = `
+exports[`engine evaluates the expression does not update the last result if an error occurred 1`] = `
 {
-  "expression": ".1 + .2",
-  "result": "0.3",
-  "value": 0.3,
-  "variables": 0,
+  "expression": "3*4",
+  "result": "12",
+  "value": 12,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
 }
 `;
 
@@ -14,7 +17,10 @@ exports[`engine evaluates the expression from a simple expression 1`] = `
   "expression": ".1 + .2",
   "result": "0.3",
   "value": 0.3,
-  "variables": 0,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
 }
 `;
 
@@ -27,15 +33,105 @@ exports[`engine evaluates the expression from an empty expression 1`] = `
 }
 `;
 
-exports[`engine evaluates the expression using the last result 1`] = `null`;
+exports[`engine evaluates the expression set the last result 1`] = `
+{
+  "expression": ".1 + .2",
+  "result": "0.3",
+  "value": 0.3,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine evaluates the expression using the last result 1`] = `
+{
+  "expression": "ans / 2",
+  "result": "21",
+  "value": 21,
+  "variables": {
+    "ans": 42,
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages a memory clears the memory 1`] = `
+{
+  "expression": "42",
+  "result": 42,
+  "value": 42,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages a memory clears the memory 2`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages a memory set the memory from last result 1`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages a memory set the memory from last result 2`] = `
+{
+  "expression": "42",
+  "result": 42,
+  "value": 42,
+  "variables": undefined,
+}
+`;
 
 exports[`engine manages the commands gets commands 1`] = `
 {
   "bar": [Function],
   "clear": [Function],
-  "clearAll": [Function],
+  "degree": [Function],
+  "deleteLeft": [Function],
+  "deleteRight": [Function],
   "execute": [Function],
   "foo": [Function],
+  "forget": [Function],
+  "memorize": [Function],
+  "moveLeft": [Function],
+  "moveRight": [Function],
+  "radian": [Function],
+  "remind": [Function],
+  "reset": [Function],
+  "sign": [Function],
+  "term": [Function],
+  "var": [Function],
+}
+`;
+
+exports[`engine manages the commands initializes with a list of commands 1`] = `
+{
+  "bar": [Function],
+  "clear": [Function],
+  "degree": [Function],
+  "deleteLeft": [Function],
+  "deleteRight": [Function],
+  "execute": [Function],
+  "foo": [Function],
+  "forget": [Function],
+  "memorize": [Function],
+  "moveLeft": [Function],
+  "moveRight": [Function],
+  "radian": [Function],
+  "remind": [Function],
+  "reset": [Function],
+  "sign": [Function],
   "term": [Function],
   "var": [Function],
 }
@@ -45,9 +141,19 @@ exports[`engine manages the commands sets commands from a list 1`] = `
 {
   "bar": [Function],
   "clear": [Function],
-  "clearAll": [Function],
+  "degree": [Function],
+  "deleteLeft": [Function],
+  "deleteRight": [Function],
   "execute": [Function],
   "foo": [Function],
+  "forget": [Function],
+  "memorize": [Function],
+  "moveLeft": [Function],
+  "moveRight": [Function],
+  "radian": [Function],
+  "remind": [Function],
+  "reset": [Function],
+  "sign": [Function],
   "term": [Function],
   "var": [Function],
 }
@@ -91,9 +197,9 @@ exports[`engine manages the last result set the last result 1`] = `
 
 exports[`engine manages the last result set the last result 2`] = `
 {
-  "expression": 42,
-  "result": 0,
-  "value": 0,
+  "expression": "42",
+  "result": 42,
+  "value": 42,
   "variables": undefined,
 }
 `;
@@ -318,11 +424,20 @@ exports[`engine manages the variables detects error in variable expression 1`] =
 }
 `;
 
+exports[`engine manages the variables gets variable values 1`] = `
+{
+  "ans": 0,
+  "expr": "12",
+  "foo": 42,
+  "mem": 0,
+}
+`;
+
 exports[`engine manages the variables gets variables 1`] = `
 {
-  "expression": 42,
-  "result": 0,
-  "value": 0,
+  "expression": "42",
+  "result": 42,
+  "value": 42,
   "variables": undefined,
 }
 `;
@@ -351,7 +466,13 @@ exports[`engine manages the variables gets variables 3`] = `
     "variables": undefined,
   },
   "foo": {
-    "expression": 42,
+    "expression": "42",
+    "result": 42,
+    "value": 42,
+    "variables": undefined,
+  },
+  "mem": {
+    "expression": "0",
     "result": 0,
     "value": 0,
     "variables": undefined,
@@ -359,11 +480,58 @@ exports[`engine manages the variables gets variables 3`] = `
 }
 `;
 
+exports[`engine manages the variables initializes with a list of variables 1`] = `
+{
+  "expression": "42",
+  "result": 42,
+  "value": 42,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the variables initializes with a list of variables 2`] = `
+{
+  "expression": "4*3",
+  "result": "12",
+  "value": 12,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the variables initializes with a list of variables 3`] = `
+{
+  "ans": {
+    "expression": "-3",
+    "result": "-3",
+    "value": -3,
+    "variables": undefined,
+  },
+  "expr": {
+    "expression": "4*3",
+    "result": "12",
+    "value": 12,
+    "variables": undefined,
+  },
+  "foo": {
+    "expression": "42",
+    "result": 42,
+    "value": 42,
+    "variables": undefined,
+  },
+  "mem": {
+    "expression": "10",
+    "result": 10,
+    "value": 10,
+    "variables": undefined,
+  },
+}
+`;
+
 exports[`engine manages the variables sets a variable as a value 1`] = `
 {
-  "expression": 42,
-  "result": 0,
-  "value": 0,
+  "expression": "42",
+  "result": 42,
+  "value": 42,
   "variables": undefined,
 }
 `;
@@ -379,9 +547,9 @@ exports[`engine manages the variables sets a variable as an expression 1`] = `
 
 exports[`engine manages the variables sets variables from a list 1`] = `
 {
-  "expression": 42,
-  "result": 0,
-  "value": 0,
+  "expression": "42",
+  "result": 42,
+  "value": 42,
   "variables": undefined,
 }
 `;
@@ -410,7 +578,13 @@ exports[`engine manages the variables sets variables from a list 3`] = `
     "variables": undefined,
   },
   "foo": {
-    "expression": 42,
+    "expression": "42",
+    "result": 42,
+    "value": 42,
+    "variables": undefined,
+  },
+  "mem": {
+    "expression": "0",
     "result": 0,
     "value": 0,
     "variables": undefined,
@@ -446,7 +620,7 @@ exports[`engine renders the expression emits a render event 1`] = `
     "elide": false,
     "endExponent": [],
     "exponent": false,
-    "label": "＋",
+    "label": "+",
     "prefixed": false,
     "startExponent": null,
     "token": "ADD",
@@ -506,7 +680,7 @@ exports[`engine renders the expression from a simple expression 1`] = `
     "elide": false,
     "endExponent": [],
     "exponent": false,
-    "label": "＋",
+    "label": "+",
     "prefixed": false,
     "startExponent": null,
     "token": "ADD",
@@ -544,7 +718,30 @@ exports[`engine renders the expression using the last result 1`] = `
     "elide": false,
     "endExponent": [],
     "exponent": false,
-    "label": "Ans",
+    "label": [
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "4",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "NUM4",
+        "type": "digit",
+        "value": "4",
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "2",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "NUM2",
+        "type": "digit",
+        "value": "2",
+      },
+    ],
     "prefixed": false,
     "startExponent": null,
     "token": "ANS",
@@ -572,6 +769,133 @@ exports[`engine renders the expression using the last result 1`] = `
     "token": "NUM2",
     "type": "digit",
     "value": "2",
+  },
+]
+`;
+
+exports[`engine renders the expression using the last result with an irrational number 1`] = `
+[
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": [
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "0",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "NUM0",
+        "type": "digit",
+        "value": "0",
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": ".",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "DOT",
+        "type": "digit",
+        "value": ".",
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "3",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "NUM3",
+        "type": "digit",
+        "value": "3",
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "3",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "NUM3",
+        "type": "digit",
+        "value": "3",
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "3",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "NUM3",
+        "type": "digit",
+        "value": "3",
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "3",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "NUM3",
+        "type": "digit",
+        "value": "3",
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "3",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "NUM3",
+        "type": "digit",
+        "value": "3",
+      },
+      {
+        "elide": false,
+        "endExponent": [],
+        "exponent": false,
+        "label": "…",
+        "prefixed": false,
+        "startExponent": null,
+        "token": "ELLIPSIS",
+        "type": "separator",
+        "value": "~",
+      },
+    ],
+    "prefixed": false,
+    "startExponent": null,
+    "token": "ANS",
+    "type": "variable",
+    "value": "ans",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "×",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "MUL",
+    "type": "operator",
+    "value": "*",
+  },
+  {
+    "elide": false,
+    "endExponent": [],
+    "exponent": false,
+    "label": "3",
+    "prefixed": false,
+    "startExponent": null,
+    "token": "NUM3",
+    "type": "digit",
+    "value": "3",
   },
 ]
 `;
