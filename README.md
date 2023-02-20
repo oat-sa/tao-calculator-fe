@@ -1,6 +1,11 @@
 # tao-calculator-fe
 
+![TAO Logo](https://github.com/oat-sa/taohub-developer-guide/raw/master/resources/tao-logo.png)
+
 A calculator's engine for TAO.
+
+[![GPLv2 License](https://img.shields.io/badge/License-GPL%20v2-yellow.svg)](./LICENSE) -
+![ci](https://github.com/oat-sa/tao-calculator-fe/actions/workflows/continuous-integration.yml/badge.svg)
 
 <!-- vscode-markdown-toc -->
 
