@@ -23,7 +23,8 @@ export default {
     input: 'src/index.js',
     output: [
         {
-            format: 'esm',
+            name: 'calculator',
+            format: 'umd',
             file: 'dist/index.js'
         }
     ],
