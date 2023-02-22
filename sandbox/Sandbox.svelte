@@ -13,6 +13,8 @@
 
     let decimals = 5;
     let degree = false;
+    let command = '';
+    let param = '';
     let expression = '';
     let resultJSON = '';
     let resultValue = '';
@@ -36,6 +38,12 @@
     function rawInputKeyUp(e) {
         if (e.key === 'Enter') {
             calculator.evaluate();
+        }
+    }
+
+    function invoke() {
+        if (command.trim() !== '') {
+            calculator.invoke(command.trim(), param.trim());
         }
     }
 
@@ -150,7 +158,13 @@
             <fieldset class="input">
                 <legend>Input</legend>
                 <div class="context-row raw">
-                    <input type="text" value={expression} on:input={rawInput} on:keyup={rawInputKeyUp} />
+                    <input
+                        type="text"
+                        placeholder="expression"
+                        value={expression}
+                        on:input={rawInput}
+                        on:keyup={rawInputKeyUp}
+                    />
                 </div>
                 <div class="context-row mode">
                     <label>
@@ -161,6 +175,14 @@
                         <input type="radio" name="angle" value={false} bind:group={degree} on:change={modeChange} />
                         <span>radian</span>
                     </label>
+                </div>
+            </fieldset>
+            <fieldset class="command">
+                <legend>Command</legend>
+                <div class="context-row">
+                    <input type="text" placeholder="command" bind:value={command} />
+                    <input type="text" placeholder="parameter" bind:value={param} />
+                    <input type="button" value="Call" on:click={invoke} />
                 </div>
             </fieldset>
         </div>
