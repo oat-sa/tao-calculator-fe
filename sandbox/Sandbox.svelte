@@ -13,8 +13,8 @@
 
     let decimals = 5;
     let degree = false;
-    let command = '';
-    let param = '';
+    let commandName = '';
+    let commandParam = '';
     let expression = '';
     let resultJSON = '';
     let resultValue = '';
@@ -41,9 +41,15 @@
         }
     }
 
+    function commandKeyUp(e) {
+        if (e.key === 'Enter') {
+            invoke();
+        }
+    }
+
     function invoke() {
-        if (command.trim() !== '') {
-            calculator.invoke(command.trim(), param.trim());
+        if (commandName.trim() !== '') {
+            calculator.invoke(commandName.trim(), commandParam.trim());
         }
     }
 
@@ -180,8 +186,8 @@
             <fieldset class="command">
                 <legend>Command</legend>
                 <div class="context-row">
-                    <input type="text" placeholder="command" bind:value={command} />
-                    <input type="text" placeholder="parameter" bind:value={param} />
+                    <input type="text" placeholder="command" bind:value={commandName} on:keyup={commandKeyUp} />
+                    <input type="text" placeholder="parameter" bind:value={commandParam} on:keyup={commandKeyUp} />
                     <input type="button" value="Call" on:click={invoke} />
                 </div>
             </fieldset>
