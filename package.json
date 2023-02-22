@@ -9,6 +9,9 @@
         "src",
         "!**/test/"
     ],
+    "engines": {
+        "node": ">=14.0.0"
+    },
     "publishConfig": {
         "access": "public"
     },
@@ -20,9 +23,11 @@
         "test:watch": "npm test -- --watch",
         "test:update": "npm test -- --updateSnapshot",
         "test:cov": "npm test -- --coverage",
-        "coverage:html": "open-cli .coverage/lcov-report/index.html",
-        "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore --ignore-path .eslintignore .",
-        "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. .",
+        "coverage:html": "nyc report -r lcov && open-cli .coverage/lcov-report/index.html",
+        "coverage:clover": "nyc report -r clover",
+        "lint": "prettier --ignore-path .eslintignore --check --plugin-search-dir=. . && eslint --ignore-path .eslintignore .",
+        "lint:report": "eslint --ignore-path .eslintignore --output-file eslint_report.json --format json .",
+        "format": "prettier --ignore-path .eslintignore --write --plugin-search-dir=. .",
         "prepublishOnly": "npm run build"
     },
     "repository": {
@@ -59,6 +64,7 @@
         "jest": "^29.3.1",
         "jest-environment-jsdom": "^29.3.1",
         "jest-transform-stub": "^2.0.0",
+        "nyc": "^15.1.0",
         "open-cli": "^7.1.0",
         "prettier": "^2.8.3",
         "rollup": "^3.11.0"
