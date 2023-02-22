@@ -15,3 +15,9 @@
  *
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA ;
  */
+
+import Sandbox from './Sandbox.svelte';
+
+new Sandbox({
+    target: document.body
+});

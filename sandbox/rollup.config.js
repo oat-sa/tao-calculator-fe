@@ -47,7 +47,7 @@ export default {
         alias({
             resolve: ['.js', '.json', '.css'],
             entries: {
-                src: path.join(__dirname, '..', 'src')
+                calculator: path.join(__dirname, '..', 'src')
             }
         }),
         commonjs(),
