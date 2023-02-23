@@ -1,0 +1,9 @@
+{
+    "extension": [".js"],
+    "include": ["src/**/*.js"],
+    "exclude": ["**/*.spec.js"],
+    "skip-empty": true,
+    "temp-dir": ".coverage",
+    "report-dir": ".coverage",
+    "reporter": "lcov"
+}

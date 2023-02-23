@@ -16,17 +16,8 @@
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA ;
  */
 
-import nodeResolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
+import Sandbox from './Sandbox.svelte';
 
-export default {
-    input: 'src/index.js',
-    output: [
-        {
-            name: 'calculator',
-            format: 'umd',
-            file: 'dist/index.js'
-        }
-    ],
-    plugins: [commonjs(), nodeResolve()]
-};
+new Sandbox({
+    target: document.body
+});
