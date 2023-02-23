@@ -246,7 +246,7 @@ export default [
             type: 'button',
             style: 'function',
             command: 'term',
-            parameter: 'MOD',
+            parameter: 'PERCENT',
             label: '%',
             size: 2
         },
