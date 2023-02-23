@@ -110,6 +110,12 @@ exports[`terms defines terms 1`] = `
     "type": "function",
     "value": "cosh",
   },
+  "DEC": {
+    "exponent": false,
+    "label": "−",
+    "type": "operator",
+    "value": "dec",
+  },
   "DIV": {
     "exponent": false,
     "label": "÷",
@@ -138,7 +144,7 @@ exports[`terms defines terms 1`] = `
     "exponent": false,
     "label": "Syntax error",
     "type": "error",
-    "value": "#",
+    "value": "Syntax",
   },
   "EXP": {
     "exponent": "right",
@@ -163,6 +169,12 @@ exports[`terms defines terms 1`] = `
     "label": "floor",
     "type": "function",
     "value": "floor",
+  },
+  "INC": {
+    "exponent": false,
+    "label": "+",
+    "type": "operator",
+    "value": "inc",
   },
   "INFINITY": {
     "exponent": false,
@@ -295,6 +307,12 @@ exports[`terms defines terms 1`] = `
     "label": "9",
     "type": "digit",
     "value": "9",
+  },
+  "PERCENT": {
+    "exponent": false,
+    "label": "%",
+    "type": "operator",
+    "value": "#",
   },
   "PI": {
     "exponent": false,

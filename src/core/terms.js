@@ -283,6 +283,24 @@ export const terms = {
         type: types.operator,
         exponent: false
     },
+    INC: {
+        label: symbols.plus,
+        value: 'inc',
+        type: types.operator,
+        exponent: false
+    },
+    DEC: {
+        label: symbols.minus,
+        value: 'dec',
+        type: types.operator,
+        exponent: false
+    },
+    PERCENT: {
+        label: '%',
+        value: '#',
+        type: types.operator,
+        exponent: false
+    },
 
     // Variables
     ANS: {
@@ -333,7 +351,7 @@ export const terms = {
     },
     ERROR: {
         label: 'Syntax error',
-        value: '#',
+        value: 'Syntax',
         type: types.error,
         exponent: false
     },
