@@ -97,11 +97,7 @@ npm run test:cov
 
 ### <a name='Availablecommands'></a>Available commands
 
--   `npm run dev`: run the sandbox
--   `npm run dev:build`: build the sandbox
--   `npm run dev:watch`: build the sandbox and watch for changes
--   `npm run dev:serve`: starts a local server for the sandbox
--   `npm run dev:open`: open the sandbox in a browser
+-   `npm run dev`: run a sandbox and watch for changes. It also opens it in the browser
 -   `npm run test`: run the test suite
 -   `npm run test <testname>`: run a test suite
     -   `testname` (optional): Specific test to run. If it is not provided, all will be ran.

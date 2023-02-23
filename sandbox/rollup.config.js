@@ -23,9 +23,11 @@ import commonjs from '@rollup/plugin-commonjs';
 import alias from '@rollup/plugin-alias';
 import css from 'rollup-plugin-import-css';
 import livereload from 'rollup-plugin-livereload';
+import serve from 'rollup-plugin-serve';
 import svelte from 'rollup-plugin-svelte';
 import preprocess from 'svelte-preprocess';
 
+const port = 5550;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -60,6 +62,13 @@ export default {
             preprocess
         }),
         css(),
-        livereload()
+        serve({
+            open: true,
+            contentBase: 'sandbox',
+            port
+        }),
+        livereload({
+            watch: 'sandbox/dist'
+        })
     ]
 };
