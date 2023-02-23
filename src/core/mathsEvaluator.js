@@ -252,6 +252,10 @@ function mathsEvaluatorFactory(config) {
             {
                 entry: '!',
                 action: useOrigin
+            },
+            {
+                entry: '#',
+                action: percent
             }
         ],
         binary: [
@@ -392,6 +396,24 @@ function mathsEvaluatorFactory(config) {
                     }
                     return x.abs().pow(decimalNumber(1).div(n)).mul(Decimal.sign(x));
                 }
+            },
+            {
+                entry: 'inc',
+                action(a, b) {
+                    a = decimalNumber(a);
+                    return a.add(a.mul(b));
+                }
+            },
+            {
+                entry: 'dec',
+                action(a, b) {
+                    a = decimalNumber(a);
+                    return a.sub(a.mul(b));
+                }
+            },
+            {
+                entry: 'percent',
+                action: percent
             }
         ],
         consts: [
@@ -413,6 +435,16 @@ function mathsEvaluatorFactory(config) {
             }
         ]
     };
+
+    /**
+     * Turns a number into a percentage.
+     * `10%` will be replaced by `0.1`.
+     * @param {Decimal} number
+     * @returns {Decimal}
+     */
+    function percent(number) {
+        return decimalNumber(number).div(100);
+    }
 
     /**
      * Takes care of zero-like values.
