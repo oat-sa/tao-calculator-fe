@@ -30,6 +30,7 @@ A calculator's engine for TAO.
 ├── .github
 │   └── workflows       # github action workflows
 ├── build               # standalone package generated
+├── sandbox             # sandbox for playing with the engine locally
 ├── src                 # root of the source files
 │   ├── core            # source files for the core engine
 │   │   └── strategies  # a set of strategies for internal features
@@ -64,6 +65,12 @@ npm ci
 
 ## <a name='Development'></a>Development
 
+To run the sandbox:
+
+```sh
+npm run dev
+```
+
 To run unit tests:
 
 ```sh
@@ -90,6 +97,7 @@ npm run test:cov
 
 ### <a name='Availablecommands'></a>Available commands
 
+-   `npm run dev`: run a sandbox and watch for changes. It also opens it in the browser
 -   `npm run test`: run the test suite
 -   `npm run test <testname>`: run a test suite
     -   `testname` (optional): Specific test to run. If it is not provided, all will be ran.
