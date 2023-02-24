@@ -16,10 +16,12 @@
     let commandName = '';
     let commandParam = '';
     let expression = '';
+    let expressionJSON = '';
     let resultJSON = '';
     let resultValue = '';
     let renderedTerms = [];
     let renderedResult = [];
+    let renderedJSON = '';
     let variables = calculator.getAllVariableValues();
     let active = true;
     let error = false;
@@ -76,6 +78,14 @@
         .on('expression', expr => {
             expression = expr;
             renderedTerms = expressionHelper.nestExponents(calculator.render(decimals));
+            renderedJSON = JSON.stringify(renderedTerms, null, 4);
+
+            try {
+                const parsedExpression = calculator.getMathsEvaluator().parser.parse(expression);
+                expressionJSON = JSON.stringify(parsedExpression, null, 4);
+            } catch (e) {
+                expressionJSON = e.message;
+            }
         })
         .on('result', result => {
             resultValue = result.result;
@@ -207,6 +217,24 @@
                 {/each}
             </fieldset>
         </div>
+        <div class="state">
+            <fieldset class="parser">
+                <legend>Parser</legend>
+                <details>
+                    <summary>JSON</summary>
+                    <pre>{expressionJSON}</pre>
+                </details>
+            </fieldset>
+        </div>
+        <div class="state">
+            <fieldset class="tokens">
+                <legend>Tokens</legend>
+                <details>
+                    <summary>JSON</summary>
+                    <pre>{renderedJSON}</pre>
+                </details>
+            </fieldset>
+        </div>
     </div>
 </div>
 
@@ -287,6 +315,8 @@
         font-family: Consolas, 'Andale Mono', 'Lucida Console', Monaco, 'Courier New', Courier, monospace;
         font-size: 1.5rem;
         white-space: pre;
+        margin: 0;
+        padding: 0;
     }
     .sandbox {
         display: flex;
@@ -330,7 +360,7 @@
         font-size: smaller;
     }
     .field {
-        padding: 1rem 0;
+        padding: 0.25rem 0;
     }
     .field span {
         font-weight: bold;

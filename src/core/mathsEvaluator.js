@@ -20,7 +20,7 @@ import _ from 'lodash';
 import Decimal from 'decimal.js';
 import exprEval from '@oat-sa/expr-eval';
 
-const Parser = exprEval.Parser;
+const { Parser } = exprEval;
 
 /**
  * Good precision value of PI
@@ -639,10 +639,10 @@ function mathsEvaluatorFactory(config) {
          * @property {boolean|string} value - The result of the expression, as a native value
          */
         return {
-            expression: expression,
-            variables: variables,
-            result: result,
-            value: value
+            expression,
+            variables,
+            result,
+            value
         };
     }
 
@@ -652,6 +652,9 @@ function mathsEvaluatorFactory(config) {
     _.forEach(mapAPI.ternaryOps, _.partial(mapping, functionOperator, parser.ternaryOps));
     _.forEach(mapAPI.functions, _.partial(mapping, functionOperator, parser.functions));
     _.forEach(mapAPI.consts, _.partial(mapping, null, parser.consts));
+
+    // expose the parser
+    evaluate.parser = parser;
 
     return evaluate;
 }
