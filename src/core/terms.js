@@ -283,18 +283,6 @@ export const terms = {
         type: types.operator,
         exponent: false
     },
-    INC: {
-        label: symbols.plus,
-        value: 'inc',
-        type: types.operator,
-        exponent: false
-    },
-    DEC: {
-        label: symbols.minus,
-        value: 'dec',
-        type: types.operator,
-        exponent: false
-    },
     PERCENT: {
         label: '%',
         value: '#',

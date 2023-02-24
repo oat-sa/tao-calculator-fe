@@ -282,15 +282,29 @@
     [
         "arithmetic => 50 + 10%",
         {
-            "expression": "50 @inc 10#",
+            "expression": "50+10#",
             "expected": "55"
         }
     ],
     [
         "arithmetic => 50 - 10%",
         {
-            "expression": "50 @dec 10#",
+            "expression": "50-10#",
             "expected": "45"
+        }
+    ],
+    [
+        "arithmetic => 50 + (3 * 4)%",
+        {
+            "expression": "50+(3*4)#",
+            "expected": "56"
+        }
+    ],
+    [
+        "arithmetic => 50 - (3 * 4)%",
+        {
+            "expression": "50-(3*4)#",
+            "expected": "44"
         }
     ],
     [

@@ -110,12 +110,6 @@ exports[`terms defines terms 1`] = `
     "type": "function",
     "value": "cosh",
   },
-  "DEC": {
-    "exponent": false,
-    "label": "−",
-    "type": "operator",
-    "value": "dec",
-  },
   "DIV": {
     "exponent": false,
     "label": "÷",
@@ -169,12 +163,6 @@ exports[`terms defines terms 1`] = `
     "label": "floor",
     "type": "function",
     "value": "floor",
-  },
-  "INC": {
-    "exponent": false,
-    "label": "+",
-    "type": "operator",
-    "value": "inc",
   },
   "INFINITY": {
     "exponent": false,

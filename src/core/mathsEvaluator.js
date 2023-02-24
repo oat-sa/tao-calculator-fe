@@ -398,20 +398,6 @@ function mathsEvaluatorFactory(config) {
                 }
             },
             {
-                entry: 'inc',
-                action(a, b) {
-                    a = decimalNumber(a);
-                    return a.add(a.mul(b));
-                }
-            },
-            {
-                entry: 'dec',
-                action(a, b) {
-                    a = decimalNumber(a);
-                    return a.sub(a.mul(b));
-                }
-            },
-            {
                 entry: 'percent',
                 action: percent
             }
