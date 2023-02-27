@@ -45,7 +45,7 @@
     },
     "homepage": "https://github.com/oat-sa/tao-calculator-fe#readme",
     "dependencies": {
-        "@oat-sa/expr-eval": "^2.0.0",
+        "@oat-sa/expr-eval": "^2.1.0",
         "decimal.js": "^10.4.3",
         "lodash": "^4.17.21",
         "moo": "^0.5.2"
