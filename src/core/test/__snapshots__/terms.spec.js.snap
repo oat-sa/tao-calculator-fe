@@ -138,7 +138,7 @@ exports[`terms defines terms 1`] = `
     "exponent": false,
     "label": "Syntax error",
     "type": "error",
-    "value": "#",
+    "value": "Syntax",
   },
   "EXP": {
     "exponent": "right",
@@ -295,6 +295,12 @@ exports[`terms defines terms 1`] = `
     "label": "9",
     "type": "digit",
     "value": "9",
+  },
+  "PERCENT": {
+    "exponent": false,
+    "label": "%",
+    "type": "operator",
+    "value": "#",
   },
   "PI": {
     "exponent": false,

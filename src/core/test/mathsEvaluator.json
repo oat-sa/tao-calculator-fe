@@ -252,6 +252,62 @@
         }
     ],
     [
+        "arithmetic => 10%",
+        {
+            "expression": "10#",
+            "expected": "0.1"
+        }
+    ],
+    [
+        "arithmetic => -10%",
+        {
+            "expression": "-10#",
+            "expected": "-0.1"
+        }
+    ],
+    [
+        "arithmetic => 100%",
+        {
+            "expression": "100#",
+            "expected": "1"
+        }
+    ],
+    [
+        "arithmetic => 50 * 10%",
+        {
+            "expression": "50*10#",
+            "expected": "5"
+        }
+    ],
+    [
+        "arithmetic => 50 + 10%",
+        {
+            "expression": "50+10#",
+            "expected": "55"
+        }
+    ],
+    [
+        "arithmetic => 50 - 10%",
+        {
+            "expression": "50-10#",
+            "expected": "45"
+        }
+    ],
+    [
+        "arithmetic => 50 + (3 * 4)%",
+        {
+            "expression": "50+(3*4)#",
+            "expected": "56"
+        }
+    ],
+    [
+        "arithmetic => 50 - (3 * 4)%",
+        {
+            "expression": "50-(3*4)#",
+            "expected": "44"
+        }
+    ],
+    [
         "logical => equal: true",
         {
             "expression": "3*4==12",

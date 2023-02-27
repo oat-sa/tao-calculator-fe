@@ -283,6 +283,12 @@ export const terms = {
         type: types.operator,
         exponent: false
     },
+    PERCENT: {
+        label: '%',
+        value: '#',
+        type: types.operator,
+        exponent: false
+    },
 
     // Variables
     ANS: {
@@ -333,7 +339,7 @@ export const terms = {
     },
     ERROR: {
         label: 'Syntax error',
-        value: '#',
+        value: 'Syntax',
         type: types.error,
         exponent: false
     },
