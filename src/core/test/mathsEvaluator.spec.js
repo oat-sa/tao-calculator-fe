@@ -27,6 +27,12 @@ describe('mathsEvaluator', () => {
         expect(mathsEvaluatorFactory()).not.toStrictEqual(mathsEvaluatorFactory());
     });
 
+    it('exposes the parser', () => {
+        expect(mathsEvaluatorFactory().parser).toEqual(expect.any(Object));
+        expect(mathsEvaluatorFactory().parser.parse).toEqual(expect.any(Function));
+        expect(mathsEvaluatorFactory().parser.evaluate).toEqual(expect.any(Function));
+    });
+
     it.each(expressions)('processes the expression %s', (title, data) => {
         const evaluate = mathsEvaluatorFactory(data.config);
         const output = evaluate(data.expression, data.variables);

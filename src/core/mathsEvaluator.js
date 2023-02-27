@@ -20,7 +20,7 @@ import _ from 'lodash';
 import Decimal from 'decimal.js';
 import exprEval from '@oat-sa/expr-eval';
 
-const Parser = exprEval.Parser;
+const { Parser } = exprEval;
 
 /**
  * Good precision value of PI
@@ -252,6 +252,10 @@ function mathsEvaluatorFactory(config) {
             {
                 entry: '!',
                 action: useOrigin
+            },
+            {
+                entry: '#',
+                action: percent
             }
         ],
         binary: [
@@ -392,6 +396,10 @@ function mathsEvaluatorFactory(config) {
                     }
                     return x.abs().pow(decimalNumber(1).div(n)).mul(Decimal.sign(x));
                 }
+            },
+            {
+                entry: 'percent',
+                action: percent
             }
         ],
         consts: [
@@ -413,6 +421,16 @@ function mathsEvaluatorFactory(config) {
             }
         ]
     };
+
+    /**
+     * Turns a number into a percentage.
+     * `10%` will be replaced by `0.1`.
+     * @param {Decimal} number
+     * @returns {Decimal}
+     */
+    function percent(number) {
+        return decimalNumber(number).div(100);
+    }
 
     /**
      * Takes care of zero-like values.
@@ -607,10 +625,10 @@ function mathsEvaluatorFactory(config) {
          * @property {boolean|string} value - The result of the expression, as a native value
          */
         return {
-            expression: expression,
-            variables: variables,
-            result: result,
-            value: value
+            expression,
+            variables,
+            result,
+            value
         };
     }
 
@@ -620,6 +638,9 @@ function mathsEvaluatorFactory(config) {
     _.forEach(mapAPI.ternaryOps, _.partial(mapping, functionOperator, parser.ternaryOps));
     _.forEach(mapAPI.functions, _.partial(mapping, functionOperator, parser.functions));
     _.forEach(mapAPI.consts, _.partial(mapping, null, parser.consts));
+
+    // expose the parser
+    evaluate.parser = parser;
 
     return evaluate;
 }
