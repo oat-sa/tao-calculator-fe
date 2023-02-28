@@ -822,7 +822,7 @@ function engineFactory({
         /**
          * Inserts a term in the expression at the current position
          * @param {string} name - The name of the term to insert
-         * @param {object} term - The definition of the term to insert
+         * @param {term} term - The definition of the term to insert
          * @returns {calculator}
          * @fires error if the term to add is invalid
          * @fires term when the term has been added
@@ -1206,7 +1206,7 @@ export default engineFactory;
  * Notifies a term has been added to the expression.
  * @event term
  * @param {string} name - The name of the added term
- * @param {object} term - The descriptor of the added term
+ * @param {term} term - The descriptor of the added term
  */
 
 /**
@@ -1261,4 +1261,20 @@ export default engineFactory;
  * Notifies an error occurred.
  * @event error
  * @param {Error} err - The error object.
+ */
+
+/**
+ * @typedef {import('./terms.js').term} term
+ */
+
+/**
+ * @typedef {import('./tokenizer.js').token} token
+ */
+
+/**
+ * @typedef {import('./mathsEvaluator.js').mathsExpression} mathsExpression
+ */
+
+/**
+ * @typedef {import('./expression.js').renderTerm} renderTerm
  */
