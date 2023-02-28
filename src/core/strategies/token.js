@@ -283,3 +283,7 @@ export function applyTokenStrategies(index, tokens, strategies) {
  * @property {number} length - The length of text to replace
  * @property {number} move - The move to apply from the current position
  */
+
+/**
+ * @typedef {import('./tokenizer.js').token} token
+ */
