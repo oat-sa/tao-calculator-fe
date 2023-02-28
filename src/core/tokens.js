@@ -53,7 +53,17 @@ const tokensHelper = {
      * @returns {boolean}
      */
     isOperator(type) {
-        return tokensHelper.getType(type) === types.operator;
+        type = tokensHelper.getType(type);
+        return type === types.operator || type === types.unary;
+    },
+
+    /**
+     * Checks if the type is related to a unary operator
+     * @param {string|object} type
+     * @returns {boolean}
+     */
+    isUnaryOperator(type) {
+        return tokensHelper.getType(type) === types.unary;
     },
 
     /**
@@ -63,7 +73,7 @@ const tokensHelper = {
      */
     isOperand(type) {
         type = tokensHelper.getType(type);
-        return type !== types.operator && type !== types.aggregator && type !== types.separator;
+        return type !== types.operator && type !== types.unary && type !== types.aggregator && type !== types.separator;
     },
 
     /**
@@ -151,7 +161,7 @@ const tokensHelper = {
      */
     isSeparator(type) {
         type = tokensHelper.getType(type);
-        return type === types.operator || type === types.aggregator || type === types.separator;
+        return type === types.operator || type === types.unary || type === types.aggregator || type === types.separator;
     },
 
     /**
@@ -161,7 +171,7 @@ const tokensHelper = {
      */
     isModifier(type) {
         type = tokensHelper.getType(type);
-        return type === types.operator || type === types.function;
+        return type === types.operator || type === types.unary || type === types.function;
     },
 
     /**

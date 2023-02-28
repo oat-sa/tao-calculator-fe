@@ -896,7 +896,7 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "prefixed": false,
     "startExponent": null,
     "token": "FAC",
-    "type": "operator",
+    "type": "unary",
     "value": "!",
   },
   {
@@ -966,7 +966,7 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "prefixed": false,
     "startExponent": null,
     "token": "FAC",
-    "type": "operator",
+    "type": "unary",
     "value": "!",
   },
 ]
@@ -993,7 +993,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "prefixed": false,
     "startExponent": null,
     "token": "FAC",
-    "type": "operator",
+    "type": "unary",
     "value": "!",
   },
   {
@@ -1094,7 +1094,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "prefixed": false,
     "startExponent": null,
     "token": "FAC",
-    "type": "operator",
+    "type": "unary",
     "value": "!",
   },
   {
