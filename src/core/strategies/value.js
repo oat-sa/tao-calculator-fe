@@ -53,10 +53,15 @@ const spaceAfter = value => `${value} `;
  */
 export const prefixStrategies = [
     {
-        // adding an opening parenthesis after a value or a closing parenthesis
+        // adding an opening parenthesis after a value, a unary operator, or a closing parenthesis
         predicate(previous, next) {
             const previousTerm = terms[previous];
-            return next === 'LPAR' && (previous === 'RPAR' || tokensHelper.isValue(previousTerm));
+            return (
+                next === 'LPAR' &&
+                (previous === 'RPAR' ||
+                    tokensHelper.isValue(previousTerm) ||
+                    tokensHelper.isUnaryOperator(previousTerm))
+            );
         },
         action: multiplyBefore
     },
@@ -73,12 +78,12 @@ export const prefixStrategies = [
         action: multiplyBefore
     },
     {
-        // adding an identifier after a value
+        // adding an identifier after a value or a unary operator
         predicate(previous, next) {
             const previousTerm = terms[previous];
             const nextTerm = terms[next];
             return (
-                tokensHelper.isValue(previousTerm) &&
+                (tokensHelper.isValue(previousTerm) || tokensHelper.isUnaryOperator(previousTerm)) &&
                 tokensHelper.isIdentifier(nextTerm) &&
                 nextTerm.exponent !== 'left'
             );
@@ -95,6 +100,15 @@ export const prefixStrategies = [
                 !tokensHelper.isFunction(previousTerm) &&
                 tokensHelper.isDigit(nextTerm)
             );
+        },
+        action: multiplyBefore
+    },
+    {
+        // adding a value after a unary operator
+        predicate(previous, next) {
+            const previousTerm = terms[previous];
+            const nextTerm = terms[next];
+            return tokensHelper.isUnaryOperator(previousTerm) && tokensHelper.isValue(nextTerm);
         },
         action: multiplyBefore
     },
@@ -118,23 +132,25 @@ export const prefixStrategies = [
  */
 export const suffixStrategies = [
     {
-        // adding a closing parenthesis before a value, a function, or an opening parenthesis
+        // adding a closing parenthesis or a unary operator before a value, a function, or an opening parenthesis
         predicate(previous, next) {
+            const previousTerm = terms[previous];
             const nextTerm = terms[next];
             return (
-                previous === 'RPAR' &&
+                (previous === 'RPAR' || tokensHelper.isUnaryOperator(previousTerm)) &&
                 (next === 'LPAR' || tokensHelper.isValue(nextTerm) || tokensHelper.isFunction(nextTerm))
             );
         },
         action: multiplyAfter
     },
     {
-        // adding an identifier or a value before an opening parenthesis
+        // adding an identifier, a unary operator, or a value before an opening parenthesis
         predicate(previous, next) {
             const previousTerm = terms[previous];
             return (
                 next === 'LPAR' &&
                 (tokensHelper.isValue(previousTerm) ||
+                    tokensHelper.isUnaryOperator(previousTerm) ||
                     (tokensHelper.isIdentifier(previousTerm) && !tokensHelper.isFunction(previousTerm)))
             );
         },
@@ -154,11 +170,14 @@ export const suffixStrategies = [
         action: multiplyAfter
     },
     {
-        // adding a digit before an identifier
+        // adding a digit or a unary operator before an identifier
         predicate(previous, next) {
             const previousTerm = terms[previous];
             const nextTerm = terms[next];
-            return tokensHelper.isDigit(previousTerm) && tokensHelper.isIdentifier(nextTerm);
+            return (
+                (tokensHelper.isDigit(previousTerm) || tokensHelper.isUnaryOperator(previousTerm)) &&
+                tokensHelper.isIdentifier(nextTerm)
+            );
         },
         action: multiplyAfter
     },
