@@ -22,9 +22,13 @@
     let renderedTerms = [];
     let renderedResult = [];
     let renderedJSON = '';
-    let variables = calculator.getAllVariableValues();
+    let variables = calculator.getAllVariables();
     let active = true;
     let error = false;
+
+    function stringify(json) {
+        return JSON.stringify(json, null, 4);
+    }
 
     function formatExpression(expr) {
         const allVariables = expressionHelper.roundAllVariables(calculator.getAllVariables(), decimals);
@@ -55,7 +59,7 @@
         }
     }
 
-    function modeChange() {
+    function angleModeChange() {
         if (calculator.isDegreeMode() !== degree) {
             calculator.setDegreeMode(degree);
         }
@@ -78,18 +82,18 @@
         .on('expression', expr => {
             expression = expr;
             renderedTerms = expressionHelper.nestExponents(calculator.render(decimals));
-            renderedJSON = JSON.stringify(renderedTerms, null, 4);
+            renderedJSON = stringify(renderedTerms);
 
             try {
                 const parsedExpression = calculator.getMathsEvaluator().parser.parse(expression);
-                expressionJSON = JSON.stringify(parsedExpression, null, 4);
+                expressionJSON = stringify(parsedExpression);
             } catch (e) {
                 expressionJSON = e.message;
             }
         })
         .on('result', result => {
             resultValue = result.result;
-            resultJSON = JSON.stringify(result, null, 4);
+            resultJSON = stringify(result);
             active = false;
             error = calculator.error;
 
@@ -124,7 +128,7 @@
             resultJSON = '';
         })
         .on('variableadd', (name, value) => {
-            variables[name] = value.result;
+            variables[name] = value;
         })
         .on('syntaxerror', () => {
             resultValue = errorValue;
@@ -170,11 +174,12 @@
         </div>
     </div>
     <div class="context">
-        <div class="control">
-            <fieldset class="input">
+        <div class="layout-row">
+            <fieldset>
                 <legend>Input</legend>
-                <div class="context-row raw">
+                <div>
                     <input
+                        class="full"
                         type="text"
                         placeholder="expression"
                         value={expression}
@@ -182,56 +187,74 @@
                         on:keyup={rawInputKeyUp}
                     />
                 </div>
-                <div class="context-row mode">
+            </fieldset>
+        </div>
+        <div class="layout-column">
+            <fieldset>
+                <legend>Angle mode</legend>
+                <div>
                     <label>
-                        <input type="radio" name="angle" value={true} bind:group={degree} on:change={modeChange} />
-                        <span>degree</span>
+                        <input
+                            type="radio"
+                            name="angle"
+                            value={false}
+                            bind:group={degree}
+                            on:change={angleModeChange}
+                        />
+                        <span>radian</span>
                     </label>
                     <label>
-                        <input type="radio" name="angle" value={false} bind:group={degree} on:change={modeChange} />
-                        <span>radian</span>
+                        <input type="radio" name="angle" value={true} bind:group={degree} on:change={angleModeChange} />
+                        <span>degree</span>
                     </label>
                 </div>
             </fieldset>
             <fieldset class="command">
                 <legend>Command</legend>
-                <div class="context-row">
+                <div>
                     <input type="text" placeholder="command" bind:value={commandName} on:keyup={commandKeyUp} />
                     <input type="text" placeholder="parameter" bind:value={commandParam} on:keyup={commandKeyUp} />
                     <input type="button" value="Call" on:click={invoke} />
                 </div>
             </fieldset>
         </div>
-        <div class="state">
-            <fieldset class="output">
+        <div class="layout-column">
+            <fieldset>
                 <legend>Result</legend>
-                <pre>{resultJSON}</pre>
+                <span>Value:</span>
+                <code>{resultValue || 0}</code>
+                <details>
+                    <summary>JSON</summary>
+                    <pre>{resultJSON}</pre>
+                </details>
             </fieldset>
-            <fieldset class="variables">
+            <fieldset>
                 <legend>Variables</legend>
-                {#each Object.entries(variables) as [name, value]}
+                {#each Object.entries(variables) as [name, value] (name)}
                     <div class="field">
                         <span>{name}:</span>
-                        <code>{value}</code>
+                        <code>{value.result}</code>
+                        <details>
+                            <summary>JSON</summary>
+                            <pre>{stringify(value)}</pre>
+                        </details>
                     </div>
                 {/each}
             </fieldset>
         </div>
-        <div class="state">
-            <fieldset class="parser">
-                <legend>Parser</legend>
-                <details>
-                    <summary>JSON</summary>
-                    <pre>{expressionJSON}</pre>
-                </details>
-            </fieldset>
-        </div>
-        <div class="state">
-            <fieldset class="tokens">
+        <div class="layout-column">
+            <fieldset>
                 <legend>Tokens</legend>
                 <details>
                     <summary>JSON</summary>
                     <pre>{renderedJSON}</pre>
+                </details>
+            </fieldset>
+            <fieldset>
+                <legend>Parser</legend>
+                <details>
+                    <summary>JSON</summary>
+                    <pre>{expressionJSON}</pre>
                 </details>
             </fieldset>
         </div>
@@ -334,13 +357,10 @@
         flex: 1 1 auto;
         overflow: auto;
     }
-    .context-row {
-        padding: 4px 0;
-    }
-    .raw input {
+    .full {
         width: 100%;
     }
-    .state {
+    .layout-column {
         display: flex;
         flex-direction: row;
         align-items: stretch;
@@ -355,6 +375,12 @@
     legend {
         font-size: 1.6rem;
         color: var(--color-text-secondary);
+    }
+    summary {
+        cursor: pointer;
+    }
+    fieldset div {
+        padding: 4px 0;
     }
     label {
         font-size: smaller;
@@ -400,7 +426,7 @@
         padding: 0 1rem;
     }
     .expression:not(.active) {
-        opacity: 0.5;
+        opacity: 0.6;
     }
     .result {
         text-align: right;
