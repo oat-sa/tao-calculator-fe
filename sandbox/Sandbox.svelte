@@ -12,10 +12,11 @@
     const errorValue = terms.ERROR.value;
 
     let decimals = 5;
-    let degree = false;
+    let degree = calculator.isDegreeMode();
     let commandName = '';
     let commandParam = '';
-    let expression = '';
+    let position = calculator.getPosition();
+    let expression = calculator.getExpression();
     let expressionJSON = '';
     let resultJSON = '';
     let resultValue = '';
@@ -90,6 +91,9 @@
             } catch (e) {
                 expressionJSON = e.message;
             }
+        })
+        .on('position', pos => {
+            position = pos;
         })
         .on('result', result => {
             resultValue = result.result;
@@ -187,6 +191,14 @@
                         on:keyup={rawInputKeyUp}
                     />
                 </div>
+                <div>
+                    <span>Expression:</span>
+                    <code>{expression}</code>
+                </div>
+                <div>
+                    <span>Position:</span>
+                    <code>{position}</code>
+                </div>
             </fieldset>
         </div>
         <div class="layout-column">
@@ -221,8 +233,10 @@
         <div class="layout-column">
             <fieldset>
                 <legend>Result</legend>
-                <span>Value:</span>
-                <code>{resultValue || 0}</code>
+                <div>
+                    <span>Value:</span>
+                    <code>{resultValue || 0}</code>
+                </div>
                 <details>
                     <summary>JSON</summary>
                     <pre>{resultJSON}</pre>
@@ -359,6 +373,13 @@
     }
     .full {
         width: 100%;
+    }
+    .layout-row {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        align-content: stretch;
+        font-size: smaller;
     }
     .layout-column {
         display: flex;
