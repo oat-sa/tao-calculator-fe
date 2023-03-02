@@ -835,12 +835,16 @@ function engineFactory({
             const tokensList = this.getTokens();
             const index = this.getTokenIndex();
             const currentToken = tokensList[index];
+            const lastTerm = currentToken && terms[currentToken.type];
+            const endWithOperator = lastTerm && tokensHelper.isOperator(lastTerm.type);
+            const endWithUnary = endWithOperator && tokensHelper.isUnaryOperator(lastTerm.type);
+            const addOperator = tokensHelper.isOperator(term.type);
 
             // will replace the current term if:
             // - it is a 0, and the term to add is not an operator nor a dot
             // - it is the last result, and the term to add is not an operator
             if (
-                !tokensHelper.isOperator(term.type) &&
+                !addOperator &&
                 !isFunctionOperator(term.value) &&
                 tokensList.length === 1 &&
                 ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')
@@ -851,6 +855,10 @@ function engineFactory({
                 let nextToken = currentToken;
                 let value = term.value;
                 let at = position;
+
+                if (endWithOperator && addOperator && !endWithUnary) {
+                    this.deleteToken(currentToken);
+                }
 
                 // we need a position at token boundaries, either on the start or on the end
                 if (currentToken && at > currentToken.offset) {
