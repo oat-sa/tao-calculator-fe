@@ -22,9 +22,11 @@ import expressionHelper, { defaultDecimalDigits } from './expression.js';
 import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import {
+    applyContextStrategies,
     applyTokenStrategies,
     applyValueStrategies,
     prefixStrategies,
+    replaceStrategies,
     signStrategies,
     suffixStrategies
 } from './strategies';
@@ -840,19 +842,17 @@ function engineFactory({
             const tokensList = this.getTokens();
             const index = this.getTokenIndex();
             const currentToken = tokensList[index];
-            const lastTerm = currentToken && terms[currentToken.type];
-            const endWithOperator = lastTerm && tokensHelper.isOperator(lastTerm.type);
-            const endWithUnary = endWithOperator && tokensHelper.isUnaryOperator(lastTerm.type);
-            const addOperator = tokensHelper.isOperator(term.type);
+            const addOperator = tokensHelper.isOperator(term);
 
-            // will replace the current term if:
+            // will replace the expression if:
             // - it is a 0, and the term to add is not an operator nor a dot
             // - it is the last result, and the term to add is not an operator
             if (
                 !addOperator &&
                 !isFunctionOperator(term.value) &&
                 tokensList.length === 1 &&
-                ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')
+                ((tokensHelper.getToken(currentToken) === 'NUM0' && name !== 'DOT') ||
+                    tokensHelper.getToken(currentToken) === 'ANS')
             ) {
                 this.replace(term.value);
             } else {
@@ -861,7 +861,10 @@ function engineFactory({
                 let value = term.value;
                 let at = position;
 
-                if (endWithOperator && addOperator && !endWithUnary) {
+                // will replace the current term if:
+                // - it is an operator and the term to add is an operator
+                // - the operator is not unary (percent or factorial)
+                if (applyContextStrategies([currentToken, term], replaceStrategies)) {
                     this.deleteToken(currentToken);
                 }
 

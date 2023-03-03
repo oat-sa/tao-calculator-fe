@@ -95,7 +95,7 @@ export function applyValueStrategies(value, previous, next, strategies) {
 
 /**
  * @callback contextStrategy
- * @param {token[]} tokens - The list of tokens on which apply the strategies.
+ * @param {token[]} tokens - The list of tokens on which apply the strategy.
  * @returns {*} - The result of the strategy: `null` if cannot apply, or the classified context.
  */
 
