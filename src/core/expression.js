@@ -44,7 +44,7 @@ import tokenizerFactory from './tokenizer.js';
  * Name of the variable that contains the last result
  * @type {string}
  */
-const lastResultVariableName = terms.ANS.value;
+const lastResultVariableName = terms.VAR_ANS.value;
 
 /**
  * Regex that matches the usual error tokens in a result
