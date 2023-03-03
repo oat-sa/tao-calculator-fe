@@ -17,11 +17,35 @@
  */
 
 import tokensHelper from '../tokens.js';
-import { types } from '../terms.js';
+import { terms, types } from '../terms.js';
 
 describe('tokens', () => {
     it('is a namespace', () => {
         expect(tokensHelper).toEqual(expect.any(Object));
+    });
+
+    describe('getToken', () => {
+        it('is a function', () => {
+            expect(tokensHelper.getToken).toEqual(expect.any(Function));
+        });
+
+        it('passthrough a name', () => {
+            expect(tokensHelper.getToken('ADD')).toEqual('ADD');
+        });
+
+        it('extracts the token', () => {
+            expect(tokensHelper.getToken(terms['ADD'])).toEqual('ADD');
+            expect(tokensHelper.getToken({ type: 'ADD' })).toEqual('ADD');
+            expect(tokensHelper.getToken({ token: 'ADD' })).toEqual('ADD');
+        });
+
+        it('returns null if not a token', () => {
+            expect(tokensHelper.getToken()).toBeNull();
+            expect(tokensHelper.getToken({})).toBeNull();
+            expect(tokensHelper.getToken('FOO')).toBeNull();
+            expect(tokensHelper.getToken({ type: 'FOO' })).toBeNull();
+            expect(tokensHelper.getToken({ token: 'FOO' })).toBeNull();
+        });
     });
 
     describe('getType', () => {

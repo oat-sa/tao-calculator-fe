@@ -24,9 +24,28 @@ import { terms, types } from './terms.js';
  */
 const tokensHelper = {
     /**
+     * Gets the token name
+     * @param {string|token|term} token
+     * @returns {string|null}
+     */
+    getToken(token) {
+        if ('string' === typeof token) {
+            if (terms[token]) {
+                return token;
+            }
+
+            return null;
+        }
+
+        const type = (token && token.type) || null;
+        const term = (type && terms[type]) || (token && terms[token.token]);
+        return (term && term.token) || null;
+    },
+
+    /**
      * Identifies the type of a given token
      * @param {string|token|term} token
-     * @returns {string}
+     * @returns {string|null}
      */
     getType(token) {
         if ('string' === typeof token) {
