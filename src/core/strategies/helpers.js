@@ -17,25 +17,49 @@
  */
 
 /**
- * Apply a list of strategies to a token.
- * @param {number} index - The index of the current token
- * @param {token[]} tokens - The list of tokens that represent the expression
- * @param {tokenStrategy[]} strategies - The list of strategies to apply.
- * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
+ * Applies a list of strategies to a given context.
+ * @param {Array} args - The context on which apply the strategies.
+ * @param {function[]} strategies - The list of strategies to apply.
+ * @returns {*} - Returns the result if one of the strategies matched.
  */
-export function applyTokenStrategies(index, tokens, strategies) {
+function applyStrategies(args, strategies) {
     let result = null;
 
     strategies.every(strategy => {
-        result = strategy(index, tokens);
-        return !result;
+        const match = strategy(...args);
+        if (match !== null) {
+            result = match;
+            return false;
+        }
+        return true;
     });
 
     return result;
 }
 
 /**
- * Apply a list of strategies to a value with respect to the previous and next tokens.
+ * Classifies a context with respect to a list of strategies that applies to a set of sibling tokens.
+ * @param {token[]} tokens - The list of tokens on which apply the strategies.
+ * @param {contextStrategy[]} strategies - The list of strategies to apply.
+ * @returns {*} - Returns the classified context if one of the strategies matched.
+ */
+export function applyContextStrategies(tokens, strategies) {
+    return applyStrategies([tokens], strategies);
+}
+
+/**
+ * Generates a change descriptor for modifying tokens with respect to a list of strategies.
+ * @param {number} index - The index of the current token.
+ * @param {token[]} tokens - The list of tokens that represent the expression.
+ * @param {tokenStrategy[]} strategies - The list of strategies to apply.
+ * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change.
+ */
+export function applyTokenStrategies(index, tokens, strategies) {
+    return applyStrategies([index, tokens], strategies);
+}
+
+/**
+ * Modifies a value with respect to a list of strategies that applies to the previous and the next tokens.
  * @param {string} value - The value to modify if a strategy matches.
  * @param {token} previous - The previous token.
  * @param {token} next - The next token.
@@ -43,14 +67,17 @@ export function applyTokenStrategies(index, tokens, strategies) {
  * @returns {string} - Returns the value modified if one of the strategies matched.
  */
 export function applyValueStrategies(value, previous, next, strategies) {
+    let result = value;
+
     strategies.every(strategy => {
         if (strategy.predicate(previous, next)) {
-            value = strategy.action(value);
+            result = strategy.action(value);
             return false;
         }
         return true;
     });
-    return value;
+
+    return result;
 }
 
 /**
@@ -67,10 +94,16 @@ export function applyValueStrategies(value, previous, next, strategies) {
  */
 
 /**
+ * @callback contextStrategy
+ * @param {token[]} tokens - The list of tokens on which apply the strategies.
+ * @returns {*} - The result of the strategy: `null` if cannot apply, or the classified context.
+ */
+
+/**
  * @callback tokenStrategy
- * @param {number} index - The index of the current token
- * @param {token[]} tokens - The list of tokens that represent the expression
- * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
+ * @param {number} index - The index of the current token.
+ * @param {token[]} tokens - The list of tokens that represent the expression.
+ * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change.
  */
 
 /**
@@ -81,10 +114,10 @@ export function applyValueStrategies(value, previous, next, strategies) {
 
 /**
  * @typedef {object} tokenChange
- * @property {string} value - The token to insert
- * @property {number} offset - The offset where insert the token
- * @property {number} length - The length of text to replace
- * @property {number} move - The move to apply from the current position
+ * @property {string} value - The token to insert/
+ * @property {number} offset - The offset where insert the token.
+ * @property {number} length - The length of text to replace.
+ * @property {number} move - The move to apply from the current position.
  */
 
 /**
