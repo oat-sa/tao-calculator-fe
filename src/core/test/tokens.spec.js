@@ -48,6 +48,30 @@ describe('tokens', () => {
         });
     });
 
+    describe('getTerm', () => {
+        it('is a function', () => {
+            expect(tokensHelper.getTerm).toEqual(expect.any(Function));
+        });
+
+        it('passthrough a term', () => {
+            expect(tokensHelper.getTerm(terms['ADD'])).toBe(terms['ADD']);
+        });
+
+        it('retrieve the term', () => {
+            expect(tokensHelper.getTerm('ADD')).toBe(terms['ADD']);
+            expect(tokensHelper.getTerm({ type: 'ADD' })).toBe(terms['ADD']);
+            expect(tokensHelper.getTerm({ token: 'ADD' })).toBe(terms['ADD']);
+        });
+
+        it('returns null no term match', () => {
+            expect(tokensHelper.getTerm()).toBeNull();
+            expect(tokensHelper.getTerm({})).toBeNull();
+            expect(tokensHelper.getTerm('FOO')).toBeNull();
+            expect(tokensHelper.getTerm({ type: 'FOO' })).toBeNull();
+            expect(tokensHelper.getTerm({ token: 'FOO' })).toBeNull();
+        });
+    });
+
     describe('getType', () => {
         it('is a function', () => {
             expect(tokensHelper.getType).toEqual(expect.any(Function));

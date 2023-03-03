@@ -43,6 +43,15 @@ const tokensHelper = {
     },
 
     /**
+     * Gets the term defined for a token
+     * @param {string|token|term} token
+     * @returns {term|null}
+     */
+    getTerm(token) {
+        return terms[tokensHelper.getToken(token)] || null;
+    },
+
+    /**
      * Identifies the type of a given token
      * @param {string|token|term} token
      * @returns {string|null}
