@@ -21,8 +21,13 @@ import tokensHelper from './tokens.js';
 import expressionHelper, { defaultDecimalDigits } from './expression.js';
 import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
-import { applyValueStrategies, prefixStrategies, suffixStrategies } from './strategies/value.js';
-import { applyTokenStrategies, signStrategies } from './strategies/token.js';
+import {
+    applyTokenStrategies,
+    applyValueStrategies,
+    prefixStrategies,
+    signStrategies,
+    suffixStrategies
+} from './strategies';
 
 /**
  * Name of the variable that contains the last result

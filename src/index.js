@@ -16,5 +16,7 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
+/* c8 ignore start */
 export * from './core';
 export * from './plugins';
+/* c8 ignore end */
