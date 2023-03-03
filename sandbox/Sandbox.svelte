@@ -242,6 +242,46 @@
             </fieldset>
         </div>
         <div class="layout-column">
+            <fieldset class="command">
+                <legend>Context</legend>
+                <div on:click={keyboardClick} on:keypress>
+                    <input type="button" value="Clear" data-command="clear" />
+                    <input type="button" value="Reset" data-command="reset" />
+                    <input type="button" value="Execute" data-command="execute" />
+                    <input type="button" value="Sign" data-command="sign" />
+                    <input type="button" value="Degree" data-command="degree" />
+                    <input type="button" value="Radian" data-command="radian" />
+                </div>
+            </fieldset>
+            <fieldset class="command">
+                <legend>Memory</legend>
+                <div on:click={keyboardClick} on:keypress>
+                    <input type="button" value="Remind" data-command="remind" />
+                    <input type="button" value="Memorize" data-command="memorize" />
+                    <input type="button" value="Forget" data-command="forget" />
+                </div>
+            </fieldset>
+        </div>
+        <div class="layout-column">
+            <fieldset class="command">
+                <legend>Cursor</legend>
+                <div on:click={keyboardClick} on:keypress>
+                    <input type="button" value="Move Left" data-command="moveLeft" />
+                    <input type="button" value="Move Right" data-command="moveRight" />
+                    <input type="button" value="Delete Left" data-command="deleteLeft" />
+                    <input type="button" value="Delete Right" data-command="deleteRight" />
+                </div>
+            </fieldset>
+            <fieldset class="command">
+                <legend>History</legend>
+                <div on:click={keyboardClick} on:keypress>
+                    <input type="button" value="Clear History" data-command="historyClear" />
+                    <input type="button" value="History Up" data-command="historyUp" />
+                    <input type="button" value="History Down" data-command="historyDown" />
+                </div>
+            </fieldset>
+        </div>
+        <div class="layout-column">
             <fieldset>
                 <legend>Result</legend>
                 <div>
