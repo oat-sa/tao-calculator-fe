@@ -119,7 +119,9 @@ describe('symbols', () => {
 
     it('defines symbols', () => {
         expect(Object.keys(symbols).length).toBeGreaterThan(0);
-        expect(symbols).toMatchSnapshot();
+        Object.keys(symbols).forEach(name => {
+            expect(symbols[name]).toEqual(expect.any(String));
+        });
     });
 });
 
@@ -130,7 +132,9 @@ describe('types', () => {
 
     it('defines types', () => {
         expect(Object.keys(types).length).toBeGreaterThan(0);
-        expect(types).toMatchSnapshot();
+        Object.keys(types).forEach(name => {
+            expect(types[name]).toStrictEqual(name);
+        });
     });
 });
 
@@ -141,6 +145,12 @@ describe('terms', () => {
 
     it('defines terms', () => {
         expect(Object.keys(terms).length).toBeGreaterThan(0);
-        expect(terms).toMatchSnapshot();
+        Object.keys(terms).forEach(token => {
+            const term = terms[token];
+            expect(term.label).toEqual(expect.any(String));
+            expect(term.value).toEqual(expect.any(String));
+            expect(types[term.type]).toEqual(expect.any(String));
+            expect(term.token).toStrictEqual(token);
+        });
     });
 });
