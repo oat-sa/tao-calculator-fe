@@ -20,6 +20,7 @@
     let expressionJSON = '';
     let resultJSON = '';
     let resultValue = '';
+    let tokenIndex = 0;
     let tokens = [];
     let tokensJSON = '';
     let renderedTerms = [];
@@ -88,6 +89,7 @@
         })
         .on('expression', expr => {
             expression = expr;
+            tokenIndex = calculator.getTokenIndex();
             tokens = calculator.getTokens();
             tokensJSON = stringify(tokens);
             renderedTerms = expressionHelper.nestExponents(calculator.render(decimals));
@@ -102,6 +104,7 @@
         })
         .on('position', pos => {
             position = pos;
+            tokenIndex = calculator.getTokenIndex();
         })
         .on('result', result => {
             resultValue = result.result;
@@ -213,6 +216,8 @@
                         max={expression.length}
                         on:input={positionInput}
                     />
+                    <span>Index:</span>
+                    <code>{tokenIndex}</code>
                 </div>
                 <div>
                     <details>
