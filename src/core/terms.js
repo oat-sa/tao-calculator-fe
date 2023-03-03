@@ -321,18 +321,18 @@ export const terms = {
     },
 
     // Variables
-    ANS: {
+    VAR_ANS: {
         label: 'Ans',
         value: 'ans',
         type: types.variable,
-        token: 'ANS',
+        token: 'VAR_ANS',
         exponent: false
     },
-    MEM: {
+    VAR_MEM: {
         label: 'Mem',
         value: 'mem',
         type: types.variable,
-        token: 'MEM',
+        token: 'VAR_MEM',
         exponent: false
     },
 

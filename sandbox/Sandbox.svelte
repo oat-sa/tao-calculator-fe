@@ -8,7 +8,7 @@
 
     const plugins = { history: historyPlugin };
     const calculator = engineFactory({ plugins });
-    const lastResultVariable = terms.ANS.value;
+    const lastResultVariable = terms.VAR_ANS.value;
     const errorValue = terms.ERROR.value;
 
     let decimals = 5;

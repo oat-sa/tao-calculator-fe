@@ -35,13 +35,13 @@ import {
  * Name of the variable that contains the last result
  * @type {string}
  */
-const lastResultVariable = terms.ANS.value;
+const lastResultVariable = terms.VAR_ANS.value;
 
 /**
  * Name of the variable that contains the memory
  * @type {string}
  */
-const memoryVariable = terms.MEM.value;
+const memoryVariable = terms.VAR_MEM.value;
 
 /**
  * Match the space separators
@@ -852,7 +852,7 @@ function engineFactory({
                 !isFunctionOperator(term.value) &&
                 tokensList.length === 1 &&
                 ((tokensHelper.getToken(currentToken) === 'NUM0' && name !== 'DOT') ||
-                    tokensHelper.getToken(currentToken) === 'ANS')
+                    tokensHelper.getToken(currentToken) === 'VAR_ANS')
             ) {
                 this.replace(term.value);
             } else {
@@ -958,10 +958,12 @@ function engineFactory({
                 return this.trigger('error', new TypeError(`Invalid variable: ${name}`));
             }
 
-            return this.addTerm(`VAR_${name.toUpperCase()}`, {
+            const token = `VAR_${name.toUpperCase()}`;
+            return this.addTerm(token, {
                 label: name,
                 value: name,
-                type: 'variable'
+                type: 'variable',
+                token
             });
         },
 

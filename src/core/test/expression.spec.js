@@ -41,7 +41,7 @@ const tokens = {
     '(': { type: 'LPAR', value: '(' },
     ')': { type: 'RPAR', value: ')' },
     nthrt: { type: 'NTHRT', value: '@nthrt' },
-    ans: { type: 'ANS', value: 'ans' }
+    ans: { type: 'VAR_ANS', value: 'ans' }
 };
 const lastAnswerToken = {
     value: 'ans',
