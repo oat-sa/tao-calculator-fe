@@ -38,9 +38,15 @@ describe('tokens', () => {
             expect(tokensHelper.getType({ type: types.operator })).toEqual(types.operator);
         });
 
-        it('detects the type', () => {
+        it('detects the type from a token', () => {
             expect(tokensHelper.getType({ type: 'NUM0' })).toEqual(types.digit);
             expect(tokensHelper.getType({ type: 'ADD' })).toEqual(types.operator);
+
+            expect(tokensHelper.getType({ token: 'NUM0' })).toEqual(types.digit);
+            expect(tokensHelper.getType({ token: 'ADD' })).toEqual(types.operator);
+
+            expect(tokensHelper.getType('NUM0')).toEqual(types.digit);
+            expect(tokensHelper.getType('ADD')).toEqual(types.operator);
         });
 
         it('ignore inconsistent data', () => {

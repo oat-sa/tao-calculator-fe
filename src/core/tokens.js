@@ -25,22 +25,26 @@ import { terms, types } from './terms.js';
 const tokensHelper = {
     /**
      * Identifies the type of a given token
-     * @param {string|object} token
+     * @param {string|token|term} token
      * @returns {string}
      */
     getType(token) {
         if ('string' === typeof token) {
+            if (terms[token]) {
+                return terms[token].type;
+            }
+
             return token;
         }
 
         const type = (token && token.type) || null;
-        const term = terms[type];
+        const term = (type && terms[type]) || (token && terms[token.token]);
         return (term && term.type) || type;
     },
 
     /**
      * Checks if the type is related to a digit value
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isDigit(type) {
@@ -49,7 +53,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to an operator
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isOperator(type) {
@@ -59,7 +63,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to a unary operator
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isUnaryOperator(type) {
@@ -68,7 +72,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to an operand
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isOperand(type) {
@@ -78,7 +82,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to an operand
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isValue(type) {
@@ -94,7 +98,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to an aggregator
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isAggregator(type) {
@@ -103,7 +107,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to an error
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isError(type) {
@@ -112,7 +116,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to a constant
-     * @param {string|object} type
+     * @param {string|objetoken|termct} type
      * @returns {boolean}
      */
     isConstant(type) {
@@ -121,7 +125,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to a variable
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isVariable(type) {
@@ -131,7 +135,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to a function
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isFunction(type) {
@@ -140,7 +144,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to an identifier
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isIdentifier(type) {
@@ -156,7 +160,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to a separator
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isSeparator(type) {
@@ -166,7 +170,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to a modifier
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isModifier(type) {
@@ -176,7 +180,7 @@ const tokensHelper = {
 
     /**
      * Checks if the type is related to an exponent
-     * @param {string|object} type
+     * @param {string|token|term} type
      * @returns {boolean}
      */
     isExponent(type) {
@@ -205,3 +209,11 @@ const tokensHelper = {
 };
 
 export default tokensHelper;
+
+/**
+ * @typedef {import('./tokenizer.js').token} token
+ */
+
+/**
+ * @typedef {import('./terms.js').term} term
+ */
