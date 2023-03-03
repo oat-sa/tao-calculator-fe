@@ -36,13 +36,17 @@
         return expressionHelper.render(expr, allVariables, calculator.getTokenizer());
     }
 
-    function rawInput(e) {
+    function positionInput(e) {
+        calculator.setPosition(parseInt(e.target.value, 10));
+    }
+
+    function expressionInput(e) {
         calculator.replace(e.target.value);
         active = true;
         error = false;
     }
 
-    function rawInputKeyUp(e) {
+    function expressionInputKeyUp(e) {
         if (e.key === 'Enter') {
             calculator.evaluate();
         }
@@ -187,8 +191,8 @@
                         type="text"
                         placeholder="expression"
                         value={expression}
-                        on:input={rawInput}
-                        on:keyup={rawInputKeyUp}
+                        on:input={expressionInput}
+                        on:keyup={expressionInputKeyUp}
                     />
                 </div>
                 <div>
@@ -197,7 +201,14 @@
                 </div>
                 <div>
                     <span>Position:</span>
-                    <code>{position}</code>
+                    <input
+                        type="number"
+                        value={position}
+                        size="3"
+                        min="0"
+                        max={expression.length}
+                        on:input={positionInput}
+                    />
                 </div>
             </fieldset>
         </div>
