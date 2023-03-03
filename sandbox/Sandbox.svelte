@@ -20,6 +20,8 @@
     let expressionJSON = '';
     let resultJSON = '';
     let resultValue = '';
+    let tokens = [];
+    let tokensJSON = '';
     let renderedTerms = [];
     let renderedResult = [];
     let renderedJSON = '';
@@ -86,6 +88,8 @@
         })
         .on('expression', expr => {
             expression = expr;
+            tokens = calculator.getTokens();
+            tokensJSON = stringify(tokens);
             renderedTerms = expressionHelper.nestExponents(calculator.render(decimals));
             renderedJSON = stringify(renderedTerms);
 
@@ -209,6 +213,12 @@
                         max={expression.length}
                         on:input={positionInput}
                     />
+                </div>
+                <div>
+                    <details>
+                        <summary>JSON</summary>
+                        <pre>{tokensJSON}</pre>
+                    </details>
                 </div>
             </fieldset>
         </div>
