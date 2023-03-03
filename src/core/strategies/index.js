@@ -18,6 +18,7 @@
 
 /* c8 ignore start */
 export * from './helpers.js';
-export * from './token.js';
-export * from './value.js';
+export * from './prefix.js';
+export * from './sign.js';
+export * from './suffix.js';
 /* c8 ignore end */
