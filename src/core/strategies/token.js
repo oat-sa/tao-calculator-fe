@@ -18,6 +18,7 @@
 
 import { terms } from '../terms.js';
 import tokensHelper from '../tokens.js';
+import { applyTokenStrategies } from './helpers.js';
 
 /**
  * List of tokens that refuse explicit positive sign
@@ -252,38 +253,13 @@ export const signStrategies = [
 ];
 
 /**
- * Apply a list of strategies to a token.
- * @param {number} index - The index of the current token
- * @param {token[]} tokens - The list of tokens that represent the expression
- * @param {tokenStrategy[]} strategies - The list of strategies to apply.
- * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
- */
-export function applyTokenStrategies(index, tokens, strategies) {
-    let result = null;
-
-    strategies.every(strategy => {
-        result = strategy(index, tokens);
-        return !result;
-    });
-
-    return result;
-}
-
-/**
- * @callback tokenStrategy
- * @param {number} index - The index of the current token
- * @param {token[]} tokens - The list of tokens that represent the expression
- * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
+ * @typedef {import('../tokenizer.js').token} token
  */
 
 /**
- * @typedef {object} tokenChange
- * @property {string} value - The token to insert
- * @property {number} offset - The offset where insert the token
- * @property {number} length - The length of text to replace
- * @property {number} move - The move to apply from the current position
+ * @typedef {import('./helpers.js').tokenStrategy} tokenStrategy
  */
 
 /**
- * @typedef {import('./tokenizer.js').token} token
+ * @typedef {import('./helpers.js').tokenChange} tokenChange
  */

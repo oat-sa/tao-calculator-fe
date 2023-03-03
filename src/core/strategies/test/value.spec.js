@@ -16,55 +16,8 @@
  * Copyright (c) 2018-2023 (original work) Open Assessment Technologies SA ;
  */
 
-import { applyValueStrategies, prefixStrategies, suffixStrategies } from '../value.js';
-
-describe('applyValueStrategies', () => {
-    it('is a helper', () => {
-        expect(applyValueStrategies).toEqual(expect.any(Function));
-    });
-
-    it('apply all strategies', () => {
-        const strategy1 = jest.fn().mockImplementation(() => false);
-        const strategy2 = jest.fn().mockImplementation(() => false);
-        const strategies = [
-            {
-                predicate: strategy1
-            },
-            {
-                predicate: strategy2
-            }
-        ];
-
-        expect(applyValueStrategies('foo', null, null, strategies)).toEqual('foo');
-        expect(strategy1).toHaveBeenCalledTimes(1);
-        expect(strategy2).toHaveBeenCalledTimes(1);
-    });
-
-    it('apply all strategies until one matches', () => {
-        const strategy1 = jest.fn().mockImplementation(() => false);
-        const strategy2 = jest.fn().mockImplementation(() => true);
-        const strategy3 = jest.fn().mockImplementation(() => false);
-        const action = jest.fn().mockImplementation(() => 'bar');
-        const strategies = [
-            {
-                predicate: strategy1
-            },
-            {
-                predicate: strategy2,
-                action: action
-            },
-            {
-                predicate: strategy3
-            }
-        ];
-
-        expect(applyValueStrategies('foo', null, null, strategies)).toEqual('bar');
-        expect(strategy1).toHaveBeenCalledTimes(1);
-        expect(strategy2).toHaveBeenCalledTimes(1);
-        expect(strategy3).toHaveBeenCalledTimes(0);
-        expect(action).toHaveBeenCalledTimes(1);
-    });
-});
+import { applyValueStrategies } from '../helpers.js';
+import { prefixStrategies, suffixStrategies } from '../value.js';
 
 describe('prefixStrategies', () => {
     it('is a collection', () => {

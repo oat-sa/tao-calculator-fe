@@ -193,39 +193,5 @@ export const suffixStrategies = [
 ];
 
 /**
- * Apply a list of strategies to a value with respect to the previous and next tokens.
- * @param {string} value - The value to modify if a strategy matches.
- * @param {token} previous - The previous token.
- * @param {token} next - The next token.
- * @param {valueStrategy[]} strategies - The list of strategies to apply.
- * @returns {string} - Returns the value modified if one of the strategies matched.
- */
-export function applyValueStrategies(value, previous, next, strategies) {
-    strategies.every(strategy => {
-        if (strategy.predicate(previous, next)) {
-            value = strategy.action(value);
-            return false;
-        }
-        return true;
-    });
-    return value;
-}
-
-/**
- * @callback tokenPredicate
- * @param {string} previous - The previous token.
- * @param {string} next - The next token.
- * @returns {boolean} - Returns `true` if both the given tokens match the predicate; returns `false` otherwise.
- */
-
-/**
- * @callback valueModifier
- * @param {string} value - The value to modify.
- * @returns {string} - Returns the modified value.
- */
-
-/**
- * @typedef {object} valueStrategy
- * @property {tokenPredicate} predicate
- * @property {valueModifier} action
+ * @typedef {import('./helpers.js').valueStrategy} valueStrategy
  */
