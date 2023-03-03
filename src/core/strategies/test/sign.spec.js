@@ -18,7 +18,7 @@
 
 import tokenizerFactory from '../../tokenizer.js';
 import { applyTokenStrategies } from '../helpers.js';
-import { signStrategies } from '../token.js';
+import { signStrategies } from '../sign.js';
 
 const tokenizer = tokenizerFactory();
 
