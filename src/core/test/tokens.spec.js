@@ -206,6 +206,58 @@ describe('tokens', () => {
         });
     });
 
+    describe('isBinaryOperator', () => {
+        it('is a function', () => {
+            expect(tokensHelper.isBinaryOperator).toEqual(expect.any(Function));
+        });
+
+        it('passthrough a type', () => {
+            expect(tokensHelper.isBinaryOperator(types.digit)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.operator)).toBeTruthy();
+            expect(tokensHelper.isBinaryOperator(types.unary)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.aggregator)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.separator)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.variable)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.constant)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.term)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.error)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.function)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.exponent)).toBeFalsy();
+        });
+
+        it('extracts the type', () => {
+            expect(tokensHelper.isBinaryOperator({ type: types.digit })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.operator })).toBeTruthy();
+            expect(tokensHelper.isBinaryOperator({ type: types.unary })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.aggregator })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.separator })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.variable })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.constant })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.term })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.error })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.exponent })).toBeFalsy();
+        });
+
+        it('detects the type', () => {
+            expect(tokensHelper.isBinaryOperator({ type: 'NUM0' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'ADD' })).toBeTruthy();
+            expect(tokensHelper.isBinaryOperator({ type: 'FAC' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'PERCENT' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'LPAR' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'COMMA' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'VAR_ANS' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'PI' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'NAN' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'SQRT' })).toBeFalsy();
+        });
+
+        it('ignore inconsistent data', () => {
+            expect(tokensHelper.isBinaryOperator({})).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator()).toBeFalsy();
+        });
+    });
+
     describe('isUnaryOperator', () => {
         it('is a function', () => {
             expect(tokensHelper.isUnaryOperator).toEqual(expect.any(Function));
