@@ -19,27 +19,49 @@
 import tokensHelper from '../tokens.js';
 
 /**
+ * List of tokens representing sign or sum
+ * @type {string[]}
+ */
+const signOperators = ['NEG', 'POS', 'SUB', 'ADD'];
+
+/**
  * List of known strategies to apply to the current token when adding a new term.
  * This will help to decide if we need to replace the current token.
- * Each strategy expect a list of 2 tokens in this order: current, next.
+ * Each strategy expect a list of tokens in this order: ..., current, next.
  * @type {contextStrategy[]}
  */
 export const replaceStrategies = [
     /**
      * Triggers the token replacement if the current token and the new token are operators.
      * @param {token[]} tokens - The list of tokens on which apply the strategy.
-     * @returns {boolean|null} - Returns `true` if the current token must be replaced.
+     * @returns {number|null} - Returns `true` if the current token must be replaced.
      * Otherwise, returns `null` if the strategy does not apply.
      */
-    function ([currentToken, newToken] = []) {
-        const currentTerm = tokensHelper.getTerm(currentToken);
+    function (tokens = []) {
+        const currentTokens = tokens.slice(0, -1).reverse();
+        const [newToken] = tokens.slice(-1);
         const newTerm = tokensHelper.getTerm(newToken);
-        const endWithOperator = currentTerm && tokensHelper.isOperator(currentTerm);
-        const endWithUnary = endWithOperator && tokensHelper.isUnaryOperator(currentTerm);
+        let currentTerm = tokensHelper.getTerm(currentTokens[0]);
         const addOperator = newTerm && tokensHelper.isOperator(newTerm);
+        const isOperator = () => currentTerm && tokensHelper.isBinaryOperator(currentTerm);
 
-        if (endWithOperator && addOperator && !endWithUnary) {
-            return true;
+        if (addOperator && isOperator()) {
+            if ((newTerm.token === 'SUB' || newTerm.token === 'NEG') && signOperators.indexOf(currentTerm.token) < 0) {
+                return 0;
+            }
+
+            let replace = 1;
+            let len = currentTokens.length;
+            let checkNext = true;
+            for (let i = 1; checkNext && i < len; i++) {
+                currentTerm = tokensHelper.getTerm(currentTokens[i]);
+                checkNext = isOperator();
+
+                if (checkNext) {
+                    replace++;
+                }
+            }
+            return replace;
         }
 
         return null;
