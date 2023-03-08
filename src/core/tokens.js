@@ -90,6 +90,15 @@ const tokensHelper = {
     },
 
     /**
+     * Checks if the type is related to a binary operator
+     * @param {string|token|term} type
+     * @returns {boolean}
+     */
+    isBinaryOperator(type) {
+        return tokensHelper.getType(type) === types.operator;
+    },
+
+    /**
      * Checks if the type is related to a unary operator
      * @param {string|token|term} type
      * @returns {boolean}
