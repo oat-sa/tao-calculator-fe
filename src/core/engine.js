@@ -428,6 +428,35 @@ function engineFactory({
         },
 
         /**
+         * Removes tokens from the expression with respect to range given the start and end tokens.
+         * @param {token} start
+         * @param {token} end
+         * @returns {calculator}
+         * @fires expression after the token has been removed.
+         * @fires position if the position has been changed
+         */
+        deleteTokenRange(start, end) {
+            if (!start || !end) {
+                return this;
+            }
+
+            const from = start.offset;
+            let to = end.offset + end.value.length;
+            while (to < expression.length && expression.charAt(to) === ' ') {
+                to++;
+            }
+
+            this.setExpression(expression.substring(0, from) + expression.substring(to));
+            if (position > to) {
+                this.setPosition(position + from - to);
+            } else if (position > from) {
+                this.setPosition(from);
+            }
+
+            return this;
+        },
+
+        /**
          * Deletes the token on the left
          * @returns {calculator}
          * @fires expression after the token on the left has been removed.
@@ -861,11 +890,16 @@ function engineFactory({
                 let value = term.value;
                 let at = position;
 
-                // will replace the current term if:
-                // - it is an operator and the term to add is an operator
+                // will replace the terms a the current position with respect to a list strategies
+                // typically if:
+                // - the last term is an operator and the term to add is an operator
                 // - the operator is not unary (percent or factorial)
-                if (applyContextStrategies([currentToken, term], replaceStrategies)) {
-                    this.deleteToken(currentToken);
+                const tokensToRemove = applyContextStrategies(
+                    [...tokensList.slice(0, index + 1), term],
+                    replaceStrategies
+                );
+                if (tokensToRemove) {
+                    this.deleteTokenRange(tokensList[index - tokensToRemove + 1], currentToken);
                 }
 
                 // we need a position at token boundaries, either on the start or on the end
