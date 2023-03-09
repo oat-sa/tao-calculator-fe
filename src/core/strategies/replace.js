@@ -20,9 +20,11 @@ import { signOperators } from '../terms.js';
 import tokensHelper from '../tokens.js';
 
 /**
- * List of known strategies to apply to the current token when adding a new term.
+ * List of known strategies to apply to the current tokens when adding a new term.
  * This will help to decide if we need to replace the current token.
  * Each strategy expect a list of tokens in this order: ..., current, next.
+ * The result will be `true` if the current token must be replaced.
+ * Otherwise, it will be `null` if no strategy applies.
  * @type {contextStrategy[]}
  */
 export const replaceStrategies = [
