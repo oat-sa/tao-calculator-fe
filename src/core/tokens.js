@@ -48,7 +48,20 @@ const tokensHelper = {
      * @returns {term|null}
      */
     getTerm(token) {
-        return terms[tokensHelper.getToken(token)] || null;
+        if (!token) {
+            return null;
+        }
+
+        const term = terms[tokensHelper.getToken(token)];
+        if (term) {
+            return term;
+        }
+
+        if ('object' === typeof token) {
+            return token;
+        }
+
+        return null;
     },
 
     /**

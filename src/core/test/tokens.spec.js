@@ -63,12 +63,12 @@ describe('tokens', () => {
             expect(tokensHelper.getTerm({ token: 'ADD' })).toBe(terms['ADD']);
         });
 
-        it('returns null no term match', () => {
+        it('with no term match', () => {
             expect(tokensHelper.getTerm()).toBeNull();
-            expect(tokensHelper.getTerm({})).toBeNull();
+            expect(tokensHelper.getTerm({})).toEqual({});
             expect(tokensHelper.getTerm('FOO')).toBeNull();
-            expect(tokensHelper.getTerm({ type: 'FOO' })).toBeNull();
-            expect(tokensHelper.getTerm({ token: 'FOO' })).toBeNull();
+            expect(tokensHelper.getTerm({ type: 'FOO' })).toEqual({ type: 'FOO' });
+            expect(tokensHelper.getTerm({ token: 'FOO' })).toEqual({ token: 'FOO' });
         });
     });
 
