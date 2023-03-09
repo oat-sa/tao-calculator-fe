@@ -16,7 +16,7 @@
  * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 
-import { isFunctionOperator, terms, types } from './terms.js';
+import { isFunctionOperator, signOperators, terms, types } from './terms.js';
 import tokensHelper from './tokens.js';
 import tokenizerFactory from './tokenizer.js';
 
@@ -69,12 +69,6 @@ const reNegative = new RegExp(`[${terms.SUB.label}${terms.SUB.value}]`, 'g');
  * @type {RegExp}
  */
 const rePositive = new RegExp(`[${terms.ADD.label}${terms.ADD.value}]`, 'g');
-
-/**
- * List of tokens representing sign or sum
- * @type {string[]}
- */
-const signOperators = ['NEG', 'POS', 'SUB', 'ADD'];
 
 /**
  * Substitution mapping for the sign operators
