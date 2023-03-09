@@ -22,7 +22,7 @@
     let resultJSON = '';
     let resultValue = '';
     let tokenIndex = 0;
-    let tokens = [];
+    let tokenJSON = '';
     let tokensJSON = '';
     let renderedTerms = [];
     let renderedResult = [];
@@ -97,8 +97,8 @@
         .on('expression', expr => {
             expression = expr;
             tokenIndex = calculator.getTokenIndex();
-            tokens = calculator.getTokens();
-            tokensJSON = stringify(tokens);
+            tokenJSON = stringify(calculator.getToken());
+            tokensJSON = stringify(calculator.getTokens());
             renderedTerms = expressionHelper.nestExponents(calculator.render(decimals));
             renderedJSON = stringify(renderedTerms);
 
@@ -112,6 +112,7 @@
         .on('position', pos => {
             position = pos;
             tokenIndex = calculator.getTokenIndex();
+            tokenJSON = stringify(calculator.getToken());
         })
         .on('result', result => {
             resultValue = result.result;
@@ -226,10 +227,14 @@
                     <span>Index:</span>
                     <code>{tokenIndex}</code>
                 </div>
-                <div>
+                <div class="layout-column">
                     <details>
-                        <summary>JSON</summary>
+                        <summary>All Tokens</summary>
                         <pre>{tokensJSON}</pre>
+                    </details>
+                    <details>
+                        <summary>Current Token</summary>
+                        <pre>{tokenJSON}</pre>
                     </details>
                 </div>
             </fieldset>
@@ -380,6 +385,8 @@
 
         --color-text-default: hsl(0, 0%, 12%);
         --color-text-secondary: hsl(0, 0%, 33%);
+        --color-text-inverted: hsl(0, 0%, 100%);
+        --color-text-selection: hsl(0, 0%, 12%);
         --color-bg-default: hsl(0, 0%, 100%);
         --color-bg-button: hsl(0, 0%, 95%);
         --color-bg-button-dark: hsl(0, 0%, 82%);
@@ -389,8 +396,8 @@
         --color-bg-primary-dark: hsl(208, 100%, 42%);
         --color-bg-secondary: hsl(208, 100%, 95%);
         --color-bg-secondary-dark: hsl(208, 100%, 65%);
-        --color-text-inverted: hsl(0, 0%, 100%);
         --color-bg-inverted: hsl(0, 0%, 12%);
+        --color-bg-selection: hsl(0, 0%, 90%);
         --color-separator: hsl(0, 0%, 12%);
 
         --screen-text: var(--color-text-inverted);
@@ -477,23 +484,30 @@
         flex-direction: column;
         align-items: stretch;
         align-content: stretch;
-        font-size: smaller;
     }
     .layout-column {
         display: flex;
         flex-direction: row;
         align-items: stretch;
         align-content: stretch;
-        font-size: smaller;
     }
     fieldset {
         flex: 1 1 auto;
         border: 1px dashed var(--color-separator);
         margin: 1rem;
+        font-size: smaller;
     }
     legend {
         font-size: 1.6rem;
         color: var(--color-text-secondary);
+    }
+    details {
+        padding: 0 1rem;
+    }
+    details pre {
+        color: var(--color-text-selection);
+        background-color: var(--color-bg-selection);
+        padding: 1rem;
     }
     summary {
         cursor: pointer;
