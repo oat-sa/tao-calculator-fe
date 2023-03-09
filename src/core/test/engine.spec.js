@@ -1048,13 +1048,13 @@ describe('engine', () => {
         });
 
         it('adds a prefixed term to the expression', () => {
-            const calculator = engineFactory();
+            const calculator = engineFactory({ expression: '1' });
 
-            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getExpression()).toStrictEqual('1');
 
             expect(calculator.insertTerm('@NTHRT')).toBe(calculator);
-            expect(calculator.getExpression()).toStrictEqual('@nthrt');
-            expect(calculator.getPosition()).toStrictEqual(6);
+            expect(calculator.getExpression()).toStrictEqual('1@nthrt');
+            expect(calculator.getPosition()).toStrictEqual(7);
         });
 
         it('adds a variable to the expression', () => {
@@ -1103,9 +1103,9 @@ describe('engine', () => {
             ['LPAR', '2!', ['(2!', '2*(!', '2!*(']],
             ['LPAR', '2#', ['(2#', '2*(#', '2#*(']],
 
-            ['RPAR', '(', [')*(', '()']],
+            ['RPAR', '(', ['(', '(']],
             ['RPAR', '3', [')*3', '3)']],
-            ['RPAR', 'ln', [')*ln', 'ln)', 'ln)']],
+            ['RPAR', 'ln', ['ln', 'ln', 'ln']],
 
             ['TEN', '5', ['TEN*5', '5*TEN']],
             ['TEN', '+', ['TEN+', '+TEN']],
