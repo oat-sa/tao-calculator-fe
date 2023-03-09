@@ -61,9 +61,11 @@ describe('limitStrategies', () => {
         ['MUL', '3', null],
         ['LPAR', '3', null],
         ['LPAR', ')', null],
-        ['RPAR', '3', null],
+        ['RPAR', '3', true],
         ['RPAR', '3+', true],
         ['RPAR', '(', true],
+        ['RPAR', '(3+2', null],
+        ['RPAR', '(3+2)', true],
         ['FAC', '(', true],
         ['FAC', 'sin', true]
     ])('detects if the new term %s must be rejected when added to %s', (token, expression, expected) => {

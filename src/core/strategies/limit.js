@@ -66,13 +66,35 @@ export const limitStrategies = [
         const newTerm = tokensHelper.getTerm(newToken);
         const currentTerm = tokensHelper.getTerm(currentTokens[0]);
 
-        const isClosing = newTerm && newTerm.token === 'RPAR';
+        const isClosing = newTerm && tokensHelper.getToken(newTerm) === 'RPAR';
         const isPostfixing = newTerm && tokensHelper.isUnaryOperator(newTerm);
-        const isOpen = currentTerm && (currentTerm.token === 'LPAR' || tokensHelper.isFunction(currentTerm));
+        const isOpen =
+            currentTerm && (tokensHelper.getToken(currentTerm) === 'LPAR' || tokensHelper.isFunction(currentTerm));
         const isOperator = currentTerm && tokensHelper.isBinaryOperator(currentTerm);
 
+        // can the current expression be closed?
         if ((isClosing && (isOpen || isOperator)) || (isPostfixing && isOpen)) {
             return true;
+        }
+
+        // check if the number of open parenthesis allows to add closing parenthesis
+        if (isClosing) {
+            let count = 0;
+            tokens.forEach(token => {
+                switch (tokensHelper.getToken(token)) {
+                    case 'RPAR':
+                        count--;
+                        break;
+
+                    case 'LPAR':
+                        count++;
+                        break;
+                }
+            });
+
+            if (count < 0) {
+                return true;
+            }
         }
 
         return null;
