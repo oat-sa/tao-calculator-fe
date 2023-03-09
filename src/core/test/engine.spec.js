@@ -853,7 +853,7 @@ describe('engine', () => {
 
             calculator.setCommand('foo', action);
 
-            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBeTruthy();
 
             expect(action).toHaveBeenCalledTimes(1);
             expect(action.mock.calls[0][0]).toStrictEqual(42);
@@ -871,7 +871,7 @@ describe('engine', () => {
             calculator.on('command', commandEvt);
             calculator.on('command-foo', actionEvt);
 
-            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBeTruthy();
 
             expect(action).toHaveBeenCalledTimes(1);
             expect(action.mock.calls[0][0]).toStrictEqual(42);
@@ -893,7 +893,7 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBeFalsy();
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
             expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
@@ -1042,7 +1042,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.insertTerm('NUM6')).toBe(calculator);
+            expect(calculator.insertTerm('NUM6')).toBeTruthy();
             expect(calculator.getExpression()).toStrictEqual('6');
             expect(calculator.getPosition()).toStrictEqual(1);
         });
@@ -1052,7 +1052,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('1');
 
-            expect(calculator.insertTerm('@NTHRT')).toBe(calculator);
+            expect(calculator.insertTerm('@NTHRT')).toBeTruthy();
             expect(calculator.getExpression()).toStrictEqual('1@nthrt');
             expect(calculator.getPosition()).toStrictEqual(7);
         });
@@ -1063,7 +1063,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.insertVariable('ans')).toBe(calculator);
+            expect(calculator.insertVariable('ans')).toBeTruthy();
             expect(calculator.getExpression()).toStrictEqual('ans');
             expect(calculator.getPosition()).toStrictEqual(3);
         });
@@ -1074,7 +1074,7 @@ describe('engine', () => {
         ])('replaces the expression by the term if %s', (title, expression, term, expected) => {
             const calculator = engineFactory({ expression });
 
-            expect(calculator.insertTerm(term)).toBe(calculator);
+            expect(calculator.insertTerm(term)).toBeTruthy();
             expect(calculator.getExpression()).toStrictEqual(expected);
         });
 
@@ -1181,7 +1181,7 @@ describe('engine', () => {
 
             calculator.on('term', termEvt);
 
-            expect(calculator.addTerm('foo', term)).toBe(calculator);
+            expect(calculator.addTerm('foo', term)).toBeTruthy();
 
             expect(termEvt).toHaveBeenCalledTimes(1);
             expect(termEvt.mock.calls[0][0]).toStrictEqual(term.name);
@@ -1194,8 +1194,8 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.addTerm('foo')).toBe(calculator);
-            expect(calculator.addTerm('foo', {})).toBe(calculator);
+            expect(calculator.addTerm('foo')).toBeFalsy();
+            expect(calculator.addTerm('foo', {})).toBeFalsy();
 
             expect(errorEvt).toHaveBeenCalledTimes(2);
             expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
@@ -1210,7 +1210,7 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.insertTerm('foo')).toBe(calculator);
+            expect(calculator.insertTerm('foo')).toBeFalsy();
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
             expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
@@ -1223,7 +1223,7 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.insertVariable('foo')).toBe(calculator);
+            expect(calculator.insertVariable('foo')).toBeFalsy();
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
             expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
@@ -1231,16 +1231,18 @@ describe('engine', () => {
         });
 
         it.each([
-            [['NUM1', 'ADD', 'NUM2'], '1+2'],
-            ['NUM1 ADD NUM2', '1+2']
-        ])('adds a list of terms to the expression from %s', (terms, expected) => {
+            [['NUM1', 'ADD', 'NUM2'], true, 3, '1+2'],
+            ['NUM1 ADD NUM2', true, 3, '1+2'],
+            ['POW NUM2', false, 0, ''],
+            ['POW NEG NUM1', false, 0, '']
+        ])('adds a list of terms to the expression from %s', (terms, result, position, expected) => {
             const calculator = engineFactory();
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.insertTermList(terms)).toBe(calculator);
+            expect(calculator.insertTermList(terms)).toStrictEqual(result);
             expect(calculator.getExpression()).toStrictEqual(expected);
-            expect(calculator.getPosition()).toStrictEqual(3);
+            expect(calculator.getPosition()).toStrictEqual(position);
         });
     });
 
