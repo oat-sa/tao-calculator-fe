@@ -16,20 +16,21 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import { isFunctionOperator, terms } from './terms.js';
-import tokensHelper from './tokens.js';
 import expressionHelper, { defaultDecimalDigits } from './expression.js';
-import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import {
     applyContextStrategies,
     applyTokenStrategies,
     applyValueStrategies,
+    limitStrategies,
     prefixStrategies,
     replaceStrategies,
     signStrategies,
     suffixStrategies
 } from './strategies';
+import { isFunctionOperator, terms } from './terms.js';
+import tokenizerFactory from './tokenizer.js';
+import tokensHelper from './tokens.js';
 
 /**
  * Name of the variable that contains the last result
@@ -872,6 +873,12 @@ function engineFactory({
             const index = this.getTokenIndex();
             const currentToken = tokensList[index];
             const addOperator = tokensHelper.isOperator(term);
+            const newTokensList = [...tokensList.slice(0, index + 1), term];
+
+            // prevent adding token that cannot be managed and that would break the expression
+            if (applyContextStrategies(newTokensList, limitStrategies)) {
+                return this;
+            }
 
             // will replace the expression if:
             // - it is a 0, and the term to add is not an operator nor a dot
@@ -894,10 +901,7 @@ function engineFactory({
                 // typically if:
                 // - the last term is an operator and the term to add is an operator
                 // - the operator is not unary (percent or factorial)
-                const tokensToRemove = applyContextStrategies(
-                    [...tokensList.slice(0, index + 1), term],
-                    replaceStrategies
-                );
+                const tokensToRemove = applyContextStrategies(newTokensList, replaceStrategies);
                 if (tokensToRemove) {
                     this.deleteTokenRange(tokensList[index - tokensToRemove + 1], currentToken);
                 }

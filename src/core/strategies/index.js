@@ -18,6 +18,7 @@
 
 /* c8 ignore start */
 export * from './helpers.js';
+export * from './limit.js';
 export * from './prefix.js';
 export * from './replace.js';
 export * from './sign.js';
