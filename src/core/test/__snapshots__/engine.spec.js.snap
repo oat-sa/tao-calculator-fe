@@ -159,6 +159,18 @@ exports[`engine manages the commands sets commands from a list 1`] = `
 }
 `;
 
+exports[`engine manages the computation mode can calculate on-demand 1`] = `
+{
+  "expression": "3*4-2",
+  "result": "10",
+  "value": 10,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
 exports[`engine manages the last result gracefully ignore error in the last result 1`] = `
 {
   "expression": "0",

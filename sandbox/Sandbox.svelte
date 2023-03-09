@@ -13,6 +13,7 @@
 
     let decimals = 5;
     let degree = calculator.isDegreeMode();
+    let instant = calculator.isInstantMode();
     let commandName = '';
     let commandParam = '';
     let position = calculator.getPosition();
@@ -70,6 +71,12 @@
     function angleModeChange() {
         if (calculator.isDegreeMode() !== degree) {
             calculator.setDegreeMode(degree);
+        }
+    }
+
+    function instantModeChange() {
+        if (calculator.isInstantMode() !== instant) {
+            calculator.setInstantMode(instant);
         }
     }
 
@@ -244,6 +251,31 @@
                     <label>
                         <input type="radio" name="angle" value={true} bind:group={degree} on:change={angleModeChange} />
                         <span>degree</span>
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Computation mode</legend>
+                <div>
+                    <label>
+                        <input
+                            type="radio"
+                            name="instant"
+                            value={false}
+                            bind:group={instant}
+                            on:change={instantModeChange}
+                        />
+                        <span>on demand computation</span>
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="instant"
+                            value={true}
+                            bind:group={instant}
+                            on:change={instantModeChange}
+                        />
+                        <span>instant computation</span>
                     </label>
                 </div>
             </fieldset>

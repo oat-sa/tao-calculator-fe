@@ -55,6 +55,7 @@ const reSpace = /\s+/;
  * @param {object} [config]
  * @param {string} [config.expression=''] - The current expression
  * @param {number} [config.position=0] - The current position in the expression (i.e. the position of the caret)
+ * @param {boolean} [config.instant=false] - Whether the engine computes the expression instantaneously (`true`) or not ('false').
  * @param {object} [config.variables] - An optional list of variables
  * @param {object} [config.commands] - An optional list of commands
  * @param {object} [config.plugins] - An optional list of plugins
@@ -64,6 +65,7 @@ const reSpace = /\s+/;
 function engineFactory({
     expression = '',
     position = null,
+    instant = false,
     variables = {},
     commands = {},
     plugins = {},
@@ -225,6 +227,26 @@ function engineFactory({
          */
         isDegreeMode() {
             return !!maths.degree;
+        },
+
+        /**
+         * Sets the engine to compute the expression instantaneously (`true`) or not ('false').
+         * @param {boolean} mode - The state of the instant mode.
+         * @returns {calculator}
+         * @fires configure
+         */
+        setInstantMode(mode = true) {
+            instant = mode;
+            this.trigger('configure', { instant });
+            return this;
+        },
+
+        /**
+         * Tells if the engine must compute the expression instantaneously (`true`) or not ('false').
+         * @returns {boolean} - Whether the engine computes the expression instantaneously (`true`) or not ('false').
+         */
+        isInstantMode() {
+            return !!instant;
         },
 
         /**
