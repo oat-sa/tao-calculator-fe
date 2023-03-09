@@ -34,7 +34,7 @@ export const replaceStrategies = [
      * @returns {number|null} - Returns `true` if the current token must be replaced.
      * Otherwise, returns `null` if the strategy does not apply.
      */
-    function (tokens = []) {
+    function replaceOperator(tokens = []) {
         const currentTokens = tokens.slice(0, -1).reverse();
         const [newToken] = tokens.slice(-1);
         const newTerm = tokensHelper.getTerm(newToken);
