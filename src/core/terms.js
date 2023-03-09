@@ -109,6 +109,12 @@ export const types = {
 };
 
 /**
+ * List of tokens representing sign or sum.
+ * @type {string[]}
+ */
+export const signOperators = ['NEG', 'POS', 'SUB', 'ADD'];
+
+/**
  * @typedef {object} term - Represents a tokenizable term
  * @property {string} label - The displayable text
  * @property {string} value - The related text that should be found in the expression

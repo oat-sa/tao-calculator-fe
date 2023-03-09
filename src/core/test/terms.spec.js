@@ -17,15 +17,16 @@
  */
 
 import {
-    terms,
-    types,
-    symbols,
     exponent,
-    subscript,
-    exponentRight,
     exponentLeft,
+    exponentRight,
+    isFunctionOperator,
+    signOperators,
+    subscript,
     subscriptRight,
-    isFunctionOperator
+    symbols,
+    terms,
+    types
 } from '../terms.js';
 
 describe('isFunctionOperator', () => {
@@ -134,6 +135,19 @@ describe('types', () => {
         expect(Object.keys(types).length).toBeGreaterThan(0);
         Object.keys(types).forEach(name => {
             expect(types[name]).toStrictEqual(name);
+        });
+    });
+});
+
+describe('signOperators', () => {
+    it('is a namespace', () => {
+        expect(signOperators).toEqual(expect.any(Array));
+    });
+
+    it('defines tokens', () => {
+        expect(signOperators.length).toBeGreaterThan(0);
+        signOperators.forEach(name => {
+            expect(terms[name]).toEqual(expect.any(Object));
         });
     });
 });

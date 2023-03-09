@@ -16,13 +16,8 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
+import { signOperators } from '../terms.js';
 import tokensHelper from '../tokens.js';
-
-/**
- * List of tokens representing sign or sum
- * @type {string[]}
- */
-const signOperators = ['NEG', 'POS', 'SUB', 'ADD'];
 
 /**
  * List of known strategies to apply to the current token when adding a new term.
