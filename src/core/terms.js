@@ -16,6 +16,8 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
+import __ from '@oat-sa-private/ui-core/i18n/index.js';
+
 /**
  * Regex that matches the prefixed function operators
  * @type {RegExp}
@@ -189,6 +191,7 @@ export const terms = {
     },
     EXP10: {
         label: `${symbols.multiply}10`,
+        ariaLabel: __('times ten to the'),
         value: 'e',
         type: types.digit,
         exponent: 'right'
@@ -197,12 +200,14 @@ export const terms = {
     // Aggregators
     LPAR: {
         label: '(',
+        ariaLabel: __('left parenthesis'),
         value: '(',
         type: types.aggregator,
         exponent: false
     },
     RPAR: {
         label: ')',
+        ariaLabel: __('right parenthesis'),
         value: ')',
         type: types.aggregator,
         exponent: false
@@ -211,6 +216,7 @@ export const terms = {
     // Separator
     COMMA: {
         label: ',',
+        ariaLabel: __('comma'),
         value: ',',
         type: types.separator,
         exponent: false
@@ -225,42 +231,49 @@ export const terms = {
     // Operators
     SUB: {
         label: symbols.minus,
+        ariaLabel: __('substract'),
         value: '-',
         type: types.operator,
         exponent: false
     },
     NEG: {
         label: symbols.negative,
+        ariaLabel: __('minus'),
         value: '-',
         type: types.operator,
         exponent: false
     },
     ADD: {
         label: symbols.plus,
+        ariaLabel: __('add'),
         value: '+',
         type: types.operator,
         exponent: false
     },
     POS: {
         label: symbols.positive,
+        ariaLabel: __('plus'),
         value: '+',
         type: types.operator,
         exponent: false
     },
     MUL: {
         label: symbols.multiply,
+        ariaLabel: __('multiply by'),
         value: '*',
         type: types.operator,
         exponent: false
     },
     DIV: {
         label: symbols.divide,
+        ariaLabel: __('divide by'),
         value: '/',
         type: types.operator,
         exponent: false
     },
     MOD: {
         label: 'modulo',
+        ariaLabel: __('modulo'),
         value: '%',
         type: types.operator,
         exponent: false
@@ -268,23 +281,27 @@ export const terms = {
     POW: {
         label: '^',
         value: '^',
+        ariaLabel: __('to the power of'),
         type: types.operator,
         exponent: 'right'
     },
     FAC: {
         label: '!',
+        ariaLabel: __('factorial'),
         value: '!',
         type: types.operator,
         exponent: false
     },
     ASSIGN: {
         label: '=',
+        ariaLabel: __('equals'),
         value: '=',
         type: types.operator,
         exponent: false
     },
     PERCENT: {
         label: '%',
+        ariaLabel: __('percent'),
         value: '#',
         type: types.operator,
         exponent: false
@@ -294,11 +311,13 @@ export const terms = {
     ANS: {
         label: 'Ans',
         value: 'ans',
+        ariaLabel: __('last answer'),
         type: types.variable,
         exponent: false
     },
     MEM: {
         label: 'Mem',
+        ariaLabel: __('memory value'),
         value: 'mem',
         type: types.variable,
         exponent: false
@@ -307,12 +326,14 @@ export const terms = {
     // Constants
     PI: {
         label: symbols.pi,
+        ariaLabel: __('pi number'),
         value: 'PI',
         type: types.constant,
         exponent: false
     },
     E: {
         label: symbols.euler,
+        ariaLabel: __('euler number'),
         value: 'E',
         type: types.constant,
         exponent: false
@@ -327,6 +348,7 @@ export const terms = {
     // Errors
     NAN: {
         label: 'Error',
+        ariaLabel: __('not a number'),
         value: 'NaN',
         type: types.error,
         exponent: false
@@ -339,6 +361,7 @@ export const terms = {
     },
     ERROR: {
         label: 'Syntax error',
+        ariaLabel: __('syntax error'),
         value: 'Syntax',
         type: types.error,
         exponent: false
@@ -347,156 +370,182 @@ export const terms = {
     // Functions
     EXP: {
         label: 'exp',
+        ariaLabel: __('to the power of'),
         value: 'exp',
         type: types.function,
         exponent: 'right'
     },
     SQRT: {
         label: symbols.squareRoot,
+        ariaLabel: __('square root of'),
         value: 'sqrt',
         type: types.function,
         exponent: false
     },
     CBRT: {
         label: exponentLeft(symbols.squareRoot, '3'),
+        ariaLabel: __('cubic root of'),
         value: 'cbrt',
         type: types.function,
         exponent: false
     },
     NTHRT: {
         label: symbols.squareRoot,
+        ariaLabel: __('nth root of'),
         value: 'nthrt',
         type: types.function,
         exponent: 'left'
     },
     FLOOR: {
         label: 'floor',
+        ariaLabel: __('floor value of'),
         value: 'floor',
         type: types.function,
         exponent: false
     },
     CEIL: {
         label: 'ceil',
+        ariaLabel: __('ceil value of'),
         value: 'ceil',
         type: types.function,
         exponent: false
     },
     ROUND: {
         label: 'round',
+        ariaLabel: __('round value of'),
         value: 'round',
         type: types.function,
         exponent: false
     },
     TRUNC: {
         label: 'trunc',
+        ariaLabel: __('truncate value of'),
         value: 'trunc',
         type: types.function,
         exponent: false
     },
     SIN: {
         label: 'sin',
+        ariaLabel: __('sine of'),
         value: 'sin',
         type: types.function,
         exponent: false
     },
     COS: {
         label: 'cos',
+        ariaLabel: __('cosine of'),
         value: 'cos',
         type: types.function,
         exponent: false
     },
     TAN: {
         label: 'tan',
+        ariaLabel: __('tangent of'),
         value: 'tan',
         type: types.function,
         exponent: false
     },
     ASIN: {
         label: exponentRight('sin', symbols.minusOne),
+        ariaLabel: __('arcsine of'),
         value: 'asin',
         type: types.function,
         exponent: false
     },
     ACOS: {
         label: exponentRight('cos', symbols.minusOne),
+        ariaLabel: __('arccosine of'),
         value: 'acos',
         type: types.function,
         exponent: false
     },
     ATAN: {
         label: exponentRight('tan', symbols.minusOne),
+        ariaLabel: __('arctangent of'),
         value: 'atan',
         type: types.function,
         exponent: false
     },
     SINH: {
         label: 'sinh',
+        ariaLabel: __('hyperbolic sine of'),
         value: 'sinh',
         type: types.function,
         exponent: false
     },
     COSH: {
         label: 'cosh',
+        ariaLabel: __('hyperbolic cosine of'),
         value: 'cosh',
         type: types.function,
         exponent: false
     },
     TANH: {
         label: 'tanh',
+        ariaLabel: __('hyperbolic tangent of'),
         value: 'tanh',
         type: types.function,
         exponent: false
     },
     ASINH: {
         label: exponentRight('sinh', symbols.minusOne),
+        ariaLabel: __('hyperbolic arcsine of'),
         value: 'asinh',
         type: types.function,
         exponent: false
     },
     ACOSH: {
         label: exponentRight('cosh', symbols.minusOne),
+        ariaLabel: __('hyperbolic arccosine of'),
         value: 'acosh',
         type: types.function,
         exponent: false
     },
     ATANH: {
         label: exponentRight('tanh', symbols.minusOne),
+        ariaLabel: __('hyperbolic arctangent of'),
         value: 'atanh',
         type: types.function,
         exponent: false
     },
     LN: {
         label: 'ln',
+        ariaLabel: __('natural logarithm of'),
         value: 'ln',
         type: types.function,
         exponent: false
     },
     LOG: {
         label: 'ln',
+        ariaLabel: __('logarithm of'),
         value: 'log',
         type: types.function,
         exponent: false
     },
     LG: {
         label: subscriptRight('log', '10'),
+        ariaLabel: __('logarithm base ten of'),
         value: 'lg',
         type: types.function,
         exponent: false
     },
     LOG10: {
         label: subscriptRight('log', '10'),
+        ariaLabel: __('logarithm base ten of'),
         value: 'log10',
         type: types.function,
         exponent: false
     },
     ABS: {
         label: 'abs',
+        ariaLabel: __('absolute value of'),
         value: 'abs',
         type: types.function,
         exponent: false
     },
     RAND: {
         label: 'random',
+        ariaLabel: __('random value'),
         value: 'random',
         type: types.function,
         exponent: false
