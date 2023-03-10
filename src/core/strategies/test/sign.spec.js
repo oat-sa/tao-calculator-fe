@@ -61,7 +61,7 @@ describe('signStrategies', () => {
         ['(PI-1)+2', 4, { length: 0, move: 1, offset: 0, value: '-' }],
         ['(PI*(3-2))', 8, { length: 0, move: 1, offset: 0, value: '-' }],
         ['-(PI*(3-2))', 9, { length: 1, move: -1, offset: 0, value: '' }]
-    ])('changes the sign in %s at index %s', (expression, index, expected) => {
+    ])('changes the sign in "%s" at index "%s"', (expression, index, expected) => {
         const tokens = tokenizer.tokenize(expression);
         expect(applyTokenStrategies(index, tokens, signStrategies)).toStrictEqual(expected);
     });
