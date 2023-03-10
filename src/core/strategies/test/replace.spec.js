@@ -239,7 +239,7 @@ describe('replaceStrategies', () => {
         ['RPAR', '3^', null],
         ['RPAR', '3%', null],
         ['RPAR', '3=', null]
-    ])('detects if the new term %s must replace the last tokens in %s', (token, expression, expected) => {
+    ])('detects if the new term "%s" must replace the last tokens in "%s"', (token, expression, expected) => {
         const tokens = tokenizer.tokenize(expression);
         expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toStrictEqual(expected);
     });

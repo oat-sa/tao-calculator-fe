@@ -68,7 +68,7 @@ describe('limitStrategies', () => {
         ['RPAR', '(3+2)', true],
         ['FAC', '(', true],
         ['FAC', 'sin', true]
-    ])('detects if the new term %s must be rejected when added to %s', (token, expression, expected) => {
+    ])('detects if the new term "%s" must be rejected when added to "%s"', (token, expression, expected) => {
         const tokens = tokenizer.tokenize(expression);
         expect(applyContextStrategies([...tokens, terms[token]], limitStrategies)).toStrictEqual(expected);
     });
