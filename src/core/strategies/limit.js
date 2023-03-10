@@ -22,7 +22,7 @@ const cannotStart = ['MUL', 'DIV', 'MOD', 'POW', 'FAC', 'ASSIGN', 'PERCENT', 'NT
 
 /**
  * List of known strategies to apply to the current tokens when adding a new term.
- * This will help to decide if the new term can be accepter or not.
+ * This will help to decide if the new term can be accepted or not.
  * Each strategy expect a list of tokens in this order: ..., current, next.
  * The result will be `true` if the new token must be rejected.
  * Otherwise, it will be `null` if no strategy applies.
