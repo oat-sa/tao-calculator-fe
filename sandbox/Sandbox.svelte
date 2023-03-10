@@ -131,6 +131,13 @@
                 return;
             }
 
+            if (calculator.isInstantMode()) {
+                if (name === 'execute') {
+                    calculator.replace(lastResultVariable);
+                }
+                return;
+            }
+
             let expr = '';
             if (name === 'term') {
                 const [token] = parameter.split(/\s+/);

@@ -26,7 +26,8 @@ import {
     prefixStrategies,
     replaceStrategies,
     signStrategies,
-    suffixStrategies
+    suffixStrategies,
+    triggerStrategies
 } from './strategies';
 import { isPrefixedTerm, terms } from './terms.js';
 import tokenizerFactory from './tokenizer.js';
@@ -892,11 +893,16 @@ function engineFactory({
                 return false;
             }
 
-            const tokensList = this.getTokens();
-            const index = this.getTokenIndex();
-            const currentToken = tokensList[index];
+            let tokensList, newTokensList, currentToken, index;
             const addOperator = tokensHelper.isOperator(term);
-            const newTokensList = [...tokensList.slice(0, index + 1), term];
+            const getContext = () => {
+                tokensList = this.getTokens();
+                index = this.getTokenIndex();
+                currentToken = tokensList[index];
+                newTokensList = [...tokensList.slice(0, index + 1), term];
+            };
+
+            getContext();
 
             // prevent adding token that cannot be managed and that would break the expression
             if (applyContextStrategies(newTokensList, limitStrategies)) {
@@ -927,6 +933,15 @@ function engineFactory({
                 const tokensToRemove = applyContextStrategies(newTokensList, replaceStrategies);
                 if (tokensToRemove) {
                     this.deleteTokenRange(tokensList[index - tokensToRemove + 1], currentToken);
+                    getContext();
+                }
+
+                // when the instant computation mode is activated, we need to calculate the result of the
+                // current expression when a new operator is entered and the expression can be calculated
+                if (instant && applyContextStrategies(newTokensList, triggerStrategies)) {
+                    this.evaluate();
+                    this.replace(lastResultVariable);
+                    getContext();
                 }
 
                 // we need a position at token boundaries, either on the start or on the end
