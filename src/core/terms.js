@@ -29,7 +29,7 @@ const rePrefixedTerm = /^@[a-zA-Z_]\w*$/;
  * @param {string} name - The term to check.
  * @returns {boolean} - Returns `true` if the term is prefixed.
  */
-export const isFunctionOperator = name => rePrefixedTerm.test(name);
+export const isPrefixedTerm = name => rePrefixedTerm.test(name);
 
 /**
  * Formats a math element as exponent.
@@ -113,6 +113,26 @@ export const types = {
  * @type {string[]}
  */
 export const signOperators = ['NEG', 'POS', 'SUB', 'ADD'];
+
+/**
+ * List of tokens representing functions that can be considered binary operators.
+ * @type {string[]}
+ */
+export const functionOperators = ['NTHRT'];
+
+/**
+ * Checks if a token is a sign operator.
+ * @param {string} token - The token name to check.
+ * @returns {boolean} - Returns `true` if the token is a sign operator ; otherwise, returns `false`.
+ */
+export const isSignOperator = token => signOperators.includes(token);
+
+/**
+ * Checks if a token is a function that can be used as an operator.
+ * @param {string} token - The token name to check.
+ * @returns {boolean} - Returns `true` if the token is a function operator ; otherwise, returns `false`.
+ */
+export const isFunctionOperator = token => functionOperators.includes(token);
 
 /**
  * @typedef {object} term - Represents a tokenizable term

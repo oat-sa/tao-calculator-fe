@@ -20,7 +20,10 @@ import {
     exponent,
     exponentLeft,
     exponentRight,
+    functionOperators,
     isFunctionOperator,
+    isPrefixedTerm,
+    isSignOperator,
     signOperators,
     subscript,
     subscriptRight,
@@ -29,9 +32,9 @@ import {
     types
 } from '../terms.js';
 
-describe('isFunctionOperator', () => {
+describe('isPrefixedTerm', () => {
     it('is a helper', () => {
-        expect(isFunctionOperator).toEqual(expect.any(Function));
+        expect(isPrefixedTerm).toEqual(expect.any(Function));
     });
 
     it.each([
@@ -39,6 +42,39 @@ describe('isFunctionOperator', () => {
         ['sqrt', false],
         ['', false]
     ])('tells if %s is prefixed', (value, expected) => {
+        expect(isPrefixedTerm(value)).toStrictEqual(expected);
+    });
+});
+
+describe('isSignOperator', () => {
+    it('is a helper', () => {
+        expect(isSignOperator).toEqual(expect.any(Function));
+    });
+
+    it.each([
+        ['', false],
+        ['MUL', false],
+        ['NEG', true],
+        ['SUB', true],
+        ['POS', true],
+        ['ADD', true]
+    ])('tells if %s is a sign operator', (value, expected) => {
+        expect(isSignOperator(value)).toStrictEqual(expected);
+    });
+});
+
+describe('isFunctionOperator', () => {
+    it('is a helper', () => {
+        expect(isFunctionOperator).toEqual(expect.any(Function));
+    });
+
+    it.each([
+        ['', false],
+        ['MUL', false],
+        ['SUB', false],
+        ['ADD', false],
+        ['NTHRT', true]
+    ])('tells if %s is a function operator', (value, expected) => {
         expect(isFunctionOperator(value)).toStrictEqual(expected);
     });
 });
@@ -147,6 +183,19 @@ describe('signOperators', () => {
     it('defines tokens', () => {
         expect(signOperators.length).toBeGreaterThan(0);
         signOperators.forEach(name => {
+            expect(terms[name]).toEqual(expect.any(Object));
+        });
+    });
+});
+
+describe('functionOperators', () => {
+    it('is a namespace', () => {
+        expect(functionOperators).toEqual(expect.any(Array));
+    });
+
+    it('defines tokens', () => {
+        expect(functionOperators.length).toBeGreaterThan(0);
+        functionOperators.forEach(name => {
             expect(terms[name]).toEqual(expect.any(Object));
         });
     });

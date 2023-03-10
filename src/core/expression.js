@@ -16,7 +16,7 @@
  * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 
-import { isFunctionOperator, signOperators, terms, types } from './terms.js';
+import { isPrefixedTerm, isSignOperator, terms, types } from './terms.js';
 import tokensHelper from './tokens.js';
 import tokenizerFactory from './tokenizer.js';
 
@@ -229,7 +229,7 @@ const expressionHelper = {
                 exponent: null,
                 startExponent: null,
                 endExponent: [],
-                prefixed: isFunctionOperator(token.value),
+                prefixed: isPrefixedTerm(token.value),
                 elide: false
             };
 
@@ -447,10 +447,7 @@ function exponentOnTheRight(renderedTerms, index) {
     }
 
     // only take care of actual operand value or sub expression (starting from the left)
-    if (
-        term &&
-        (tokensHelper.isOperand(term.type) || term.token === 'LPAR' || signOperators.indexOf(term.token) >= 0)
-    ) {
+    if (term && (tokensHelper.isOperand(term.type) || term.token === 'LPAR' || isSignOperator(term.token))) {
         term.startExponent = identifier;
 
         // we use an internal loop as exponents could be chained
@@ -458,7 +455,7 @@ function exponentOnTheRight(renderedTerms, index) {
             shouldContinue = false;
 
             // functions are attached to an operand, and this link should be kept
-            while (index < last && (tokensHelper.isFunction(term.type) || signOperators.indexOf(term.token) >= 0)) {
+            while (index < last && (tokensHelper.isFunction(term.type) || isSignOperator(term.token))) {
                 nextTerm();
             }
 

@@ -28,7 +28,7 @@ import {
     signStrategies,
     suffixStrategies
 } from './strategies';
-import { isFunctionOperator, terms } from './terms.js';
+import { isPrefixedTerm, terms } from './terms.js';
 import tokenizerFactory from './tokenizer.js';
 import tokensHelper from './tokens.js';
 
@@ -886,7 +886,7 @@ function engineFactory({
             // - it is the last result, and the term to add is not an operator
             if (
                 !addOperator &&
-                !isFunctionOperator(term.value) &&
+                !isPrefixedTerm(term.value) &&
                 tokensList.length === 1 &&
                 ((tokensHelper.getToken(currentToken) === 'NUM0' && name !== 'DOT') ||
                     tokensHelper.getToken(currentToken) === 'VAR_ANS')
@@ -898,7 +898,7 @@ function engineFactory({
                 let value = term.value;
                 let at = position;
 
-                // will replace the terms a the current position with respect to a list strategies
+                // will replace the terms at the current position with respect to a list of strategies
                 // typically if:
                 // - the last term is an operator and the term to add is an operator
                 // - the operator is not unary (percent or factorial)
@@ -948,7 +948,7 @@ function engineFactory({
          * @fires term when the term has been added
          */
         insertTerm(name) {
-            const prefixed = isFunctionOperator(name);
+            const prefixed = isPrefixedTerm(name);
             if (prefixed) {
                 name = name.substring(1);
             }
