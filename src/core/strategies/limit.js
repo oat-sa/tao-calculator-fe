@@ -16,9 +16,34 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
+import { isSignOperator } from '../terms.js';
 import tokensHelper from '../tokens.js';
 
-const cannotStart = ['MUL', 'DIV', 'MOD', 'POW', 'FAC', 'ASSIGN', 'PERCENT', 'NTHRT', 'RPAR', 'COMMA'];
+/**
+ * The list of tokens that cannot start an expression.
+ * @type {string[]}
+ */
+const cannotStartWith = ['MUL', 'DIV', 'MOD', 'POW', 'FAC', 'ASSIGN', 'PERCENT', 'NTHRT', 'RPAR', 'COMMA'];
+
+/**
+ * Checks if a term cannot start an expression.
+ * @param {token} token - The term to check.
+ * @returns {boolean} - Returns `true` if the term cannot start an expression.
+ */
+const cannotStart = token => {
+    const term = token && tokensHelper.getTerm(token);
+    return term && cannotStartWith.includes(term.token);
+};
+
+/**
+ * Checks if a term is a sign operator.
+ * @param {token} token - The term to check.
+ * @returns {boolean} - Returns `true` if the term is a sign.
+ */
+const isSign = token => {
+    const term = token && tokensHelper.getTerm(token);
+    return term && isSignOperator(term.token);
+};
 
 /**
  * List of known strategies to apply to the current tokens when adding a new term.
@@ -30,21 +55,34 @@ const cannotStart = ['MUL', 'DIV', 'MOD', 'POW', 'FAC', 'ASSIGN', 'PERCENT', 'NT
  */
 export const limitStrategies = [
     /**
-     * Check if the expression is empty and the new term cannot start an expression.
+     * Check if the expression is starting and the new term cannot start an expression.
      * @param {token[]} tokens - The list of tokens on which apply the strategy.
      * @returns {boolean|null} - Returns `true` if the new token is rejected.
      * Otherwise, returns `null` if the strategy does not apply.
      */
     function limitExpressionStart(tokens = []) {
-        if (!tokens.length || tokens.length > 1) {
-            return null;
+        // ex: '*', '/', '^'
+        if (tokens.length === 1 && cannotStart(tokens[0])) {
+            return true;
         }
 
-        const [newToken] = tokens;
-        const newTerm = tokensHelper.getTerm(newToken);
-
-        if (newTerm && cannotStart.includes(newTerm.token)) {
+        // ex: '-*', '+^'
+        if (tokens.length === 2 && isSign(tokens[0]) && cannotStart(tokens[1])) {
             return true;
+        }
+
+        // ex: '4*(*',  '4*(-/'
+        if (tokens.length >= 2) {
+            const [previousToken] = tokens.slice(-3, -2);
+            const [currentToken] = tokens.slice(-2, -1);
+            const [newToken] = tokens.slice(-1);
+            if (
+                cannotStart(newToken) &&
+                (tokensHelper.getToken(currentToken) === 'LPAR' ||
+                    (tokensHelper.getToken(previousToken) === 'LPAR' && isSign(currentToken)))
+            ) {
+                return true;
+            }
         }
 
         return null;
@@ -62,15 +100,13 @@ export const limitStrategies = [
         }
 
         const currentTokens = tokens.slice(0, -1).reverse();
+        const currentToken = currentTokens[0];
         const [newToken] = tokens.slice(-1);
-        const newTerm = tokensHelper.getTerm(newToken);
-        const currentTerm = tokensHelper.getTerm(currentTokens[0]);
 
-        const isClosing = newTerm && tokensHelper.getToken(newTerm) === 'RPAR';
-        const isPostfixing = newTerm && tokensHelper.isUnaryOperator(newTerm);
-        const isOpen =
-            currentTerm && (tokensHelper.getToken(currentTerm) === 'LPAR' || tokensHelper.isFunction(currentTerm));
-        const isOperator = currentTerm && tokensHelper.isBinaryOperator(currentTerm);
+        const isClosing = tokensHelper.getToken(newToken) === 'RPAR';
+        const isPostfixing = tokensHelper.isUnaryOperator(newToken);
+        const isOpen = tokensHelper.getToken(currentToken) === 'LPAR' || tokensHelper.isFunction(currentToken);
+        const isOperator = tokensHelper.isBinaryOperator(currentToken);
 
         // can the current expression be closed?
         if ((isClosing && (isOpen || isOperator)) || (isPostfixing && isOpen)) {
