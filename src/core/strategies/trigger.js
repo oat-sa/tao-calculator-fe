@@ -30,17 +30,26 @@ import tokensHelper from '../tokens.js';
  */
 export const triggerStrategies = [
     /**
-     * Check if the expression must be evaluated before adding the new term.
+     * Checks if the expression contains enough terms to let the next strategy applies.
      * @param {token[]} tokens - The list of tokens on which apply the strategy.
-     * @returns {boolean|null} - Returns `true` if the current tokens must be evaluated.
-     * Otherwise, returns `null` if the strategy does not apply.
+     * @returns {boolean|null} - Returns `false` if the expression does not contain enough tokens.
+     * Otherwise, returns `null` if the next strategy could apply.
      */
-    function triggerEval(tokens = []) {
+    function expressionFilled(tokens = []) {
         if (tokens.length < 4) {
-            return null;
+            return false;
         }
 
-        const currentTokens = tokens.slice(0, -1);
+        return null;
+    },
+
+    /**
+     * Checks if the new term needs the expression to be evaluated before.
+     * @param {token[]} tokens - The list of tokens on which apply the strategy.
+     * @returns {boolean|null} - Returns `false` if the new term to does not require the expression to be evaluated.
+     * Otherwise, returns `null` if the next strategy could apply.
+     */
+    function addingOperator(tokens = []) {
         const [newToken] = tokens.slice(-1);
         const newTerm = tokensHelper.getTerm(newToken);
 
@@ -49,9 +58,20 @@ export const triggerStrategies = [
             newTerm.token === 'ASSIGN' ||
             (!isFunctionOperator(newTerm.token) && !tokensHelper.isBinaryOperator(newTerm))
         ) {
-            return null;
+            return false;
         }
 
+        return null;
+    },
+
+    /**
+     * Checks if the expression can be evaluated before adding the new term.
+     * @param {token[]} tokens - The list of tokens on which apply the strategy.
+     * @returns {boolean|null} - Returns `true` if the current expression can be evaluated.
+     * Otherwise, returns `false`.
+     */
+    function expressionComplete(tokens = []) {
+        const currentTokens = tokens.slice(0, -1);
         const operands = counterFactory();
         const operators = counterFactory();
         let parenthesis = 0;
@@ -79,7 +99,7 @@ export const triggerStrategies = [
             return true;
         }
 
-        return null;
+        return false;
     }
 ];
 

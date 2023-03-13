@@ -73,7 +73,7 @@ describe('triggerStrategies', () => {
             ['PI', false]
         ])('before adding the token "%s"', (token, trigger) => {
             const tokens = tokenizer.tokenize(expression);
-            const expected = (allowed && trigger) || null;
+            const expected = allowed && trigger;
 
             expect(applyContextStrategies([...tokens, terms[token]], triggerStrategies)).toStrictEqual(expected);
         });
