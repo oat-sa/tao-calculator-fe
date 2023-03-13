@@ -894,7 +894,6 @@ function engineFactory({
             }
 
             let tokensList, newTokensList, currentToken, index;
-            const addOperator = tokensHelper.isOperator(term);
             const getContext = () => {
                 tokensList = this.getTokens();
                 index = this.getTokenIndex();
@@ -913,19 +912,14 @@ function engineFactory({
             // - it is a 0, and the term to add is not an operator nor a dot
             // - it is the last result, and the term to add is not an operator
             if (
-                !addOperator &&
-                !isPrefixedTerm(term.value) &&
                 tokensList.length === 1 &&
+                !tokensHelper.isOperator(term) &&
+                !isPrefixedTerm(term.value) &&
                 ((tokensHelper.getToken(currentToken) === 'NUM0' && name !== 'DOT') ||
                     tokensHelper.getToken(currentToken) === 'VAR_ANS')
             ) {
                 this.replace(term.value);
             } else {
-                let previousToken = index > 0 && tokensList[index - 1];
-                let nextToken = currentToken;
-                let value = term.value;
-                let at = position;
-
                 // will replace the terms at the current position with respect to a list of strategies
                 // typically if:
                 // - the last term is an operator and the term to add is an operator
@@ -943,6 +937,11 @@ function engineFactory({
                     this.replace(lastResultVariable);
                     getContext();
                 }
+
+                let previousToken = index > 0 && tokensList[index - 1];
+                let nextToken = currentToken;
+                let value = term.value;
+                let at = position;
 
                 // we need a position at token boundaries, either on the start or on the end
                 if (currentToken && at > currentToken.offset) {
