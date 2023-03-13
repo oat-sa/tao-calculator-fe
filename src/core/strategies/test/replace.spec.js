@@ -32,215 +32,75 @@ describe('replaceStrategies', () => {
         });
     });
 
-    it.each([
-        ['', '', null],
-        ['ADD', '', null],
-        ['ADD', '1', null],
-        ['ADD', 'E', null],
-        ['ADD', 'sin', null],
+    describe.each([
+        '',
+        'NUM1',
+        'ADD',
+        'SUB',
+        'MUL',
+        'DIV',
+        'NTHRT',
+        'FAC',
+        'PERCENT',
+        'POW',
+        'MOD',
+        'ASSIGN',
+        'LPAR',
+        'RPAR'
+    ])('accepts adding the token "%s"', token => {
+        it.each(['', '1', 'E', 'sin', '3#', '3!', '3)', '3*('])('to "%s"', expression => {
+            const tokens = tokenizer.tokenize(expression);
+            expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toBeNull();
+        });
+    });
 
-        ['NUM1', '', null],
-        ['NUM1', '', null],
-        ['NUM1', '1', null],
-        ['NUM1', 'E', null],
-        ['NUM1', 'sin', null],
+    describe.each(['SUB'])('replaces the last operator when adding the token "%s"', token => {
+        it.each([
+            ['3+', 1],
+            ['3-', 1],
+            ['3*', 0],
+            ['3/', 0],
+            ['3^', 0],
+            ['3%', 0],
+            ['3=', 0],
+            ['3@nthrt', 0],
+            ['3++', 2],
+            ['3--', 2],
+            ['3**', 0],
+            ['3//', 0],
+            ['3^^', 0],
+            ['3%%', 0],
+            ['3==', 0]
+        ])('to "%s"', (expression, expected) => {
+            const tokens = tokenizer.tokenize(expression);
+            expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toStrictEqual(expected);
+        });
+    });
 
-        ['ADD', '3#', null],
-        ['ADD', '3!', null],
-        ['ADD', '3)', null],
-        ['ADD', '3*(', null],
-        ['ADD', '3+', 1],
-        ['ADD', '3-', 1],
-        ['ADD', '3*', 1],
-        ['ADD', '3/', 1],
-        ['ADD', '3^', 1],
-        ['ADD', '3%', 1],
-        ['ADD', '3=', 1],
-        ['ADD', '3++', 2],
-        ['ADD', '3--', 2],
-        ['ADD', '3**', 2],
-        ['ADD', '3//', 2],
-        ['ADD', '3^^', 2],
-        ['ADD', '3%%', 2],
-        ['ADD', '3==', 2],
+    describe.each(['ADD', 'MUL', 'DIV', 'NTHRT', 'FAC', 'PERCENT', 'POW', 'MOD', 'ASSIGN'])(
+        'replaces the last operator when adding the token "%s"',
+        token => {
+            it.each(['3+', '3-', '3*', '3/', '3^', '3%', '3=', '3@nthrt'])('to "%s"', expression => {
+                const tokens = tokenizer.tokenize(expression);
+                expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toStrictEqual(1);
+            });
+        }
+    );
 
-        ['SUB', '3#', null],
-        ['SUB', '3!', null],
-        ['SUB', '3)', null],
-        ['SUB', '3*(', null],
-        ['SUB', '3+', 1],
-        ['SUB', '3-', 1],
-        ['SUB', '3*', 0],
-        ['SUB', '3/', 0],
-        ['SUB', '3^', 0],
-        ['SUB', '3%', 0],
-        ['SUB', '3=', 0],
-        ['SUB', '3++', 2],
-        ['SUB', '3--', 2],
-        ['SUB', '3**', 0],
-        ['SUB', '3//', 0],
-        ['SUB', '3^^', 0],
-        ['SUB', '3%%', 0],
-        ['SUB', '3==', 0],
+    describe.each(['ADD', 'MUL', 'DIV', 'NTHRT', 'FAC', 'PERCENT', 'POW', 'MOD', 'ASSIGN'])(
+        'replaces the last operators when adding the token "%s"',
+        token => {
+            it.each(['3++', '3--', '3**', '3//', '3^^', '3%%', '3==', '3@nthrt@nthrt'])('to "%s"', expression => {
+                const tokens = tokenizer.tokenize(expression);
+                expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toStrictEqual(2);
+            });
+        }
+    );
 
-        ['MUL', '3#', null],
-        ['MUL', '3!', null],
-        ['MUL', '3)', null],
-        ['MUL', '3*(', null],
-        ['MUL', '3+', 1],
-        ['MUL', '3-', 1],
-        ['MUL', '3*', 1],
-        ['MUL', '3/', 1],
-        ['MUL', '3^', 1],
-        ['MUL', '3%', 1],
-        ['MUL', '3=', 1],
-        ['MUL', '3++', 2],
-        ['MUL', '3--', 2],
-        ['MUL', '3**', 2],
-        ['MUL', '3//', 2],
-        ['MUL', '3^^', 2],
-        ['MUL', '3%%', 2],
-        ['MUL', '3==', 2],
-
-        ['DIV', '3#', null],
-        ['DIV', '3!', null],
-        ['DIV', '3)', null],
-        ['DIV', '3*(', null],
-        ['DIV', '3+', 1],
-        ['DIV', '3-', 1],
-        ['DIV', '3*', 1],
-        ['DIV', '3/', 1],
-        ['DIV', '3^', 1],
-        ['DIV', '3%', 1],
-        ['DIV', '3=', 1],
-        ['DIV', '3++', 2],
-        ['DIV', '3--', 2],
-        ['DIV', '3**', 2],
-        ['DIV', '3//', 2],
-        ['DIV', '3^^', 2],
-        ['DIV', '3%%', 2],
-        ['DIV', '3==', 2],
-
-        ['FAC', '3#', null],
-        ['FAC', '3!', null],
-        ['FAC', '3)', null],
-        ['FAC', '3*(', null],
-        ['FAC', '3+', 1],
-        ['FAC', '3-', 1],
-        ['FAC', '3*', 1],
-        ['FAC', '3/', 1],
-        ['FAC', '3^', 1],
-        ['FAC', '3%', 1],
-        ['FAC', '3=', 1],
-        ['FAC', '3++', 2],
-        ['FAC', '3--', 2],
-        ['FAC', '3**', 2],
-        ['FAC', '3//', 2],
-        ['FAC', '3^^', 2],
-        ['FAC', '3%%', 2],
-        ['FAC', '3==', 2],
-
-        ['PERCENT', '3#', null],
-        ['PERCENT', '3!', null],
-        ['PERCENT', '3)', null],
-        ['PERCENT', '3*(', null],
-        ['PERCENT', '3+', 1],
-        ['PERCENT', '3-', 1],
-        ['PERCENT', '3*', 1],
-        ['PERCENT', '3/', 1],
-        ['PERCENT', '3^', 1],
-        ['PERCENT', '3%', 1],
-        ['PERCENT', '3=', 1],
-        ['PERCENT', '3++', 2],
-        ['PERCENT', '3--', 2],
-        ['PERCENT', '3**', 2],
-        ['PERCENT', '3//', 2],
-        ['PERCENT', '3^^', 2],
-        ['PERCENT', '3%%', 2],
-        ['PERCENT', '3==', 2],
-
-        ['POW', '3#', null],
-        ['POW', '3!', null],
-        ['POW', '3)', null],
-        ['POW', '3*(', null],
-        ['POW', '3+', 1],
-        ['POW', '3-', 1],
-        ['POW', '3*', 1],
-        ['POW', '3/', 1],
-        ['POW', '3^', 1],
-        ['POW', '3%', 1],
-        ['POW', '3=', 1],
-        ['POW', '3++', 2],
-        ['POW', '3--', 2],
-        ['POW', '3**', 2],
-        ['POW', '3//', 2],
-        ['POW', '3^^', 2],
-        ['POW', '3%%', 2],
-        ['POW', '3==', 2],
-
-        ['MOD', '3#', null],
-        ['MOD', '3!', null],
-        ['MOD', '3)', null],
-        ['MOD', '3*(', null],
-        ['MOD', '3+', 1],
-        ['MOD', '3-', 1],
-        ['MOD', '3*', 1],
-        ['MOD', '3/', 1],
-        ['MOD', '3^', 1],
-        ['MOD', '3%', 1],
-        ['MOD', '3=', 1],
-        ['MOD', '3++', 2],
-        ['MOD', '3--', 2],
-        ['MOD', '3**', 2],
-        ['MOD', '3//', 2],
-        ['MOD', '3^^', 2],
-        ['MOD', '3%%', 2],
-        ['MOD', '3==', 2],
-
-        ['ASSIGN', '3#', null],
-        ['ASSIGN', '3!', null],
-        ['ASSIGN', '3)', null],
-        ['ASSIGN', '3*(', null],
-        ['ASSIGN', '3+', 1],
-        ['ASSIGN', '3-', 1],
-        ['ASSIGN', '3*', 1],
-        ['ASSIGN', '3/', 1],
-        ['ASSIGN', '3^', 1],
-        ['ASSIGN', '3%', 1],
-        ['ASSIGN', '3=', 1],
-        ['ASSIGN', '3++', 2],
-        ['ASSIGN', '3--', 2],
-        ['ASSIGN', '3**', 2],
-        ['ASSIGN', '3//', 2],
-        ['ASSIGN', '3^^', 2],
-        ['ASSIGN', '3%%', 2],
-        ['ASSIGN', '3==', 2],
-
-        ['LPAR', '3#', null],
-        ['LPAR', '3!', null],
-        ['LPAR', '3)', null],
-        ['LPAR', '3*(', null],
-        ['LPAR', '3+', null],
-        ['LPAR', '3-', null],
-        ['LPAR', '3*', null],
-        ['LPAR', '3/', null],
-        ['LPAR', '3^', null],
-        ['LPAR', '3%', null],
-        ['LPAR', '3=', null],
-
-        ['RPAR', '3#', null],
-        ['RPAR', '3!', null],
-        ['RPAR', '3)', null],
-        ['RPAR', '3*(', null],
-        ['RPAR', '3+', null],
-        ['RPAR', '3-', null],
-        ['RPAR', '3*', null],
-        ['RPAR', '3/', null],
-        ['RPAR', '3^', null],
-        ['RPAR', '3%', null],
-        ['RPAR', '3=', null]
-    ])('detects if the new term "%s" must replace the last tokens in "%s"', (token, expression, expected) => {
-        const tokens = tokenizer.tokenize(expression);
-        expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toStrictEqual(expected);
+    describe.each(['LPAR', 'RPAR'])('accepts adding the token "%s"', token => {
+        it.each(['3+', '3-', '3*', '3/', '3^', '3%', '3=', '3@nthrt'])('to "%s"', expression => {
+            const tokens = tokenizer.tokenize(expression);
+            expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toBeNull();
+        });
     });
 });

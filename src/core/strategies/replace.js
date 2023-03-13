@@ -16,8 +16,18 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
-import { isSignOperator } from '../terms.js';
+import { isFunctionOperator, isSignOperator } from '../terms.js';
 import tokensHelper from '../tokens.js';
+
+/**
+ * Checks if a term is a binary operator.
+ * @param {token} token - The term to check.
+ * @returns {boolean} - Returns `true` if the term is an operator.
+ */
+const isOperator = token => {
+    const term = token && tokensHelper.getTerm(token);
+    return term && (tokensHelper.isBinaryOperator(term) || isFunctionOperator(term.token));
+};
 
 /**
  * List of known strategies to apply to the current tokens when adding a new term.
@@ -38,11 +48,10 @@ export const replaceStrategies = [
         const currentTokens = tokens.slice(0, -1).reverse();
         const [newToken] = tokens.slice(-1);
         const newTerm = tokensHelper.getTerm(newToken);
-        let currentTerm = tokensHelper.getTerm(currentTokens[0]);
-        const addOperator = newTerm && tokensHelper.isOperator(newTerm);
-        const isOperator = () => currentTerm && tokensHelper.isBinaryOperator(currentTerm);
+        const currentTerm = tokensHelper.getTerm(currentTokens[0]);
+        const addOperator = newTerm && (tokensHelper.isOperator(newTerm) || isFunctionOperator(newTerm.token));
 
-        if (addOperator && isOperator()) {
+        if (addOperator && isOperator(currentTokens[0])) {
             if ((newTerm.token === 'SUB' || newTerm.token === 'NEG') && !isSignOperator(currentTerm.token)) {
                 return 0;
             }
@@ -51,8 +60,7 @@ export const replaceStrategies = [
             let len = currentTokens.length;
             let checkNext = true;
             for (let i = 1; checkNext && i < len; i++) {
-                currentTerm = tokensHelper.getTerm(currentTokens[i]);
-                checkNext = isOperator();
+                checkNext = isOperator(currentTokens[i]);
 
                 if (checkNext) {
                     replace++;
