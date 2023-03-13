@@ -1173,7 +1173,7 @@ describe('engine', () => {
             ['SQRT', ')', ['sqrt)', ')*sqrt']],
             ['SQRT', '1+2', ['sqrt 1+2', '1*sqrt+2', '1+sqrt 2', '1+2*sqrt']],
             ['SQRT', 'exp', ['sqrt exp', 'exp sqrt', 'exp sqrt', 'exp sqrt']],
-            ['@NTHRT', '1+2', ['@nthrt 1+2', '1@nthrt+2', '1+@nthrt 2', '1+2@nthrt']],
+            ['@NTHRT', '1+2', ['@nthrt 1+2', '1@nthrt 2', '1+@nthrt 2', '1+2@nthrt']],
 
             ['NUM1', '(', ['1*(', '(1']],
             ['NUM1', ')', ['1)', ')*1']],
