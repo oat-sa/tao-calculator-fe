@@ -21,8 +21,13 @@ import tokensHelper from './tokens.js';
 import expressionHelper, { defaultDecimalDigits } from './expression.js';
 import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
-import { applyValueStrategies, prefixStrategies, suffixStrategies } from './strategies/value.js';
-import { applyTokenStrategies, signStrategies } from './strategies/token.js';
+import {
+    applyTokenStrategies,
+    applyValueStrategies,
+    prefixStrategies,
+    signStrategies,
+    suffixStrategies
+} from './strategies';
 
 /**
  * Name of the variable that contains the last result
@@ -822,7 +827,7 @@ function engineFactory({
         /**
          * Inserts a term in the expression at the current position
          * @param {string} name - The name of the term to insert
-         * @param {object} term - The definition of the term to insert
+         * @param {term} term - The definition of the term to insert
          * @returns {calculator}
          * @fires error if the term to add is invalid
          * @fires term when the term has been added
@@ -835,12 +840,16 @@ function engineFactory({
             const tokensList = this.getTokens();
             const index = this.getTokenIndex();
             const currentToken = tokensList[index];
+            const lastTerm = currentToken && terms[currentToken.type];
+            const endWithOperator = lastTerm && tokensHelper.isOperator(lastTerm.type);
+            const endWithUnary = endWithOperator && tokensHelper.isUnaryOperator(lastTerm.type);
+            const addOperator = tokensHelper.isOperator(term.type);
 
             // will replace the current term if:
             // - it is a 0, and the term to add is not an operator nor a dot
             // - it is the last result, and the term to add is not an operator
             if (
-                !tokensHelper.isOperator(term.type) &&
+                !addOperator &&
                 !isFunctionOperator(term.value) &&
                 tokensList.length === 1 &&
                 ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')
@@ -851,6 +860,10 @@ function engineFactory({
                 let nextToken = currentToken;
                 let value = term.value;
                 let at = position;
+
+                if (endWithOperator && addOperator && !endWithUnary) {
+                    this.deleteToken(currentToken);
+                }
 
                 // we need a position at token boundaries, either on the start or on the end
                 if (currentToken && at > currentToken.offset) {
@@ -1206,7 +1219,7 @@ export default engineFactory;
  * Notifies a term has been added to the expression.
  * @event term
  * @param {string} name - The name of the added term
- * @param {object} term - The descriptor of the added term
+ * @param {term} term - The descriptor of the added term
  */
 
 /**
@@ -1261,4 +1274,20 @@ export default engineFactory;
  * Notifies an error occurred.
  * @event error
  * @param {Error} err - The error object.
+ */
+
+/**
+ * @typedef {import('./terms.js').term} term
+ */
+
+/**
+ * @typedef {import('./tokenizer.js').token} token
+ */
+
+/**
+ * @typedef {import('./mathsEvaluator.js').mathsExpression} mathsExpression
+ */
+
+/**
+ * @typedef {import('./expression.js').renderTerm} renderTerm
  */

@@ -155,7 +155,7 @@ exports[`terms defines terms 1`] = `
   "FAC": {
     "exponent": false,
     "label": "!",
-    "type": "operator",
+    "type": "unary",
     "value": "!",
   },
   "FLOOR": {
@@ -299,7 +299,7 @@ exports[`terms defines terms 1`] = `
   "PERCENT": {
     "exponent": false,
     "label": "%",
-    "type": "operator",
+    "type": "unary",
     "value": "#",
   },
   "PI": {
@@ -400,6 +400,7 @@ exports[`types defines types 1`] = `
   "operator": "operator",
   "separator": "separator",
   "term": "term",
+  "unary": "unary",
   "unknown": "unknown",
   "variable": "variable",
 }
