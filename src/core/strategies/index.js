@@ -17,6 +17,7 @@
  */
 
 /* c8 ignore start */
+export * from './correct.js';
 export * from './helpers.js';
 export * from './limit.js';
 export * from './prefix.js';
