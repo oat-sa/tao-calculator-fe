@@ -16,7 +16,12 @@
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA ;
  */
 
-import { applyContextStrategies, applyChangeStrategies, applyValueStrategies } from '../helpers.js';
+import {
+    applyContextStrategies,
+    applyChangeStrategies,
+    applyValueStrategies,
+    applyListStrategies
+} from '../helpers.js';
 
 describe('applyChangeStrategies', () => {
     it('is a helper', () => {
@@ -121,5 +126,39 @@ describe('applyContextStrategies', () => {
         expect(strategy1).toHaveBeenCalledTimes(1);
         expect(strategy2).toHaveBeenCalledTimes(1);
         expect(strategy3).toHaveBeenCalledTimes(0);
+    });
+});
+
+describe('applyListStrategies', () => {
+    it('is a helper', () => {
+        expect(applyListStrategies).toEqual(expect.any(Function));
+    });
+
+    it('apply all strategies', () => {
+        const tokens = [1, 2, 3];
+        const strategy1 = jest.fn().mockImplementation(t => t);
+        const strategy2 = jest.fn().mockImplementation(t => t);
+        const strategies = [strategy1, strategy2];
+
+        expect(applyListStrategies(tokens, strategies)).toBe(tokens);
+        expect(strategy1).toHaveBeenCalledTimes(1);
+        expect(strategy2).toHaveBeenCalledTimes(1);
+    });
+
+    it('each strategy receives the result of the previous', () => {
+        const strategy1 = jest.fn().mockImplementation(() => [1]);
+        const strategy2 = jest.fn().mockImplementation(() => [2]);
+        const strategy3 = jest.fn().mockImplementation(() => [3]);
+        const strategies = [strategy1, strategy2, strategy3];
+
+        expect(applyListStrategies([0], strategies)).toStrictEqual([3]);
+        expect(strategy1).toHaveBeenCalledTimes(1);
+        expect(strategy1.mock.calls[0][0]).toStrictEqual([0]);
+
+        expect(strategy2).toHaveBeenCalledTimes(1);
+        expect(strategy2.mock.calls[0][0]).toStrictEqual([1]);
+
+        expect(strategy3).toHaveBeenCalledTimes(1);
+        expect(strategy3.mock.calls[0][0]).toStrictEqual([2]);
     });
 });
