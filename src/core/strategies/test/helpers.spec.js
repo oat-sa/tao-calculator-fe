@@ -16,11 +16,11 @@
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA ;
  */
 
-import { applyContextStrategies, applyTokenStrategies, applyValueStrategies } from '../helpers.js';
+import { applyContextStrategies, applyChangeStrategies, applyValueStrategies } from '../helpers.js';
 
-describe('applyTokenStrategies', () => {
+describe('applyChangeStrategies', () => {
     it('is a helper', () => {
-        expect(applyTokenStrategies).toEqual(expect.any(Function));
+        expect(applyChangeStrategies).toEqual(expect.any(Function));
     });
 
     it('apply all strategies', () => {
@@ -28,7 +28,7 @@ describe('applyTokenStrategies', () => {
         const strategy2 = jest.fn().mockImplementation(() => null);
         const strategies = [strategy1, strategy2];
 
-        expect(applyTokenStrategies(null, null, strategies)).toBeNull();
+        expect(applyChangeStrategies(null, null, strategies)).toBeNull();
         expect(strategy1).toHaveBeenCalledTimes(1);
         expect(strategy2).toHaveBeenCalledTimes(1);
     });
@@ -40,7 +40,7 @@ describe('applyTokenStrategies', () => {
         const strategy3 = jest.fn().mockImplementation(() => null);
         const strategies = [strategy1, strategy2, strategy3];
 
-        expect(applyTokenStrategies(null, null, strategies)).toBe(result);
+        expect(applyChangeStrategies(null, null, strategies)).toBe(result);
         expect(strategy1).toHaveBeenCalledTimes(1);
         expect(strategy2).toHaveBeenCalledTimes(1);
         expect(strategy3).toHaveBeenCalledTimes(0);

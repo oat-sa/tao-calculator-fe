@@ -17,7 +17,7 @@
  */
 
 import tokenizerFactory from '../../tokenizer.js';
-import { applyTokenStrategies } from '../helpers.js';
+import { applyChangeStrategies } from '../helpers.js';
 import { signStrategies } from '../sign.js';
 
 const tokenizer = tokenizerFactory();
@@ -63,6 +63,6 @@ describe('signStrategies', () => {
         ['-(PI*(3-2))', 9, { length: 1, move: -1, offset: 0, value: '' }]
     ])('changes the sign in "%s" at index "%s"', (expression, index, expected) => {
         const tokens = tokenizer.tokenize(expression);
-        expect(applyTokenStrategies(index, tokens, signStrategies)).toStrictEqual(expected);
+        expect(applyChangeStrategies(index, tokens, signStrategies)).toStrictEqual(expected);
     });
 });
