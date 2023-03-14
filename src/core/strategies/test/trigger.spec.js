@@ -44,6 +44,8 @@ describe('triggerStrategies', () => {
         ['(12+3*(98-43)+5!', false],
         ['(12+3*(98-43)+5!)', true],
         ['1324+cos PI', true],
+        ['1324+cos', false],
+        ['1324+cos-', false],
         ['4 @nthrt', false],
         ['4 @nthrt 189', true],
         ['50#', false],

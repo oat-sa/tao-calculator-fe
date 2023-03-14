@@ -66,12 +66,16 @@ export const limitStrategies = [
             return true;
         }
 
-        // ex: '-*', '+^'
-        if (tokens.length === 2 && isSign(tokens[0]) && cannotStart(tokens[1])) {
+        // ex: '-*', '+^', 'tan/'
+        if (
+            tokens.length === 2 &&
+            (isSign(tokens[0]) || tokensHelper.isFunction(tokens[0])) &&
+            cannotStart(tokens[1])
+        ) {
             return true;
         }
 
-        // ex: '4*(*',  '4*(-/'
+        // ex: '4*(*',  '4*(-/', 'cos-*'
         if (tokens.length >= 2) {
             const [previousToken] = tokens.slice(-3, -2);
             const [currentToken] = tokens.slice(-2, -1);
@@ -79,7 +83,9 @@ export const limitStrategies = [
             if (
                 cannotStart(newToken) &&
                 (tokensHelper.getToken(currentToken) === 'LPAR' ||
-                    (tokensHelper.getToken(previousToken) === 'LPAR' && isSign(currentToken)))
+                    tokensHelper.isFunction(currentToken) ||
+                    (tokensHelper.getToken(previousToken) === 'LPAR' && isSign(currentToken)) ||
+                    (tokensHelper.isFunction(previousToken) && tokensHelper.isOperator(currentToken)))
             ) {
                 return true;
             }

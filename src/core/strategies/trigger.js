@@ -65,6 +65,23 @@ export const triggerStrategies = [
     },
 
     /**
+     * Checks if the current term is a function.
+     * In this case, the next term must be an operand, and it cannot trigger the evaluation.
+     * @param {token[]} tokens - The list of tokens on which apply the strategy.
+     * @returns {boolean|null} - Returns `false` if the current term is a function.
+     * Otherwise, returns `null` if the next strategy could apply.
+     */
+    function orphanFunction(tokens = []) {
+        const [currentToken] = tokens.slice(-2, -1);
+
+        if (tokensHelper.isFunction(currentToken)) {
+            return false;
+        }
+
+        return null;
+    },
+
+    /**
      * Checks if the expression can be evaluated before adding the new term.
      * @param {token[]} tokens - The list of tokens on which apply the strategy.
      * @returns {boolean|null} - Returns `true` if the current expression can be evaluated.
