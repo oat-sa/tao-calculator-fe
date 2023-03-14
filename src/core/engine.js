@@ -27,7 +27,9 @@ import {
     replaceStrategies,
     signStrategies,
     suffixStrategies,
-    triggerStrategies
+    triggerStrategies,
+    applyListStrategies,
+    correctStrategies
 } from './strategies';
 import { isPrefixedTerm, terms } from './terms.js';
 import tokenizerFactory from './tokenizer.js';
@@ -1164,6 +1166,24 @@ function engineFactory({
         },
 
         /**
+         * Corrects the expression if needed.
+         * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires correct after the expression has been corrected
+         */
+        correct() {
+            const tokensList = this.getTokens();
+            const correctedTokens = applyListStrategies(tokensList, correctStrategies);
+            this.replace(expressionHelper.build(correctedTokens));
+
+            this.trigger('correct');
+
+            return this;
+        },
+
+        /**
          * Evaluates the current expression
          * @returns {mathsExpression|null}
          * @fires evaluate when the expression has been evaluated
@@ -1351,6 +1371,11 @@ export default engineFactory;
 /**
  * Notifies the calculator has been reset.
  * @event reset
+ */
+
+/**
+ * Notifies the expression has been corrected.
+ * @event correct
  */
 
 /**

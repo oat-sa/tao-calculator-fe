@@ -1336,6 +1336,40 @@ describe('engine', () => {
         });
     });
 
+    describe('corrects the expression', () => {
+        it('from an empty expression', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.correct()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual('');
+        });
+
+        it('from a simple expression', () => {
+            const expression = '.1 + .2';
+            const calculator = engineFactory({ expression });
+
+            expect(calculator.correct()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual(expression);
+        });
+
+        it('from a wrong expression', () => {
+            const calculator = engineFactory({ expression: '3*(4+5*(sin+' });
+
+            expect(calculator.correct()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual('3*(4+5)');
+        });
+
+        it('emits a correct event', () => {
+            const calculator = engineFactory({ expression: '.1 + .2' });
+            const eventListener = jest.fn();
+
+            calculator.on('correct', eventListener);
+            calculator.correct();
+
+            expect(eventListener).toHaveBeenCalledTimes(1);
+        });
+    });
+
     describe('evaluates the expression', () => {
         it('from an empty expression', () => {
             const calculator = engineFactory();
