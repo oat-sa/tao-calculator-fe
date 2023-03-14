@@ -21,7 +21,7 @@ import tokensHelper from './tokens.js';
 import tokenizerFactory from './tokenizer.js';
 
 /**
- * @typedef {Object} renderTerm - Represents a renderable tokenizable term
+ * @typedef {object} renderTerm - Represents a renderable tokenizable term
  * @property {string} label - The displayable text
  * @property {string} value - The related text that should be found in the expression
  * @property {string} type - The type of token
