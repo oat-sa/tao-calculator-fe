@@ -54,7 +54,7 @@ export function applyContextStrategies(tokens, strategies) {
  * @param {tokenStrategy[]} strategies - The list of strategies to apply.
  * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change.
  */
-export function applyTokenStrategies(index, tokens, strategies) {
+export function applyChangeStrategies(index, tokens, strategies) {
     return applyStrategies([index, tokens], strategies);
 }
 
@@ -114,7 +114,7 @@ export function applyValueStrategies(value, previous, next, strategies) {
 
 /**
  * @typedef {object} tokenChange
- * @property {string} value - The token to insert/
+ * @property {string} value - The token to insert.
  * @property {number} offset - The offset where insert the token.
  * @property {number} length - The length of text to replace.
  * @property {number} move - The move to apply from the current position.

@@ -18,7 +18,7 @@
 
 import { terms } from '../terms.js';
 import tokensHelper from '../tokens.js';
-import { applyTokenStrategies } from './helpers.js';
+import { applyChangeStrategies } from './helpers.js';
 
 /**
  * List of tokens that refuse explicit positive sign
@@ -176,7 +176,7 @@ export const signStrategies = [
                 result = replaceByNegativeSign(token);
             } else if (token.type === 'FAC' && index > 0) {
                 // the operator is !, need to identify the operand
-                result = applyTokenStrategies(index - 1, tokens, signStrategies);
+                result = applyChangeStrategies(index - 1, tokens, signStrategies);
             }
         }
 

@@ -20,7 +20,7 @@ import expressionHelper, { defaultDecimalDigits } from './expression.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import {
     applyContextStrategies,
-    applyTokenStrategies,
+    applyChangeStrategies,
     applyValueStrategies,
     limitStrategies,
     prefixStrategies,
@@ -540,7 +540,7 @@ function engineFactory({
             const index = this.getTokenIndex();
 
             if (expression.trim() !== '0') {
-                const result = applyTokenStrategies(index, tokensList, signStrategies);
+                const result = applyChangeStrategies(index, tokensList, signStrategies);
                 if (result) {
                     const { value, offset, length, move } = result;
                     expression = expression.substring(0, offset) + value + expression.substring(offset + length);
