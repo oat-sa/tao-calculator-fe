@@ -1449,6 +1449,17 @@ describe('engine', () => {
             expect(action).toHaveBeenCalledTimes(1);
             expect(action.mock.calls[0][0].toString()).toStrictEqual('Error: unexpected TEOF: EOF');
         });
+
+        it('emits a syntaxerror event if the single term is not a value', () => {
+            const calculator = engineFactory({ expression: 'cos' });
+            const action = jest.fn();
+
+            calculator.on('syntaxerror', action);
+            calculator.evaluate();
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0].toString()).toStrictEqual('Error: Invalid expression');
+        });
     });
 
     describe('has state', () => {

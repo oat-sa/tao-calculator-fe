@@ -1195,6 +1195,12 @@ function engineFactory({
             state.changed = false;
 
             try {
+                // single term expression must be a value
+                const tokensList = this.getTokens();
+                if (tokensList.length === 1 && !tokensHelper.isValue(tokensList[0])) {
+                    throw new Error('Invalid expression');
+                }
+
                 if (expression.trim()) {
                     const vars = this.getAllVariableValues();
                     result = mathsEvaluator(expression, vars);
