@@ -81,6 +81,19 @@ export function applyValueStrategies(value, previous, next, strategies) {
 }
 
 /**
+ * Modifies a list of tokens with respect to a list of strategies.
+ * @param {token[]} tokens - The list of tokens on which apply the strategies.
+ * @param {listStrategy[]} strategies - The list of strategies to apply.
+ * @returns {token[]} - Returns the list of tokens, modified or not by the strategies.
+ */
+export function applyListStrategies(tokens, strategies) {
+    strategies.forEach(strategy => {
+        tokens = strategy(tokens);
+    });
+    return tokens;
+}
+
+/**
  * @callback tokenPredicate
  * @param {string} previous - The previous token.
  * @param {string} next - The next token.
@@ -110,6 +123,12 @@ export function applyValueStrategies(value, previous, next, strategies) {
  * @typedef {object} valueStrategy
  * @property {tokenPredicate} predicate
  * @property {valueModifier} action
+ */
+
+/**
+ * @callback listStrategy
+ * @param {token[]} tokens - The list of tokens on which apply the strategy.
+ * @returns {token[]} - The list of tokens, modified or not.
  */
 
 /**
