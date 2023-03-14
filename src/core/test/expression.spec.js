@@ -18,7 +18,9 @@
 
 import expressionHelper from '../expression.js';
 import mathsEvaluatorFactory from '../mathsEvaluator.js';
+import tokenizerFactory from '../tokenizer.js';
 
+const tokenizer = tokenizerFactory();
 const mathsEvaluator = mathsEvaluatorFactory();
 const mathsResults = {
     '3*4': mathsEvaluator('3*4'),
@@ -208,6 +210,24 @@ describe('expression', () => {
             ]
         ])('round the last result variable in "%s"', (title, data) => {
             expect(expressionHelper.roundAllVariables(data.variables, data.decimalDigits)).toEqual(data.expected);
+        });
+    });
+
+    describe('build', () => {
+        it('is function', () => {
+            expect(expressionHelper.build).toEqual(expect.any(Function));
+        });
+
+        it.each([
+            '',
+            '3*4+2',
+            'cos PI',
+            'exp x*log y*4',
+            '3*(4-2) + 3 @nthrt 27 * 18/4',
+            '3*(4-2)+3^5*tan(x/12)+cos 3*PI'
+        ])('builds the expression %s', expression => {
+            const tokensList = tokenizer.tokenize(expression);
+            expect(expressionHelper.build(tokensList)).toStrictEqual(expression);
         });
     });
 

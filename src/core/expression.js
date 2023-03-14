@@ -161,6 +161,23 @@ const expressionHelper = {
     },
 
     /**
+     * Builds an expression from a list of tokens.
+     * @param {token[]} tokens - The list of tokens from which build the expression.
+     * @returns {string} - The expression built from the list of tokens.
+     */
+    build(tokens) {
+        return tokens.reduce((expression, token) => {
+            while (expression.length < token.offset) {
+                expression = `${expression} `;
+            }
+
+            expression = `${expression}${token.value}`;
+
+            return expression;
+        }, '');
+    },
+
+    /**
      * Replace sign operators by a proper symbol
      * @param {string|number|object} expression
      * @returns {string}
