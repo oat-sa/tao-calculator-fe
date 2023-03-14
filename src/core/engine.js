@@ -885,6 +885,10 @@ function engineFactory({
          * @param {term} term - The definition of the term to insert
          * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when the term has been added
          */
         addTerm(name, term) {
@@ -981,6 +985,10 @@ function engineFactory({
          * @param {string} name - The name of the term to insert
          * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when the term has been added
          */
         insertTerm(name) {
@@ -1010,6 +1018,10 @@ function engineFactory({
          *                                  Could be either an array of names or a list separated by spaces.
          * @returns {boolean} - Returns `true` once the terms have been added. Returns `false` if a term cannot be added.
          * @fires error if a term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when a term has been added
          */
         insertTermList(names) {
@@ -1025,6 +1037,10 @@ function engineFactory({
          * @param {string} name - The name of the variable to insert
          * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when the term has been added
          */
         insertVariable(name) {
@@ -1072,6 +1088,8 @@ function engineFactory({
          * @param {string} newExpression - The new expression to set
          * @param {number|string} [newPosition=newExpression.length] - The new position to set
          * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
          * @fires replace after the expression has been replaced
          */
         replace(newExpression, newPosition) {
@@ -1092,6 +1110,8 @@ function engineFactory({
          * @param {string} subExpression - The sub-expression to insert
          * @param {number} [at=position] - The new position to set
          * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
          * @fires insert after the expression has been inserted
          */
         insert(subExpression, at) {
@@ -1113,6 +1133,8 @@ function engineFactory({
         /**
          * Clears the expression
          * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
          * @fires clear after the expression has been cleared
          */
         clear() {
@@ -1126,6 +1148,10 @@ function engineFactory({
         /**
          * Resets the calculator
          * @returns {calculator}
+         * @fires variableclear after the variables have been deleted
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires clear after the expression has been cleared
          * @fires reset after the calculator has been reset
          */
         reset() {
