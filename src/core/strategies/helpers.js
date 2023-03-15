@@ -54,7 +54,7 @@ export function applyContextStrategies(tokens, strategies) {
  * @param {tokenStrategy[]} strategies - The list of strategies to apply.
  * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change.
  */
-export function applyTokenStrategies(index, tokens, strategies) {
+export function applyChangeStrategies(index, tokens, strategies) {
     return applyStrategies([index, tokens], strategies);
 }
 
@@ -78,6 +78,19 @@ export function applyValueStrategies(value, previous, next, strategies) {
     });
 
     return result;
+}
+
+/**
+ * Modifies a list of tokens with respect to a list of strategies.
+ * @param {token[]} tokens - The list of tokens on which apply the strategies.
+ * @param {listStrategy[]} strategies - The list of strategies to apply.
+ * @returns {token[]} - Returns the list of tokens, modified or not by the strategies.
+ */
+export function applyListStrategies(tokens, strategies) {
+    strategies.forEach(strategy => {
+        tokens = strategy(tokens);
+    });
+    return tokens;
 }
 
 /**
@@ -113,8 +126,14 @@ export function applyValueStrategies(value, previous, next, strategies) {
  */
 
 /**
+ * @callback listStrategy
+ * @param {token[]} tokens - The list of tokens on which apply the strategy.
+ * @returns {token[]} - The list of tokens, modified or not.
+ */
+
+/**
  * @typedef {object} tokenChange
- * @property {string} value - The token to insert/
+ * @property {string} value - The token to insert.
  * @property {number} offset - The offset where insert the token.
  * @property {number} length - The length of text to replace.
  * @property {number} move - The move to apply from the current position.

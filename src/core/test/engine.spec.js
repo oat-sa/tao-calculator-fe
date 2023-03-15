@@ -239,11 +239,25 @@ describe('engine', () => {
             calculator.insertTerm('NUM7');
             expect(calculator.getExpression()).toStrictEqual('ans+7');
 
-            expect(action).toHaveBeenCalledTimes(2);
+            calculator.evaluate();
+            expect(calculator.getExpression()).toStrictEqual('ans+7');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('ADD');
+            expect(calculator.getExpression()).toStrictEqual('ans+');
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('ans+3');
+
+            calculator.insertTerm('POW');
+            expect(calculator.getExpression()).toStrictEqual('ans^');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            expect(action).toHaveBeenCalledTimes(4);
             expect(action.mock.calls[0][0]).toMatchSnapshot();
             expect(action.mock.calls[1][0]).toMatchSnapshot();
-
-            expect(calculator.evaluate()).toMatchSnapshot();
+            expect(action.mock.calls[2][0]).toMatchSnapshot();
+            expect(action.mock.calls[3][0]).toMatchSnapshot();
         });
 
         it('take care of parenthesis when the instant mode is activated', () => {
@@ -291,6 +305,72 @@ describe('engine', () => {
             expect(action.mock.calls[0][0]).toMatchSnapshot();
 
             expect(calculator.evaluate()).toMatchSnapshot();
+        });
+    });
+
+    describe('manages the corrector mode', () => {
+        it('is disabled by default', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isCorrectorMode()).toBeFalsy();
+        });
+
+        it('change the corrector mode', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isCorrectorMode()).toBeFalsy();
+
+            expect(calculator.setCorrectorMode(true)).toBe(calculator);
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+        });
+
+        it('set the corrector mode', () => {
+            const calculator = engineFactory({ corrector: true });
+
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+
+            expect(calculator.setCorrectorMode(false)).toBe(calculator);
+            expect(calculator.isCorrectorMode()).toBeFalsy();
+        });
+
+        it('emits a configure event', () => {
+            const calculator = engineFactory();
+            const config = { corrector: true };
+            const action = jest.fn();
+
+            calculator.on('configure', action);
+            calculator.setCorrectorMode(true);
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(config);
+        });
+
+        it('can correct a wrong expression', () => {
+            const calculator = engineFactory({ corrector: true, expression: '3*(4+2+' });
+            const action = jest.fn();
+
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2+');
+            calculator.invoke('execute');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2)');
+            expect(action).toHaveBeenCalledTimes(1);
+        });
+
+        it('does not modify a correct expression', () => {
+            const calculator = engineFactory({ corrector: true, expression: '3*(4+2)' });
+            const action = jest.fn();
+
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2)');
+            calculator.invoke('execute');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2)');
+            expect(action).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -1336,6 +1416,46 @@ describe('engine', () => {
         });
     });
 
+    describe('corrects the expression', () => {
+        it('from an empty expression', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.correct()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual('');
+        });
+
+        it('from a valid expression', () => {
+            const expression = '.1 + .2 * (4 + 5)';
+            const calculator = engineFactory({ expression });
+            const replace = jest.fn();
+            calculator.on('replace', replace);
+
+            expect(calculator.correct()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual(expression);
+            expect(replace).toHaveBeenCalledTimes(0);
+        });
+
+        it('from a wrong expression', () => {
+            const calculator = engineFactory({ expression: '3*(4+5*(sin+' });
+            const replace = jest.fn();
+            calculator.on('replace', replace);
+
+            expect(calculator.correct()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual('3*(4+5)');
+            expect(replace).toHaveBeenCalledTimes(1);
+        });
+
+        it('emits a correct event', () => {
+            const calculator = engineFactory({ expression: '.1 + .2' });
+            const eventListener = jest.fn();
+
+            calculator.on('correct', eventListener);
+            calculator.correct();
+
+            expect(eventListener).toHaveBeenCalledTimes(1);
+        });
+    });
+
     describe('evaluates the expression', () => {
         it('from an empty expression', () => {
             const calculator = engineFactory();
@@ -1414,6 +1534,17 @@ describe('engine', () => {
 
             expect(action).toHaveBeenCalledTimes(1);
             expect(action.mock.calls[0][0].toString()).toStrictEqual('Error: unexpected TEOF: EOF');
+        });
+
+        it('emits a syntaxerror event if the single term is not a value', () => {
+            const calculator = engineFactory({ expression: 'cos' });
+            const action = jest.fn();
+
+            calculator.on('syntaxerror', action);
+            calculator.evaluate();
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0].toString()).toStrictEqual('Error: Invalid expression');
         });
     });
 

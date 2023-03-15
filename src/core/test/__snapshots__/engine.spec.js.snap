@@ -185,6 +185,30 @@ exports[`engine manages the computation mode can calculate as soon as an operati
 
 exports[`engine manages the computation mode can calculate as soon as an operation is complete 3`] = `
 {
+  "expression": "ans+7",
+  "result": "131",
+  "value": 131,
+  "variables": {
+    "ans": "124",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 4`] = `
+{
+  "expression": "ans+3",
+  "result": "134",
+  "value": 134,
+  "variables": {
+    "ans": "131",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 5`] = `
+{
   "expression": "3*42",
   "result": "126",
   "value": 126,
@@ -195,7 +219,7 @@ exports[`engine manages the computation mode can calculate as soon as an operati
 }
 `;
 
-exports[`engine manages the computation mode can calculate as soon as an operation is complete 4`] = `
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 6`] = `
 {
   "expression": "ans-2",
   "result": "124",
@@ -207,13 +231,25 @@ exports[`engine manages the computation mode can calculate as soon as an operati
 }
 `;
 
-exports[`engine manages the computation mode can calculate as soon as an operation is complete 5`] = `
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 7`] = `
 {
   "expression": "ans+7",
   "result": "131",
   "value": 131,
   "variables": {
     "ans": "124",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 8`] = `
+{
+  "expression": "ans+3",
+  "result": "134",
+  "value": 134,
+  "variables": {
+    "ans": "131",
     "mem": 0,
   },
 }
@@ -276,6 +312,30 @@ exports[`engine manages the computation mode take care of parenthesis when the i
 }
 `;
 
+exports[`engine manages the corrector mode can correct a wrong expression 1`] = `
+{
+  "expression": "3*(4+2)",
+  "result": "18",
+  "value": 18,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the corrector mode does not modify a correct expression 1`] = `
+{
+  "expression": "3*(4+2)",
+  "result": "18",
+  "value": 18,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
 exports[`engine manages the last result gracefully ignore error in the last result 1`] = `
 {
   "expression": "0",
@@ -323,12 +383,8 @@ exports[`engine manages the last result set the last result 2`] = `
 
 exports[`engine manages the tokens gets a token at the current position 1`] = `
 {
-  "col": 1,
-  "line": 1,
-  "lineBreaks": 0,
   "offset": 1,
   "text": "1",
-  "toString": [Function],
   "type": "NUM1",
   "value": "1",
 }
@@ -336,12 +392,8 @@ exports[`engine manages the tokens gets a token at the current position 1`] = `
 
 exports[`engine manages the tokens gets a token at the current position 2`] = `
 {
-  "col": 7,
-  "line": 1,
-  "lineBreaks": 0,
   "offset": 6,
   "text": ")",
-  "toString": [Function],
   "type": "RPAR",
   "value": ")",
 }
@@ -350,72 +402,44 @@ exports[`engine manages the tokens gets a token at the current position 2`] = `
 exports[`engine manages the tokens reads all the tokens 1`] = `
 [
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 0,
     "text": "(",
-    "toString": [Function],
     "type": "LPAR",
     "value": "(",
   },
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 1,
     "text": "1",
-    "toString": [Function],
     "type": "NUM1",
     "value": "1",
   },
   {
-    "col": 4,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 3,
     "text": "+",
-    "toString": [Function],
     "type": "ADD",
     "value": "+",
   },
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 5,
     "text": "2",
-    "toString": [Function],
     "type": "NUM2",
     "value": "2",
   },
   {
-    "col": 7,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 6,
     "text": ")",
-    "toString": [Function],
     "type": "RPAR",
     "value": ")",
   },
   {
-    "col": 9,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 8,
     "text": "*",
-    "toString": [Function],
     "type": "MUL",
     "value": "*",
   },
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 10,
     "text": "3",
-    "toString": [Function],
     "type": "NUM3",
     "value": "3",
   },
@@ -425,72 +449,44 @@ exports[`engine manages the tokens reads all the tokens 1`] = `
 exports[`engine manages the tokens tokenizes new expression 1`] = `
 [
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 0,
     "text": "(",
-    "toString": [Function],
     "type": "LPAR",
     "value": "(",
   },
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 1,
     "text": "1",
-    "toString": [Function],
     "type": "NUM1",
     "value": "1",
   },
   {
-    "col": 4,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 3,
     "text": "+",
-    "toString": [Function],
     "type": "ADD",
     "value": "+",
   },
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 5,
     "text": "2",
-    "toString": [Function],
     "type": "NUM2",
     "value": "2",
   },
   {
-    "col": 7,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 6,
     "text": ")",
-    "toString": [Function],
     "type": "RPAR",
     "value": ")",
   },
   {
-    "col": 9,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 8,
     "text": "*",
-    "toString": [Function],
     "type": "MUL",
     "value": "*",
   },
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 10,
     "text": "3",
-    "toString": [Function],
     "type": "NUM3",
     "value": "3",
   },
@@ -500,32 +496,20 @@ exports[`engine manages the tokens tokenizes new expression 1`] = `
 exports[`engine manages the tokens tokenizes new expression 2`] = `
 [
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 0,
     "text": "4",
-    "toString": [Function],
     "type": "NUM4",
     "value": "4",
   },
   {
-    "col": 3,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 2,
     "text": "*",
-    "toString": [Function],
     "type": "MUL",
     "value": "*",
   },
   {
-    "col": 1,
-    "line": 1,
-    "lineBreaks": 0,
     "offset": 4,
     "text": "5",
-    "toString": [Function],
     "type": "NUM5",
     "value": "5",
   },

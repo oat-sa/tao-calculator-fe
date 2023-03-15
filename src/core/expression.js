@@ -21,7 +21,7 @@ import tokensHelper from './tokens.js';
 import tokenizerFactory from './tokenizer.js';
 
 /**
- * @typedef {Object} renderTerm - Represents a renderable tokenizable term
+ * @typedef {object} renderTerm - Represents a renderable tokenizable term
  * @property {string} label - The displayable text
  * @property {string} value - The related text that should be found in the expression
  * @property {string} type - The type of token
@@ -158,6 +158,23 @@ const expressionHelper = {
             variables[name] = expressionHelper.roundVariable(variables[name], decimalDigits);
         });
         return variables;
+    },
+
+    /**
+     * Builds an expression from a list of tokens.
+     * @param {token[]} tokens - The list of tokens from which build the expression.
+     * @returns {string} - The expression built from the list of tokens.
+     */
+    build(tokens) {
+        return tokens.reduce((expression, token) => {
+            while (expression.length < token.offset) {
+                expression = `${expression} `;
+            }
+
+            expression = `${expression}${token.value}`;
+
+            return expression;
+        }, '');
     },
 
     /**

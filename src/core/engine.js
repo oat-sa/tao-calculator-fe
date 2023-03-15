@@ -19,9 +19,11 @@
 import expressionHelper, { defaultDecimalDigits } from './expression.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import {
+    applyChangeStrategies,
     applyContextStrategies,
-    applyTokenStrategies,
+    applyListStrategies,
     applyValueStrategies,
+    correctStrategies,
     limitStrategies,
     prefixStrategies,
     replaceStrategies,
@@ -57,6 +59,7 @@ const reSpace = /\s+/;
  * @param {string} [config.expression=''] - The current expression
  * @param {number} [config.position=0] - The current position in the expression (i.e. the position of the caret)
  * @param {boolean} [config.instant=false] - Whether the engine computes the expression instantaneously (`true`) or not ('false').
+ * @param {boolean} [config.corrector=false] - Whether the engine must correct the expression before the evaluation (`true`) or not ('false').
  * @param {object} [config.variables] - An optional list of variables
  * @param {object} [config.commands] - An optional list of commands
  * @param {object} [config.plugins] - An optional list of plugins
@@ -67,6 +70,7 @@ function engineFactory({
     expression = '',
     position = null,
     instant = false,
+    corrector = false,
     variables = {},
     commands = {},
     plugins = {},
@@ -248,6 +252,26 @@ function engineFactory({
          */
         isInstantMode() {
             return !!instant;
+        },
+
+        /**
+         * Sets the engine to correct the expression before evaluating it (`true`) or not ('false').
+         * @param {boolean} mode - The state of the corrector mode.
+         * @returns {calculator}
+         * @fires configure
+         */
+        setCorrectorMode(mode = true) {
+            corrector = mode;
+            this.trigger('configure', { corrector });
+            return this;
+        },
+
+        /**
+         * Tells if the engine must correct the expression before evaluating it (`true`) or not ('false').
+         * @returns {boolean} - Whether the engine must correct the expression before evaluating it (`true`) or not ('false').
+         */
+        isCorrectorMode() {
+            return !!corrector;
         },
 
         /**
@@ -540,7 +564,7 @@ function engineFactory({
             const index = this.getTokenIndex();
 
             if (expression.trim() !== '0') {
-                const result = applyTokenStrategies(index, tokensList, signStrategies);
+                const result = applyChangeStrategies(index, tokensList, signStrategies);
                 if (result) {
                     const { value, offset, length, move } = result;
                     expression = expression.substring(0, offset) + value + expression.substring(offset + length);
@@ -885,6 +909,10 @@ function engineFactory({
          * @param {term} term - The definition of the term to insert
          * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when the term has been added
          */
         addTerm(name, term) {
@@ -933,7 +961,10 @@ function engineFactory({
                 // when the instant computation mode is activated, we need to calculate the result of the
                 // current expression when a new operator is entered and the expression can be calculated
                 if (instant && applyContextStrategies(newTokensList, triggerStrategies)) {
-                    this.evaluate();
+                    if (state.changed) {
+                        // the expression is calculated only if it was not already done explicitly
+                        this.evaluate();
+                    }
                     this.replace(lastResultVariable);
                     getContext();
                 }
@@ -981,6 +1012,10 @@ function engineFactory({
          * @param {string} name - The name of the term to insert
          * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when the term has been added
          */
         insertTerm(name) {
@@ -1010,6 +1045,10 @@ function engineFactory({
          *                                  Could be either an array of names or a list separated by spaces.
          * @returns {boolean} - Returns `true` once the terms have been added. Returns `false` if a term cannot be added.
          * @fires error if a term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when a term has been added
          */
         insertTermList(names) {
@@ -1025,6 +1064,10 @@ function engineFactory({
          * @param {string} name - The name of the variable to insert
          * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when the term has been added
          */
         insertVariable(name) {
@@ -1072,6 +1115,8 @@ function engineFactory({
          * @param {string} newExpression - The new expression to set
          * @param {number|string} [newPosition=newExpression.length] - The new position to set
          * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
          * @fires replace after the expression has been replaced
          */
         replace(newExpression, newPosition) {
@@ -1092,6 +1137,8 @@ function engineFactory({
          * @param {string} subExpression - The sub-expression to insert
          * @param {number} [at=position] - The new position to set
          * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
          * @fires insert after the expression has been inserted
          */
         insert(subExpression, at) {
@@ -1113,6 +1160,8 @@ function engineFactory({
         /**
          * Clears the expression
          * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
          * @fires clear after the expression has been cleared
          */
         clear() {
@@ -1126,6 +1175,10 @@ function engineFactory({
         /**
          * Resets the calculator
          * @returns {calculator}
+         * @fires variableclear after the variables have been deleted
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires clear after the expression has been cleared
          * @fires reset after the calculator has been reset
          */
         reset() {
@@ -1133,6 +1186,28 @@ function engineFactory({
             this.clear();
 
             this.trigger('reset');
+
+            return this;
+        },
+
+        /**
+         * Corrects the expression if needed.
+         * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires correct after the expression has been corrected
+         */
+        correct() {
+            const tokensList = this.getTokens();
+            const correctedTokens = applyListStrategies(tokensList, correctStrategies);
+            const correctedExpression = expressionHelper.build(correctedTokens);
+
+            if (correctedExpression !== expression) {
+                this.replace(correctedExpression);
+            }
+
+            this.trigger('correct');
 
             return this;
         },
@@ -1149,6 +1224,12 @@ function engineFactory({
             state.changed = false;
 
             try {
+                // single term expression must be a value
+                const tokensList = this.getTokens();
+                if (tokensList.length === 1 && !tokensHelper.isValue(tokensList[0])) {
+                    throw new Error('Invalid expression');
+                }
+
                 if (expression.trim()) {
                     const vars = this.getAllVariableValues();
                     result = mathsEvaluator(expression, vars);
@@ -1202,7 +1283,12 @@ function engineFactory({
         .setPosition(position)
         .setCommand('clear', () => calculatorApi.clear())
         .setCommand('reset', () => calculatorApi.reset())
-        .setCommand('execute', () => calculatorApi.evaluate())
+        .setCommand('execute', () => {
+            if (corrector) {
+                calculatorApi.correct();
+            }
+            calculatorApi.evaluate();
+        })
         .setCommand('var', name => calculatorApi.insertVariable(name))
         .setCommand('term', name => calculatorApi.insertTermList(name))
         .setCommand('sign', () => calculatorApi.changeSign())
@@ -1325,6 +1411,11 @@ export default engineFactory;
 /**
  * Notifies the calculator has been reset.
  * @event reset
+ */
+
+/**
+ * Notifies the expression has been corrected.
+ * @event correct
  */
 
 /**
