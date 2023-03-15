@@ -20,7 +20,7 @@ import tokensHelper from '../tokens.js';
 
 /**
  * Checks if the list of tokens ends with an operator.
- * @param {tokens[]} tokens - The list of tokens to check.
+ * @param {token[]} tokens - The list of tokens to check.
  * @returns {boolean} - Returns true if the last token is an operator.
  */
 function endWithOperator(tokens) {
