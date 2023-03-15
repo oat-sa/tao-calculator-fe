@@ -29,6 +29,10 @@ import tokenizerFactory from './tokenizer.js';
  */
 
 /**
+ * @typedef {term} combinedTerm - Represents a term with combined digits term to number
+ */
+
+/**
  * @typedef {object} exponentTerms - Represents an extraction of terms for composing an exponent
  * @property {renderTerm[]} exponent - The list of extracted terms
  * @property {number} length - The actual number of extracted terms, including the nested ones
@@ -310,6 +314,26 @@ const expressionHelper = {
         }
 
         return nestedTerms;
+    },
+
+    /**
+     * Creates array where all digit terms representing numbers are combined together
+     * @param {term[]} terms
+     * @returns {combinedTerm[]} terms array with numbers combined
+     */
+    combineDigitTerms(terms) {
+        return terms.reduce((acc, current) => {
+            if (acc.length && acc[acc.length - 1].type === 'digit' && current.type === 'digit') {
+                const lastDigit = Object.assign({}, acc[acc.length - 1]);
+                lastDigit.value += current.value;
+                lastDigit.label += current.label;
+                lastDigit.token = void 0;
+                acc[acc.length - 1] = lastDigit;
+            } else {
+                acc.push(current);
+            }
+            return acc;
+        }, []);
     }
 };
 
