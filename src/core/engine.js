@@ -939,7 +939,10 @@ function engineFactory({
                 // when the instant computation mode is activated, we need to calculate the result of the
                 // current expression when a new operator is entered and the expression can be calculated
                 if (instant && applyContextStrategies(newTokensList, triggerStrategies)) {
-                    this.evaluate();
+                    if (state.changed) {
+                        // the expression is calculated only if it was not already done explicitly
+                        this.evaluate();
+                    }
                     this.replace(lastResultVariable);
                     getContext();
                 }

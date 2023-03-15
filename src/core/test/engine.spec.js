@@ -239,11 +239,25 @@ describe('engine', () => {
             calculator.insertTerm('NUM7');
             expect(calculator.getExpression()).toStrictEqual('ans+7');
 
-            expect(action).toHaveBeenCalledTimes(2);
+            calculator.evaluate();
+            expect(calculator.getExpression()).toStrictEqual('ans+7');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('ADD');
+            expect(calculator.getExpression()).toStrictEqual('ans+');
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('ans+3');
+
+            calculator.insertTerm('POW');
+            expect(calculator.getExpression()).toStrictEqual('ans^');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            expect(action).toHaveBeenCalledTimes(4);
             expect(action.mock.calls[0][0]).toMatchSnapshot();
             expect(action.mock.calls[1][0]).toMatchSnapshot();
-
-            expect(calculator.evaluate()).toMatchSnapshot();
+            expect(action.mock.calls[2][0]).toMatchSnapshot();
+            expect(action.mock.calls[3][0]).toMatchSnapshot();
         });
 
         it('take care of parenthesis when the instant mode is activated', () => {

@@ -185,6 +185,30 @@ exports[`engine manages the computation mode can calculate as soon as an operati
 
 exports[`engine manages the computation mode can calculate as soon as an operation is complete 3`] = `
 {
+  "expression": "ans+7",
+  "result": "131",
+  "value": 131,
+  "variables": {
+    "ans": "124",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 4`] = `
+{
+  "expression": "ans+3",
+  "result": "134",
+  "value": 134,
+  "variables": {
+    "ans": "131",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 5`] = `
+{
   "expression": "3*42",
   "result": "126",
   "value": 126,
@@ -195,7 +219,7 @@ exports[`engine manages the computation mode can calculate as soon as an operati
 }
 `;
 
-exports[`engine manages the computation mode can calculate as soon as an operation is complete 4`] = `
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 6`] = `
 {
   "expression": "ans-2",
   "result": "124",
@@ -207,13 +231,25 @@ exports[`engine manages the computation mode can calculate as soon as an operati
 }
 `;
 
-exports[`engine manages the computation mode can calculate as soon as an operation is complete 5`] = `
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 7`] = `
 {
   "expression": "ans+7",
   "result": "131",
   "value": 131,
   "variables": {
     "ans": "124",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 8`] = `
+{
+  "expression": "ans+3",
+  "result": "134",
+  "value": 134,
+  "variables": {
+    "ans": "131",
     "mem": 0,
   },
 }
