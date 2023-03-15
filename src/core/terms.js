@@ -99,6 +99,7 @@ export const types = {
     aggregator: 'aggregator',
     separator: 'separator',
     operator: 'operator',
+    unary: 'unary',
     variable: 'variable',
     constant: 'constant',
     function: 'function',
@@ -112,6 +113,7 @@ export const types = {
  * @property {string} label - The displayable text
  * @property {string} value - The related text that should be found in the expression
  * @property {string} type - The type of token
+ * @property {boolean} unary - Tells if the operator is unary or binary
  * @property {string|boolean} exponent - Some terms introduce exponent notation, and this property tells on which side
  */
 
@@ -274,7 +276,7 @@ export const terms = {
     FAC: {
         label: '!',
         value: '!',
-        type: types.operator,
+        type: types.unary,
         exponent: false
     },
     ASSIGN: {
@@ -286,7 +288,7 @@ export const terms = {
     PERCENT: {
         label: '%',
         value: '#',
-        type: types.operator,
+        type: types.unary,
         exponent: false
     },
 

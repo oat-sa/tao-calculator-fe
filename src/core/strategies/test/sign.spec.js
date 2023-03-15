@@ -17,38 +17,10 @@
  */
 
 import tokenizerFactory from '../../tokenizer.js';
-import { applyTokenStrategies, signStrategies } from '../token.js';
+import { applyTokenStrategies } from '../helpers.js';
+import { signStrategies } from '../sign.js';
 
 const tokenizer = tokenizerFactory();
-
-describe('applyTokenStrategies', () => {
-    it('is a helper', () => {
-        expect(applyTokenStrategies).toEqual(expect.any(Function));
-    });
-
-    it('apply all strategies', () => {
-        const strategy1 = jest.fn().mockImplementation(() => null);
-        const strategy2 = jest.fn().mockImplementation(() => null);
-        const strategies = [strategy1, strategy2];
-
-        expect(applyTokenStrategies(null, null, strategies)).toBeNull();
-        expect(strategy1).toHaveBeenCalledTimes(1);
-        expect(strategy2).toHaveBeenCalledTimes(1);
-    });
-
-    it('apply all strategies until one matches', () => {
-        const result = {};
-        const strategy1 = jest.fn().mockImplementation(() => null);
-        const strategy2 = jest.fn().mockImplementation(() => result);
-        const strategy3 = jest.fn().mockImplementation(() => null);
-        const strategies = [strategy1, strategy2, strategy3];
-
-        expect(applyTokenStrategies(null, null, strategies)).toBe(result);
-        expect(strategy1).toHaveBeenCalledTimes(1);
-        expect(strategy2).toHaveBeenCalledTimes(1);
-        expect(strategy3).toHaveBeenCalledTimes(0);
-    });
-});
 
 describe('signStrategies', () => {
     it('is a collection', () => {

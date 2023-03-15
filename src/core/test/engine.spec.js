@@ -1010,164 +1010,68 @@ describe('engine', () => {
         });
 
         it.each([
-            ['SQRT', 0, '1', 'sqrt 1'],
-            ['SQRT', 1, '1', '1*sqrt'],
+            ['SQRT', '1', ['sqrt 1', '1*sqrt']],
+            ['SQRT', '(', ['sqrt(', '(sqrt']],
+            ['SQRT', ')', ['sqrt)', ')*sqrt']],
+            ['SQRT', '1+2', ['sqrt 1+2', '1*sqrt+2', '1+sqrt 2', '1+2*sqrt']],
+            ['SQRT', 'exp', ['sqrt exp', 'exp sqrt', 'exp sqrt', 'exp sqrt']],
+            ['@NTHRT', '1+2', ['@nthrt 1+2', '1@nthrt+2', '1+@nthrt 2', '1+2@nthrt']],
 
-            ['SQRT', 0, '(', 'sqrt('],
-            ['SQRT', 1, '(', '(sqrt'],
-            ['SQRT', 0, ')', 'sqrt)'],
-            ['SQRT', 1, ')', ')*sqrt'],
+            ['NUM1', '(', ['1*(', '(1']],
+            ['NUM1', ')', ['1)', ')*1']],
+            ['NUM1', '2+exp', ['12+exp', '21+exp', '2+1*exp', '2+exp 1', '2+exp 1', '2+exp 1']],
+            ['NUM1', 'exp+2', ['1*exp+2', 'exp 1+2', 'exp 1+2', 'exp 1+2', 'exp+12', 'exp+21']],
+            ['NUM2', 'exp', ['2*exp', 'exp 2', 'exp 2', 'exp 2']],
+            ['NUM3', 'PI', ['3*PI', 'PI*3', 'PI*3']],
+            ['NUM3', '5!', ['35!', '53!', '5!*3']],
+            ['NUM3', 'exp ln', ['3*exp ln', 'exp 3* ln', 'exp 3* ln', 'exp 3* ln', 'exp 3*ln', 'exp ln 3', 'exp ln 3']],
+            ['NUM3', 'exp 2', ['3*exp 2', 'exp 3 2', 'exp 3 2', 'exp 3 2', 'exp 32', 'exp 23']],
+            ['NUM3', '2*exp', ['32*exp', '23*exp', '2*3*exp', '2*exp 3', '2*exp 3', '2*exp 3']],
 
-            ['NUM1', 0, '(', '1*('],
-            ['NUM1', 1, '(', '(1'],
-            ['NUM1', 0, ')', '1)'],
-            ['NUM1', 1, ')', ')*1'],
+            ['LPAR', ')', ['()', ')*(']],
+            ['LPAR', 'PI', ['(PI', 'PI*(', 'PI*(']],
+            ['LPAR', '2', ['(2', '2*(']],
+            ['LPAR', '2!', ['(2!', '2*(!', '2!*(']],
+            ['LPAR', '2#', ['(2#', '2*(#', '2#*(']],
 
-            ['LPAR', 0, ')', '()'],
-            ['LPAR', 1, ')', ')*('],
+            ['RPAR', '(', [')*(', '()']],
+            ['RPAR', '3', [')*3', '3)']],
+            ['RPAR', 'ln', [')*ln', 'ln)', 'ln)']],
 
-            ['LPAR', 0, 'PI', '(PI'],
-            ['LPAR', 1, 'PI', 'PI*('],
-            ['LPAR', 2, 'PI', 'PI*('],
+            ['TEN', '5', ['TEN*5', '5*TEN']],
+            ['TEN', '+', ['TEN+', '+TEN']],
+            ['TEN', 'exp', ['TEN*exp', 'exp TEN', 'exp TEN', 'exp TEN']],
+            ['PI', '5!', ['PI*5!', '5*PI!', '5!*PI']],
 
-            ['LPAR', 0, '2', '(2'],
-            ['LPAR', 1, '2', '2*('],
+            [
+                'COS',
+                'exp ln',
+                ['cos exp ln', 'exp cos ln', 'exp cos ln', 'exp cos ln', 'exp cos ln', 'exp ln cos', 'exp ln cos']
+            ],
+            ['COS', 'exp 2', ['cos exp 2', 'exp cos 2', 'exp cos 2', 'exp cos 2', 'exp cos 2', 'exp 2*cos']],
+            ['COS', '2*exp', ['cos 2*exp', '2*cos*exp', '2*cos exp', '2*exp cos', '2*exp cos', '2*exp cos']],
+            ['COS', '5!', ['cos 5!', '5*cos!', '5!*cos']],
 
-            ['RPAR', 0, '(', ')*('],
-            ['RPAR', 1, '(', '()'],
+            ['ADD', 'exp', ['+exp', 'exp+', 'exp+', 'exp+']],
+            ['ADD', 'exp ln', ['+exp ln', 'exp+ ln', 'exp+ ln', 'exp+ ln', 'exp +ln', 'exp ln+', 'exp ln+']],
+            ['ADD', 'exp 2', ['+exp 2', 'exp+ 2', 'exp+ 2', 'exp+ 2', 'exp +2', 'exp 2+']],
+            ['ADD', '2*exp', ['+2*exp', '2+exp', '2*+exp', '2*exp+', '2*exp+', '2*exp+']],
+            ['ADD', '5!', ['+5!', '5+!', '5!+']],
+            ['ADD', '55*', ['+55*', '5+5*', '55+', '55+']],
+            ['SUB', '55*', ['-55*', '5-5*', '55-', '55-']],
 
-            ['RPAR', 0, '3', ')*3'],
-            ['RPAR', 1, '3', '3)'],
-
-            ['RPAR', 0, 'ln', ')*ln'],
-            ['RPAR', 1, 'ln', 'ln)'],
-            ['RPAR', 2, 'ln', 'ln)'],
-
-            ['TEN', 0, '5', 'TEN*5'],
-            ['TEN', 1, '5', '5*TEN'],
-
-            ['TEN', 0, '+', 'TEN+'],
-            ['TEN', 1, '+', '+TEN'],
-
-            ['TEN', 0, 'exp', 'TEN*exp'],
-            ['TEN', 1, 'exp', 'exp TEN'],
-            ['TEN', 2, 'exp', 'exp TEN'],
-            ['TEN', 3, 'exp', 'exp TEN'],
-
-            ['@NTHRT', 0, '1+2', '@nthrt 1+2'],
-            ['@NTHRT', 1, '1+2', '1@nthrt+2'],
-            ['@NTHRT', 2, '1+2', '1+@nthrt 2'],
-            ['@NTHRT', 3, '1+2', '1+2@nthrt'],
-
-            ['SQRT', 0, '1+2', 'sqrt 1+2'],
-            ['SQRT', 1, '1+2', '1*sqrt+2'],
-            ['SQRT', 2, '1+2', '1+sqrt 2'],
-            ['SQRT', 3, '1+2', '1+2*sqrt'],
-
-            ['SQRT', 0, 'exp', 'sqrt exp'],
-            ['SQRT', 1, 'exp', 'exp sqrt'],
-            ['SQRT', 2, 'exp', 'exp sqrt'],
-            ['SQRT', 3, 'exp', 'exp sqrt'],
-
-            ['COS', 0, 'exp ln', 'cos exp ln'],
-            ['COS', 1, 'exp ln', 'exp cos ln'],
-            ['COS', 2, 'exp ln', 'exp cos ln'],
-            ['COS', 3, 'exp ln', 'exp cos ln'],
-            ['COS', 4, 'exp ln', 'exp cos ln'],
-            ['COS', 5, 'exp ln', 'exp ln cos'],
-            ['COS', 6, 'exp ln', 'exp ln cos'],
-
-            ['NUM3', 0, 'PI', '3*PI'],
-            ['NUM3', 1, 'PI', 'PI*3'],
-            ['NUM3', 2, 'PI', 'PI*3'],
-
-            ['NUM3', 0, 'exp ln', '3*exp ln'],
-            ['NUM3', 1, 'exp ln', 'exp 3* ln'],
-            ['NUM3', 2, 'exp ln', 'exp 3* ln'],
-            ['NUM3', 3, 'exp ln', 'exp 3* ln'],
-            ['NUM3', 4, 'exp ln', 'exp 3*ln'],
-            ['NUM3', 5, 'exp ln', 'exp ln 3'],
-            ['NUM3', 6, 'exp ln', 'exp ln 3'],
-
-            ['ADD', 0, 'exp ln', '+exp ln'],
-            ['ADD', 1, 'exp ln', 'exp+ ln'],
-            ['ADD', 2, 'exp ln', 'exp+ ln'],
-            ['ADD', 3, 'exp ln', 'exp+ ln'],
-            ['ADD', 4, 'exp ln', 'exp +ln'],
-            ['ADD', 5, 'exp ln', 'exp ln+'],
-            ['ADD', 6, 'exp ln', 'exp ln+'],
-
-            ['COS', 0, 'exp 2', 'cos exp 2'],
-            ['COS', 1, 'exp 2', 'exp cos 2'],
-            ['COS', 2, 'exp 2', 'exp cos 2'],
-            ['COS', 3, 'exp 2', 'exp cos 2'],
-            ['COS', 4, 'exp 2', 'exp cos 2'],
-            ['COS', 5, 'exp 2', 'exp 2*cos'],
-
-            ['NUM3', 0, 'exp 2', '3*exp 2'],
-            ['NUM3', 1, 'exp 2', 'exp 3 2'],
-            ['NUM3', 2, 'exp 2', 'exp 3 2'],
-            ['NUM3', 3, 'exp 2', 'exp 3 2'],
-            ['NUM3', 4, 'exp 2', 'exp 32'],
-            ['NUM3', 5, 'exp 2', 'exp 23'],
-
-            ['ADD', 0, 'exp 2', '+exp 2'],
-            ['ADD', 1, 'exp 2', 'exp+ 2'],
-            ['ADD', 2, 'exp 2', 'exp+ 2'],
-            ['ADD', 3, 'exp 2', 'exp+ 2'],
-            ['ADD', 4, 'exp 2', 'exp +2'],
-            ['ADD', 5, 'exp 2', 'exp 2+'],
-
-            ['COS', 0, '2*exp', 'cos 2*exp'],
-            ['COS', 1, '2*exp', '2*cos*exp'],
-            ['COS', 2, '2*exp', '2*cos exp'],
-            ['COS', 3, '2*exp', '2*exp cos'],
-            ['COS', 4, '2*exp', '2*exp cos'],
-            ['COS', 5, '2*exp', '2*exp cos'],
-
-            ['NUM3', 0, '2*exp', '32*exp'],
-            ['NUM3', 1, '2*exp', '23*exp'],
-            ['NUM3', 2, '2*exp', '2*3*exp'],
-            ['NUM3', 3, '2*exp', '2*exp 3'],
-            ['NUM3', 4, '2*exp', '2*exp 3'],
-            ['NUM3', 5, '2*exp', '2*exp 3'],
-
-            ['ADD', 0, '2*exp', '+2*exp'],
-            ['ADD', 1, '2*exp', '2+*exp'],
-            ['ADD', 2, '2*exp', '2*+exp'],
-            ['ADD', 3, '2*exp', '2*exp+'],
-            ['ADD', 4, '2*exp', '2*exp+'],
-            ['ADD', 5, '2*exp', '2*exp+'],
-
-            ['ADD', 0, 'exp', '+exp'],
-            ['ADD', 1, 'exp', 'exp+'],
-            ['ADD', 2, 'exp', 'exp+'],
-            ['ADD', 3, 'exp', 'exp+'],
-
-            ['NUM2', 0, 'exp', '2*exp'],
-            ['NUM2', 1, 'exp', 'exp 2'],
-            ['NUM2', 2, 'exp', 'exp 2'],
-            ['NUM2', 3, 'exp', 'exp 2'],
-
-            ['NUM1', 0, '2+exp', '12+exp'],
-            ['NUM1', 1, '2+exp', '21+exp'],
-            ['NUM1', 2, '2+exp', '2+1*exp'],
-            ['NUM1', 3, '2+exp', '2+exp 1'],
-            ['NUM1', 4, '2+exp', '2+exp 1'],
-            ['NUM1', 5, '2+exp', '2+exp 1'],
-
-            ['NUM1', 0, 'exp+2', '1*exp+2'],
-            ['NUM1', 1, 'exp+2', 'exp 1+2'],
-            ['NUM1', 2, 'exp+2', 'exp 1+2'],
-            ['NUM1', 3, 'exp+2', 'exp 1+2'],
-            ['NUM1', 4, 'exp+2', 'exp+12'],
-            ['NUM1', 5, 'exp+2', 'exp+21']
-        ])('inserts %s at %s in %s', (term, position, expression, expected) => {
-            const calculator = engineFactory({ expression, position });
+            ['FAC', '55+', ['!*55+', '5!*5+', '55!', '55!']],
+            ['FAC', '55#', ['!*55#', '5!*5#', '55!#', '55#!']],
+            ['FAC', '55!', ['!*55!', '5!*5!', '55!!', '55!!']]
+        ])('inserts %s in %s', (term, expression, expected) => {
+            const calculator = engineFactory();
             calculator.setLastResult('42');
 
-            expect(calculator.insertTerm(term)).toBe(calculator);
-            expect(calculator.getExpression()).toStrictEqual(expected);
+            for (let position = 0; position < expected.length; position++) {
+                calculator.replace(expression, position);
+                calculator.insertTerm(term);
+                expect(calculator.getExpression()).toStrictEqual(expected[position]);
+            }
         });
 
         it.each([
