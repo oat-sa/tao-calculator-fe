@@ -159,6 +159,123 @@ exports[`engine manages the commands sets commands from a list 1`] = `
 }
 `;
 
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 1`] = `
+{
+  "expression": "3*42",
+  "result": "126",
+  "value": 126,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 2`] = `
+{
+  "expression": "ans-2",
+  "result": "124",
+  "value": 124,
+  "variables": {
+    "ans": "126",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 3`] = `
+{
+  "expression": "3*42",
+  "result": "126",
+  "value": 126,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 4`] = `
+{
+  "expression": "ans-2",
+  "result": "124",
+  "value": 124,
+  "variables": {
+    "ans": "126",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate as soon as an operation is complete 5`] = `
+{
+  "expression": "ans+7",
+  "result": "131",
+  "value": 131,
+  "variables": {
+    "ans": "124",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode can calculate on-demand 1`] = `
+{
+  "expression": "3*4-2",
+  "result": "10",
+  "value": 10,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode take care of parenthesis when the instant mode is activated 1`] = `
+{
+  "expression": "0",
+  "result": 0,
+  "value": 0,
+  "variables": undefined,
+}
+`;
+
+exports[`engine manages the computation mode take care of parenthesis when the instant mode is activated 2`] = `
+{
+  "expression": "(3*42-2)",
+  "result": "124",
+  "value": 124,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode take care of parenthesis when the instant mode is activated 3`] = `
+{
+  "expression": "(3*42-2)",
+  "result": "124",
+  "value": 124,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode take care of parenthesis when the instant mode is activated 4`] = `
+{
+  "expression": "ans+7",
+  "result": "131",
+  "value": 131,
+  "variables": {
+    "ans": "124",
+    "mem": 0,
+  },
+}
+`;
+
 exports[`engine manages the last result gracefully ignore error in the last result 1`] = `
 {
   "expression": "0",

@@ -153,6 +153,147 @@ describe('engine', () => {
         });
     });
 
+    describe('manages the computation mode', () => {
+        it('has on-demand mode by default', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isInstantMode()).toBeFalsy();
+        });
+
+        it('set the instant mode', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isInstantMode()).toBeFalsy();
+
+            expect(calculator.setInstantMode(true)).toBe(calculator);
+            expect(calculator.isInstantMode()).toBeTruthy();
+        });
+
+        it('set the on-demand mode', () => {
+            const calculator = engineFactory({ instant: true });
+
+            expect(calculator.isInstantMode()).toBeTruthy();
+
+            expect(calculator.setInstantMode(false)).toBe(calculator);
+            expect(calculator.isInstantMode()).toBeFalsy();
+        });
+
+        it('emits a configure event', () => {
+            const calculator = engineFactory();
+            const config = { instant: true };
+            const action = jest.fn();
+
+            calculator.on('configure', action);
+            calculator.setInstantMode(true);
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(config);
+        });
+
+        it('can calculate on-demand', () => {
+            const calculator = engineFactory();
+            const action = jest.fn();
+
+            expect(calculator.isInstantMode()).toBeFalsy();
+            calculator.on('result', action);
+
+            calculator.insertTermList('NUM3 MUL NUM4 SUB NUM2');
+
+            expect(calculator.getExpression()).toStrictEqual('3*4-2');
+            expect(action).not.toHaveBeenCalled();
+            expect(calculator.evaluate()).toMatchSnapshot();
+        });
+
+        it('can calculate as soon as an operation is complete', () => {
+            const calculator = engineFactory({ instant: true });
+            const action = jest.fn();
+
+            expect(calculator.isInstantMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('3');
+
+            calculator.insertTerm('DIV');
+            calculator.insertTerm('MUL');
+            expect(calculator.getExpression()).toStrictEqual('3*');
+
+            calculator.insertTerm('NUM4');
+            expect(calculator.getExpression()).toStrictEqual('3*4');
+
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('3*42');
+
+            calculator.insertTerm('SUB');
+            expect(calculator.getExpression()).toStrictEqual('ans-');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('ans-2');
+
+            calculator.insertTerm('SUB');
+            calculator.insertTerm('ADD');
+            expect(calculator.getExpression()).toStrictEqual('ans+');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('NUM7');
+            expect(calculator.getExpression()).toStrictEqual('ans+7');
+
+            expect(action).toHaveBeenCalledTimes(2);
+            expect(action.mock.calls[0][0]).toMatchSnapshot();
+            expect(action.mock.calls[1][0]).toMatchSnapshot();
+
+            expect(calculator.evaluate()).toMatchSnapshot();
+        });
+
+        it('take care of parenthesis when the instant mode is activated', () => {
+            const calculator = engineFactory({ instant: true });
+            const action = jest.fn();
+
+            expect(calculator.isInstantMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            calculator.insertTerm('LPAR');
+            expect(calculator.getExpression()).toStrictEqual('(');
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('(3');
+
+            calculator.insertTerm('DIV');
+            calculator.insertTerm('MUL');
+            expect(calculator.getExpression()).toStrictEqual('(3*');
+
+            calculator.insertTerm('NUM4');
+            expect(calculator.getExpression()).toStrictEqual('(3*4');
+
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('(3*42');
+
+            calculator.insertTerm('SUB');
+            expect(calculator.getExpression()).toStrictEqual('(3*42-');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('(3*42-2');
+
+            calculator.insertTerm('RPAR');
+            expect(calculator.getExpression()).toStrictEqual('(3*42-2)');
+
+            calculator.insertTerm('SUB');
+            calculator.insertTerm('ADD');
+            expect(calculator.getExpression()).toStrictEqual('ans+');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('NUM7');
+            expect(calculator.getExpression()).toStrictEqual('ans+7');
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toMatchSnapshot();
+
+            expect(calculator.evaluate()).toMatchSnapshot();
+        });
+    });
+
     describe('manages the evaluator', () => {
         it('access the evaluator', () => {
             const calculator = engineFactory();
@@ -1032,7 +1173,7 @@ describe('engine', () => {
             ['SQRT', ')', ['sqrt)', ')*sqrt']],
             ['SQRT', '1+2', ['sqrt 1+2', '1*sqrt+2', '1+sqrt 2', '1+2*sqrt']],
             ['SQRT', 'exp', ['sqrt exp', 'exp sqrt', 'exp sqrt', 'exp sqrt']],
-            ['@NTHRT', '1+2', ['@nthrt 1+2', '1@nthrt+2', '1+@nthrt 2', '1+2@nthrt']],
+            ['@NTHRT', '1+2', ['@nthrt 1+2', '1@nthrt 2', '1+@nthrt 2', '1+2@nthrt']],
 
             ['NUM1', '(', ['1*(', '(1']],
             ['NUM1', ')', ['1)', ')*1']],

@@ -26,7 +26,8 @@ import {
     prefixStrategies,
     replaceStrategies,
     signStrategies,
-    suffixStrategies
+    suffixStrategies,
+    triggerStrategies
 } from './strategies';
 import { isPrefixedTerm, terms } from './terms.js';
 import tokenizerFactory from './tokenizer.js';
@@ -55,6 +56,7 @@ const reSpace = /\s+/;
  * @param {object} [config]
  * @param {string} [config.expression=''] - The current expression
  * @param {number} [config.position=0] - The current position in the expression (i.e. the position of the caret)
+ * @param {boolean} [config.instant=false] - Whether the engine computes the expression instantaneously (`true`) or not ('false').
  * @param {object} [config.variables] - An optional list of variables
  * @param {object} [config.commands] - An optional list of commands
  * @param {object} [config.plugins] - An optional list of plugins
@@ -64,6 +66,7 @@ const reSpace = /\s+/;
 function engineFactory({
     expression = '',
     position = null,
+    instant = false,
     variables = {},
     commands = {},
     plugins = {},
@@ -225,6 +228,26 @@ function engineFactory({
          */
         isDegreeMode() {
             return !!maths.degree;
+        },
+
+        /**
+         * Sets the engine to compute the expression instantaneously (`true`) or not ('false').
+         * @param {boolean} mode - The state of the instant mode.
+         * @returns {calculator}
+         * @fires configure
+         */
+        setInstantMode(mode = true) {
+            instant = mode;
+            this.trigger('configure', { instant });
+            return this;
+        },
+
+        /**
+         * Tells if the engine must compute the expression instantaneously (`true`) or not ('false').
+         * @returns {boolean} - Whether the engine computes the expression instantaneously (`true`) or not ('false').
+         */
+        isInstantMode() {
+            return !!instant;
         },
 
         /**
@@ -870,11 +893,15 @@ function engineFactory({
                 return false;
             }
 
-            const tokensList = this.getTokens();
-            const index = this.getTokenIndex();
-            const currentToken = tokensList[index];
-            const addOperator = tokensHelper.isOperator(term);
-            const newTokensList = [...tokensList.slice(0, index + 1), term];
+            let tokensList, newTokensList, currentToken, index;
+            const getContext = () => {
+                tokensList = this.getTokens();
+                index = this.getTokenIndex();
+                currentToken = tokensList[index];
+                newTokensList = [...tokensList.slice(0, index + 1), term];
+            };
+
+            getContext();
 
             // prevent adding token that cannot be managed and that would break the expression
             if (applyContextStrategies(newTokensList, limitStrategies)) {
@@ -885,19 +912,14 @@ function engineFactory({
             // - it is a 0, and the term to add is not an operator nor a dot
             // - it is the last result, and the term to add is not an operator
             if (
-                !addOperator &&
-                !isPrefixedTerm(term.value) &&
                 tokensList.length === 1 &&
+                !tokensHelper.isOperator(term) &&
+                !isPrefixedTerm(term.value) &&
                 ((tokensHelper.getToken(currentToken) === 'NUM0' && name !== 'DOT') ||
                     tokensHelper.getToken(currentToken) === 'VAR_ANS')
             ) {
                 this.replace(term.value);
             } else {
-                let previousToken = index > 0 && tokensList[index - 1];
-                let nextToken = currentToken;
-                let value = term.value;
-                let at = position;
-
                 // will replace the terms at the current position with respect to a list of strategies
                 // typically if:
                 // - the last term is an operator and the term to add is an operator
@@ -905,7 +927,21 @@ function engineFactory({
                 const tokensToRemove = applyContextStrategies(newTokensList, replaceStrategies);
                 if (tokensToRemove) {
                     this.deleteTokenRange(tokensList[index - tokensToRemove + 1], currentToken);
+                    getContext();
                 }
+
+                // when the instant computation mode is activated, we need to calculate the result of the
+                // current expression when a new operator is entered and the expression can be calculated
+                if (instant && applyContextStrategies(newTokensList, triggerStrategies)) {
+                    this.evaluate();
+                    this.replace(lastResultVariable);
+                    getContext();
+                }
+
+                let previousToken = index > 0 && tokensList[index - 1];
+                let nextToken = currentToken;
+                let value = term.value;
+                let at = position;
 
                 // we need a position at token boundaries, either on the start or on the end
                 if (currentToken && at > currentToken.offset) {
