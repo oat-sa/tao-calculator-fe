@@ -48,7 +48,7 @@ describe('suffixStrategies', () => {
         ['1', 'NUM1', 'ADD', '1'],
         ['cos', 'COS', 'ADD', 'cos'],
         ['cos', 'COS', 'NUM', 'cos ']
-    ])('adds a separator to %s between %s and %s', (value, previous, next, expected) => {
+    ])('adds a separator to "%s" between "%s" and "%s"', (value, previous, next, expected) => {
         expect(applyValueStrategies(value, previous, next, suffixStrategies)).toEqual(expected);
     });
 });

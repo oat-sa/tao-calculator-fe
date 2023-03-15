@@ -16,20 +16,21 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import { isFunctionOperator, terms } from './terms.js';
-import tokensHelper from './tokens.js';
 import expressionHelper, { defaultDecimalDigits } from './expression.js';
-import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import {
     applyContextStrategies,
     applyTokenStrategies,
     applyValueStrategies,
+    limitStrategies,
     prefixStrategies,
     replaceStrategies,
     signStrategies,
     suffixStrategies
 } from './strategies';
+import { isFunctionOperator, terms } from './terms.js';
+import tokenizerFactory from './tokenizer.js';
+import tokensHelper from './tokens.js';
 
 /**
  * Name of the variable that contains the last result
@@ -859,19 +860,26 @@ function engineFactory({
          * Inserts a term in the expression at the current position
          * @param {string} name - The name of the term to insert
          * @param {term} term - The definition of the term to insert
-         * @returns {calculator}
+         * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
          * @fires term when the term has been added
          */
         addTerm(name, term) {
             if ('object' !== typeof term || 'undefined' === typeof term.value) {
-                return this.trigger('error', new TypeError(`Invalid term: ${name}`));
+                this.trigger('error', new TypeError(`Invalid term: ${name}`));
+                return false;
             }
 
             const tokensList = this.getTokens();
             const index = this.getTokenIndex();
             const currentToken = tokensList[index];
             const addOperator = tokensHelper.isOperator(term);
+            const newTokensList = [...tokensList.slice(0, index + 1), term];
+
+            // prevent adding token that cannot be managed and that would break the expression
+            if (applyContextStrategies(newTokensList, limitStrategies)) {
+                return false;
+            }
 
             // will replace the expression if:
             // - it is a 0, and the term to add is not an operator nor a dot
@@ -894,10 +902,7 @@ function engineFactory({
                 // typically if:
                 // - the last term is an operator and the term to add is an operator
                 // - the operator is not unary (percent or factorial)
-                const tokensToRemove = applyContextStrategies(
-                    [...tokensList.slice(0, index + 1), term],
-                    replaceStrategies
-                );
+                const tokensToRemove = applyContextStrategies(newTokensList, replaceStrategies);
                 if (tokensToRemove) {
                     this.deleteTokenRange(tokensList[index - tokensToRemove + 1], currentToken);
                 }
@@ -932,13 +937,13 @@ function engineFactory({
 
             this.trigger('term', name, term);
 
-            return this;
+            return true;
         },
 
         /**
          * Inserts a term in the expression at the current position
          * @param {string} name - The name of the term to insert
-         * @returns {calculator}
+         * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
          * @fires term when the term has been added
          */
@@ -951,7 +956,8 @@ function engineFactory({
             let term = terms[name];
 
             if ('undefined' === typeof term) {
-                return this.trigger('error', new TypeError(`Invalid term: ${name}`));
+                this.trigger('error', new TypeError(`Invalid term: ${name}`));
+                return false;
             }
 
             if (prefixed) {
@@ -966,7 +972,7 @@ function engineFactory({
          * Inserts a list of terms in the expression at the current position
          * @param {String|String[]} names - The names of the terms to insert.
          *                                  Could be either an array of names or a list separated by spaces.
-         * @returns {calculator}
+         * @returns {boolean} - Returns `true` once the terms have been added. Returns `false` if a term cannot be added.
          * @fires error if a term to add is invalid
          * @fires term when a term has been added
          */
@@ -975,21 +981,20 @@ function engineFactory({
                 names = names.split(reSpace);
             }
 
-            names.forEach(name => this.insertTerm(name));
-
-            return this;
+            return names.every(name => this.insertTerm(name));
         },
 
         /**
          * Inserts a variable as a term in the expression at the current position
          * @param {string} name - The name of the variable to insert
-         * @returns {calculator}
+         * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
          * @fires term when the term has been added
          */
         insertVariable(name) {
             if (!variablesRegistry.has(name)) {
-                return this.trigger('error', new TypeError(`Invalid variable: ${name}`));
+                this.trigger('error', new TypeError(`Invalid variable: ${name}`));
+                return false;
             }
 
             const token = `VAR_${name.toUpperCase()}`;
@@ -1005,7 +1010,7 @@ function engineFactory({
          * Calls a command
          * @param {string} name - The name of the called command
          * @param {...*} args - additional params for the command
-         * @returns {calculator}
+         * @returns {boolean} - Returns `true` once the command has been invoked. Returns `false` if the command cannot be invoked.
          * @fires command with the name and the parameters of the command
          * @fires command-<name> with the parameters of the command
          * @fires error if the command is invalid
@@ -1014,7 +1019,8 @@ function engineFactory({
             const action = commandsRegistry.get(name);
 
             if ('function' !== typeof action) {
-                return this.trigger('error', new TypeError(`Invalid command: ${name}`));
+                this.trigger('error', new TypeError(`Invalid command: ${name}`));
+                return false;
             }
 
             this.trigger(`command-${name}`, ...args);
@@ -1022,7 +1028,7 @@ function engineFactory({
 
             action.apply(this, args);
 
-            return this;
+            return true;
         },
 
         /**

@@ -48,7 +48,7 @@ describe('prefixStrategies', () => {
         ['PI', 'COS', 'PI', ' PI'],
         ['-', 'COS', 'SUB', '-'],
         ['(', 'COS', 'LPAR', '(']
-    ])('adds a separator to %s between %s and %s', (value, previous, next, expected) => {
+    ])('adds a separator to "%s" between "%s" and "%s"', (value, previous, next, expected) => {
         expect(applyValueStrategies(value, previous, next, prefixStrategies)).toEqual(expected);
     });
 });
