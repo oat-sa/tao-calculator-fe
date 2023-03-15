@@ -1344,19 +1344,25 @@ describe('engine', () => {
             expect(calculator.getExpression()).toStrictEqual('');
         });
 
-        it('from a simple expression', () => {
-            const expression = '.1 + .2';
+        it('from a valid expression', () => {
+            const expression = '.1 + .2 * (4 + 5)';
             const calculator = engineFactory({ expression });
+            const replace = jest.fn();
+            calculator.on('replace', replace);
 
             expect(calculator.correct()).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual(expression);
+            expect(replace).toHaveBeenCalledTimes(0);
         });
 
         it('from a wrong expression', () => {
             const calculator = engineFactory({ expression: '3*(4+5*(sin+' });
+            const replace = jest.fn();
+            calculator.on('replace', replace);
 
             expect(calculator.correct()).toBe(calculator);
             expect(calculator.getExpression()).toStrictEqual('3*(4+5)');
+            expect(replace).toHaveBeenCalledTimes(1);
         });
 
         it('emits a correct event', () => {
