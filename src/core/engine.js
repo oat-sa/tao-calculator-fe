@@ -19,17 +19,17 @@
 import expressionHelper, { defaultDecimalDigits } from './expression.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import {
-    applyContextStrategies,
     applyChangeStrategies,
+    applyContextStrategies,
+    applyListStrategies,
     applyValueStrategies,
+    correctStrategies,
     limitStrategies,
     prefixStrategies,
     replaceStrategies,
     signStrategies,
     suffixStrategies,
-    triggerStrategies,
-    applyListStrategies,
-    correctStrategies
+    triggerStrategies
 } from './strategies';
 import { isPrefixedTerm, terms } from './terms.js';
 import tokenizerFactory from './tokenizer.js';
