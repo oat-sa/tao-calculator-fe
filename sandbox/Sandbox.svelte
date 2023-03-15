@@ -138,10 +138,8 @@
                 return;
             }
 
-            if (calculator.isInstantMode()) {
-                if (name === 'execute') {
-                    calculator.replace(lastResultVariable);
-                }
+            if (name === 'execute' && calculator.isInstantMode()) {
+                calculator.replace(lastResultVariable);
                 return;
             }
 
