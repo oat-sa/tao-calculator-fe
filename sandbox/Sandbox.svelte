@@ -14,6 +14,7 @@
     let decimals = 5;
     let degree = calculator.isDegreeMode();
     let instant = calculator.isInstantMode();
+    let corrector = calculator.isCorrectorMode();
     let commandName = '';
     let commandParam = '';
     let position = calculator.getPosition();
@@ -77,6 +78,12 @@
     function instantModeChange() {
         if (calculator.isInstantMode() !== instant) {
             calculator.setInstantMode(instant);
+        }
+    }
+
+    function correctorModeChange() {
+        if (calculator.isCorrectorMode() !== corrector) {
+            calculator.setCorrectorMode(corrector);
         }
     }
 
@@ -270,24 +277,25 @@
                 <legend>Computation mode</legend>
                 <div>
                     <label>
-                        <input
-                            type="radio"
-                            name="instant"
-                            value={false}
-                            bind:group={instant}
-                            on:change={instantModeChange}
-                        />
+                        <input type="radio" value={false} bind:group={instant} on:change={instantModeChange} />
                         <span>on demand computation</span>
                     </label>
                     <label>
-                        <input
-                            type="radio"
-                            name="instant"
-                            value={true}
-                            bind:group={instant}
-                            on:change={instantModeChange}
-                        />
+                        <input type="radio" value={true} bind:group={instant} on:change={instantModeChange} />
                         <span>instant computation</span>
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Corrector mode</legend>
+                <div>
+                    <label>
+                        <input type="radio" value={false} bind:group={corrector} on:change={correctorModeChange} />
+                        <span>disabled</span>
+                    </label>
+                    <label>
+                        <input type="radio" value={true} bind:group={corrector} on:change={correctorModeChange} />
+                        <span>enabled</span>
                     </label>
                 </div>
             </fieldset>
