@@ -26,7 +26,7 @@ import tokensHelper from '../tokens.js';
 function endWithOperator(tokens) {
     const [token] = tokens.slice(-1);
     const term = tokensHelper.getTerm(token);
-    return tokensHelper.isOperator(token) || tokensHelper.isFunction(token) || term.token === 'LPAR';
+    return tokensHelper.isBinaryOperator(token) || tokensHelper.isFunction(token) || term.token === 'LPAR';
 }
 
 /**
