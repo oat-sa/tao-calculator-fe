@@ -185,6 +185,7 @@ export const terms = {
     },
     DOT: {
         label: '.',
+        ariaLabel: __('point'),
         value: '.',
         type: types.digit,
         exponent: false
