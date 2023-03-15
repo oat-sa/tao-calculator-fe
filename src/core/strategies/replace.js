@@ -16,7 +16,7 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
-import { signOperators } from '../terms.js';
+import { isSignOperator } from '../terms.js';
 import tokensHelper from '../tokens.js';
 
 /**
@@ -43,7 +43,7 @@ export const replaceStrategies = [
         const isOperator = () => currentTerm && tokensHelper.isBinaryOperator(currentTerm);
 
         if (addOperator && isOperator()) {
-            if ((newTerm.token === 'SUB' || newTerm.token === 'NEG') && signOperators.indexOf(currentTerm.token) < 0) {
+            if ((newTerm.token === 'SUB' || newTerm.token === 'NEG') && !isSignOperator(currentTerm.token)) {
                 return 0;
             }
 
