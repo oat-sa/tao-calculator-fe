@@ -1176,7 +1176,11 @@ function engineFactory({
         correct() {
             const tokensList = this.getTokens();
             const correctedTokens = applyListStrategies(tokensList, correctStrategies);
-            this.replace(expressionHelper.build(correctedTokens));
+            const correctedExpression = expressionHelper.build(correctedTokens);
+
+            if (correctedExpression !== expression) {
+                this.replace(correctedExpression);
+            }
 
             this.trigger('correct');
 
