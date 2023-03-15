@@ -59,6 +59,7 @@ const reSpace = /\s+/;
  * @param {string} [config.expression=''] - The current expression
  * @param {number} [config.position=0] - The current position in the expression (i.e. the position of the caret)
  * @param {boolean} [config.instant=false] - Whether the engine computes the expression instantaneously (`true`) or not ('false').
+ * @param {boolean} [config.corrector=false] - Whether the engine must correct the expression before the evaluation (`true`) or not ('false').
  * @param {object} [config.variables] - An optional list of variables
  * @param {object} [config.commands] - An optional list of commands
  * @param {object} [config.plugins] - An optional list of plugins
@@ -69,6 +70,7 @@ function engineFactory({
     expression = '',
     position = null,
     instant = false,
+    corrector = false,
     variables = {},
     commands = {},
     plugins = {},
@@ -250,6 +252,26 @@ function engineFactory({
          */
         isInstantMode() {
             return !!instant;
+        },
+
+        /**
+         * Sets the engine to correct the expression before evaluating it (`true`) or not ('false').
+         * @param {boolean} mode - The state of the corrector mode.
+         * @returns {calculator}
+         * @fires configure
+         */
+        setCorrectorMode(mode = true) {
+            corrector = mode;
+            this.trigger('configure', { corrector });
+            return this;
+        },
+
+        /**
+         * Tells if the engine must correct the expression before evaluating it (`true`) or not ('false').
+         * @returns {boolean} - Whether the engine must correct the expression before evaluating it (`true`) or not ('false').
+         */
+        isCorrectorMode() {
+            return !!corrector;
         },
 
         /**
@@ -1261,7 +1283,12 @@ function engineFactory({
         .setPosition(position)
         .setCommand('clear', () => calculatorApi.clear())
         .setCommand('reset', () => calculatorApi.reset())
-        .setCommand('execute', () => calculatorApi.evaluate())
+        .setCommand('execute', () => {
+            if (corrector) {
+                calculatorApi.correct();
+            }
+            calculatorApi.evaluate();
+        })
         .setCommand('var', name => calculatorApi.insertVariable(name))
         .setCommand('term', name => calculatorApi.insertTermList(name))
         .setCommand('sign', () => calculatorApi.changeSign())

@@ -312,6 +312,30 @@ exports[`engine manages the computation mode take care of parenthesis when the i
 }
 `;
 
+exports[`engine manages the corrector mode can correct a wrong expression 1`] = `
+{
+  "expression": "3*(4+2)",
+  "result": "18",
+  "value": 18,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the corrector mode does not modify a correct expression 1`] = `
+{
+  "expression": "3*(4+2)",
+  "result": "18",
+  "value": 18,
+  "variables": {
+    "ans": 0,
+    "mem": 0,
+  },
+}
+`;
+
 exports[`engine manages the last result gracefully ignore error in the last result 1`] = `
 {
   "expression": "0",

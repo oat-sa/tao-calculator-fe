@@ -308,6 +308,72 @@ describe('engine', () => {
         });
     });
 
+    describe('manages the corrector mode', () => {
+        it('is disabled by default', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isCorrectorMode()).toBeFalsy();
+        });
+
+        it('change the corrector mode', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isCorrectorMode()).toBeFalsy();
+
+            expect(calculator.setCorrectorMode(true)).toBe(calculator);
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+        });
+
+        it('set the corrector mode', () => {
+            const calculator = engineFactory({ corrector: true });
+
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+
+            expect(calculator.setCorrectorMode(false)).toBe(calculator);
+            expect(calculator.isCorrectorMode()).toBeFalsy();
+        });
+
+        it('emits a configure event', () => {
+            const calculator = engineFactory();
+            const config = { corrector: true };
+            const action = jest.fn();
+
+            calculator.on('configure', action);
+            calculator.setCorrectorMode(true);
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(config);
+        });
+
+        it('can correct a wrong expression', () => {
+            const calculator = engineFactory({ corrector: true, expression: '3*(4+2+' });
+            const action = jest.fn();
+
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2+');
+            calculator.invoke('execute');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2)');
+            expect(action).toHaveBeenCalledTimes(1);
+        });
+
+        it('does not modify a correct expression', () => {
+            const calculator = engineFactory({ corrector: true, expression: '3*(4+2)' });
+            const action = jest.fn();
+
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2)');
+            calculator.invoke('execute');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2)');
+            expect(action).toHaveBeenCalledTimes(1);
+        });
+    });
+
     describe('manages the evaluator', () => {
         it('access the evaluator', () => {
             const calculator = engineFactory();
