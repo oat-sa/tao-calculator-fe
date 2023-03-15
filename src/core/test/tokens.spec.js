@@ -17,11 +17,59 @@
  */
 
 import tokensHelper from '../tokens.js';
-import { types } from '../terms.js';
+import { terms, types } from '../terms.js';
 
 describe('tokens', () => {
     it('is a namespace', () => {
         expect(tokensHelper).toEqual(expect.any(Object));
+    });
+
+    describe('getToken', () => {
+        it('is a function', () => {
+            expect(tokensHelper.getToken).toEqual(expect.any(Function));
+        });
+
+        it('passthrough a name', () => {
+            expect(tokensHelper.getToken('ADD')).toEqual('ADD');
+        });
+
+        it('extracts the token', () => {
+            expect(tokensHelper.getToken(terms['ADD'])).toEqual('ADD');
+            expect(tokensHelper.getToken({ type: 'ADD' })).toEqual('ADD');
+            expect(tokensHelper.getToken({ token: 'ADD' })).toEqual('ADD');
+        });
+
+        it('returns null if not a token', () => {
+            expect(tokensHelper.getToken()).toBeNull();
+            expect(tokensHelper.getToken({})).toBeNull();
+            expect(tokensHelper.getToken('FOO')).toBeNull();
+            expect(tokensHelper.getToken({ type: 'FOO' })).toBeNull();
+            expect(tokensHelper.getToken({ token: 'FOO' })).toBeNull();
+        });
+    });
+
+    describe('getTerm', () => {
+        it('is a function', () => {
+            expect(tokensHelper.getTerm).toEqual(expect.any(Function));
+        });
+
+        it('passthrough a term', () => {
+            expect(tokensHelper.getTerm(terms['ADD'])).toBe(terms['ADD']);
+        });
+
+        it('retrieve the term', () => {
+            expect(tokensHelper.getTerm('ADD')).toBe(terms['ADD']);
+            expect(tokensHelper.getTerm({ type: 'ADD' })).toBe(terms['ADD']);
+            expect(tokensHelper.getTerm({ token: 'ADD' })).toBe(terms['ADD']);
+        });
+
+        it('with no term match', () => {
+            expect(tokensHelper.getTerm()).toBeNull();
+            expect(tokensHelper.getTerm({})).toEqual({});
+            expect(tokensHelper.getTerm('FOO')).toBeNull();
+            expect(tokensHelper.getTerm({ type: 'FOO' })).toEqual({ type: 'FOO' });
+            expect(tokensHelper.getTerm({ token: 'FOO' })).toEqual({ token: 'FOO' });
+        });
     });
 
     describe('getType', () => {
@@ -38,9 +86,15 @@ describe('tokens', () => {
             expect(tokensHelper.getType({ type: types.operator })).toEqual(types.operator);
         });
 
-        it('detects the type', () => {
+        it('detects the type from a token', () => {
             expect(tokensHelper.getType({ type: 'NUM0' })).toEqual(types.digit);
             expect(tokensHelper.getType({ type: 'ADD' })).toEqual(types.operator);
+
+            expect(tokensHelper.getType({ token: 'NUM0' })).toEqual(types.digit);
+            expect(tokensHelper.getType({ token: 'ADD' })).toEqual(types.operator);
+
+            expect(tokensHelper.getType('NUM0')).toEqual(types.digit);
+            expect(tokensHelper.getType('ADD')).toEqual(types.operator);
         });
 
         it('ignore inconsistent data', () => {
@@ -88,7 +142,7 @@ describe('tokens', () => {
             expect(tokensHelper.isDigit({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isDigit({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isDigit({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isDigit({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isDigit({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isDigit({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isDigit({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isDigit({ type: 'SQRT' })).toBeFalsy();
@@ -140,7 +194,7 @@ describe('tokens', () => {
             expect(tokensHelper.isOperator({ type: 'PERCENT' })).toBeTruthy();
             expect(tokensHelper.isOperator({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isOperator({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isOperator({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isOperator({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isOperator({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isOperator({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isOperator({ type: 'SQRT' })).toBeFalsy();
@@ -149,6 +203,58 @@ describe('tokens', () => {
         it('ignore inconsistent data', () => {
             expect(tokensHelper.isOperator({})).toBeFalsy();
             expect(tokensHelper.isOperator()).toBeFalsy();
+        });
+    });
+
+    describe('isBinaryOperator', () => {
+        it('is a function', () => {
+            expect(tokensHelper.isBinaryOperator).toEqual(expect.any(Function));
+        });
+
+        it('passthrough a type', () => {
+            expect(tokensHelper.isBinaryOperator(types.digit)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.operator)).toBeTruthy();
+            expect(tokensHelper.isBinaryOperator(types.unary)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.aggregator)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.separator)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.variable)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.constant)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.term)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.error)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.function)).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator(types.exponent)).toBeFalsy();
+        });
+
+        it('extracts the type', () => {
+            expect(tokensHelper.isBinaryOperator({ type: types.digit })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.operator })).toBeTruthy();
+            expect(tokensHelper.isBinaryOperator({ type: types.unary })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.aggregator })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.separator })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.variable })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.constant })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.term })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.error })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.function })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: types.exponent })).toBeFalsy();
+        });
+
+        it('detects the type', () => {
+            expect(tokensHelper.isBinaryOperator({ type: 'NUM0' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'ADD' })).toBeTruthy();
+            expect(tokensHelper.isBinaryOperator({ type: 'FAC' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'PERCENT' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'LPAR' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'COMMA' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'VAR_ANS' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'PI' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'NAN' })).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator({ type: 'SQRT' })).toBeFalsy();
+        });
+
+        it('ignore inconsistent data', () => {
+            expect(tokensHelper.isBinaryOperator({})).toBeFalsy();
+            expect(tokensHelper.isBinaryOperator()).toBeFalsy();
         });
     });
 
@@ -192,7 +298,7 @@ describe('tokens', () => {
             expect(tokensHelper.isUnaryOperator({ type: 'PERCENT' })).toBeTruthy();
             expect(tokensHelper.isUnaryOperator({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isUnaryOperator({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isUnaryOperator({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isUnaryOperator({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isUnaryOperator({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isUnaryOperator({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isUnaryOperator({ type: 'SQRT' })).toBeFalsy();
@@ -243,7 +349,7 @@ describe('tokens', () => {
             expect(tokensHelper.isOperand({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isOperand({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isOperand({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isOperand({ type: 'ANS' })).toBeTruthy();
+            expect(tokensHelper.isOperand({ type: 'VAR_ANS' })).toBeTruthy();
             expect(tokensHelper.isOperand({ type: 'PI' })).toBeTruthy();
             expect(tokensHelper.isOperand({ type: 'NAN' })).toBeTruthy();
             expect(tokensHelper.isOperand({ type: 'SQRT' })).toBeTruthy();
@@ -294,7 +400,7 @@ describe('tokens', () => {
             expect(tokensHelper.isValue({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isValue({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isValue({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isValue({ type: 'ANS' })).toBeTruthy();
+            expect(tokensHelper.isValue({ type: 'VAR_ANS' })).toBeTruthy();
             expect(tokensHelper.isValue({ type: 'PI' })).toBeTruthy();
             expect(tokensHelper.isValue({ type: 'NAN' })).toBeTruthy();
             expect(tokensHelper.isValue({ type: 'SQRT' })).toBeFalsy();
@@ -345,7 +451,7 @@ describe('tokens', () => {
             expect(tokensHelper.isAggregator({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isAggregator({ type: 'LPAR' })).toBeTruthy();
             expect(tokensHelper.isAggregator({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isAggregator({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isAggregator({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isAggregator({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isAggregator({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isAggregator({ type: 'SQRT' })).toBeFalsy();
@@ -396,7 +502,7 @@ describe('tokens', () => {
             expect(tokensHelper.isError({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isError({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isError({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isError({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isError({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isError({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isError({ type: 'NAN' })).toBeTruthy();
             expect(tokensHelper.isError({ type: 'SQRT' })).toBeFalsy();
@@ -447,7 +553,7 @@ describe('tokens', () => {
             expect(tokensHelper.isConstant({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isConstant({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isConstant({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isConstant({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isConstant({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isConstant({ type: 'PI' })).toBeTruthy();
             expect(tokensHelper.isConstant({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isConstant({ type: 'SQRT' })).toBeFalsy();
@@ -498,7 +604,7 @@ describe('tokens', () => {
             expect(tokensHelper.isVariable({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isVariable({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isVariable({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isVariable({ type: 'ANS' })).toBeTruthy();
+            expect(tokensHelper.isVariable({ type: 'VAR_ANS' })).toBeTruthy();
             expect(tokensHelper.isVariable({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isVariable({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isVariable({ type: 'SQRT' })).toBeFalsy();
@@ -549,7 +655,7 @@ describe('tokens', () => {
             expect(tokensHelper.isFunction({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isFunction({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isFunction({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isFunction({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isFunction({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isFunction({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isFunction({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isFunction({ type: 'SQRT' })).toBeTruthy();
@@ -600,7 +706,7 @@ describe('tokens', () => {
             expect(tokensHelper.isIdentifier({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isIdentifier({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isIdentifier({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isIdentifier({ type: 'ANS' })).toBeTruthy();
+            expect(tokensHelper.isIdentifier({ type: 'VAR_ANS' })).toBeTruthy();
             expect(tokensHelper.isIdentifier({ type: 'PI' })).toBeTruthy();
             expect(tokensHelper.isIdentifier({ type: 'NAN' })).toBeTruthy();
             expect(tokensHelper.isIdentifier({ type: 'SQRT' })).toBeTruthy();
@@ -651,7 +757,7 @@ describe('tokens', () => {
             expect(tokensHelper.isSeparator({ type: 'FAC' })).toBeTruthy();
             expect(tokensHelper.isSeparator({ type: 'LPAR' })).toBeTruthy();
             expect(tokensHelper.isSeparator({ type: 'COMMA' })).toBeTruthy();
-            expect(tokensHelper.isSeparator({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isSeparator({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isSeparator({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isSeparator({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isSeparator({ type: 'SQRT' })).toBeFalsy();
@@ -702,7 +808,7 @@ describe('tokens', () => {
             expect(tokensHelper.isModifier({ type: 'FAC' })).toBeTruthy();
             expect(tokensHelper.isModifier({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isModifier({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isModifier({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isModifier({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isModifier({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isModifier({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isModifier({ type: 'SQRT' })).toBeTruthy();
@@ -753,7 +859,7 @@ describe('tokens', () => {
             expect(tokensHelper.isExponent({ type: 'FAC' })).toBeFalsy();
             expect(tokensHelper.isExponent({ type: 'LPAR' })).toBeFalsy();
             expect(tokensHelper.isExponent({ type: 'COMMA' })).toBeFalsy();
-            expect(tokensHelper.isExponent({ type: 'ANS' })).toBeFalsy();
+            expect(tokensHelper.isExponent({ type: 'VAR_ANS' })).toBeFalsy();
             expect(tokensHelper.isExponent({ type: 'PI' })).toBeFalsy();
             expect(tokensHelper.isExponent({ type: 'NAN' })).toBeFalsy();
             expect(tokensHelper.isExponent({ type: 'SQRT' })).toBeFalsy();

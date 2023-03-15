@@ -472,26 +472,43 @@ describe('engine', () => {
             expect(calculator.getTokenIndex()).toStrictEqual(4);
         });
 
-        it('removes a token', () => {
-            const calculator = engineFactory({ expression: '(1 + 2) * 3', position: 2 });
+        it.each([
+            [1, '(1 + 2) * 3', 2, '(+ 2) * 3', 1],
+            [1, '(+ 2) * 3', 4, '(2) * 3', 2],
+            [4, '(2) * 3', 2, '(2) * ', 2],
+            [7, '(1 + 2) * 3', 2, '(1 + 2) * 3', 2]
+        ])('removes the token at %1 from %s', (at, expression, position, expectedExpression, expectedPosition) => {
+            const calculator = engineFactory({ expression, position });
+            const tokens = calculator.getTokens();
 
-            expect(calculator.deleteToken(calculator.getTokens()[1])).toBe(calculator);
-            expect(calculator.getExpression()).toEqual('(+ 2) * 3');
-            expect(calculator.getPosition()).toEqual(1);
-
-            calculator.setPosition(4);
-            expect(calculator.deleteToken(calculator.getTokens()[1])).toBe(calculator);
-            expect(calculator.getExpression()).toEqual('(2) * 3');
-            expect(calculator.getPosition()).toEqual(2);
-
-            expect(calculator.deleteToken(calculator.getTokens()[4])).toBe(calculator);
-            expect(calculator.getExpression()).toEqual('(2) * ');
-            expect(calculator.getPosition()).toEqual(2);
+            expect(calculator.deleteToken(tokens[at])).toBe(calculator);
+            expect(calculator.getExpression()).toEqual(expectedExpression);
+            expect(calculator.getPosition()).toEqual(expectedPosition);
 
             expect(calculator.deleteToken()).toBe(calculator);
-            expect(calculator.getExpression()).toEqual('(2) * ');
-            expect(calculator.getPosition()).toEqual(2);
+            expect(calculator.getExpression()).toEqual(expectedExpression);
+            expect(calculator.getPosition()).toEqual(expectedPosition);
         });
+
+        it.each([
+            [1, 2, '(1 + 2) * 3', 2, '(2) * 3', 1],
+            [2, 3, '(1 + 2) * 3', 11, '(1 ) * 3', 8],
+            [5, 6, '(1 + 2) * 3', 2, '(1 + 2) ', 2]
+        ])(
+            'removes tokens range [%1, %1] from %s',
+            (start, end, expression, position, expectedExpression, expectedPosition) => {
+                const calculator = engineFactory({ expression, position });
+                const tokens = calculator.getTokens();
+
+                expect(calculator.deleteTokenRange(tokens[start], tokens[end])).toBe(calculator);
+                expect(calculator.getExpression()).toEqual(expectedExpression);
+                expect(calculator.getPosition()).toEqual(expectedPosition);
+
+                expect(calculator.deleteTokenRange()).toBe(calculator);
+                expect(calculator.getExpression()).toEqual(expectedExpression);
+                expect(calculator.getPosition()).toEqual(expectedPosition);
+            }
+        );
     });
 
     describe('manages the variables', () => {
@@ -1058,7 +1075,11 @@ describe('engine', () => {
             ['ADD', '2*exp', ['+2*exp', '2+exp', '2*+exp', '2*exp+', '2*exp+', '2*exp+']],
             ['ADD', '5!', ['+5!', '5+!', '5!+']],
             ['ADD', '55*', ['+55*', '5+5*', '55+', '55+']],
-            ['SUB', '55*', ['-55*', '5-5*', '55-', '55-']],
+            ['ADD', '55**', ['+55**', '5+5**', '55+*', '55+', '55+']],
+            ['ADD', '55**+', ['+55**+', '5+5**+', '55+*+', '55++', '55+']],
+            ['SUB', '55*', ['-55*', '5-5*', '55-*', '55*-']],
+            ['SUB', '55**', ['-55**', '5-5**', '55-**', '55*-*', '55**-']],
+            ['SUB', '55**-', ['-55**-', '5-5**-', '55-**-', '55*-*-', '55-']],
 
             ['FAC', '55+', ['!*55+', '5!*5+', '55!', '55!']],
             ['FAC', '55#', ['!*55#', '5!*5#', '55!#', '55#!']],

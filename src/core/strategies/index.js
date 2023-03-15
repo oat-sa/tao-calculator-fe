@@ -19,6 +19,7 @@
 /* c8 ignore start */
 export * from './helpers.js';
 export * from './prefix.js';
+export * from './replace.js';
 export * from './sign.js';
 export * from './suffix.js';
 /* c8 ignore end */

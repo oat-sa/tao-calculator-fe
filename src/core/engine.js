@@ -22,9 +22,11 @@ import expressionHelper, { defaultDecimalDigits } from './expression.js';
 import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
 import {
+    applyContextStrategies,
     applyTokenStrategies,
     applyValueStrategies,
     prefixStrategies,
+    replaceStrategies,
     signStrategies,
     suffixStrategies
 } from './strategies';
@@ -33,13 +35,13 @@ import {
  * Name of the variable that contains the last result
  * @type {string}
  */
-const lastResultVariable = terms.ANS.value;
+const lastResultVariable = terms.VAR_ANS.value;
 
 /**
  * Name of the variable that contains the memory
  * @type {string}
  */
-const memoryVariable = terms.MEM.value;
+const memoryVariable = terms.VAR_MEM.value;
 
 /**
  * Match the space separators
@@ -411,6 +413,35 @@ function engineFactory({
 
             const from = token.offset;
             let to = from + token.value.length;
+            while (to < expression.length && expression.charAt(to) === ' ') {
+                to++;
+            }
+
+            this.setExpression(expression.substring(0, from) + expression.substring(to));
+            if (position > to) {
+                this.setPosition(position + from - to);
+            } else if (position > from) {
+                this.setPosition(from);
+            }
+
+            return this;
+        },
+
+        /**
+         * Removes tokens from the expression with respect to range given the start and end tokens.
+         * @param {token} start
+         * @param {token} end
+         * @returns {calculator}
+         * @fires expression after the token has been removed.
+         * @fires position if the position has been changed
+         */
+        deleteTokenRange(start, end) {
+            if (!start || !end) {
+                return this;
+            }
+
+            const from = start.offset;
+            let to = end.offset + end.value.length;
             while (to < expression.length && expression.charAt(to) === ' ') {
                 to++;
             }
@@ -840,19 +871,17 @@ function engineFactory({
             const tokensList = this.getTokens();
             const index = this.getTokenIndex();
             const currentToken = tokensList[index];
-            const lastTerm = currentToken && terms[currentToken.type];
-            const endWithOperator = lastTerm && tokensHelper.isOperator(lastTerm.type);
-            const endWithUnary = endWithOperator && tokensHelper.isUnaryOperator(lastTerm.type);
-            const addOperator = tokensHelper.isOperator(term.type);
+            const addOperator = tokensHelper.isOperator(term);
 
-            // will replace the current term if:
+            // will replace the expression if:
             // - it is a 0, and the term to add is not an operator nor a dot
             // - it is the last result, and the term to add is not an operator
             if (
                 !addOperator &&
                 !isFunctionOperator(term.value) &&
                 tokensList.length === 1 &&
-                ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')
+                ((tokensHelper.getToken(currentToken) === 'NUM0' && name !== 'DOT') ||
+                    tokensHelper.getToken(currentToken) === 'VAR_ANS')
             ) {
                 this.replace(term.value);
             } else {
@@ -861,8 +890,16 @@ function engineFactory({
                 let value = term.value;
                 let at = position;
 
-                if (endWithOperator && addOperator && !endWithUnary) {
-                    this.deleteToken(currentToken);
+                // will replace the terms a the current position with respect to a list strategies
+                // typically if:
+                // - the last term is an operator and the term to add is an operator
+                // - the operator is not unary (percent or factorial)
+                const tokensToRemove = applyContextStrategies(
+                    [...tokensList.slice(0, index + 1), term],
+                    replaceStrategies
+                );
+                if (tokensToRemove) {
+                    this.deleteTokenRange(tokensList[index - tokensToRemove + 1], currentToken);
                 }
 
                 // we need a position at token boundaries, either on the start or on the end
@@ -955,10 +992,12 @@ function engineFactory({
                 return this.trigger('error', new TypeError(`Invalid variable: ${name}`));
             }
 
-            return this.addTerm(`VAR_${name.toUpperCase()}`, {
+            const token = `VAR_${name.toUpperCase()}`;
+            return this.addTerm(token, {
                 label: name,
                 value: name,
-                type: 'variable'
+                type: 'variable',
+                token
             });
         },
 

@@ -949,7 +949,7 @@ exports[`tokenizer tokenize recognize all the registered terms 1`] = `
     "offset": 55,
     "text": "ans",
     "toString": [Function],
-    "type": "ANS",
+    "type": "VAR_ANS",
     "value": "ans",
   },
   {
@@ -959,7 +959,7 @@ exports[`tokenizer tokenize recognize all the registered terms 1`] = `
     "offset": 59,
     "text": "mem",
     "toString": [Function],
-    "type": "MEM",
+    "type": "VAR_MEM",
     "value": "mem",
   },
   {

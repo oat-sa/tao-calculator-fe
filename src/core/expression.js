@@ -16,7 +16,7 @@
  * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 
-import { isFunctionOperator, terms, types } from './terms.js';
+import { isFunctionOperator, signOperators, terms, types } from './terms.js';
 import tokensHelper from './tokens.js';
 import tokenizerFactory from './tokenizer.js';
 
@@ -25,6 +25,7 @@ import tokenizerFactory from './tokenizer.js';
  * @property {string} label - The displayable text
  * @property {string} value - The related text that should be found in the expression
  * @property {string} type - The type of token
+ * @property {string} token - The token name
  * @property {boolean} unary - Tells if the operator is unary or binary
  * @property {string|boolean} exponent - Some terms introduce exponent notation, and this property tells on which side
  * @property {string} startExponent - Identifier for the start of the exponent (will produce exponent notation for the term)
@@ -43,7 +44,7 @@ import tokenizerFactory from './tokenizer.js';
  * Name of the variable that contains the last result
  * @type {string}
  */
-const lastResultVariableName = terms.ANS.value;
+const lastResultVariableName = terms.VAR_ANS.value;
 
 /**
  * Regex that matches the usual error tokens in a result
@@ -68,12 +69,6 @@ const reNegative = new RegExp(`[${terms.SUB.label}${terms.SUB.value}]`, 'g');
  * @type {RegExp}
  */
 const rePositive = new RegExp(`[${terms.ADD.label}${terms.ADD.value}]`, 'g');
-
-/**
- * List of tokens representing sign or sum
- * @type {string[]}
- */
-const signOperators = ['NEG', 'POS', 'SUB', 'ADD'];
 
 /**
  * Substitution mapping for the sign operators
