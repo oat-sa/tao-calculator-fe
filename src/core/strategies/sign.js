@@ -174,8 +174,8 @@ export const signStrategies = [
             } else if (token.type === 'ADD' || token.type === 'POS') {
                 // the operator is +, simply replace it by -
                 result = replaceByNegativeSign(token);
-            } else if (token.type === 'FAC' && index > 0) {
-                // the operator is !, need to identify the operand
+            } else if (tokensHelper.isUnaryOperator(token.type) && index > 0) {
+                // the operator is unary, need to identify the operand
                 result = applyChangeStrategies(index - 1, tokens, signStrategies);
             }
         }
