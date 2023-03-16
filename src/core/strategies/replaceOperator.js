@@ -37,7 +37,7 @@ const isOperator = token => {
  * Otherwise, it will be `null` if no strategy applies.
  * @type {contextStrategy[]}
  */
-export const replaceStrategies = [
+export const replaceOperatorStrategies = [
     /**
      * Triggers the token replacement if the current token and the new token are operators.
      * @param {token[]} tokens - The list of tokens on which apply the strategy.
