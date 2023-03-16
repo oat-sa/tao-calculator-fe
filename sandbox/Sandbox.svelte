@@ -185,8 +185,10 @@
                 return;
             }
 
-            if (name === 'execute' && calculator.isInstantMode()) {
-                calculator.replace(lastResultVariable);
+            if (calculator.isInstantMode()) {
+                if (name === 'execute') {
+                    calculator.replace(lastResultVariable);
+                }
                 return;
             }
 
