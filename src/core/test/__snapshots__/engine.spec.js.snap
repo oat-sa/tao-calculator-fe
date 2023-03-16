@@ -290,6 +290,18 @@ exports[`engine manages the computation mode take care of parenthesis when the i
 
 exports[`engine manages the computation mode take care of parenthesis when the instant mode is activated 3`] = `
 {
+  "expression": "ans+7",
+  "result": "131",
+  "value": 131,
+  "variables": {
+    "ans": "124",
+    "mem": 0,
+  },
+}
+`;
+
+exports[`engine manages the computation mode take care of parenthesis when the instant mode is activated 4`] = `
+{
   "expression": "(3*42-2)",
   "result": "124",
   "value": 124,
@@ -300,7 +312,7 @@ exports[`engine manages the computation mode take care of parenthesis when the i
 }
 `;
 
-exports[`engine manages the computation mode take care of parenthesis when the instant mode is activated 4`] = `
+exports[`engine manages the computation mode take care of parenthesis when the instant mode is activated 5`] = `
 {
   "expression": "ans+7",
   "result": "131",

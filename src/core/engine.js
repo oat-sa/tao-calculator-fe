@@ -958,17 +958,6 @@ function engineFactory({
                     getContext();
                 }
 
-                // when the instant computation mode is activated, we need to calculate the result of the
-                // current expression when a new operator is entered and the expression can be calculated
-                if (instant && applyContextStrategies(newTokensList, triggerStrategies)) {
-                    if (state.changed) {
-                        // the expression is calculated only if it was not already done explicitly
-                        this.evaluate();
-                    }
-                    this.replace(lastResultVariable);
-                    getContext();
-                }
-
                 let previousToken = index > 0 && tokensList[index - 1];
                 let nextToken = currentToken;
                 let value = term.value;
@@ -997,6 +986,20 @@ function engineFactory({
                 }
                 if (value.endsWith(' ') && expression.charAt(at) === ' ') {
                     value = value.trimEnd();
+                }
+
+                // when the instant computation mode is activated, we need to calculate the result of the
+                // current expression when a new operator is entered and the expression can be calculated
+                if (value.startsWith(terms.MUL.value)) {
+                    // we need to replace the new term for the strategy in order to take care of the glue
+                    newTokensList = [...tokensList.slice(0, index + 1), terms.MUL];
+                }
+                if (instant && applyContextStrategies(newTokensList, triggerStrategies)) {
+                    if (state.changed) {
+                        // the expression is calculated only if it was not already done explicitly
+                        this.evaluate();
+                    }
+                    this.replace(lastResultVariable);
                 }
 
                 this.insert(value, at);
