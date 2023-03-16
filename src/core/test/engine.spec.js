@@ -309,6 +309,27 @@ describe('engine', () => {
             expect(action.mock.calls[0][0]).toMatchSnapshot();
             expect(action.mock.calls[1][0]).toMatchSnapshot();
         });
+
+        it('can start another expression after an explicit evaluation', () => {
+            const calculator = engineFactory({ instant: true });
+            const action = jest.fn();
+
+            expect(calculator.isInstantMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('3');
+
+            calculator.insertTerm('MUL');
+            expect(calculator.getExpression()).toStrictEqual('3*');
+
+            calculator.insertTerm('NUM4');
+            expect(calculator.getExpression()).toStrictEqual('3*4');
+
+            calculator.evaluate();
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('2');
+        });
     });
 
     describe('manages the corrector mode', () => {

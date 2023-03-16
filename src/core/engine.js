@@ -921,6 +921,12 @@ function engineFactory({
                 return false;
             }
 
+            // when the instant computation mode is activated, we need to reset the expression
+            // if it was explicitly evaluated and the new term is not a binary operator
+            if (instant && !state.changed && !state.error && !tokensHelper.isBinaryOperator(term)) {
+                this.replace(lastResultVariable);
+            }
+
             let tokensList, newTokensList, currentToken, index;
             const getContext = () => {
                 tokensList = this.getTokens();
@@ -928,7 +934,6 @@ function engineFactory({
                 currentToken = tokensList[index];
                 newTokensList = [...tokensList.slice(0, index + 1), term];
             };
-
             getContext();
 
             // prevent adding token that cannot be managed and that would break the expression
