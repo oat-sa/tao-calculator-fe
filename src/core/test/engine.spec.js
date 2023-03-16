@@ -1470,10 +1470,11 @@ describe('engine', () => {
         });
 
         it('emits a correct event', () => {
-            const calculator = engineFactory({ expression: '.1 + .2' });
+            const calculator = engineFactory({ expression: '3+2*' });
             const eventListener = jest.fn();
 
             calculator.on('correct', eventListener);
+            calculator.correct();
             calculator.correct();
 
             expect(eventListener).toHaveBeenCalledTimes(1);

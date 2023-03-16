@@ -1208,9 +1208,9 @@ function engineFactory({
 
             if (correctedExpression !== expression) {
                 this.replace(correctedExpression);
-            }
 
-            this.trigger('correct');
+                this.trigger('correct');
+            }
 
             return this;
         },
