@@ -19,15 +19,15 @@
 import { terms } from '../../terms.js';
 import tokenizerFactory from '../../tokenizer.js';
 import { applyContextStrategies } from '../helpers.js';
-import { replaceStrategies } from '../replace.js';
+import { replaceOperatorStrategies } from '../replaceOperator.js';
 
 const tokenizer = tokenizerFactory();
 
-describe('replaceStrategies', () => {
+describe('replaceOperatorStrategies', () => {
     it('is a collection', () => {
-        expect(replaceStrategies).toEqual(expect.any(Array));
-        expect(replaceStrategies.length).toBeGreaterThan(0);
-        replaceStrategies.forEach(strategy => {
+        expect(replaceOperatorStrategies).toEqual(expect.any(Array));
+        expect(replaceOperatorStrategies.length).toBeGreaterThan(0);
+        replaceOperatorStrategies.forEach(strategy => {
             expect(strategy).toEqual(expect.any(Function));
         });
     });
@@ -50,7 +50,7 @@ describe('replaceStrategies', () => {
     ])('accepts adding the token "%s"', token => {
         it.each(['', '1', 'E', 'sin', '3#', '3!', '3)', '3*('])('to "%s"', expression => {
             const tokens = tokenizer.tokenize(expression);
-            expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toBeNull();
+            expect(applyContextStrategies([...tokens, terms[token]], replaceOperatorStrategies)).toBeNull();
         });
     });
 
@@ -73,7 +73,9 @@ describe('replaceStrategies', () => {
             ['3==', 0]
         ])('to "%s"', (expression, expected) => {
             const tokens = tokenizer.tokenize(expression);
-            expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toStrictEqual(expected);
+            expect(applyContextStrategies([...tokens, terms[token]], replaceOperatorStrategies)).toStrictEqual(
+                expected
+            );
         });
     });
 
@@ -82,7 +84,7 @@ describe('replaceStrategies', () => {
         token => {
             it.each(['3+', '3-', '3*', '3/', '3^', '3%', '3=', '3@nthrt'])('to "%s"', expression => {
                 const tokens = tokenizer.tokenize(expression);
-                expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toStrictEqual(1);
+                expect(applyContextStrategies([...tokens, terms[token]], replaceOperatorStrategies)).toStrictEqual(1);
             });
         }
     );
@@ -92,7 +94,7 @@ describe('replaceStrategies', () => {
         token => {
             it.each(['3++', '3--', '3**', '3//', '3^^', '3%%', '3==', '3@nthrt@nthrt'])('to "%s"', expression => {
                 const tokens = tokenizer.tokenize(expression);
-                expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toStrictEqual(2);
+                expect(applyContextStrategies([...tokens, terms[token]], replaceOperatorStrategies)).toStrictEqual(2);
             });
         }
     );
@@ -100,7 +102,7 @@ describe('replaceStrategies', () => {
     describe.each(['LPAR', 'RPAR'])('accepts adding the token "%s"', token => {
         it.each(['3+', '3-', '3*', '3/', '3^', '3%', '3=', '3@nthrt'])('to "%s"', expression => {
             const tokens = tokenizer.tokenize(expression);
-            expect(applyContextStrategies([...tokens, terms[token]], replaceStrategies)).toBeNull();
+            expect(applyContextStrategies([...tokens, terms[token]], replaceOperatorStrategies)).toBeNull();
         });
     });
 });

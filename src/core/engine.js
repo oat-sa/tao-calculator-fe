@@ -26,7 +26,8 @@ import {
     correctStrategies,
     limitStrategies,
     prefixStrategies,
-    replaceStrategies,
+    replaceExpressionStrategies,
+    replaceOperatorStrategies,
     signStrategies,
     suffixStrategies,
     triggerStrategies
@@ -921,6 +922,12 @@ function engineFactory({
                 return false;
             }
 
+            // when the instant computation mode is activated, we need to reset the expression
+            // if it was explicitly evaluated and the new term is not a binary operator
+            if (instant && !state.changed && !state.error && !tokensHelper.isBinaryOperator(term)) {
+                this.replace(lastResultVariable);
+            }
+
             let tokensList, newTokensList, currentToken, index;
             const getContext = () => {
                 tokensList = this.getTokens();
@@ -928,7 +935,6 @@ function engineFactory({
                 currentToken = tokensList[index];
                 newTokensList = [...tokensList.slice(0, index + 1), term];
             };
-
             getContext();
 
             // prevent adding token that cannot be managed and that would break the expression
@@ -936,36 +942,19 @@ function engineFactory({
                 return false;
             }
 
-            // will replace the expression if:
+            // will replace the expression with the new term if:
             // - it is a 0, and the term to add is not an operator nor a dot
             // - it is the last result, and the term to add is not an operator
-            if (
-                tokensList.length === 1 &&
-                !tokensHelper.isOperator(term) &&
-                !isPrefixedTerm(term.value) &&
-                ((tokensHelper.getToken(currentToken) === 'NUM0' && name !== 'DOT') ||
-                    tokensHelper.getToken(currentToken) === 'VAR_ANS')
-            ) {
+            if (applyContextStrategies(newTokensList, replaceExpressionStrategies)) {
                 this.replace(term.value);
             } else {
                 // will replace the terms at the current position with respect to a list of strategies
                 // typically if:
                 // - the last term is an operator and the term to add is an operator
                 // - the operator is not unary (percent or factorial)
-                const tokensToRemove = applyContextStrategies(newTokensList, replaceStrategies);
+                const tokensToRemove = applyContextStrategies(newTokensList, replaceOperatorStrategies);
                 if (tokensToRemove) {
                     this.deleteTokenRange(tokensList[index - tokensToRemove + 1], currentToken);
-                    getContext();
-                }
-
-                // when the instant computation mode is activated, we need to calculate the result of the
-                // current expression when a new operator is entered and the expression can be calculated
-                if (instant && applyContextStrategies(newTokensList, triggerStrategies)) {
-                    if (state.changed) {
-                        // the expression is calculated only if it was not already done explicitly
-                        this.evaluate();
-                    }
-                    this.replace(lastResultVariable);
                     getContext();
                 }
 
@@ -997,6 +986,20 @@ function engineFactory({
                 }
                 if (value.endsWith(' ') && expression.charAt(at) === ' ') {
                     value = value.trimEnd();
+                }
+
+                // when the instant computation mode is activated, we need to calculate the result of the
+                // current expression when a new operator is entered and the expression can be calculated
+                if (value.startsWith(terms.MUL.value)) {
+                    // we need to replace the new term for the strategy in order to take care of the glue
+                    newTokensList = [...tokensList.slice(0, index + 1), terms.MUL];
+                }
+                if (instant && applyContextStrategies(newTokensList, triggerStrategies)) {
+                    if (state.changed) {
+                        // the expression is calculated only if it was not already done explicitly
+                        this.evaluate();
+                    }
+                    this.replace(lastResultVariable);
                 }
 
                 this.insert(value, at);
@@ -1205,9 +1208,9 @@ function engineFactory({
 
             if (correctedExpression !== expression) {
                 this.replace(correctedExpression);
-            }
 
-            this.trigger('correct');
+                this.trigger('correct');
+            }
 
             return this;
         },

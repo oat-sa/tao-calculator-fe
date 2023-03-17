@@ -2,6 +2,7 @@
     // Licensed under Gnu Public License version 2
     // Copyright (c) 2023 (original work) Open Assessment Technologies SA ;
 
+    import { afterUpdate } from 'svelte';
     import { engineFactory, expressionHelper, historyPlugin, terms, tokensHelper } from 'calculator';
     import MathExpression from './MathExpression.svelte';
     import keyboard from './keyboard.js';
@@ -31,9 +32,11 @@
     let variables = calculator.getAllVariables();
     let active = true;
     let error = false;
+    let events = [];
+    let eventsList;
 
-    function stringify(json) {
-        return JSON.stringify(json, null, 4);
+    function stringify(json, indent = 4) {
+        return JSON.stringify(json, null, indent);
     }
 
     function formatExpression(expr) {
@@ -42,10 +45,12 @@
     }
 
     function positionInput(e) {
+        addEventCheckpoint('# position');
         calculator.setPosition(parseInt(e.target.value, 10));
     }
 
     function expressionInput(e) {
+        addEventCheckpoint('# expression');
         calculator.replace(e.target.value);
         active = true;
         error = false;
@@ -53,6 +58,7 @@
 
     function expressionInputKeyUp(e) {
         if (e.key === 'Enter') {
+            addEventCheckpoint('# evaluate');
             calculator.evaluate();
         }
     }
@@ -65,24 +71,28 @@
 
     function invoke() {
         if (commandName.trim() !== '') {
+            addEventCheckpoint('# invoke');
             calculator.invoke(commandName.trim(), commandParam.trim());
         }
     }
 
     function angleModeChange() {
         if (calculator.isDegreeMode() !== degree) {
+            addEventCheckpoint('# degree');
             calculator.setDegreeMode(degree);
         }
     }
 
     function instantModeChange() {
         if (calculator.isInstantMode() !== instant) {
+            addEventCheckpoint('# instant');
             calculator.setInstantMode(instant);
         }
     }
 
     function correctorModeChange() {
         if (calculator.isCorrectorMode() !== corrector) {
+            addEventCheckpoint('# corrector');
             calculator.setCorrectorMode(corrector);
         }
     }
@@ -94,8 +104,45 @@
         }
 
         const { command, param } = button.dataset;
+        addEventCheckpoint(`${command}${param ? `: ${param}` : ''}`);
         calculator.invoke(command, param);
     }
+
+    function clearEvents() {
+        events = [];
+    }
+
+    function pushEvent(type, name = '', args = []) {
+        const { changed } = calculator;
+        const state = { changed, active, error };
+        events.push({ type, name, args, state });
+        events = events;
+    }
+
+    function addEvent(name, args) {
+        pushEvent('event', name, args);
+    }
+
+    function addEventCheckpoint(name) {
+        pushEvent('checkpoint', name);
+    }
+
+    async function scrollToBottom(node) {
+        node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
+    }
+
+    // hook the calculator events in order to log them
+    const { trigger } = calculator;
+    calculator.trigger = (name, ...args) => {
+        addEvent(name, args);
+        return trigger.call(calculator, name, ...args);
+    };
+
+    afterUpdate(() => {
+        if (eventsList) {
+            scrollToBottom(eventsList);
+        }
+    });
 
     calculator
         .on('configure', () => {
@@ -390,6 +437,27 @@
                 </details>
             </fieldset>
         </div>
+        <div class="layout-column">
+            <fieldset>
+                <legend>Events</legend>
+                <div>
+                    <input type="button" value="Clear" on:click={clearEvents} />
+                </div>
+                <div class="layout-panel" bind:this={eventsList}>
+                    {#each events as { type, name, args, state }, i (i)}
+                        {#if type === 'checkpoint'}
+                            <div class="checkpoint">{name}</div>
+                        {:else}
+                            <details>
+                                <summary>{name}</summary>
+                                <code>{stringify(state, 0)}</code>
+                                <pre>{stringify(args)}</pre>
+                            </details>
+                        {/if}
+                    {/each}
+                </div>
+            </fieldset>
+        </div>
     </div>
 </div>
 
@@ -506,6 +574,15 @@
         align-items: stretch;
         align-content: stretch;
     }
+    .layout-panel {
+        overflow: auto;
+        max-height: 30rem;
+    }
+    .checkpoint {
+        color: var(--color-text-inverted);
+        background-color: var(--color-bg-inverted);
+        padding: 1px;
+    }
     fieldset {
         flex: 1 1 auto;
         border: 1px dashed var(--color-separator);
@@ -523,6 +600,11 @@
         color: var(--color-text-selection);
         background-color: var(--color-bg-selection);
         padding: 1rem;
+    }
+    details code {
+        color: var(--color-text-default);
+        background-color: var(--color-bg-button);
+        display: block;
     }
     summary {
         cursor: pointer;

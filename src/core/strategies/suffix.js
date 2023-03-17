@@ -24,7 +24,7 @@ import tokensHelper from '../tokens.js';
  * @param {string} value - The value to modify.
  * @returns {string} - The modified value.
  */
-const multiplyAfter = value => `${value}*`;
+const multiplyAfter = value => `${value}${terms.MUL.value}`;
 
 /**
  * Adds a space after the value.

@@ -301,10 +301,34 @@ describe('engine', () => {
             calculator.insertTerm('NUM7');
             expect(calculator.getExpression()).toStrictEqual('ans+7');
 
-            expect(action).toHaveBeenCalledTimes(1);
-            expect(action.mock.calls[0][0]).toMatchSnapshot();
+            calculator.insertTerm('LPAR');
+            expect(calculator.getExpression()).toStrictEqual('ans*(');
+            expect(calculator.getLastResult()).toMatchSnapshot();
 
-            expect(calculator.evaluate()).toMatchSnapshot();
+            expect(action).toHaveBeenCalledTimes(2);
+            expect(action.mock.calls[0][0]).toMatchSnapshot();
+            expect(action.mock.calls[1][0]).toMatchSnapshot();
+        });
+
+        it('can start another expression after an explicit evaluation', () => {
+            const calculator = engineFactory({ instant: true });
+            const action = jest.fn();
+
+            expect(calculator.isInstantMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('3');
+
+            calculator.insertTerm('MUL');
+            expect(calculator.getExpression()).toStrictEqual('3*');
+
+            calculator.insertTerm('NUM4');
+            expect(calculator.getExpression()).toStrictEqual('3*4');
+
+            calculator.evaluate();
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('2');
         });
     });
 
@@ -1446,10 +1470,11 @@ describe('engine', () => {
         });
 
         it('emits a correct event', () => {
-            const calculator = engineFactory({ expression: '.1 + .2' });
+            const calculator = engineFactory({ expression: '3+2*' });
             const eventListener = jest.fn();
 
             calculator.on('correct', eventListener);
+            calculator.correct();
             calculator.correct();
 
             expect(eventListener).toHaveBeenCalledTimes(1);
