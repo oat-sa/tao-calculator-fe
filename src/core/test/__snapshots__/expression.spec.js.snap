@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`expression replaceLastResult nestExponents render nested exponents from (3*4^(8-2)) @nthrt 4 + exp(2^(3+5)+4) + PI 1`] = `
+exports[`expression nestExponents render nested exponents from (3*4^(8-2)) @nthrt 4 + exp(2^(3+5)+4) + PI 1`] = `
 [
   {
     "endExponent": [
@@ -339,7 +339,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
 ]
 `;
 
-exports[`expression replaceLastResult nestExponents render nested exponents from 2^3+5 1`] = `
+exports[`expression nestExponents render nested exponents from 2^3+5 1`] = `
 [
   {
     "elide": false,
@@ -400,7 +400,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
 ]
 `;
 
-exports[`expression replaceLastResult nestExponents render nested exponents from 3*(4-5) 1`] = `
+exports[`expression nestExponents render nested exponents from 3*(4-5) 1`] = `
 [
   {
     "elide": false,
@@ -482,7 +482,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
 ]
 `;
 
-exports[`expression replaceLastResult nestExponents render nested exponents from 4-2^3^5^7+3 1`] = `
+exports[`expression nestExponents render nested exponents from 4-2^3^5^7+3 1`] = `
 [
   {
     "elide": false,
@@ -615,7 +615,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
 ]
 `;
 
-exports[`expression replaceLastResult nestExponents render nested exponents from 4-7 @nthrt 5 @nthrt 3 @nthrt 2+3 1`] = `
+exports[`expression nestExponents render nested exponents from 4-7 @nthrt 5 @nthrt 3 @nthrt 2+3 1`] = `
 [
   {
     "elide": false,
@@ -777,7 +777,7 @@ exports[`expression replaceLastResult nestExponents render nested exponents from
 ]
 `;
 
-exports[`expression replaceLastResult render render from Explicit positive expression 1`] = `
+exports[`expression render render from Explicit positive expression 1`] = `
 [
   {
     "elide": false,
@@ -848,7 +848,7 @@ exports[`expression replaceLastResult render render from Explicit positive expre
 ]
 `;
 
-exports[`expression replaceLastResult render render from Explicit positive value 1`] = `
+exports[`expression render render from Explicit positive value 1`] = `
 [
   {
     "elide": false,
@@ -886,7 +886,7 @@ exports[`expression replaceLastResult render render from Explicit positive value
 ]
 `;
 
-exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3! 1`] = `
+exports[`expression render render from Exponent: !3 nthrt 2^3! 1`] = `
 [
   {
     "elide": false,
@@ -896,7 +896,7 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "prefixed": false,
     "startExponent": null,
     "token": "FAC",
-    "type": "operator",
+    "type": "unary",
     "value": "!",
   },
   {
@@ -966,13 +966,13 @@ exports[`expression replaceLastResult render render from Exponent: !3 nthrt 2^3!
     "prefixed": false,
     "startExponent": null,
     "token": "FAC",
-    "type": "operator",
+    "type": "unary",
     "value": "!",
   },
 ]
 `;
 
-exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2^(3!)) 1`] = `
+exports[`expression render render from Exponent: (!3) nthrt (2^(3!)) 1`] = `
 [
   {
     "elide": false,
@@ -993,7 +993,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "prefixed": false,
     "startExponent": null,
     "token": "FAC",
-    "type": "operator",
+    "type": "unary",
     "value": "!",
   },
   {
@@ -1094,7 +1094,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
     "prefixed": false,
     "startExponent": null,
     "token": "FAC",
-    "type": "operator",
+    "type": "unary",
     "value": "!",
   },
   {
@@ -1124,7 +1124,7 @@ exports[`expression replaceLastResult render render from Exponent: (!3) nthrt (2
 ]
 `;
 
-exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8 1`] = `
+exports[`expression render render from Exponent: (8^8) nthrt 8 1`] = `
 [
   {
     "elide": false,
@@ -1210,7 +1210,7 @@ exports[`expression replaceLastResult render render from Exponent: (8^8) nthrt 8
 ]
 `;
 
-exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8) 1`] = `
+exports[`expression render render from Exponent: 8^(8 nthrt 8) 1`] = `
 [
   {
     "elide": false,
@@ -1296,7 +1296,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^(8 nthrt 8)
 ]
 `;
 
-exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1`] = `
+exports[`expression render render from Exponent: 8^8 nthrt 8 1`] = `
 [
   {
     "elide": false,
@@ -1360,7 +1360,7 @@ exports[`expression replaceLastResult render render from Exponent: 8^8 nthrt 8 1
 ]
 `;
 
-exports[`expression replaceLastResult render render from Expression with variables 1`] = `
+exports[`expression render render from Expression with variables 1`] = `
 [
   {
     "elide": false,
@@ -1458,7 +1458,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
@@ -1487,7 +1487,7 @@ exports[`expression replaceLastResult render render from Expression with variabl
 ]
 `;
 
-exports[`expression replaceLastResult render render from Last result, explicit positive value 1`] = `
+exports[`expression render render from Last result, explicit positive value 1`] = `
 [
   {
     "elide": false,
@@ -1530,14 +1530,14 @@ exports[`expression replaceLastResult render render from Last result, explicit p
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
 ]
 `;
 
-exports[`expression replaceLastResult render render from Last result, mathsExpression 1`] = `
+exports[`expression render render from Last result, mathsExpression 1`] = `
 [
   {
     "elide": false,
@@ -1569,14 +1569,14 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
 ]
 `;
 
-exports[`expression replaceLastResult render render from Last result, mathsExpression with tokens 1`] = `
+exports[`expression render render from Last result, mathsExpression with tokens 1`] = `
 [
   {
     "elide": false,
@@ -1608,14 +1608,14 @@ exports[`expression replaceLastResult render render from Last result, mathsExpre
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
 ]
 `;
 
-exports[`expression replaceLastResult render render from Last result, negative value 1`] = `
+exports[`expression render render from Last result, negative value 1`] = `
 [
   {
     "elide": false,
@@ -1658,14 +1658,14 @@ exports[`expression replaceLastResult render render from Last result, negative v
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
 ]
 `;
 
-exports[`expression replaceLastResult render render from Last result, no variable 1`] = `
+exports[`expression render render from Last result, no variable 1`] = `
 [
   {
     "elide": false,
@@ -1674,14 +1674,14 @@ exports[`expression replaceLastResult render render from Last result, no variabl
     "label": "Ans",
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
 ]
 `;
 
-exports[`expression replaceLastResult render render from Last result, positive value 1`] = `
+exports[`expression render render from Last result, positive value 1`] = `
 [
   {
     "elide": false,
@@ -1713,14 +1713,14 @@ exports[`expression replaceLastResult render render from Last result, positive v
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2-x)) nthrt 16) 1`] = `
+exports[`expression render render from Left exponent: ((5+4*(2-x)) nthrt 16) 1`] = `
 [
   {
     "elide": false,
@@ -1903,7 +1903,7 @@ exports[`expression replaceLastResult render render from Left exponent: ((5+4*(2
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: (4 nthrt 16) 1`] = `
+exports[`expression render render from Left exponent: (4 nthrt 16) 1`] = `
 [
   {
     "elide": false,
@@ -1976,7 +1976,7 @@ exports[`expression replaceLastResult render render from Left exponent: (4 nthrt
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: (5+4) nthrt 16 1`] = `
+exports[`expression render render from Left exponent: (5+4) nthrt 16 1`] = `
 [
   {
     "elide": false,
@@ -2071,7 +2071,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+4) nt
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: (5+114) nthrt (ans*3) 1`] = `
+exports[`expression render render from Left exponent: (5+114) nthrt (ans*3) 1`] = `
 [
   {
     "elide": false,
@@ -2193,7 +2193,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
@@ -2233,7 +2233,7 @@ exports[`expression replaceLastResult render render from Left exponent: (5+114) 
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: (PI nthrt PI) nthrt 4 1`] = `
+exports[`expression render render from Left exponent: (PI nthrt PI) nthrt 4 1`] = `
 [
   {
     "elide": false,
@@ -2319,7 +2319,7 @@ exports[`expression replaceLastResult render render from Left exponent: (PI nthr
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: (cos PI) nthrt 4 1`] = `
+exports[`expression render render from Left exponent: (cos PI) nthrt 4 1`] = `
 [
   {
     "elide": false,
@@ -2392,7 +2392,7 @@ exports[`expression replaceLastResult render render from Left exponent: (cos PI)
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: -(5+4) nthrt 16 1`] = `
+exports[`expression render render from Left exponent: -(5+4) nthrt 16 1`] = `
 [
   {
     "elide": false,
@@ -2498,7 +2498,7 @@ exports[`expression replaceLastResult render render from Left exponent: -(5+4) n
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: -4 nthrt 16 1`] = `
+exports[`expression render render from Left exponent: -4 nthrt 16 1`] = `
 [
   {
     "elide": false,
@@ -2560,7 +2560,7 @@ exports[`expression replaceLastResult render render from Left exponent: -4 nthrt
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)nthrt(ans*3) 1`] = `
+exports[`expression render render from Left exponent: 3*(4+2)nthrt(ans*3) 1`] = `
 [
   {
     "elide": false,
@@ -2682,7 +2682,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
@@ -2722,7 +2722,7 @@ exports[`expression replaceLastResult render render from Left exponent: 3*(4+2)n
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 1`] = `
+exports[`expression render render from Left exponent: 4 nthrt 1`] = `
 [
   {
     "elide": false,
@@ -2751,7 +2751,7 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 16 1`] = `
+exports[`expression render render from Left exponent: 4 nthrt 16 1`] = `
 [
   {
     "elide": false,
@@ -2802,7 +2802,7 @@ exports[`expression replaceLastResult render render from Left exponent: 4 nthrt 
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 5+(4 nthrt 16) 1`] = `
+exports[`expression render render from Left exponent: 5+(4 nthrt 16) 1`] = `
 [
   {
     "elide": false,
@@ -2897,7 +2897,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+(4 nth
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 5+4 nthrt 16 1`] = `
+exports[`expression render render from Left exponent: 5+4 nthrt 16 1`] = `
 [
   {
     "elide": false,
@@ -2970,7 +2970,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+4 nthr
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 5+10 nthrt PI nthrt 4 1`] = `
+exports[`expression render render from Left exponent: 5+10 nthrt PI nthrt 4 1`] = `
 [
   {
     "elide": false,
@@ -3067,7 +3067,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 5+10 nthrt cos PI 1`] = `
+exports[`expression render render from Left exponent: 5+10 nthrt cos PI 1`] = `
 [
   {
     "elide": false,
@@ -3151,7 +3151,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+10 nth
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 5+114 nthrt (ans*3) 1`] = `
+exports[`expression render render from Left exponent: 5+114 nthrt (ans*3) 1`] = `
 [
   {
     "elide": false,
@@ -3251,7 +3251,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
@@ -3291,7 +3291,7 @@ exports[`expression replaceLastResult render render from Left exponent: 5+114 nt
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 10 nthrt PI nthrt 4 1`] = `
+exports[`expression render render from Left exponent: 10 nthrt PI nthrt 4 1`] = `
 [
   {
     "elide": false,
@@ -3366,7 +3366,7 @@ exports[`expression replaceLastResult render render from Left exponent: 10 nthrt
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: 114 nthrt (ans*3) 1`] = `
+exports[`expression render render from Left exponent: 114 nthrt (ans*3) 1`] = `
 [
   {
     "elide": false,
@@ -3444,7 +3444,7 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
@@ -3484,7 +3484,7 @@ exports[`expression replaceLastResult render render from Left exponent: 114 nthr
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: PI nthrt (PI nthrt 4) 1`] = `
+exports[`expression render render from Left exponent: PI nthrt (PI nthrt 4) 1`] = `
 [
   {
     "elide": false,
@@ -3570,7 +3570,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: PI nthrt (PI+4) nthrt 4 1`] = `
+exports[`expression render render from Left exponent: PI nthrt (PI+4) nthrt 4 1`] = `
 [
   {
     "elide": false,
@@ -3678,7 +3678,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: PI nthrt PI nthrt 4 1`] = `
+exports[`expression render render from Left exponent: PI nthrt PI nthrt 4 1`] = `
 [
   {
     "elide": false,
@@ -3742,7 +3742,7 @@ exports[`expression replaceLastResult render render from Left exponent: PI nthrt
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: ceil cos PI nthrt 4 1`] = `
+exports[`expression render render from Left exponent: ceil cos PI nthrt 4 1`] = `
 [
   {
     "elide": false,
@@ -3804,7 +3804,7 @@ exports[`expression replaceLastResult render render from Left exponent: ceil cos
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: cos (PI) nthrt 4 1`] = `
+exports[`expression render render from Left exponent: cos (PI) nthrt 4 1`] = `
 [
   {
     "elide": false,
@@ -3877,7 +3877,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos (PI)
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: cos PI nthrt 4 1`] = `
+exports[`expression render render from Left exponent: cos PI nthrt 4 1`] = `
 [
   {
     "elide": false,
@@ -3928,7 +3928,7 @@ exports[`expression replaceLastResult render render from Left exponent: cos PI n
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: nthrt 1`] = `
+exports[`expression render render from Left exponent: nthrt 1`] = `
 [
   {
     "elide": false,
@@ -3944,7 +3944,7 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 1`
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: nthrt 16 1`] = `
+exports[`expression render render from Left exponent: nthrt 16 1`] = `
 [
   {
     "elide": false,
@@ -3982,7 +3982,7 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt 16
 ]
 `;
 
-exports[`expression replaceLastResult render render from Left exponent: nthrt nthrt 1`] = `
+exports[`expression render render from Left exponent: nthrt nthrt 1`] = `
 [
   {
     "elide": false,
@@ -4011,7 +4011,7 @@ exports[`expression replaceLastResult render render from Left exponent: nthrt nt
 ]
 `;
 
-exports[`expression replaceLastResult render render from Negative expression 1`] = `
+exports[`expression render render from Negative expression 1`] = `
 [
   {
     "elide": false,
@@ -4082,7 +4082,7 @@ exports[`expression replaceLastResult render render from Negative expression 1`]
 ]
 `;
 
-exports[`expression replaceLastResult render render from Negative value 1`] = `
+exports[`expression render render from Negative value 1`] = `
 [
   {
     "elide": false,
@@ -4120,7 +4120,7 @@ exports[`expression replaceLastResult render render from Negative value 1`] = `
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: (2^2)^2 1`] = `
+exports[`expression render render from Right exponent: (2^2)^2 1`] = `
 [
   {
     "elide": false,
@@ -4206,7 +4206,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2)^2
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: (2^2^2) 1`] = `
+exports[`expression render render from Right exponent: (2^2^2) 1`] = `
 [
   {
     "elide": false,
@@ -4291,7 +4291,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^2^2)
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: (2^4) 1`] = `
+exports[`expression render render from Right exponent: (2^4) 1`] = `
 [
   {
     "elide": false,
@@ -4353,7 +4353,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^4) 1
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: (2^PI) 1`] = `
+exports[`expression render render from Right exponent: (2^PI) 1`] = `
 [
   {
     "elide": false,
@@ -4415,7 +4415,7 @@ exports[`expression replaceLastResult render render from Right exponent: (2^PI) 
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: (4+2)^(3*4)+5 1`] = `
+exports[`expression render render from Right exponent: (4+2)^(3*4)+5 1`] = `
 [
   {
     "elide": false,
@@ -4565,7 +4565,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^(
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: (4+2)^3+5 1`] = `
+exports[`expression render render from Right exponent: (4+2)^3+5 1`] = `
 [
   {
     "elide": false,
@@ -4671,7 +4671,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^3
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: (4+2)^123+5 1`] = `
+exports[`expression render render from Right exponent: (4+2)^123+5 1`] = `
 [
   {
     "elide": false,
@@ -4799,7 +4799,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^1
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: (4+2)^x+5 1`] = `
+exports[`expression render render from Right exponent: (4+2)^x+5 1`] = `
 [
   {
     "elide": false,
@@ -4905,7 +4905,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2)^x
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: (4+2^3)^(ans*3^2)+5 1`] = `
+exports[`expression render render from Right exponent: (4+2^3)^(ans*3^2)+5 1`] = `
 [
   {
     "elide": false,
@@ -5027,7 +5027,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
@@ -5115,7 +5115,7 @@ exports[`expression replaceLastResult render render from Right exponent: (4+2^3)
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: ^ 1`] = `
+exports[`expression render render from Right exponent: ^ 1`] = `
 [
   {
     "elide": false,
@@ -5131,7 +5131,7 @@ exports[`expression replaceLastResult render render from Right exponent: ^ 1`] =
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^ 1`] = `
+exports[`expression render render from Right exponent: 2^ 1`] = `
 [
   {
     "elide": false,
@@ -5158,7 +5158,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ 1`] 
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^(2^2) 1`] = `
+exports[`expression render render from Right exponent: 2^(2^2) 1`] = `
 [
   {
     "elide": false,
@@ -5244,7 +5244,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^(2^2)
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1`] = `
+exports[`expression render render from Right exponent: 2^2^2 1`] = `
 [
   {
     "elide": false,
@@ -5307,7 +5307,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^2^2 1
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^4 1`] = `
+exports[`expression render render from Right exponent: 2^4 1`] = `
 [
   {
     "elide": false,
@@ -5347,7 +5347,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4 1`]
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`] = `
+exports[`expression render render from Right exponent: 2^4^ 1`] = `
 [
   {
     "elide": false,
@@ -5398,7 +5398,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^ 1`
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1`] = `
+exports[`expression render render from Right exponent: 2^4^+ 1`] = `
 [
   {
     "elide": false,
@@ -5461,7 +5461,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+ 1
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 1`] = `
+exports[`expression render render from Right exponent: 2^4^+2 1`] = `
 [
   {
     "elide": false,
@@ -5535,7 +5535,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^+2 
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1`] = `
+exports[`expression render render from Right exponent: 2^4^- 1`] = `
 [
   {
     "elide": false,
@@ -5598,7 +5598,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^- 1
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 1`] = `
+exports[`expression render render from Right exponent: 2^4^-2 1`] = `
 [
   {
     "elide": false,
@@ -5672,7 +5672,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^4^-2 
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^PI 1`] = `
+exports[`expression render render from Right exponent: 2^PI 1`] = `
 [
   {
     "elide": false,
@@ -5712,7 +5712,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^PI 1`
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^ceil cos(PI * 2) 1`] = `
+exports[`expression render render from Right exponent: 2^ceil cos(PI * 2) 1`] = `
 [
   {
     "elide": false,
@@ -5818,7 +5818,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^ceil 
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^cos PI 1`] = `
+exports[`expression render render from Right exponent: 2^cos PI 1`] = `
 [
   {
     "elide": false,
@@ -5869,7 +5869,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos P
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 2^cos(PI * 2) 1`] = `
+exports[`expression render render from Right exponent: 2^cos(PI * 2) 1`] = `
 [
   {
     "elide": false,
@@ -5964,7 +5964,7 @@ exports[`expression replaceLastResult render render from Right exponent: 2^cos(P
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+5) 1`] = `
+exports[`expression render render from Right exponent: 4+2^(3+5) 1`] = `
 [
   {
     "elide": false,
@@ -6070,7 +6070,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(3+
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 4+2^(123+5) 1`] = `
+exports[`expression render render from Right exponent: 4+2^(123+5) 1`] = `
 [
   {
     "elide": false,
@@ -6198,7 +6198,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(12
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+5) 1`] = `
+exports[`expression render render from Right exponent: 4+2^(x+5) 1`] = `
 [
   {
     "elide": false,
@@ -6304,7 +6304,7 @@ exports[`expression replaceLastResult render render from Right exponent: 4+2^(x+
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`] = `
+exports[`expression render render from Right exponent: 5^+2 1`] = `
 [
   {
     "elide": false,
@@ -6355,7 +6355,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5^+2 1`
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`] = `
+exports[`expression render render from Right exponent: 5^-1 1`] = `
 [
   {
     "elide": false,
@@ -6406,7 +6406,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5^-1 1`
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 5e+10 1`] = `
+exports[`expression render render from Right exponent: 5e+10 1`] = `
 [
   {
     "elide": false,
@@ -6468,7 +6468,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e+10 1
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 5e-10 1`] = `
+exports[`expression render render from Right exponent: 5e-10 1`] = `
 [
   {
     "elide": false,
@@ -6530,7 +6530,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e-10 1
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 5e10 1`] = `
+exports[`expression render render from Right exponent: 5e10 1`] = `
 [
   {
     "elide": false,
@@ -6581,7 +6581,7 @@ exports[`expression replaceLastResult render render from Right exponent: 5e10 1`
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: 42^123 1`] = `
+exports[`expression render render from Right exponent: 42^123 1`] = `
 [
   {
     "elide": false,
@@ -6654,7 +6654,7 @@ exports[`expression replaceLastResult render render from Right exponent: 42^123 
 ]
 `;
 
-exports[`expression replaceLastResult render render from Right exponent: x^((4+2)^(3*4))+5 1`] = `
+exports[`expression render render from Right exponent: x^((4+2)^(3*4))+5 1`] = `
 [
   {
     "elide": false,
@@ -6850,7 +6850,7 @@ exports[`expression replaceLastResult render render from Right exponent: x^((4+2
 ]
 `;
 
-exports[`expression replaceLastResult render render from Simple expression 1`] = `
+exports[`expression render render from Simple expression 1`] = `
 [
   {
     "elide": false,
@@ -6899,7 +6899,7 @@ exports[`expression replaceLastResult render render from Simple expression 1`] =
 ]
 `;
 
-exports[`expression replaceLastResult render render from Simple number 1`] = `
+exports[`expression render render from Simple number 1`] = `
 [
   {
     "elide": false,
@@ -6926,7 +6926,7 @@ exports[`expression replaceLastResult render render from Simple number 1`] = `
 ]
 `;
 
-exports[`expression replaceLastResult render render from Tokenized expression 1`] = `
+exports[`expression render render from Tokenized expression 1`] = `
 [
   {
     "elide": false,
@@ -7105,7 +7105,7 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
     ],
     "prefixed": false,
     "startExponent": null,
-    "token": "ANS",
+    "token": "VAR_ANS",
     "type": "variable",
     "value": "ans",
   },
@@ -7193,6 +7193,6 @@ exports[`expression replaceLastResult render render from Tokenized expression 1`
 ]
 `;
 
-exports[`expression replaceLastResult render render from Undefined list 1`] = `[]`;
+exports[`expression render render from Undefined list 1`] = `[]`;
 
-exports[`expression replaceLastResult render render from Void list 1`] = `[]`;
+exports[`expression render render from Void list 1`] = `[]`;

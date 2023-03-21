@@ -17,38 +17,10 @@
  */
 
 import tokenizerFactory from '../../tokenizer.js';
-import { applyTokenStrategies, signStrategies } from '../token.js';
+import { applyChangeStrategies } from '../helpers.js';
+import { signStrategies } from '../sign.js';
 
 const tokenizer = tokenizerFactory();
-
-describe('applyTokenStrategies', () => {
-    it('is a helper', () => {
-        expect(applyTokenStrategies).toEqual(expect.any(Function));
-    });
-
-    it('apply all strategies', () => {
-        const strategy1 = jest.fn().mockImplementation(() => null);
-        const strategy2 = jest.fn().mockImplementation(() => null);
-        const strategies = [strategy1, strategy2];
-
-        expect(applyTokenStrategies(null, null, strategies)).toBeNull();
-        expect(strategy1).toHaveBeenCalledTimes(1);
-        expect(strategy2).toHaveBeenCalledTimes(1);
-    });
-
-    it('apply all strategies until one matches', () => {
-        const result = {};
-        const strategy1 = jest.fn().mockImplementation(() => null);
-        const strategy2 = jest.fn().mockImplementation(() => result);
-        const strategy3 = jest.fn().mockImplementation(() => null);
-        const strategies = [strategy1, strategy2, strategy3];
-
-        expect(applyTokenStrategies(null, null, strategies)).toBe(result);
-        expect(strategy1).toHaveBeenCalledTimes(1);
-        expect(strategy2).toHaveBeenCalledTimes(1);
-        expect(strategy3).toHaveBeenCalledTimes(0);
-    });
-});
 
 describe('signStrategies', () => {
     it('is a collection', () => {
@@ -62,6 +34,9 @@ describe('signStrategies', () => {
         ['-1', 1, { length: 1, move: -1, offset: 0, value: '' }],
         ['+1', 1, { length: 1, move: 0, offset: 0, value: '-' }],
         ['!1', 1, { length: 0, move: 1, offset: 1, value: '-' }],
+        ['1%', 0, { length: 0, move: 1, offset: 0, value: '-' }],
+        ['-1%', 1, { length: 1, move: -1, offset: 0, value: '' }],
+        ['+1%', 1, { length: 1, move: 0, offset: 0, value: '-' }],
         ['3*!2', 2, null],
         ['3*!2', 3, { length: 0, move: 1, offset: 3, value: '-' }],
         ['!-1', 1, { length: 1, move: 0, offset: 1, value: '+' }],
@@ -89,8 +64,8 @@ describe('signStrategies', () => {
         ['(PI-1)+2', 4, { length: 0, move: 1, offset: 0, value: '-' }],
         ['(PI*(3-2))', 8, { length: 0, move: 1, offset: 0, value: '-' }],
         ['-(PI*(3-2))', 9, { length: 1, move: -1, offset: 0, value: '' }]
-    ])('changes the sign in %s at index %s', (expression, index, expected) => {
+    ])('changes the sign in "%s" at index "%s"', (expression, index, expected) => {
         const tokens = tokenizer.tokenize(expression);
-        expect(applyTokenStrategies(index, tokens, signStrategies)).toStrictEqual(expected);
+        expect(applyChangeStrategies(index, tokens, signStrategies)).toStrictEqual(expected);
     });
 });

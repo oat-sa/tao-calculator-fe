@@ -16,11 +16,14 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
-export { default as engineFactory } from './engine.js';
-export { default as mathsEvaluatorFactory } from './mathsEvaluator.js';
-export { default as tokenizerFactory } from './tokenizer.js';
-export { default as expressionHelper, defaultDecimalDigits } from './expression.js';
-export { default as tokensHelper } from './tokens.js';
 /* c8 ignore start */
-export * from './terms.js';
+export * from './correct.js';
+export * from './helpers.js';
+export * from './limit.js';
+export * from './prefix.js';
+export * from './replaceExpression.js';
+export * from './replaceOperator.js';
+export * from './sign.js';
+export * from './suffix.js';
+export * from './trigger.js';
 /* c8 ignore end */

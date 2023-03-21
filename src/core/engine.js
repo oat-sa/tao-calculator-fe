@@ -16,25 +16,37 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import { isFunctionOperator, terms } from './terms.js';
-import tokensHelper from './tokens.js';
 import expressionHelper, { defaultDecimalDigits } from './expression.js';
-import tokenizerFactory from './tokenizer.js';
 import mathsEvaluatorFactory from './mathsEvaluator.js';
-import { applyValueStrategies, prefixStrategies, suffixStrategies } from './strategies/value.js';
-import { applyTokenStrategies, signStrategies } from './strategies/token.js';
+import {
+    applyChangeStrategies,
+    applyContextStrategies,
+    applyListStrategies,
+    applyValueStrategies,
+    correctStrategies,
+    limitStrategies,
+    prefixStrategies,
+    replaceExpressionStrategies,
+    replaceOperatorStrategies,
+    signStrategies,
+    suffixStrategies,
+    triggerStrategies
+} from './strategies';
+import { isPrefixedTerm, terms } from './terms.js';
+import tokenizerFactory from './tokenizer.js';
+import tokensHelper from './tokens.js';
 
 /**
  * Name of the variable that contains the last result
  * @type {string}
  */
-const lastResultVariable = terms.ANS.value;
+const lastResultVariable = terms.VAR_ANS.value;
 
 /**
  * Name of the variable that contains the memory
  * @type {string}
  */
-const memoryVariable = terms.MEM.value;
+const memoryVariable = terms.VAR_MEM.value;
 
 /**
  * Match the space separators
@@ -47,6 +59,8 @@ const reSpace = /\s+/;
  * @param {object} [config]
  * @param {string} [config.expression=''] - The current expression
  * @param {number} [config.position=0] - The current position in the expression (i.e. the position of the caret)
+ * @param {boolean} [config.instant=false] - Whether the engine computes the expression instantaneously (`true`) or not ('false').
+ * @param {boolean} [config.corrector=false] - Whether the engine must correct the expression before the evaluation (`true`) or not ('false').
  * @param {object} [config.variables] - An optional list of variables
  * @param {object} [config.commands] - An optional list of commands
  * @param {object} [config.plugins] - An optional list of plugins
@@ -56,6 +70,8 @@ const reSpace = /\s+/;
 function engineFactory({
     expression = '',
     position = null,
+    instant = false,
+    corrector = false,
     variables = {},
     commands = {},
     plugins = {},
@@ -217,6 +233,46 @@ function engineFactory({
          */
         isDegreeMode() {
             return !!maths.degree;
+        },
+
+        /**
+         * Sets the engine to compute the expression instantaneously (`true`) or not ('false').
+         * @param {boolean} mode - The state of the instant mode.
+         * @returns {calculator}
+         * @fires configure
+         */
+        setInstantMode(mode = true) {
+            instant = mode;
+            this.trigger('configure', { instant });
+            return this;
+        },
+
+        /**
+         * Tells if the engine must compute the expression instantaneously (`true`) or not ('false').
+         * @returns {boolean} - Whether the engine computes the expression instantaneously (`true`) or not ('false').
+         */
+        isInstantMode() {
+            return !!instant;
+        },
+
+        /**
+         * Sets the engine to correct the expression before evaluating it (`true`) or not ('false').
+         * @param {boolean} mode - The state of the corrector mode.
+         * @returns {calculator}
+         * @fires configure
+         */
+        setCorrectorMode(mode = true) {
+            corrector = mode;
+            this.trigger('configure', { corrector });
+            return this;
+        },
+
+        /**
+         * Tells if the engine must correct the expression before evaluating it (`true`) or not ('false').
+         * @returns {boolean} - Whether the engine must correct the expression before evaluating it (`true`) or not ('false').
+         */
+        isCorrectorMode() {
+            return !!corrector;
         },
 
         /**
@@ -421,6 +477,35 @@ function engineFactory({
         },
 
         /**
+         * Removes tokens from the expression with respect to range given the start and end tokens.
+         * @param {token} start
+         * @param {token} end
+         * @returns {calculator}
+         * @fires expression after the token has been removed.
+         * @fires position if the position has been changed
+         */
+        deleteTokenRange(start, end) {
+            if (!start || !end) {
+                return this;
+            }
+
+            const from = start.offset;
+            let to = end.offset + end.value.length;
+            while (to < expression.length && expression.charAt(to) === ' ') {
+                to++;
+            }
+
+            this.setExpression(expression.substring(0, from) + expression.substring(to));
+            if (position > to) {
+                this.setPosition(position + from - to);
+            } else if (position > from) {
+                this.setPosition(from);
+            }
+
+            return this;
+        },
+
+        /**
          * Deletes the token on the left
          * @returns {calculator}
          * @fires expression after the token on the left has been removed.
@@ -480,7 +565,7 @@ function engineFactory({
             const index = this.getTokenIndex();
 
             if (expression.trim() !== '0') {
-                const result = applyTokenStrategies(index, tokensList, signStrategies);
+                const result = applyChangeStrategies(index, tokensList, signStrategies);
                 if (result) {
                     const { value, offset, length, move } = result;
                     expression = expression.substring(0, offset) + value + expression.substring(offset + length);
@@ -822,31 +907,57 @@ function engineFactory({
         /**
          * Inserts a term in the expression at the current position
          * @param {string} name - The name of the term to insert
-         * @param {object} term - The definition of the term to insert
-         * @returns {calculator}
+         * @param {term} term - The definition of the term to insert
+         * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when the term has been added
          */
         addTerm(name, term) {
             if ('object' !== typeof term || 'undefined' === typeof term.value) {
-                return this.trigger('error', new TypeError(`Invalid term: ${name}`));
+                this.trigger('error', new TypeError(`Invalid term: ${name}`));
+                return false;
             }
 
-            const tokensList = this.getTokens();
-            const index = this.getTokenIndex();
-            const currentToken = tokensList[index];
+            // when the instant computation mode is activated, we need to reset the expression
+            // if it was explicitly evaluated and the new term is not a binary operator
+            if (instant && !state.changed && !state.error && !tokensHelper.isBinaryOperator(term)) {
+                this.replace(lastResultVariable);
+            }
 
-            // will replace the current term if:
+            let tokensList, newTokensList, currentToken, index;
+            const getContext = () => {
+                tokensList = this.getTokens();
+                index = this.getTokenIndex();
+                currentToken = tokensList[index];
+                newTokensList = [...tokensList.slice(0, index + 1), term];
+            };
+            getContext();
+
+            // prevent adding token that cannot be managed and that would break the expression
+            if (applyContextStrategies(newTokensList, limitStrategies)) {
+                return false;
+            }
+
+            // will replace the expression with the new term if:
             // - it is a 0, and the term to add is not an operator nor a dot
             // - it is the last result, and the term to add is not an operator
-            if (
-                !tokensHelper.isOperator(term.type) &&
-                !isFunctionOperator(term.value) &&
-                tokensList.length === 1 &&
-                ((currentToken.type === 'NUM0' && name !== 'DOT') || currentToken.type === 'ANS')
-            ) {
+            if (applyContextStrategies(newTokensList, replaceExpressionStrategies)) {
                 this.replace(term.value);
             } else {
+                // will replace the terms at the current position with respect to a list of strategies
+                // typically if:
+                // - the last term is an operator and the term to add is an operator
+                // - the operator is not unary (percent or factorial)
+                const tokensToRemove = applyContextStrategies(newTokensList, replaceOperatorStrategies);
+                if (tokensToRemove) {
+                    this.deleteTokenRange(tokensList[index - tokensToRemove + 1], currentToken);
+                    getContext();
+                }
+
                 let previousToken = index > 0 && tokensList[index - 1];
                 let nextToken = currentToken;
                 let value = term.value;
@@ -877,23 +988,41 @@ function engineFactory({
                     value = value.trimEnd();
                 }
 
+                // when the instant computation mode is activated, we need to calculate the result of the
+                // current expression when a new operator is entered and the expression can be calculated
+                if (value.startsWith(terms.MUL.value)) {
+                    // we need to replace the new term for the strategy in order to take care of the glue
+                    newTokensList = [...tokensList.slice(0, index + 1), terms.MUL];
+                }
+                if (instant && applyContextStrategies(newTokensList, triggerStrategies)) {
+                    if (state.changed) {
+                        // the expression is calculated only if it was not already done explicitly
+                        this.evaluate();
+                    }
+                    this.replace(lastResultVariable);
+                }
+
                 this.insert(value, at);
             }
 
             this.trigger('term', name, term);
 
-            return this;
+            return true;
         },
 
         /**
          * Inserts a term in the expression at the current position
          * @param {string} name - The name of the term to insert
-         * @returns {calculator}
+         * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when the term has been added
          */
         insertTerm(name) {
-            const prefixed = isFunctionOperator(name);
+            const prefixed = isPrefixedTerm(name);
             if (prefixed) {
                 name = name.substring(1);
             }
@@ -901,7 +1030,8 @@ function engineFactory({
             let term = terms[name];
 
             if ('undefined' === typeof term) {
-                return this.trigger('error', new TypeError(`Invalid term: ${name}`));
+                this.trigger('error', new TypeError(`Invalid term: ${name}`));
+                return false;
             }
 
             if (prefixed) {
@@ -916,8 +1046,12 @@ function engineFactory({
          * Inserts a list of terms in the expression at the current position
          * @param {String|String[]} names - The names of the terms to insert.
          *                                  Could be either an array of names or a list separated by spaces.
-         * @returns {calculator}
+         * @returns {boolean} - Returns `true` once the terms have been added. Returns `false` if a term cannot be added.
          * @fires error if a term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when a term has been added
          */
         insertTermList(names) {
@@ -925,27 +1059,32 @@ function engineFactory({
                 names = names.split(reSpace);
             }
 
-            names.forEach(name => this.insertTerm(name));
-
-            return this;
+            return names.every(name => this.insertTerm(name));
         },
 
         /**
          * Inserts a variable as a term in the expression at the current position
          * @param {string} name - The name of the variable to insert
-         * @returns {calculator}
+         * @returns {boolean} - Returns `true` once the term has been added. Returns `false` if the term cannot be added.
          * @fires error if the term to add is invalid
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires insert after the term has been inserted
          * @fires term when the term has been added
          */
         insertVariable(name) {
             if (!variablesRegistry.has(name)) {
-                return this.trigger('error', new TypeError(`Invalid variable: ${name}`));
+                this.trigger('error', new TypeError(`Invalid variable: ${name}`));
+                return false;
             }
 
-            return this.addTerm(`VAR_${name.toUpperCase()}`, {
+            const token = `VAR_${name.toUpperCase()}`;
+            return this.addTerm(token, {
                 label: name,
                 value: name,
-                type: 'variable'
+                type: 'variable',
+                token
             });
         },
 
@@ -953,7 +1092,7 @@ function engineFactory({
          * Calls a command
          * @param {string} name - The name of the called command
          * @param {...*} args - additional params for the command
-         * @returns {calculator}
+         * @returns {boolean} - Returns `true` once the command has been invoked. Returns `false` if the command cannot be invoked.
          * @fires command with the name and the parameters of the command
          * @fires command-<name> with the parameters of the command
          * @fires error if the command is invalid
@@ -962,7 +1101,8 @@ function engineFactory({
             const action = commandsRegistry.get(name);
 
             if ('function' !== typeof action) {
-                return this.trigger('error', new TypeError(`Invalid command: ${name}`));
+                this.trigger('error', new TypeError(`Invalid command: ${name}`));
+                return false;
             }
 
             this.trigger(`command-${name}`, ...args);
@@ -970,7 +1110,7 @@ function engineFactory({
 
             action.apply(this, args);
 
-            return this;
+            return true;
         },
 
         /**
@@ -978,6 +1118,8 @@ function engineFactory({
          * @param {string} newExpression - The new expression to set
          * @param {number|string} [newPosition=newExpression.length] - The new position to set
          * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
          * @fires replace after the expression has been replaced
          */
         replace(newExpression, newPosition) {
@@ -998,6 +1140,8 @@ function engineFactory({
          * @param {string} subExpression - The sub-expression to insert
          * @param {number} [at=position] - The new position to set
          * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
          * @fires insert after the expression has been inserted
          */
         insert(subExpression, at) {
@@ -1019,6 +1163,8 @@ function engineFactory({
         /**
          * Clears the expression
          * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
          * @fires clear after the expression has been cleared
          */
         clear() {
@@ -1032,6 +1178,10 @@ function engineFactory({
         /**
          * Resets the calculator
          * @returns {calculator}
+         * @fires variableclear after the variables have been deleted
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires clear after the expression has been cleared
          * @fires reset after the calculator has been reset
          */
         reset() {
@@ -1039,6 +1189,28 @@ function engineFactory({
             this.clear();
 
             this.trigger('reset');
+
+            return this;
+        },
+
+        /**
+         * Corrects the expression if needed.
+         * @returns {calculator}
+         * @fires expression after the expression has been changed
+         * @fires position after the position has been changed
+         * @fires replace after the expression has been replaced
+         * @fires correct after the expression has been corrected
+         */
+        correct() {
+            const tokensList = this.getTokens();
+            const correctedTokens = applyListStrategies(tokensList, correctStrategies);
+            const correctedExpression = expressionHelper.build(correctedTokens);
+
+            if (correctedExpression !== expression) {
+                this.replace(correctedExpression);
+
+                this.trigger('correct');
+            }
 
             return this;
         },
@@ -1055,6 +1227,12 @@ function engineFactory({
             state.changed = false;
 
             try {
+                // single term expression must be a value
+                const tokensList = this.getTokens();
+                if (tokensList.length === 1 && !tokensHelper.isValue(tokensList[0])) {
+                    throw new Error('Invalid expression');
+                }
+
                 if (expression.trim()) {
                     const vars = this.getAllVariableValues();
                     result = mathsEvaluator(expression, vars);
@@ -1108,7 +1286,12 @@ function engineFactory({
         .setPosition(position)
         .setCommand('clear', () => calculatorApi.clear())
         .setCommand('reset', () => calculatorApi.reset())
-        .setCommand('execute', () => calculatorApi.evaluate())
+        .setCommand('execute', () => {
+            if (corrector) {
+                calculatorApi.correct();
+            }
+            calculatorApi.evaluate();
+        })
         .setCommand('var', name => calculatorApi.insertVariable(name))
         .setCommand('term', name => calculatorApi.insertTermList(name))
         .setCommand('sign', () => calculatorApi.changeSign())
@@ -1206,7 +1389,7 @@ export default engineFactory;
  * Notifies a term has been added to the expression.
  * @event term
  * @param {string} name - The name of the added term
- * @param {object} term - The descriptor of the added term
+ * @param {term} term - The descriptor of the added term
  */
 
 /**
@@ -1231,6 +1414,11 @@ export default engineFactory;
 /**
  * Notifies the calculator has been reset.
  * @event reset
+ */
+
+/**
+ * Notifies the expression has been corrected.
+ * @event correct
  */
 
 /**
@@ -1261,4 +1449,20 @@ export default engineFactory;
  * Notifies an error occurred.
  * @event error
  * @param {Error} err - The error object.
+ */
+
+/**
+ * @typedef {import('./terms.js').term} term
+ */
+
+/**
+ * @typedef {import('./tokenizer.js').token} token
+ */
+
+/**
+ * @typedef {import('./mathsEvaluator.js').mathsExpression} mathsExpression
+ */
+
+/**
+ * @typedef {import('./expression.js').renderTerm} renderTerm
  */

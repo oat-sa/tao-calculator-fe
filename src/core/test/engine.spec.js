@@ -153,6 +153,251 @@ describe('engine', () => {
         });
     });
 
+    describe('manages the computation mode', () => {
+        it('has on-demand mode by default', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isInstantMode()).toBeFalsy();
+        });
+
+        it('set the instant mode', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isInstantMode()).toBeFalsy();
+
+            expect(calculator.setInstantMode(true)).toBe(calculator);
+            expect(calculator.isInstantMode()).toBeTruthy();
+        });
+
+        it('set the on-demand mode', () => {
+            const calculator = engineFactory({ instant: true });
+
+            expect(calculator.isInstantMode()).toBeTruthy();
+
+            expect(calculator.setInstantMode(false)).toBe(calculator);
+            expect(calculator.isInstantMode()).toBeFalsy();
+        });
+
+        it('emits a configure event', () => {
+            const calculator = engineFactory();
+            const config = { instant: true };
+            const action = jest.fn();
+
+            calculator.on('configure', action);
+            calculator.setInstantMode(true);
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(config);
+        });
+
+        it('can calculate on-demand', () => {
+            const calculator = engineFactory();
+            const action = jest.fn();
+
+            expect(calculator.isInstantMode()).toBeFalsy();
+            calculator.on('result', action);
+
+            calculator.insertTermList('NUM3 MUL NUM4 SUB NUM2');
+
+            expect(calculator.getExpression()).toStrictEqual('3*4-2');
+            expect(action).not.toHaveBeenCalled();
+            expect(calculator.evaluate()).toMatchSnapshot();
+        });
+
+        it('can calculate as soon as an operation is complete', () => {
+            const calculator = engineFactory({ instant: true });
+            const action = jest.fn();
+
+            expect(calculator.isInstantMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('3');
+
+            calculator.insertTerm('DIV');
+            calculator.insertTerm('MUL');
+            expect(calculator.getExpression()).toStrictEqual('3*');
+
+            calculator.insertTerm('NUM4');
+            expect(calculator.getExpression()).toStrictEqual('3*4');
+
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('3*42');
+
+            calculator.insertTerm('SUB');
+            expect(calculator.getExpression()).toStrictEqual('ans-');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('ans-2');
+
+            calculator.insertTerm('SUB');
+            calculator.insertTerm('ADD');
+            expect(calculator.getExpression()).toStrictEqual('ans+');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('NUM7');
+            expect(calculator.getExpression()).toStrictEqual('ans+7');
+
+            calculator.evaluate();
+            expect(calculator.getExpression()).toStrictEqual('ans+7');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('ADD');
+            expect(calculator.getExpression()).toStrictEqual('ans+');
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('ans+3');
+
+            calculator.insertTerm('POW');
+            expect(calculator.getExpression()).toStrictEqual('ans^');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            expect(action).toHaveBeenCalledTimes(4);
+            expect(action.mock.calls[0][0]).toMatchSnapshot();
+            expect(action.mock.calls[1][0]).toMatchSnapshot();
+            expect(action.mock.calls[2][0]).toMatchSnapshot();
+            expect(action.mock.calls[3][0]).toMatchSnapshot();
+        });
+
+        it('take care of parenthesis when the instant mode is activated', () => {
+            const calculator = engineFactory({ instant: true });
+            const action = jest.fn();
+
+            expect(calculator.isInstantMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            calculator.insertTerm('LPAR');
+            expect(calculator.getExpression()).toStrictEqual('(');
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('(3');
+
+            calculator.insertTerm('DIV');
+            calculator.insertTerm('MUL');
+            expect(calculator.getExpression()).toStrictEqual('(3*');
+
+            calculator.insertTerm('NUM4');
+            expect(calculator.getExpression()).toStrictEqual('(3*4');
+
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('(3*42');
+
+            calculator.insertTerm('SUB');
+            expect(calculator.getExpression()).toStrictEqual('(3*42-');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('(3*42-2');
+
+            calculator.insertTerm('RPAR');
+            expect(calculator.getExpression()).toStrictEqual('(3*42-2)');
+
+            calculator.insertTerm('SUB');
+            calculator.insertTerm('ADD');
+            expect(calculator.getExpression()).toStrictEqual('ans+');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            calculator.insertTerm('NUM7');
+            expect(calculator.getExpression()).toStrictEqual('ans+7');
+
+            calculator.insertTerm('LPAR');
+            expect(calculator.getExpression()).toStrictEqual('ans*(');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+
+            expect(action).toHaveBeenCalledTimes(2);
+            expect(action.mock.calls[0][0]).toMatchSnapshot();
+            expect(action.mock.calls[1][0]).toMatchSnapshot();
+        });
+
+        it('can start another expression after an explicit evaluation', () => {
+            const calculator = engineFactory({ instant: true });
+            const action = jest.fn();
+
+            expect(calculator.isInstantMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            calculator.insertTerm('NUM3');
+            expect(calculator.getExpression()).toStrictEqual('3');
+
+            calculator.insertTerm('MUL');
+            expect(calculator.getExpression()).toStrictEqual('3*');
+
+            calculator.insertTerm('NUM4');
+            expect(calculator.getExpression()).toStrictEqual('3*4');
+
+            calculator.evaluate();
+            calculator.insertTerm('NUM2');
+            expect(calculator.getExpression()).toStrictEqual('2');
+        });
+    });
+
+    describe('manages the corrector mode', () => {
+        it('is disabled by default', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isCorrectorMode()).toBeFalsy();
+        });
+
+        it('change the corrector mode', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.isCorrectorMode()).toBeFalsy();
+
+            expect(calculator.setCorrectorMode(true)).toBe(calculator);
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+        });
+
+        it('set the corrector mode', () => {
+            const calculator = engineFactory({ corrector: true });
+
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+
+            expect(calculator.setCorrectorMode(false)).toBe(calculator);
+            expect(calculator.isCorrectorMode()).toBeFalsy();
+        });
+
+        it('emits a configure event', () => {
+            const calculator = engineFactory();
+            const config = { corrector: true };
+            const action = jest.fn();
+
+            calculator.on('configure', action);
+            calculator.setCorrectorMode(true);
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0]).toStrictEqual(config);
+        });
+
+        it('can correct a wrong expression', () => {
+            const calculator = engineFactory({ corrector: true, expression: '3*(4+2+' });
+            const action = jest.fn();
+
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2+');
+            calculator.invoke('execute');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2)');
+            expect(action).toHaveBeenCalledTimes(1);
+        });
+
+        it('does not modify a correct expression', () => {
+            const calculator = engineFactory({ corrector: true, expression: '3*(4+2)' });
+            const action = jest.fn();
+
+            expect(calculator.isCorrectorMode()).toBeTruthy();
+            calculator.on('result', action);
+
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2)');
+            calculator.invoke('execute');
+            expect(calculator.getLastResult()).toMatchSnapshot();
+            expect(calculator.getExpression()).toStrictEqual('3*(4+2)');
+            expect(action).toHaveBeenCalledTimes(1);
+        });
+    });
+
     describe('manages the evaluator', () => {
         it('access the evaluator', () => {
             const calculator = engineFactory();
@@ -472,26 +717,43 @@ describe('engine', () => {
             expect(calculator.getTokenIndex()).toStrictEqual(4);
         });
 
-        it('removes a token', () => {
-            const calculator = engineFactory({ expression: '(1 + 2) * 3', position: 2 });
+        it.each([
+            [1, '(1 + 2) * 3', 2, '(+ 2) * 3', 1],
+            [1, '(+ 2) * 3', 4, '(2) * 3', 2],
+            [4, '(2) * 3', 2, '(2) * ', 2],
+            [7, '(1 + 2) * 3', 2, '(1 + 2) * 3', 2]
+        ])('removes the token at %1 from %s', (at, expression, position, expectedExpression, expectedPosition) => {
+            const calculator = engineFactory({ expression, position });
+            const tokens = calculator.getTokens();
 
-            expect(calculator.deleteToken(calculator.getTokens()[1])).toBe(calculator);
-            expect(calculator.getExpression()).toEqual('(+ 2) * 3');
-            expect(calculator.getPosition()).toEqual(1);
-
-            calculator.setPosition(4);
-            expect(calculator.deleteToken(calculator.getTokens()[1])).toBe(calculator);
-            expect(calculator.getExpression()).toEqual('(2) * 3');
-            expect(calculator.getPosition()).toEqual(2);
-
-            expect(calculator.deleteToken(calculator.getTokens()[4])).toBe(calculator);
-            expect(calculator.getExpression()).toEqual('(2) * ');
-            expect(calculator.getPosition()).toEqual(2);
+            expect(calculator.deleteToken(tokens[at])).toBe(calculator);
+            expect(calculator.getExpression()).toEqual(expectedExpression);
+            expect(calculator.getPosition()).toEqual(expectedPosition);
 
             expect(calculator.deleteToken()).toBe(calculator);
-            expect(calculator.getExpression()).toEqual('(2) * ');
-            expect(calculator.getPosition()).toEqual(2);
+            expect(calculator.getExpression()).toEqual(expectedExpression);
+            expect(calculator.getPosition()).toEqual(expectedPosition);
         });
+
+        it.each([
+            [1, 2, '(1 + 2) * 3', 2, '(2) * 3', 1],
+            [2, 3, '(1 + 2) * 3', 11, '(1 ) * 3', 8],
+            [5, 6, '(1 + 2) * 3', 2, '(1 + 2) ', 2]
+        ])(
+            'removes tokens range [%1, %1] from %s',
+            (start, end, expression, position, expectedExpression, expectedPosition) => {
+                const calculator = engineFactory({ expression, position });
+                const tokens = calculator.getTokens();
+
+                expect(calculator.deleteTokenRange(tokens[start], tokens[end])).toBe(calculator);
+                expect(calculator.getExpression()).toEqual(expectedExpression);
+                expect(calculator.getPosition()).toEqual(expectedPosition);
+
+                expect(calculator.deleteTokenRange()).toBe(calculator);
+                expect(calculator.getExpression()).toEqual(expectedExpression);
+                expect(calculator.getPosition()).toEqual(expectedPosition);
+            }
+        );
     });
 
     describe('manages the variables', () => {
@@ -784,7 +1046,7 @@ describe('engine', () => {
 
             calculator.setCommand('foo', action);
 
-            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBeTruthy();
 
             expect(action).toHaveBeenCalledTimes(1);
             expect(action.mock.calls[0][0]).toStrictEqual(42);
@@ -802,7 +1064,7 @@ describe('engine', () => {
             calculator.on('command', commandEvt);
             calculator.on('command-foo', actionEvt);
 
-            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBeTruthy();
 
             expect(action).toHaveBeenCalledTimes(1);
             expect(action.mock.calls[0][0]).toStrictEqual(42);
@@ -824,7 +1086,7 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.invoke('foo', 42, 'bar')).toBe(calculator);
+            expect(calculator.invoke('foo', 42, 'bar')).toBeFalsy();
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
             expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
@@ -973,19 +1235,19 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.insertTerm('NUM6')).toBe(calculator);
+            expect(calculator.insertTerm('NUM6')).toBeTruthy();
             expect(calculator.getExpression()).toStrictEqual('6');
             expect(calculator.getPosition()).toStrictEqual(1);
         });
 
         it('adds a prefixed term to the expression', () => {
-            const calculator = engineFactory();
+            const calculator = engineFactory({ expression: '1' });
 
-            expect(calculator.getExpression()).toStrictEqual('');
+            expect(calculator.getExpression()).toStrictEqual('1');
 
-            expect(calculator.insertTerm('@NTHRT')).toBe(calculator);
-            expect(calculator.getExpression()).toStrictEqual('@nthrt');
-            expect(calculator.getPosition()).toStrictEqual(6);
+            expect(calculator.insertTerm('@NTHRT')).toBeTruthy();
+            expect(calculator.getExpression()).toStrictEqual('1@nthrt');
+            expect(calculator.getPosition()).toStrictEqual(7);
         });
 
         it('adds a variable to the expression', () => {
@@ -994,7 +1256,7 @@ describe('engine', () => {
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.insertVariable('ans')).toBe(calculator);
+            expect(calculator.insertVariable('ans')).toBeTruthy();
             expect(calculator.getExpression()).toStrictEqual('ans');
             expect(calculator.getPosition()).toStrictEqual(3);
         });
@@ -1005,169 +1267,78 @@ describe('engine', () => {
         ])('replaces the expression by the term if %s', (title, expression, term, expected) => {
             const calculator = engineFactory({ expression });
 
-            expect(calculator.insertTerm(term)).toBe(calculator);
+            expect(calculator.insertTerm(term)).toBeTruthy();
             expect(calculator.getExpression()).toStrictEqual(expected);
         });
 
         it.each([
-            ['SQRT', 0, '1', 'sqrt 1'],
-            ['SQRT', 1, '1', '1*sqrt'],
+            ['SQRT', '1', ['sqrt 1', '1*sqrt']],
+            ['SQRT', '(', ['sqrt(', '(sqrt']],
+            ['SQRT', ')', ['sqrt)', ')*sqrt']],
+            ['SQRT', '1+2', ['sqrt 1+2', '1*sqrt+2', '1+sqrt 2', '1+2*sqrt']],
+            ['SQRT', 'exp', ['sqrt exp', 'exp sqrt', 'exp sqrt', 'exp sqrt']],
+            ['@NTHRT', '1+2', ['@nthrt 1+2', '1@nthrt 2', '1+@nthrt 2', '1+2@nthrt']],
 
-            ['SQRT', 0, '(', 'sqrt('],
-            ['SQRT', 1, '(', '(sqrt'],
-            ['SQRT', 0, ')', 'sqrt)'],
-            ['SQRT', 1, ')', ')*sqrt'],
+            ['NUM1', '(', ['1*(', '(1']],
+            ['NUM1', ')', ['1)', ')*1']],
+            ['NUM1', '2+exp', ['12+exp', '21+exp', '2+1*exp', '2+exp 1', '2+exp 1', '2+exp 1']],
+            ['NUM1', 'exp+2', ['1*exp+2', 'exp 1+2', 'exp 1+2', 'exp 1+2', 'exp+12', 'exp+21']],
+            ['NUM2', 'exp', ['2*exp', 'exp 2', 'exp 2', 'exp 2']],
+            ['NUM3', 'PI', ['3*PI', 'PI*3', 'PI*3']],
+            ['NUM3', '5!', ['35!', '53!', '5!*3']],
+            ['NUM3', 'exp ln', ['3*exp ln', 'exp 3* ln', 'exp 3* ln', 'exp 3* ln', 'exp 3*ln', 'exp ln 3', 'exp ln 3']],
+            ['NUM3', 'exp 2', ['3*exp 2', 'exp 3 2', 'exp 3 2', 'exp 3 2', 'exp 32', 'exp 23']],
+            ['NUM3', '2*exp', ['32*exp', '23*exp', '2*3*exp', '2*exp 3', '2*exp 3', '2*exp 3']],
 
-            ['NUM1', 0, '(', '1*('],
-            ['NUM1', 1, '(', '(1'],
-            ['NUM1', 0, ')', '1)'],
-            ['NUM1', 1, ')', ')*1'],
+            ['LPAR', ')', ['()', ')*(']],
+            ['LPAR', 'PI', ['(PI', 'PI*(', 'PI*(']],
+            ['LPAR', '2', ['(2', '2*(']],
+            ['LPAR', '2!', ['(2!', '2*(!', '2!*(']],
+            ['LPAR', '2#', ['(2#', '2*(#', '2#*(']],
 
-            ['LPAR', 0, ')', '()'],
-            ['LPAR', 1, ')', ')*('],
+            ['RPAR', '(', ['(', '(']],
+            ['RPAR', '3', ['3', '3']],
+            ['RPAR', '(3', ['(3', '()*3', '(3)']],
+            ['RPAR', 'ln', ['ln', 'ln', 'ln']],
 
-            ['LPAR', 0, 'PI', '(PI'],
-            ['LPAR', 1, 'PI', 'PI*('],
-            ['LPAR', 2, 'PI', 'PI*('],
+            ['TEN', '5', ['TEN*5', '5*TEN']],
+            ['TEN', '+', ['TEN+', '+TEN']],
+            ['TEN', 'exp', ['TEN*exp', 'exp TEN', 'exp TEN', 'exp TEN']],
+            ['PI', '5!', ['PI*5!', '5*PI!', '5!*PI']],
 
-            ['LPAR', 0, '2', '(2'],
-            ['LPAR', 1, '2', '2*('],
+            [
+                'COS',
+                'exp ln',
+                ['cos exp ln', 'exp cos ln', 'exp cos ln', 'exp cos ln', 'exp cos ln', 'exp ln cos', 'exp ln cos']
+            ],
+            ['COS', 'exp 2', ['cos exp 2', 'exp cos 2', 'exp cos 2', 'exp cos 2', 'exp cos 2', 'exp 2*cos']],
+            ['COS', '2*exp', ['cos 2*exp', '2*cos*exp', '2*cos exp', '2*exp cos', '2*exp cos', '2*exp cos']],
+            ['COS', '5!', ['cos 5!', '5*cos!', '5!*cos']],
 
-            ['RPAR', 0, '(', ')*('],
-            ['RPAR', 1, '(', '()'],
+            ['ADD', 'exp', ['+exp', 'exp+', 'exp+', 'exp+']],
+            ['ADD', 'exp ln', ['+exp ln', 'exp+ ln', 'exp+ ln', 'exp+ ln', 'exp +ln', 'exp ln+', 'exp ln+']],
+            ['ADD', 'exp 2', ['+exp 2', 'exp+ 2', 'exp+ 2', 'exp+ 2', 'exp +2', 'exp 2+']],
+            ['ADD', '2*exp', ['+2*exp', '2+exp', '2*+exp', '2*exp+', '2*exp+', '2*exp+']],
+            ['ADD', '5!', ['+5!', '5+!', '5!+']],
+            ['ADD', '55*', ['+55*', '5+5*', '55+', '55+']],
+            ['ADD', '55**', ['+55**', '5+5**', '55+*', '55+', '55+']],
+            ['ADD', '55**+', ['+55**+', '5+5**+', '55+*+', '55++', '55+']],
+            ['SUB', '55*', ['-55*', '5-5*', '55-*', '55*-']],
+            ['SUB', '55**', ['-55**', '5-5**', '55-**', '55*-*', '55**-']],
+            ['SUB', '55**-', ['-55**-', '5-5**-', '55-**-', '55*-*-', '55-']],
 
-            ['RPAR', 0, '3', ')*3'],
-            ['RPAR', 1, '3', '3)'],
-
-            ['RPAR', 0, 'ln', ')*ln'],
-            ['RPAR', 1, 'ln', 'ln)'],
-            ['RPAR', 2, 'ln', 'ln)'],
-
-            ['TEN', 0, '5', 'TEN*5'],
-            ['TEN', 1, '5', '5*TEN'],
-
-            ['TEN', 0, '+', 'TEN+'],
-            ['TEN', 1, '+', '+TEN'],
-
-            ['TEN', 0, 'exp', 'TEN*exp'],
-            ['TEN', 1, 'exp', 'exp TEN'],
-            ['TEN', 2, 'exp', 'exp TEN'],
-            ['TEN', 3, 'exp', 'exp TEN'],
-
-            ['@NTHRT', 0, '1+2', '@nthrt 1+2'],
-            ['@NTHRT', 1, '1+2', '1@nthrt+2'],
-            ['@NTHRT', 2, '1+2', '1+@nthrt 2'],
-            ['@NTHRT', 3, '1+2', '1+2@nthrt'],
-
-            ['SQRT', 0, '1+2', 'sqrt 1+2'],
-            ['SQRT', 1, '1+2', '1*sqrt+2'],
-            ['SQRT', 2, '1+2', '1+sqrt 2'],
-            ['SQRT', 3, '1+2', '1+2*sqrt'],
-
-            ['SQRT', 0, 'exp', 'sqrt exp'],
-            ['SQRT', 1, 'exp', 'exp sqrt'],
-            ['SQRT', 2, 'exp', 'exp sqrt'],
-            ['SQRT', 3, 'exp', 'exp sqrt'],
-
-            ['COS', 0, 'exp ln', 'cos exp ln'],
-            ['COS', 1, 'exp ln', 'exp cos ln'],
-            ['COS', 2, 'exp ln', 'exp cos ln'],
-            ['COS', 3, 'exp ln', 'exp cos ln'],
-            ['COS', 4, 'exp ln', 'exp cos ln'],
-            ['COS', 5, 'exp ln', 'exp ln cos'],
-            ['COS', 6, 'exp ln', 'exp ln cos'],
-
-            ['NUM3', 0, 'PI', '3*PI'],
-            ['NUM3', 1, 'PI', 'PI*3'],
-            ['NUM3', 2, 'PI', 'PI*3'],
-
-            ['NUM3', 0, 'exp ln', '3*exp ln'],
-            ['NUM3', 1, 'exp ln', 'exp 3* ln'],
-            ['NUM3', 2, 'exp ln', 'exp 3* ln'],
-            ['NUM3', 3, 'exp ln', 'exp 3* ln'],
-            ['NUM3', 4, 'exp ln', 'exp 3*ln'],
-            ['NUM3', 5, 'exp ln', 'exp ln 3'],
-            ['NUM3', 6, 'exp ln', 'exp ln 3'],
-
-            ['ADD', 0, 'exp ln', '+exp ln'],
-            ['ADD', 1, 'exp ln', 'exp+ ln'],
-            ['ADD', 2, 'exp ln', 'exp+ ln'],
-            ['ADD', 3, 'exp ln', 'exp+ ln'],
-            ['ADD', 4, 'exp ln', 'exp +ln'],
-            ['ADD', 5, 'exp ln', 'exp ln+'],
-            ['ADD', 6, 'exp ln', 'exp ln+'],
-
-            ['COS', 0, 'exp 2', 'cos exp 2'],
-            ['COS', 1, 'exp 2', 'exp cos 2'],
-            ['COS', 2, 'exp 2', 'exp cos 2'],
-            ['COS', 3, 'exp 2', 'exp cos 2'],
-            ['COS', 4, 'exp 2', 'exp cos 2'],
-            ['COS', 5, 'exp 2', 'exp 2*cos'],
-
-            ['NUM3', 0, 'exp 2', '3*exp 2'],
-            ['NUM3', 1, 'exp 2', 'exp 3 2'],
-            ['NUM3', 2, 'exp 2', 'exp 3 2'],
-            ['NUM3', 3, 'exp 2', 'exp 3 2'],
-            ['NUM3', 4, 'exp 2', 'exp 32'],
-            ['NUM3', 5, 'exp 2', 'exp 23'],
-
-            ['ADD', 0, 'exp 2', '+exp 2'],
-            ['ADD', 1, 'exp 2', 'exp+ 2'],
-            ['ADD', 2, 'exp 2', 'exp+ 2'],
-            ['ADD', 3, 'exp 2', 'exp+ 2'],
-            ['ADD', 4, 'exp 2', 'exp +2'],
-            ['ADD', 5, 'exp 2', 'exp 2+'],
-
-            ['COS', 0, '2*exp', 'cos 2*exp'],
-            ['COS', 1, '2*exp', '2*cos*exp'],
-            ['COS', 2, '2*exp', '2*cos exp'],
-            ['COS', 3, '2*exp', '2*exp cos'],
-            ['COS', 4, '2*exp', '2*exp cos'],
-            ['COS', 5, '2*exp', '2*exp cos'],
-
-            ['NUM3', 0, '2*exp', '32*exp'],
-            ['NUM3', 1, '2*exp', '23*exp'],
-            ['NUM3', 2, '2*exp', '2*3*exp'],
-            ['NUM3', 3, '2*exp', '2*exp 3'],
-            ['NUM3', 4, '2*exp', '2*exp 3'],
-            ['NUM3', 5, '2*exp', '2*exp 3'],
-
-            ['ADD', 0, '2*exp', '+2*exp'],
-            ['ADD', 1, '2*exp', '2+*exp'],
-            ['ADD', 2, '2*exp', '2*+exp'],
-            ['ADD', 3, '2*exp', '2*exp+'],
-            ['ADD', 4, '2*exp', '2*exp+'],
-            ['ADD', 5, '2*exp', '2*exp+'],
-
-            ['ADD', 0, 'exp', '+exp'],
-            ['ADD', 1, 'exp', 'exp+'],
-            ['ADD', 2, 'exp', 'exp+'],
-            ['ADD', 3, 'exp', 'exp+'],
-
-            ['NUM2', 0, 'exp', '2*exp'],
-            ['NUM2', 1, 'exp', 'exp 2'],
-            ['NUM2', 2, 'exp', 'exp 2'],
-            ['NUM2', 3, 'exp', 'exp 2'],
-
-            ['NUM1', 0, '2+exp', '12+exp'],
-            ['NUM1', 1, '2+exp', '21+exp'],
-            ['NUM1', 2, '2+exp', '2+1*exp'],
-            ['NUM1', 3, '2+exp', '2+exp 1'],
-            ['NUM1', 4, '2+exp', '2+exp 1'],
-            ['NUM1', 5, '2+exp', '2+exp 1'],
-
-            ['NUM1', 0, 'exp+2', '1*exp+2'],
-            ['NUM1', 1, 'exp+2', 'exp 1+2'],
-            ['NUM1', 2, 'exp+2', 'exp 1+2'],
-            ['NUM1', 3, 'exp+2', 'exp 1+2'],
-            ['NUM1', 4, 'exp+2', 'exp+12'],
-            ['NUM1', 5, 'exp+2', 'exp+21']
-        ])('inserts %s at %s in %s', (term, position, expression, expected) => {
-            const calculator = engineFactory({ expression, position });
+            ['FAC', '55+', ['!*55+', '5!*5+', '55!', '55!']],
+            ['FAC', '55#', ['!*55#', '5!*5#', '55!#', '55#!']],
+            ['FAC', '55!', ['!*55!', '5!*5!', '55!!', '55!!']]
+        ])('inserts %s in %s', (term, expression, expected) => {
+            const calculator = engineFactory();
             calculator.setLastResult('42');
 
-            expect(calculator.insertTerm(term)).toBe(calculator);
-            expect(calculator.getExpression()).toStrictEqual(expected);
+            for (let position = 0; position < expected.length; position++) {
+                calculator.replace(expression, position);
+                calculator.insertTerm(term);
+                expect(calculator.getExpression()).toStrictEqual(expected[position]);
+            }
         });
 
         it.each([
@@ -1204,7 +1375,7 @@ describe('engine', () => {
 
             calculator.on('term', termEvt);
 
-            expect(calculator.addTerm('foo', term)).toBe(calculator);
+            expect(calculator.addTerm('foo', term)).toBeTruthy();
 
             expect(termEvt).toHaveBeenCalledTimes(1);
             expect(termEvt.mock.calls[0][0]).toStrictEqual(term.name);
@@ -1217,8 +1388,8 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.addTerm('foo')).toBe(calculator);
-            expect(calculator.addTerm('foo', {})).toBe(calculator);
+            expect(calculator.addTerm('foo')).toBeFalsy();
+            expect(calculator.addTerm('foo', {})).toBeFalsy();
 
             expect(errorEvt).toHaveBeenCalledTimes(2);
             expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
@@ -1233,7 +1404,7 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.insertTerm('foo')).toBe(calculator);
+            expect(calculator.insertTerm('foo')).toBeFalsy();
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
             expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
@@ -1246,7 +1417,7 @@ describe('engine', () => {
 
             calculator.on('error', errorEvt);
 
-            expect(calculator.insertVariable('foo')).toBe(calculator);
+            expect(calculator.insertVariable('foo')).toBeFalsy();
 
             expect(errorEvt).toHaveBeenCalledTimes(1);
             expect(errorEvt.mock.calls[0][0]).toEqual(expect.any(TypeError));
@@ -1254,16 +1425,59 @@ describe('engine', () => {
         });
 
         it.each([
-            [['NUM1', 'ADD', 'NUM2'], '1+2'],
-            ['NUM1 ADD NUM2', '1+2']
-        ])('adds a list of terms to the expression from %s', (terms, expected) => {
+            [['NUM1', 'ADD', 'NUM2'], true, 3, '1+2'],
+            ['NUM1 ADD NUM2', true, 3, '1+2'],
+            ['POW NUM2', false, 0, ''],
+            ['POW NEG NUM1', false, 0, '']
+        ])('adds a list of terms to the expression from %s', (terms, result, position, expected) => {
             const calculator = engineFactory();
 
             expect(calculator.getExpression()).toStrictEqual('');
 
-            expect(calculator.insertTermList(terms)).toBe(calculator);
+            expect(calculator.insertTermList(terms)).toStrictEqual(result);
             expect(calculator.getExpression()).toStrictEqual(expected);
-            expect(calculator.getPosition()).toStrictEqual(3);
+            expect(calculator.getPosition()).toStrictEqual(position);
+        });
+    });
+
+    describe('corrects the expression', () => {
+        it('from an empty expression', () => {
+            const calculator = engineFactory();
+
+            expect(calculator.correct()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual('');
+        });
+
+        it('from a valid expression', () => {
+            const expression = '.1 + .2 * (4 + 5)';
+            const calculator = engineFactory({ expression });
+            const replace = jest.fn();
+            calculator.on('replace', replace);
+
+            expect(calculator.correct()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual(expression);
+            expect(replace).toHaveBeenCalledTimes(0);
+        });
+
+        it('from a wrong expression', () => {
+            const calculator = engineFactory({ expression: '3*(4+5*(sin+' });
+            const replace = jest.fn();
+            calculator.on('replace', replace);
+
+            expect(calculator.correct()).toBe(calculator);
+            expect(calculator.getExpression()).toStrictEqual('3*(4+5)');
+            expect(replace).toHaveBeenCalledTimes(1);
+        });
+
+        it('emits a correct event', () => {
+            const calculator = engineFactory({ expression: '3+2*' });
+            const eventListener = jest.fn();
+
+            calculator.on('correct', eventListener);
+            calculator.correct();
+            calculator.correct();
+
+            expect(eventListener).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -1345,6 +1559,17 @@ describe('engine', () => {
 
             expect(action).toHaveBeenCalledTimes(1);
             expect(action.mock.calls[0][0].toString()).toStrictEqual('Error: unexpected TEOF: EOF');
+        });
+
+        it('emits a syntaxerror event if the single term is not a value', () => {
+            const calculator = engineFactory({ expression: 'cos' });
+            const action = jest.fn();
+
+            calculator.on('syntaxerror', action);
+            calculator.evaluate();
+
+            expect(action).toHaveBeenCalledTimes(1);
+            expect(action.mock.calls[0][0].toString()).toStrictEqual('Error: Invalid expression');
         });
     });
 
