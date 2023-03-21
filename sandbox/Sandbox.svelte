@@ -2,43 +2,63 @@
     // Licensed under Gnu Public License version 2
     // Copyright (c) 2023 (original work) Open Assessment Technologies SA ;
 
+    import { afterUpdate } from 'svelte';
     import { engineFactory, expressionHelper, historyPlugin, terms, tokensHelper } from 'calculator';
     import MathExpression from './MathExpression.svelte';
     import keyboard from './keyboard.js';
 
     const plugins = { history: historyPlugin };
     const calculator = engineFactory({ plugins });
-    const lastResultVariable = terms.ANS.value;
+    const lastResultVariable = terms.VAR_ANS.value;
     const errorValue = terms.ERROR.value;
 
     let decimals = 5;
-    let degree = false;
+    let degree = calculator.isDegreeMode();
+    let instant = calculator.isInstantMode();
+    let corrector = calculator.isCorrectorMode();
     let commandName = '';
     let commandParam = '';
-    let expression = '';
+    let position = calculator.getPosition();
+    let expression = calculator.getExpression();
     let expressionJSON = '';
     let resultJSON = '';
     let resultValue = '';
+    let tokenIndex = 0;
+    let tokenJSON = '';
+    let tokensJSON = '';
     let renderedTerms = [];
     let renderedResult = [];
     let renderedJSON = '';
-    let variables = calculator.getAllVariableValues();
+    let variables = calculator.getAllVariables();
     let active = true;
     let error = false;
+    let events = [];
+    let eventsList;
+
+    function stringify(json, indent = 4) {
+        return JSON.stringify(json, null, indent);
+    }
 
     function formatExpression(expr) {
         const allVariables = expressionHelper.roundAllVariables(calculator.getAllVariables(), decimals);
         return expressionHelper.render(expr, allVariables, calculator.getTokenizer());
     }
 
-    function rawInput(e) {
+    function positionInput(e) {
+        addEventCheckpoint('# position');
+        calculator.setPosition(parseInt(e.target.value, 10));
+    }
+
+    function expressionInput(e) {
+        addEventCheckpoint('# expression');
         calculator.replace(e.target.value);
         active = true;
         error = false;
     }
 
-    function rawInputKeyUp(e) {
+    function expressionInputKeyUp(e) {
         if (e.key === 'Enter') {
+            addEventCheckpoint('# evaluate');
             calculator.evaluate();
         }
     }
@@ -51,13 +71,29 @@
 
     function invoke() {
         if (commandName.trim() !== '') {
+            addEventCheckpoint('# invoke');
             calculator.invoke(commandName.trim(), commandParam.trim());
         }
     }
 
-    function modeChange() {
+    function angleModeChange() {
         if (calculator.isDegreeMode() !== degree) {
+            addEventCheckpoint('# degree');
             calculator.setDegreeMode(degree);
+        }
+    }
+
+    function instantModeChange() {
+        if (calculator.isInstantMode() !== instant) {
+            addEventCheckpoint('# instant');
+            calculator.setInstantMode(instant);
+        }
+    }
+
+    function correctorModeChange() {
+        if (calculator.isCorrectorMode() !== corrector) {
+            addEventCheckpoint('# corrector');
+            calculator.setCorrectorMode(corrector);
         }
     }
 
@@ -68,8 +104,45 @@
         }
 
         const { command, param } = button.dataset;
+        addEventCheckpoint(`${command}${param ? `: ${param}` : ''}`);
         calculator.invoke(command, param);
     }
+
+    function clearEvents() {
+        events = [];
+    }
+
+    function pushEvent(type, name = '', args = []) {
+        const { changed } = calculator;
+        const state = { changed, active, error };
+        events.push({ type, name, args, state });
+        events = events;
+    }
+
+    function addEvent(name, args) {
+        pushEvent('event', name, args);
+    }
+
+    function addEventCheckpoint(name) {
+        pushEvent('checkpoint', name);
+    }
+
+    async function scrollToBottom(node) {
+        node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
+    }
+
+    // hook the calculator events in order to log them
+    const { trigger } = calculator;
+    calculator.trigger = (name, ...args) => {
+        addEvent(name, args);
+        return trigger.call(calculator, name, ...args);
+    };
+
+    afterUpdate(() => {
+        if (eventsList) {
+            scrollToBottom(eventsList);
+        }
+    });
 
     calculator
         .on('configure', () => {
@@ -77,19 +150,27 @@
         })
         .on('expression', expr => {
             expression = expr;
+            tokenIndex = calculator.getTokenIndex();
+            tokenJSON = stringify(calculator.getToken());
+            tokensJSON = stringify(calculator.getTokens());
             renderedTerms = expressionHelper.nestExponents(calculator.render(decimals));
-            renderedJSON = JSON.stringify(renderedTerms, null, 4);
+            renderedJSON = stringify(renderedTerms);
 
             try {
                 const parsedExpression = calculator.getMathsEvaluator().parser.parse(expression);
-                expressionJSON = JSON.stringify(parsedExpression, null, 4);
+                expressionJSON = stringify(parsedExpression);
             } catch (e) {
                 expressionJSON = e.message;
             }
         })
+        .on('position', pos => {
+            position = pos;
+            tokenIndex = calculator.getTokenIndex();
+            tokenJSON = stringify(calculator.getToken());
+        })
         .on('result', result => {
             resultValue = result.result;
-            resultJSON = JSON.stringify(result, null, 4);
+            resultJSON = stringify(result);
             active = false;
             error = calculator.error;
 
@@ -101,6 +182,13 @@
         })
         .on('command', (name, parameter) => {
             if (active || error) {
+                return;
+            }
+
+            if (calculator.isInstantMode()) {
+                if (name === 'execute') {
+                    calculator.replace(lastResultVariable);
+                }
                 return;
             }
 
@@ -124,7 +212,7 @@
             resultJSON = '';
         })
         .on('variableadd', (name, value) => {
-            variables[name] = value.result;
+            variables[name] = value;
         })
         .on('syntaxerror', () => {
             resultValue = errorValue;
@@ -170,55 +258,178 @@
         </div>
     </div>
     <div class="context">
-        <div class="control">
-            <fieldset class="input">
+        <div class="layout-row">
+            <fieldset>
                 <legend>Input</legend>
-                <div class="context-row raw">
+                <div>
                     <input
+                        class="full"
                         type="text"
                         placeholder="expression"
                         value={expression}
-                        on:input={rawInput}
-                        on:keyup={rawInputKeyUp}
+                        on:input={expressionInput}
+                        on:keyup={expressionInputKeyUp}
                     />
                 </div>
-                <div class="context-row mode">
+                <div>
+                    <span>Expression:</span>
+                    <code>{expression}</code>
+                </div>
+                <div>
+                    <span>Position:</span>
+                    <input
+                        type="number"
+                        value={position}
+                        size="3"
+                        min="0"
+                        max={expression.length}
+                        on:input={positionInput}
+                    />
+                    <span>Index:</span>
+                    <code>{tokenIndex}</code>
+                </div>
+                <div class="layout-column">
+                    <details>
+                        <summary>All Tokens</summary>
+                        <pre>{tokensJSON}</pre>
+                    </details>
+                    <details>
+                        <summary>Current Token</summary>
+                        <pre>{tokenJSON}</pre>
+                    </details>
+                </div>
+            </fieldset>
+        </div>
+        <div class="layout-column">
+            <fieldset>
+                <legend>Angle mode</legend>
+                <div>
                     <label>
-                        <input type="radio" name="angle" value={true} bind:group={degree} on:change={modeChange} />
-                        <span>degree</span>
+                        <input
+                            type="radio"
+                            name="angle"
+                            value={false}
+                            bind:group={degree}
+                            on:change={angleModeChange}
+                        />
+                        <span>radian</span>
                     </label>
                     <label>
-                        <input type="radio" name="angle" value={false} bind:group={degree} on:change={modeChange} />
-                        <span>radian</span>
+                        <input type="radio" name="angle" value={true} bind:group={degree} on:change={angleModeChange} />
+                        <span>degree</span>
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Computation mode</legend>
+                <div>
+                    <label>
+                        <input type="radio" value={false} bind:group={instant} on:change={instantModeChange} />
+                        <span>on demand computation</span>
+                    </label>
+                    <label>
+                        <input type="radio" value={true} bind:group={instant} on:change={instantModeChange} />
+                        <span>instant computation</span>
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Corrector mode</legend>
+                <div>
+                    <label>
+                        <input type="radio" value={false} bind:group={corrector} on:change={correctorModeChange} />
+                        <span>disabled</span>
+                    </label>
+                    <label>
+                        <input type="radio" value={true} bind:group={corrector} on:change={correctorModeChange} />
+                        <span>enabled</span>
                     </label>
                 </div>
             </fieldset>
             <fieldset class="command">
                 <legend>Command</legend>
-                <div class="context-row">
+                <div>
                     <input type="text" placeholder="command" bind:value={commandName} on:keyup={commandKeyUp} />
                     <input type="text" placeholder="parameter" bind:value={commandParam} on:keyup={commandKeyUp} />
                     <input type="button" value="Call" on:click={invoke} />
                 </div>
             </fieldset>
         </div>
-        <div class="state">
-            <fieldset class="output">
-                <legend>Result</legend>
-                <pre>{resultJSON}</pre>
+        <div class="layout-column">
+            <fieldset class="command">
+                <legend>Context</legend>
+                <div on:click={keyboardClick} on:keypress>
+                    <input type="button" value="Clear" data-command="clear" />
+                    <input type="button" value="Reset" data-command="reset" />
+                    <input type="button" value="Execute" data-command="execute" />
+                    <input type="button" value="Sign" data-command="sign" />
+                    <input type="button" value="Degree" data-command="degree" />
+                    <input type="button" value="Radian" data-command="radian" />
+                </div>
             </fieldset>
-            <fieldset class="variables">
+            <fieldset class="command">
+                <legend>Memory</legend>
+                <div on:click={keyboardClick} on:keypress>
+                    <input type="button" value="Remind" data-command="remind" />
+                    <input type="button" value="Memorize" data-command="memorize" />
+                    <input type="button" value="Forget" data-command="forget" />
+                </div>
+            </fieldset>
+        </div>
+        <div class="layout-column">
+            <fieldset class="command">
+                <legend>Cursor</legend>
+                <div on:click={keyboardClick} on:keypress>
+                    <input type="button" value="Move Left" data-command="moveLeft" />
+                    <input type="button" value="Move Right" data-command="moveRight" />
+                    <input type="button" value="Delete Left" data-command="deleteLeft" />
+                    <input type="button" value="Delete Right" data-command="deleteRight" />
+                </div>
+            </fieldset>
+            <fieldset class="command">
+                <legend>History</legend>
+                <div on:click={keyboardClick} on:keypress>
+                    <input type="button" value="Clear History" data-command="historyClear" />
+                    <input type="button" value="History Up" data-command="historyUp" />
+                    <input type="button" value="History Down" data-command="historyDown" />
+                </div>
+            </fieldset>
+        </div>
+        <div class="layout-column">
+            <fieldset>
+                <legend>Result</legend>
+                <div>
+                    <span>Value:</span>
+                    <code>{resultValue || 0}</code>
+                </div>
+                <details>
+                    <summary>JSON</summary>
+                    <pre>{resultJSON}</pre>
+                </details>
+            </fieldset>
+            <fieldset>
                 <legend>Variables</legend>
-                {#each Object.entries(variables) as [name, value]}
+                {#each Object.entries(variables) as [name, value] (name)}
                     <div class="field">
                         <span>{name}:</span>
-                        <code>{value}</code>
+                        <code>{value.result}</code>
+                        <details>
+                            <summary>JSON</summary>
+                            <pre>{stringify(value)}</pre>
+                        </details>
                     </div>
                 {/each}
             </fieldset>
         </div>
-        <div class="state">
-            <fieldset class="parser">
+        <div class="layout-column">
+            <fieldset>
+                <legend>Tokens</legend>
+                <details>
+                    <summary>JSON</summary>
+                    <pre>{renderedJSON}</pre>
+                </details>
+            </fieldset>
+            <fieldset>
                 <legend>Parser</legend>
                 <details>
                     <summary>JSON</summary>
@@ -226,13 +437,25 @@
                 </details>
             </fieldset>
         </div>
-        <div class="state">
-            <fieldset class="tokens">
-                <legend>Tokens</legend>
-                <details>
-                    <summary>JSON</summary>
-                    <pre>{renderedJSON}</pre>
-                </details>
+        <div class="layout-column">
+            <fieldset>
+                <legend>Events</legend>
+                <div>
+                    <input type="button" value="Clear" on:click={clearEvents} />
+                </div>
+                <div class="layout-panel" bind:this={eventsList}>
+                    {#each events as { type, name, args, state }, i (i)}
+                        {#if type === 'checkpoint'}
+                            <div class="checkpoint">{name}</div>
+                        {:else}
+                            <details>
+                                <summary>{name}</summary>
+                                <code>{stringify(state, 0)}</code>
+                                <pre>{stringify(args)}</pre>
+                            </details>
+                        {/if}
+                    {/each}
+                </div>
             </fieldset>
         </div>
     </div>
@@ -245,6 +468,8 @@
 
         --color-text-default: hsl(0, 0%, 12%);
         --color-text-secondary: hsl(0, 0%, 33%);
+        --color-text-inverted: hsl(0, 0%, 100%);
+        --color-text-selection: hsl(0, 0%, 12%);
         --color-bg-default: hsl(0, 0%, 100%);
         --color-bg-button: hsl(0, 0%, 95%);
         --color-bg-button-dark: hsl(0, 0%, 82%);
@@ -254,8 +479,8 @@
         --color-bg-primary-dark: hsl(208, 100%, 42%);
         --color-bg-secondary: hsl(208, 100%, 95%);
         --color-bg-secondary-dark: hsl(208, 100%, 65%);
-        --color-text-inverted: hsl(0, 0%, 100%);
         --color-bg-inverted: hsl(0, 0%, 12%);
+        --color-bg-selection: hsl(0, 0%, 90%);
         --color-separator: hsl(0, 0%, 12%);
 
         --screen-text: var(--color-text-inverted);
@@ -334,27 +559,58 @@
         flex: 1 1 auto;
         overflow: auto;
     }
-    .context-row {
-        padding: 4px 0;
-    }
-    .raw input {
+    .full {
         width: 100%;
     }
-    .state {
+    .layout-row {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        align-content: stretch;
+    }
+    .layout-column {
         display: flex;
         flex-direction: row;
         align-items: stretch;
         align-content: stretch;
-        font-size: smaller;
+    }
+    .layout-panel {
+        overflow: auto;
+        max-height: 30rem;
+    }
+    .checkpoint {
+        color: var(--color-text-inverted);
+        background-color: var(--color-bg-inverted);
+        padding: 1px;
     }
     fieldset {
         flex: 1 1 auto;
         border: 1px dashed var(--color-separator);
         margin: 1rem;
+        font-size: smaller;
     }
     legend {
         font-size: 1.6rem;
         color: var(--color-text-secondary);
+    }
+    details {
+        padding: 0 1rem;
+    }
+    details pre {
+        color: var(--color-text-selection);
+        background-color: var(--color-bg-selection);
+        padding: 1rem;
+    }
+    details code {
+        color: var(--color-text-default);
+        background-color: var(--color-bg-button);
+        display: block;
+    }
+    summary {
+        cursor: pointer;
+    }
+    fieldset div {
+        padding: 4px 0;
     }
     label {
         font-size: smaller;
@@ -400,7 +656,7 @@
         padding: 0 1rem;
     }
     .expression:not(.active) {
-        opacity: 0.5;
+        opacity: 0.6;
     }
     .result {
         text-align: right;

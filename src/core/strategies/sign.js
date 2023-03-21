@@ -18,6 +18,7 @@
 
 import { terms } from '../terms.js';
 import tokensHelper from '../tokens.js';
+import { applyChangeStrategies } from './helpers.js';
 
 /**
  * List of tokens that refuse explicit positive sign
@@ -173,9 +174,9 @@ export const signStrategies = [
             } else if (token.type === 'ADD' || token.type === 'POS') {
                 // the operator is +, simply replace it by -
                 result = replaceByNegativeSign(token);
-            } else if (token.type === 'FAC' && index > 0) {
-                // the operator is !, need to identify the operand
-                result = applyTokenStrategies(index - 1, tokens, signStrategies);
+            } else if (tokensHelper.isUnaryOperator(token.type) && index > 0) {
+                // the operator is unary, need to identify the operand
+                result = applyChangeStrategies(index - 1, tokens, signStrategies);
             }
         }
 
@@ -252,34 +253,13 @@ export const signStrategies = [
 ];
 
 /**
- * Apply a list of strategies to a token.
- * @param {number} index - The index of the current token
- * @param {token[]} tokens - The list of tokens that represent the expression
- * @param {tokenStrategy[]} strategies - The list of strategies to apply.
- * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
- */
-export function applyTokenStrategies(index, tokens, strategies) {
-    let result = null;
-
-    strategies.every(strategy => {
-        result = strategy(index, tokens);
-        return !result;
-    });
-
-    return result;
-}
-
-/**
- * @callback tokenStrategy
- * @param {number} index - The index of the current token
- * @param {token[]} tokens - The list of tokens that represent the expression
- * @returns {tokenChange|null} - The result of the strategy: `null` if cannot apply, or the descriptor of the change
+ * @typedef {import('../tokenizer.js').token} token
  */
 
 /**
- * @typedef {object} tokenChange
- * @property {string} value - The token to insert
- * @property {number} offset - The offset where insert the token
- * @property {number} length - The length of text to replace
- * @property {number} move - The move to apply from the current position
+ * @typedef {import('./helpers.js').tokenStrategy} tokenStrategy
+ */
+
+/**
+ * @typedef {import('./helpers.js').tokenChange} tokenChange
  */

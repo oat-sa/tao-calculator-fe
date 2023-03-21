@@ -16,11 +16,35 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
-export { default as engineFactory } from './engine.js';
-export { default as mathsEvaluatorFactory } from './mathsEvaluator.js';
-export { default as tokenizerFactory } from './tokenizer.js';
-export { default as expressionHelper, defaultDecimalDigits } from './expression.js';
-export { default as tokensHelper } from './tokens.js';
-/* c8 ignore start */
-export * from './terms.js';
-/* c8 ignore end */
+/**
+ * Creates a counter that will increase a counter each time a flag is changed from `true` to `false`.
+ * @returns {counter}
+ */
+export function counterFactory() {
+    let counter = 0;
+    let flag = false;
+
+    /**
+     * @typedef {object} counter
+     */
+    return {
+        /**
+         * The number of counted occurrences.
+         * @type {number}
+         */
+        get count() {
+            return counter;
+        },
+
+        /**
+         * Check a state and increase the internal counter if the internal flag changes from `true` to `false`.
+         * @param {boolean} state
+         */
+        check(state = false) {
+            if (flag && !state) {
+                counter++;
+            }
+            flag = state;
+        }
+    };
+}

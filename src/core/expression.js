@@ -16,12 +16,18 @@
  * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 
-import { isFunctionOperator, terms, types } from './terms.js';
+import { isPrefixedTerm, isSignOperator, terms, types } from './terms.js';
 import tokensHelper from './tokens.js';
 import tokenizerFactory from './tokenizer.js';
 
 /**
- * @typedef {term} renderTerm - Represents a renderable tokenizable term
+ * @typedef {object} renderTerm - Represents a renderable tokenizable term
+ * @property {string} label - The displayable text
+ * @property {string} value - The related text that should be found in the expression
+ * @property {string} type - The type of token
+ * @property {string} token - The token name
+ * @property {boolean} unary - Tells if the operator is unary or binary
+ * @property {string|boolean} exponent - Some terms introduce exponent notation, and this property tells on which side
  * @property {string} startExponent - Identifier for the start of the exponent (will produce exponent notation for the term)
  * @property {string[]} endExponent - Identifiers for the end of the exponent (will finish exponent notation for the term)
  * @property {boolean} prefixed - Tells if the term is prefixed (i.e. function treated as binary operator)
@@ -38,7 +44,7 @@ import tokenizerFactory from './tokenizer.js';
  * Name of the variable that contains the last result
  * @type {string}
  */
-const lastResultVariableName = terms.ANS.value;
+const lastResultVariableName = terms.VAR_ANS.value;
 
 /**
  * Regex that matches the usual error tokens in a result
@@ -63,12 +69,6 @@ const reNegative = new RegExp(`[${terms.SUB.label}${terms.SUB.value}]`, 'g');
  * @type {RegExp}
  */
 const rePositive = new RegExp(`[${terms.ADD.label}${terms.ADD.value}]`, 'g');
-
-/**
- * List of tokens representing sign or sum
- * @type {string[]}
- */
-const signOperators = ['NEG', 'POS', 'SUB', 'ADD'];
 
 /**
  * Substitution mapping for the sign operators
@@ -161,6 +161,23 @@ const expressionHelper = {
     },
 
     /**
+     * Builds an expression from a list of tokens.
+     * @param {token[]} tokens - The list of tokens from which build the expression.
+     * @returns {string} - The expression built from the list of tokens.
+     */
+    build(tokens) {
+        return tokens.reduce((expression, token) => {
+            while (expression.length < token.offset) {
+                expression = `${expression} `;
+            }
+
+            expression = `${expression}${token.value}`;
+
+            return expression;
+        }, '');
+    },
+
+    /**
      * Replace sign operators by a proper symbol
      * @param {string|number|object} expression
      * @returns {string}
@@ -229,7 +246,7 @@ const expressionHelper = {
                 exponent: null,
                 startExponent: null,
                 endExponent: [],
-                prefixed: isFunctionOperator(token.value),
+                prefixed: isPrefixedTerm(token.value),
                 elide: false
             };
 
@@ -447,10 +464,7 @@ function exponentOnTheRight(renderedTerms, index) {
     }
 
     // only take care of actual operand value or sub expression (starting from the left)
-    if (
-        term &&
-        (tokensHelper.isOperand(term.type) || term.token === 'LPAR' || signOperators.indexOf(term.token) >= 0)
-    ) {
+    if (term && (tokensHelper.isOperand(term.type) || term.token === 'LPAR' || isSignOperator(term.token))) {
         term.startExponent = identifier;
 
         // we use an internal loop as exponents could be chained
@@ -458,7 +472,7 @@ function exponentOnTheRight(renderedTerms, index) {
             shouldContinue = false;
 
             // functions are attached to an operand, and this link should be kept
-            while (index < last && (tokensHelper.isFunction(term.type) || signOperators.indexOf(term.token) >= 0)) {
+            while (index < last && (tokensHelper.isFunction(term.type) || isSignOperator(term.token))) {
                 nextTerm();
             }
 

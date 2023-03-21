@@ -95,9 +95,6 @@ const digits = _.pickBy(terms, filterDigit);
  * @property {string} value - The actual value of the token
  * @property {string} text - The raw value that produced the token
  * @property {number} offset - The original offset in the source
- * @property {number} lineBreaks - How many line breaks are contained in the raw value
- * @property {number} line - The line number of the token (starting from 1)
- * @property {number} col - The column number of the token (starting from 1)
  */
 
 /**
@@ -111,18 +108,18 @@ const digits = _.pickBy(terms, filterDigit);
  * const terms = tokenizer(expression);
  *
  * // terms now contains an array of terms:
- * // [{type: "LPAR", value: "(", text: "(", offset: 0, lineBreaks: 0, line: 1, col: 1},
- * //  {type: "DOT", value: ".", text: ".", offset: 1, lineBreaks: 0, line: 1, col: 2},
- * //  {type: "NUM1", value: "1", text: "1", offset: 2, lineBreaks: 0, line: 1, col: 3},
- * //  {type: "ADD", value: "+", text: "+", offset: 4, lineBreaks: 0, line: 1, col: 5},
- * //  {type: "DOT", value: ".", text: ".", offset: 6, lineBreaks: 0, line: 1, col: 7},
- * //  {type: "NUM2", value: "2", text: "2", offset: 7, lineBreaks: 0, line: 1, col: 8},
- * //  {type: "RPAR", value: ")", text: ")", offset: 8, lineBreaks: 0, line: 1, col: 9},
- * //  {type: "MUL", value: "*", text: "*", offset: 10, lineBreaks: 0, line: 1, col: 11},
- * //  {type: "NUM1", value: "1", text: "1", offset: 12, lineBreaks: 0, line: 1, col: 13},
- * //  {type: "NUM0", value: "0", text: "0", offset: 13, lineBreaks: 0, line: 1, col: 14},
- * //  {type: "POW", value: "^", text: "^", offset: 14, lineBreaks: 0, line: 1, col: 15},
- * //  {type: "NUM8", value: "8", text: "8", offset: 15, lineBreaks: 0, line: 1, col: 16}]
+ * // [{type: "LPAR", value: "(", text: "(", offset: 0},
+ * //  {type: "DOT", value: ".", text: ".", offset: 1},
+ * //  {type: "NUM1", value: "1", text: "1", offset: 2},
+ * //  {type: "ADD", value: "+", text: "+", offset: 4},
+ * //  {type: "DOT", value: ".", text: ".", offset: 6},
+ * //  {type: "NUM2", value: "2", text: "2", offset: 7},
+ * //  {type: "RPAR", value: ")", text: ")", offset: 8},
+ * //  {type: "MUL", value: "*", text: "*", offset: 10},
+ * //  {type: "NUM1", value: "1", text: "1", offset: 12},
+ * //  {type: "NUM0", value: "0", text: "0", offset: 13},
+ * //  {type: "POW", value: "^", text: "^", offset: 14},
+ * //  {type: "NUM8", value: "8", text: "8", offset: 15}]
  *
  * @param {object} [config]
  * @param {object} [config.keywords] - List of additional keywords: key being the name, value being the pattern (should be on the domain /[a-zA-Z]+/)
@@ -227,7 +224,8 @@ function tokenizerFactory(config = {}) {
             do {
                 token = iterator();
                 if (token) {
-                    tokens.push(token);
+                    const { type, value, text, offset } = token;
+                    tokens.push({ type, value, text, offset });
                 }
             } while (token);
 
