@@ -95,6 +95,31 @@ export const limitStrategies = [
     },
 
     /**
+     * Check if a decimal separator can be added.
+     * @param {token[]} tokens - The list of tokens on which apply the strategy.
+     * @returns {boolean|null} - Returns `true` if the new token is rejected.
+     * Otherwise, returns `null` if the strategy does not apply.
+     */
+    function limitDecimalSeparator(tokens = []) {
+        if (tokens.length <= 1) {
+            return null;
+        }
+
+        const [newToken] = tokens.slice(-1);
+        if (tokensHelper.getToken(newToken) !== 'DOT') {
+            return null;
+        }
+
+        for (let i = tokens.length - 2; i > -1 && tokensHelper.isDigit(tokens[i]); i--) {
+            if (tokensHelper.getToken(tokens[i]) === 'DOT') {
+                return true;
+            }
+        }
+
+        return null;
+    },
+
+    /**
      * Check if the expression can be closed.
      * @param {token[]} tokens - The list of tokens on which apply the strategy.
      * @returns {boolean|null} - Returns `true` if the new token is rejected.
