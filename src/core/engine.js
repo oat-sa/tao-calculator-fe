@@ -970,6 +970,11 @@ function engineFactory({
                     nextToken = tokensList[index + 1];
                 }
 
+                // special case for the decimal separator starting a number
+                if (name === 'DOT' && !tokensHelper.isDigit(previousToken)) {
+                    value = `${terms.NUM0.value}${value}`;
+                }
+
                 // append the appropriate separator to the term to add
                 if (expression) {
                     if (previousToken) {
