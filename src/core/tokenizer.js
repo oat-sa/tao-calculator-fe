@@ -16,7 +16,6 @@
  * Copyright (c) 2018-2023 Open Assessment Technologies SA ;
  */
 
-import _ from 'lodash';
 import { terms } from './terms.js';
 import tokensHelper from './tokens.js';
 import moo from 'moo';
@@ -72,22 +71,47 @@ const filterKeyword = term => term.value.match(reKeywordOnly);
 const filterDigit = term => tokensHelper.isDigit(term) || term.value === '-' || term.value === '+';
 
 /**
+ * Extracts the token values from the list of terms.
+ * @param {term[]} list - List of terms.
+ * @returns {object} - List of token values.
+ */
+const extractTokenValues = list =>
+    Object.entries(list).reduce((tokens, [token, { value }]) => {
+        tokens[token] = value;
+        return tokens;
+    }, {});
+
+/**
+ * Extracts the tokens from the list of terms that match the provided filter.
+ * @param {term[]} list - List of terms.
+ * @param {function} predicate - Filter function.
+ * @returns {term[]} - List of terms that match the filter.
+ */
+const extractTokensByType = (list, predicate) =>
+    Object.entries(list).reduce((tokens, [token, term]) => {
+        if (predicate(term)) {
+            tokens[token] = term;
+        }
+        return tokens;
+    }, {});
+
+/**
  * List of keywords (functions from the list of registered terms).
  * @type {object}
  */
-const keywords = _.pickBy(terms, filterKeyword);
+const keywords = extractTokensByType(terms, filterKeyword);
 
 /**
  * List of symbols (operators and operands from the list of registered terms).
  * @type {object}
  */
-const symbols = _.omitBy(terms, filterKeyword);
+const symbols = extractTokensByType(terms, term => !filterKeyword(term));
 
 /**
  * List of digits and related symbols
  * @type {object}
  */
-const digits = _.pickBy(terms, filterDigit);
+const digits = extractTokensByType(terms, filterDigit);
 
 /**
  * @typedef {object} token
@@ -128,11 +152,11 @@ const digits = _.pickBy(terms, filterDigit);
  * @returns {calculatorTokenizer}
  */
 function tokenizerFactory(config = {}) {
-    const keywordsList = _.defaults(_.mapValues(keywords, 'value'), config.keywords);
-    const symbolsList = _.defaults(_.mapValues(symbols, 'value'), config.symbols);
-    const digitsList = _.defaults(_.mapValues(digits, 'value'), config.digits);
+    const keywordsList = Object.assign({}, config.keywords, extractTokenValues(keywords));
+    const symbolsList = Object.assign({}, config.symbols, extractTokenValues(symbols));
+    const digitsList = Object.assign({}, config.digits, extractTokenValues(digits));
     const keywordsTransform = moo.keywords(keywordsList);
-    const tokensList = _.defaults(
+    const tokensList = Object.assign(
         {},
         ignoredTokens,
         {
@@ -237,3 +261,7 @@ function tokenizerFactory(config = {}) {
 }
 
 export default tokenizerFactory;
+
+/**
+ * @typedef {import('./terms.js').term} term
+ */
