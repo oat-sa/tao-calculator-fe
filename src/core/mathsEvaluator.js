@@ -16,7 +16,6 @@
  * Copyright (c) 2018-2023 (original work) Open Assessment Technologies SA ;
  */
 
-import _ from 'lodash';
 import Decimal from 'decimal.js';
 import exprEval from '@oat-sa/expr-eval';
 
@@ -54,16 +53,60 @@ const defaultDecimalConfig = {
 };
 
 /**
- * List of config entries the Decimal constructor accepts
- * @type {string[]}
+ * Checks if an object is empty.
+ * @param {*} obj - The object to check.
+ * @returns {boolean} - True if the object is empty, false otherwise.
  */
-const decimalConfigEntries = ['precision', 'rounding', 'toExpNeg', 'toExpPos', 'maxE', 'minE', 'modulo', 'crypto'];
+const isEmpty = obj => [Object, Array].includes((obj || {}).constructor) && !Object.entries(obj || {}).length;
 
 /**
- * List of config entries the Parser constructor accepts
- * @type {string[]}
+ * Checks if an object is a plain object.
+ * @param {*} obj - The object to check.
+ * @returns {boolean} - True if the object is a plain object, false otherwise.
  */
-const parserConfigEntries = ['operators'];
+const isPlainObject = obj => [Object].includes((obj || {}).constructor) && Object.entries(obj || {}).length;
+
+/**
+ * Create a new function that calls func with args set on first place.
+ * @param {function} func - The function to partially apply.
+ * @param  {...*} boundArgs - The arguments to partially apply before.
+ * @returns {function} - The partially applied function.
+ */
+function partial(func, ...boundArgs) {
+    const wrapper = (...remainingArgs) => func(...boundArgs, ...remainingArgs);
+    return wrapper;
+}
+
+/**
+ * Create a new function that calls func with args set on last place.
+ * @param {function} func - The function to partially apply.
+ * @param  {...*} boundArgs - The arguments to partially apply after.
+ * @returns {function} - The partially applied function.
+ */
+function partialRight(func, ...boundArgs) {
+    const wrapper = (...remainingArgs) => func(...remainingArgs, ...boundArgs);
+    return wrapper;
+}
+
+/**
+ * Extracts the config entries the Decimal constructor accepts.
+ * @param {object} config - The evaluator config.
+ * @returns {object} - The config entries the Decimal constructor accepts.
+ */
+function extractDecimalConfigEntries(config) {
+    const { precision, rounding, toExpNeg, toExpPos, maxE, minE, modulo, crypto } = config;
+    return { precision, rounding, toExpNeg, toExpPos, maxE, minE, modulo, crypto };
+}
+
+/**
+ * Extracts the config entries the Parser constructor accepts.
+ * @param {object} config - The evaluator config.
+ * @returns {object} - The config entries the Parser constructor accepts.
+ */
+function extractParserConfigEntries(config) {
+    const { operators } = config;
+    return { operators };
+}
 
 /**
  * Gets an arbitrary decimal precision number using a string representation.
@@ -112,11 +155,11 @@ function toPrecisionNumber(number, precision) {
  * @returns {Function<expression, variables>} - The maths expression parser
  */
 function mathsEvaluatorFactory(config) {
-    const localConfig = _.defaults({}, config, defaultConfig);
-    const decimalConfig = _.pick(localConfig, decimalConfigEntries);
-    const parserConfig = _.pick(localConfig, parserConfigEntries);
+    const localConfig = Object.assign({}, defaultConfig, config);
+    const decimalConfig = extractDecimalConfigEntries(localConfig);
+    const parserConfig = extractParserConfigEntries(localConfig);
     const parser = new Parser(parserConfig);
-    const ConfiguredDecimal = Decimal.set(_.isEmpty(decimalConfig) ? defaultDecimalConfig : decimalConfig);
+    const ConfiguredDecimal = Decimal.set(isEmpty(decimalConfig) ? defaultDecimalConfig : decimalConfig);
     const EPSILON = new ConfiguredDecimal(2).pow(-52);
     const PI = new ConfiguredDecimal(toPrecisionNumber(numberPI, localConfig.internalPrecision));
     const E = new ConfiguredDecimal(toPrecisionNumber(numberE, localConfig.internalPrecision));
@@ -325,7 +368,7 @@ function mathsEvaluatorFactory(config) {
                 entry: 'in',
                 action(array, obj) {
                     obj = native(obj);
-                    return 'undefined' !== typeof _.find(array, el => native(el) === obj);
+                    return Array.isArray(array) && 'undefined' !== typeof array.find(el => native(el) === obj);
                 }
             }
         ],
@@ -509,7 +552,7 @@ function mathsEvaluatorFactory(config) {
      */
     function unaryOperator(operator, operand) {
         operand = decimalNumber(operand);
-        if (!_.isFunction(operand[operator])) {
+        if ('function' !== typeof operand[operator]) {
             throw new TypeError(`${operator} is not a valid operator!`);
         }
         return operand[operator]();
@@ -524,7 +567,7 @@ function mathsEvaluatorFactory(config) {
      */
     function binaryOperator(operator, left, right) {
         left = decimalNumber(left);
-        if (!_.isFunction(left[operator])) {
+        if ('function' !== typeof left[operator]) {
             throw new TypeError(`${operator} is not a valid operator!`);
         }
         return left[operator](decimalNumber(right));
@@ -537,7 +580,7 @@ function mathsEvaluatorFactory(config) {
      * @returns {Decimal} - Always returns a Decimal
      */
     function functionOperator(operator, ...operands) {
-        if (!_.isFunction(ConfiguredDecimal[operator])) {
+        if ('function' !== typeof ConfiguredDecimal[operator]) {
             throw new TypeError(`${operator} is not a valid function!`);
         }
 
@@ -551,7 +594,7 @@ function mathsEvaluatorFactory(config) {
      * @returns {Decimal} - Always returns a Decimal
      */
     function trigoOperator(operator, operand) {
-        if (!_.isFunction(Decimal[operator])) {
+        if ('function' !== typeof Decimal[operator]) {
             throw new TypeError(`${operator} is not a valid operator!`);
         }
 
@@ -590,9 +633,9 @@ function mathsEvaluatorFactory(config) {
         if (api.value) {
             fn = api.value;
         } else if (api.action) {
-            fn = _.partialRight(api.action, origin[api.entry]);
+            fn = partialRight(api.action, origin[api.entry]);
         } else {
-            fn = _.partial(wrapper, api.mapTo);
+            fn = partial(wrapper, api.mapTo);
         }
         origin[api.entry] = fn;
     }
@@ -605,7 +648,7 @@ function mathsEvaluatorFactory(config) {
      * @returns {mathsExpression}
      */
     function evaluate(expression, variables) {
-        if (_.isPlainObject(expression)) {
+        if (isPlainObject(expression)) {
             variables = variables || expression.variables;
             expression = expression.expression;
         }
@@ -633,11 +676,11 @@ function mathsEvaluatorFactory(config) {
     }
 
     // replace built-in operators and functions in expr-eval by those from decimal.js
-    _.forEach(mapAPI.unary, _.partial(mapping, unaryOperator, parser.unaryOps));
-    _.forEach(mapAPI.binary, _.partial(mapping, binaryOperator, parser.binaryOps));
-    _.forEach(mapAPI.ternaryOps, _.partial(mapping, functionOperator, parser.ternaryOps));
-    _.forEach(mapAPI.functions, _.partial(mapping, functionOperator, parser.functions));
-    _.forEach(mapAPI.consts, _.partial(mapping, null, parser.consts));
+    mapAPI.unary.forEach(partial(mapping, unaryOperator, parser.unaryOps));
+    mapAPI.binary.forEach(partial(mapping, binaryOperator, parser.binaryOps));
+    mapAPI.ternaryOps.forEach(partial(mapping, functionOperator, parser.ternaryOps));
+    mapAPI.functions.forEach(partial(mapping, functionOperator, parser.functions));
+    mapAPI.consts.forEach(partial(mapping, null, parser.consts));
 
     // expose the parser
     evaluate.parser = parser;
