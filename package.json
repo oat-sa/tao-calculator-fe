@@ -47,7 +47,6 @@
     "dependencies": {
         "@oat-sa/expr-eval": "^2.1.2",
         "decimal.js": "^10.4.3",
-        "lodash": "^4.17.21",
         "moo": "^0.5.2"
     },
     "devDependencies": {
