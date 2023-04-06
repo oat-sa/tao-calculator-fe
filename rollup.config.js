@@ -24,13 +24,11 @@ export default {
     input: 'src/index.js',
     output: [
         {
-            name: 'calculator',
-            format: 'umd',
+            format: 'es',
             file: 'dist/index.js'
         },
         {
-            name: 'calculator',
-            format: 'umd',
+            format: 'es',
             file: 'dist/index.min.js',
             plugins: [terser()]
         }
