@@ -94,6 +94,33 @@ The engine offers an API for registering and emitting events:
 
 The engine emits events each time a modification or an action apply to it.
 
+| event            | parameters               | description                                                     |
+| ---------------- | ------------------------ | --------------------------------------------------------------- |
+| `configure`      | `config`                 | Notifies the maths evaluator has been configured.               |
+| `expression`     | `expression`             | Notifies the expression has changed.                            |
+| `position`       | `position`               | Notifies the position inside the expression has changed.        |
+| `variableadd`    | `name`, `value`          | Notifies a variable has been added.                             |
+| `variabledelete` | `name`                   | Notifies a variable has been removed.                           |
+| `variableclear`  |                          | Notifies all variables have been removed.                       |
+| `commandadd`     | `name`                   | Notifies a command has been registered.                         |
+| `commanddelete`  | `name`                   | Notifies a command has been removed.                            |
+| `commandclear`   |                          | Notifies all commands have been removed.                        |
+| `command`        | `name`, ...              | Notifies a command has been invoked.                            |
+| `command-<name>` | ...                      | Notifies the command `<name>` has been invoked.                 |
+| `term`           | `name`, `term`           | Notifies a term has been added to the expression.               |
+| `replace`        | `expression`, `position` | Notifies the expression has been replaced.                      |
+| `insert`         | `expression`, `position` | Notifies a sub-expression has been inserted.                    |
+| `clear`          |                          | Notifies the expression has been cleared.                       |
+| `reset`          |                          | Notifies the calculator has been reset.                         |
+| `correct`        |                          | Notifies the expression has been corrected.                     |
+| `evaluate`       | `result`                 | Notifies the expression has been evaluated.                     |
+| `result`         | `result`                 | Notifies the result is available.                               |
+| `render`         | `terms`                  | Notifies the expression has been rendered into a list of terms. |
+| `syntaxerror`    | `error`                  | Notifies the expression has a syntax error.                     |
+| `error`          | `error`                  | Notifies an error occurred.                                     |
+
+Example:
+
 ```javascript
 // register events
 calculator
@@ -113,6 +140,63 @@ calculator.evaluate(); // emit the events 'evaluate' and 'result', and possibly 
 
 The expression is managed internally through a list of terms. Each term can represent a digit, an operator, a function, or a variable.
 
+| term       | value      | description                                              |
+| ---------- | ---------- | -------------------------------------------------------- |
+| `NUM0`     | `0`        | Digit 0                                                  |
+| `NUM1`     | `1`        | Digit 1                                                  |
+| `NUM2`     | `2`        | Digit 2                                                  |
+| `NUM3`     | `3`        | Digit 3                                                  |
+| `NUM4`     | `4`        | Digit 4                                                  |
+| `NUM5`     | `5`        | Digit 5                                                  |
+| `NUM6`     | `6`        | Digit 6                                                  |
+| `NUM7`     | `7`        | Digit 7                                                  |
+| `NUM8`     | `8`        | Digit 8                                                  |
+| `NUM9`     | `9`        | Digit 9                                                  |
+| `DOT`      | `.`        | Decimal separator                                        |
+| `EXP10`    | `e`        | Decimal exponent for scientific numbers (ex: `1.234e34`) |
+| `LPAR`     | `(`        | Left parenthesis                                         |
+| `RPAR`     | `)`        | Right parenthesis                                        |
+| `SUB`      | `-`        | Subtraction operator                                     |
+| `ADD`      | `+`        | Addition operator                                        |
+| `MUL`      | `*`        | Multiply operator                                        |
+| `DIV`      | `/`        | Divide operator                                          |
+| `MOD`      | `%`        | Modulo operator                                          |
+| `POW`      | `^`        | Power operator                                           |
+| `FAC`      | `!`        | Factorial operator                                       |
+| `PERCENT`  | `#`        | Percentage operator                                      |
+| `VAR_ANS`  | `ans`      | Last result variable                                     |
+| `VAR_MEM`  | `mem`      | Memory variable                                          |
+| `PI`       | `PI`       | Pi number                                                |
+| `E`        | `E`        | Euler's constant                                         |
+| `TEN`      | `10`       | Constant utilized for expressing the power of 10         |
+| `NAN`      | `NaN`      | Error `Not a number`                                     |
+| `INFINITY` | `Infinity` | Error `Infinity`                                         |
+| `ERROR`    | `Syntax`   | Error `Syntax`                                           |
+| `EXP`      | `exp`      | Function exponent                                        |
+| `SQRT`     | `sqrt`     | Function square root                                     |
+| `CBRT`     | `cbrt`     | Function cubic root                                      |
+| `NTHRT`    | `nthrt`    | Function Nth root                                        |
+| `FLOOR`    | `floor`    | Function round by the floor                              |
+| `CEIL`     | `ceil`     | Function round by the ceil                               |
+| `ROUND`    | `round`    | Function round by the average                            |
+| `TRUNC`    | `trunc`    | Function truncate                                        |
+| `SIN`      | `sin`      | Function sine                                            |
+| `COS`      | `cos`      | Function cosine                                          |
+| `TAN`      | `tan`      | Function tangent                                         |
+| `ASIN`     | `asin`     | Function arc sine                                        |
+| `ACOS`     | `acos`     | Function arc cosine                                      |
+| `ATAN`     | `atan`     | Function arc tangent                                     |
+| `SINH`     | `sinh`     | Function hyperbolic sine                                 |
+| `COSH`     | `cosh`     | Function hyperbolic cosine                               |
+| `TANH`     | `tanh`     | Function hyperbolic tangent                              |
+| `ASINH`    | `asinh`    | Function hyperbolic arc sine                             |
+| `ACOSH`    | `acosh`    | Function hyperbolic arc cosine                           |
+| `ATANH`    | `atanh`    | Function hyperbolic arc tangent                          |
+| `LN`       | `ln`       | Function natural logarithm                               |
+| `LOG10`    | `ln`       | Function decimal logarithm                               |
+| `ABS`      | `abs`      | Function absolute value                                  |
+| `RAND`     | `random`   | Function random value                                    |
+
 Terms can be added or removed separately:
 
 ```javascript
@@ -125,7 +209,7 @@ calculator.insertTerm('NUM5'); // expression: "2-5"
 calculator.deleteTokenLeft();
 ```
 
-The list of all terms can also be returned:
+The list of terms extracted from the expression can also be returned:
 
 ```javascript
 const tokens = calculator.getTokens();
@@ -134,6 +218,28 @@ const tokens = calculator.getTokens();
 #### <a name='Commands'></a>Commands
 
 A command is a named action that can be registered once and invoked several times.
+
+The calculator comes with built-in commands.
+
+| Command       | parameters | description                                                                       |
+| ------------- | ---------- | --------------------------------------------------------------------------------- |
+| `clear`       |            | Clears the expression.                                                            |
+| `reset`       |            | Resets the calculator.                                                            |
+| `execute`     |            | Evaluates the current expression.                                                 |
+| `var`         | `name`     | Inserts a variable as a term in the expression at the current position.           |
+| `term`        | `names`    | Inserts a list of terms in the expression at the current position.                |
+| `sign`        |            | Changes the sign for the current token.                                           |
+| `degree`      |            | Sets the engine to process the angles in degrees.                                 |
+| `radian`      |            | Sets the engine to process the angles in radians.                                 |
+| `remind`      |            | Inserts the `memory` variable as a term in the expression at the current position |
+| `memorize`    |            | Records the current result into the `memory` variable.                            |
+| `forget`      |            | Clears the `memory` variable.                                                     |
+| `moveLeft`    |            | Moves the position by one term to the left.                                       |
+| `moveRight`   |            | Moves the position by one term to the right.                                      |
+| `deleteLeft`  |            | Removes the term on the left.                                                     |
+| `deleteRight` |            | Removes the term on the right.                                                    |
+
+Custom commands can be added too:
 
 ```javascript
 // A simple command that prints the expression
@@ -151,6 +257,23 @@ calculator.invoke('print');
 #### <a name='Plugins'></a>Plugins
 
 A plugin is a modification that can be added to or removed from the calculator. Usually, custom commands are added through a plugin.
+
+The calculator comes with built-in plugins.
+
+| Plugin    | Module          | description                                                                                                            |
+| --------- | --------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `history` | `historyPlugin` | Manages the history of the evaluated expressions. It adds the commands `historyClear`, `historyUp`, and `historyDown`. |
+
+Plugins can be added upon creation of the calculator:
+
+```javascript
+import { engineFactory, historyPlugin } from '@oat-sa/tao-calculator';
+
+const plugins = { history: historyPlugin };
+const calculator = engineFactory({ plugins });
+```
+
+Custom plugins can be added too:
 
 ```javascript
 // A simple plugin that add a print command
