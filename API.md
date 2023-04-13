@@ -45,7 +45,7 @@ const calculator = engineFactory({ ... });
 
 Once the calculator engine is created, it can be configured using the following API:
 
--   `.configureMathsEvaluator(config = {})`: Sets up the mathsEvaluator. The supplied configuration will be merged with the maths configuration given at creation time. The accepted configuration is as follows:
+-   `calculator.configureMathsEvaluator(config = {})`: Sets up the mathsEvaluator. The supplied configuration will be merged with the maths configuration given at creation time. The accepted configuration is as follows:
 
     | name                | type      | default | description                                                                                              |
     | ------------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------- |
@@ -61,15 +61,15 @@ Once the calculator engine is created, it can be configured using the following 
     | `degree`            | `boolean` | `false` | Converts trigonometric values from radians to degrees.                                                   |
     | `operators`         | `object`  | `{}`    | The list of operators to enable.                                                                         |
 
--   `.setDegreeMode(degree = true)`: Sets the engine to process the angles in degree (`true`) or in radian ('false').
--   `.isDegreeMode()`:Tells if the engine process the angles in degree (`true`) or in radian ('false').
--   `.setInstantMode(mode = true)`: Sets the engine to compute the expression instantaneously (`true`) or not ('false').
--   `.isInstantMode()`:Tells if the engine must compute the expression instantaneously (`true`) or not ('false').
--   `.setCorrectorMode(mode = true)`: Sets the engine to correct the expression before evaluating it (`true`) or not ('false').
--   `.isCorrectorMode()`: Tells if the engine must correct the expression before evaluating it (`true`) or not ('false').
--   `.getMathsEvaluator()`: Gets access to the mathsEvaluator.
--   `.getTokenizer()`: Gets access to the tokenizer.
--   `.reset()`: Resets the calculator.
+-   `calculator.setDegreeMode(degree = true)`: Sets the engine to process the angles in degree (`true`) or in radian ('false').
+-   `calculator.isDegreeMode()`:Tells if the engine process the angles in degree (`true`) or in radian ('false').
+-   `calculator.setInstantMode(mode = true)`: Sets the engine to compute the expression instantaneously (`true`) or not ('false').
+-   `calculator.isInstantMode()`:Tells if the engine must compute the expression instantaneously (`true`) or not ('false').
+-   `calculator.setCorrectorMode(mode = true)`: Sets the engine to correct the expression before evaluating it (`true`) or not ('false').
+-   `calculator.isCorrectorMode()`: Tells if the engine must correct the expression before evaluating it (`true`) or not ('false').
+-   `calculator.getMathsEvaluator()`: Gets access to the mathsEvaluator.
+-   `calculator.getTokenizer()`: Gets access to the tokenizer.
+-   `calculator.reset()`: Resets the calculator.
 
 ## <a name='Events'></a>Events
 
@@ -119,9 +119,9 @@ calculator.evaluate(); // emit the events 'evaluate' and 'result', and possibly 
 
 The engine offers an API for registering and emitting events:
 
--   `.on(name, listener)`: Registers a listener to each named event. Multiple names can be given, separated by a space.
--   `.off(name, listener)`: Removes a listener from a named event. If the name is omitted, all events are unregistered. If the listener is given, the event is unristered for this listener only, otherwise, all listeners for this event are unregistered. Multiple names can be given, separated by a space.
--   `.trigger(name, ...args)`: Emits an event for the given name, calling all listeners in order with the arguments passed on.
+-   `calculator.on(name, listener)`: Registers a listener to each named event. Multiple names can be given, separated by a space.
+-   `calculator.off(name, listener)`: Removes a listener from a named event. If the name is omitted, all events are unregistered. If the listener is given, the event is unristered for this listener only, otherwise, all listeners for this event are unregistered. Multiple names can be given, separated by a space.
+-   `calculator.trigger(name, ...args)`: Emits an event for the given name, calling all listeners in order with the arguments passed on.
 
 ## <a name='Expression'></a>Expression
 
@@ -129,20 +129,20 @@ The expression is managed internally through a list of extracted tokens. For eas
 
 The engines offers API for managing the expression:
 
--   `.changed`: Tells if the expression has changed since the last calculation.
--   `.error`: Tells if the expression has or produces error.
--   `.getExpression()`: Gets the current expression.
--   `.setExpression(expression)`: Sets the current expression.
--   `.getPosition()`: Gets the current position inside the expression
--   `.setPosition(position)`: Sets the current position inside the expression
--   `.movePositionLeft()`: Moves the current position to the token on the left.
--   `.movePositionRight()`: Moves the current position to the token on the right.
--   `.replace(newExpression, newPosition)`: Replaces the expression and move the cursor.
--   `.insert(subExpression, at)`:Inserts a sub-expression in the current expression and move the cursor.
--   `.clear()`: Clears the expression.
--   `.correct()`: Corrects the expression if needed.
--   `.evaluate()`: Evaluates the current expression.
--   `.render(decimals = 5)`: Renders the current expression into a list of terms. This list can then be applied to a template.
+-   `calculator.changed`: Tells if the expression has changed since the last calculation.
+-   `calculator.error`: Tells if the expression has or produces error.
+-   `calculator.getExpression()`: Gets the current expression.
+-   `calculator.setExpression(expression)`: Sets the current expression.
+-   `calculator.getPosition()`: Gets the current position inside the expression
+-   `calculator.setPosition(position)`: Sets the current position inside the expression
+-   `calculator.movePositionLeft()`: Moves the current position to the token on the left.
+-   `calculator.movePositionRight()`: Moves the current position to the token on the right.
+-   `calculator.replace(newExpression, newPosition)`: Replaces the expression and move the cursor.
+-   `calculator.insert(subExpression, at)`:Inserts a sub-expression in the current expression and move the cursor.
+-   `calculator.clear()`: Clears the expression.
+-   `calculator.correct()`: Corrects the expression if needed.
+-   `calculator.evaluate()`: Evaluates the current expression.
+-   `calculator.render(decimals = 5)`: Renders the current expression into a list of terms. This list can then be applied to a template.
 
 ## <a name='Terms'></a>Terms
 
@@ -225,18 +225,18 @@ const tokens = calculator.getTokens();
 
 The engines offers API for managing the terms in the expression:
 
--   `.getTokens()`: Gets the list of tokens from the current expression.
--   `.getToken()`: Gets the token at the current position from the current expression.
--   `.getTokenIndex()`: Gets token index from the current position in the expression.
--   `.deleteToken(token)`: Removes the given token from the expression.
--   `.deleteTokenRange(start, end)`: Removes tokens from the expression with respect to range given the start and end tokens.
--   `.deleteTokenLeft()`: Deletes the token on the left
--   `.deleteTokenRight()`: Deletes the token on the right
--   `.changeSign()`: Changes the sign for the current token.
--   `.addTerm(name, term)`: Inserts the defined term in the expression at the current position.
--   `.insertTerm(name)`: Inserts a term by its name in the expression at the current position.
--   `.insertTermList(names)`: Inserts a list of terms in the expression at the current position.
--   `.insertVariable(name)`: Inserts a variable as a term in the expression at the current position.
+-   `calculator.getTokens()`: Gets the list of tokens from the current expression.
+-   `calculator.getToken()`: Gets the token at the current position from the current expression.
+-   `calculator.getTokenIndex()`: Gets token index from the current position in the expression.
+-   `calculator.deleteToken(token)`: Removes the given token from the expression.
+-   `calculator.deleteTokenRange(start, end)`: Removes tokens from the expression with respect to range given the start and end tokens.
+-   `calculator.deleteTokenLeft()`: Deletes the token on the left
+-   `calculator.deleteTokenRight()`: Deletes the token on the right
+-   `calculator.changeSign()`: Changes the sign for the current token.
+-   `calculator.addTerm(name, term)`: Inserts the defined term in the expression at the current position.
+-   `calculator.insertTerm(name)`: Inserts a term by its name in the expression at the current position.
+-   `calculator.insertTermList(names)`: Inserts a list of terms in the expression at the current position.
+-   `calculator.insertVariable(name)`: Inserts a variable as a term in the expression at the current position.
 
 ## <a name='Variables'></a>Variables
 
@@ -249,21 +249,21 @@ The engines has a few built-in variables that are set in particular circumstance
 
 The engines offers API for managing the variables:
 
--   `.hasVariable(name)`: Checks if a variable is registered.
--   `.getVariable(name)`: Gets a variable defined for the expression.
--   `.getVariableValue(name)`: Gets the value of a variable.
--   `.setVariable(name, value)`: Sets a variable that can be used by the expression.
--   `.deleteVariable(name)`: Deletes a variable defined for the expression.
--   `.getAllVariables()`: Gets all variables in a list.
--   `.getAllVariableValues()`: Gets the values for the variables defined for the expression.
--   `.setVariableList(defs)`: Sets a list of variables that can be used by the expression.
--   `.clearVariables()`: Deletes all variables defined for the expression.
--   `.setLastResult(result)`: Sets the value of the last result.
--   `.getLastResult()`: Gets the value of the last result.
--   `.setMemory()`: Sets the value of the last result into the memory.
--   `.getMemory()`: Gets the value of the memory.
--   `.clearMemory()`: Clears the value of the memory.
--   `.insertVariable(name)`: Inserts a variable as a term in the expression at the current position.
+-   `calculator.hasVariable(name)`: Checks if a variable is registered.
+-   `calculator.getVariable(name)`: Gets a variable defined for the expression.
+-   `calculator.getVariableValue(name)`: Gets the value of a variable.
+-   `calculator.setVariable(name, value)`: Sets a variable that can be used by the expression.
+-   `calculator.deleteVariable(name)`: Deletes a variable defined for the expression.
+-   `calculator.getAllVariables()`: Gets all variables in a list.
+-   `calculator.getAllVariableValues()`: Gets the values for the variables defined for the expression.
+-   `calculator.setVariableList(defs)`: Sets a list of variables that can be used by the expression.
+-   `calculator.clearVariables()`: Deletes all variables defined for the expression.
+-   `calculator.setLastResult(result)`: Sets the value of the last result.
+-   `calculator.getLastResult()`: Gets the value of the last result.
+-   `calculator.setMemory()`: Sets the value of the last result into the memory.
+-   `calculator.getMemory()`: Gets the value of the memory.
+-   `calculator.clearMemory()`: Clears the value of the memory.
+-   `calculator.insertVariable(name)`: Inserts a variable as a term in the expression at the current position.
 
 ## <a name='Commands'></a>Commands
 
@@ -308,14 +308,14 @@ calculator.invoke('print');
 
 The engines offers API for managing the commands:
 
--   `.hasCommand(name)`: Checks if a command is registered.
--   `.getCommand(name)`: Gets the action for a registered command.
--   `.setCommand(name, action)`: Registers a command.
--   `.deleteCommand(name)`: Delete a registered command.
--   `.getAllCommands()`: Gets the list of registered commands.
--   `.setCommandList(defs)`: Registers a list of commands.
--   `.clearCommands()`: Deletes all commands from the calculator.
--   `.invoke(name, ...args)`: Calls a command.
+-   `calculator.hasCommand(name)`: Checks if a command is registered.
+-   `calculator.getCommand(name)`: Gets the action for a registered command.
+-   `calculator.setCommand(name, action)`: Registers a command.
+-   `calculator.deleteCommand(name)`: Delete a registered command.
+-   `calculator.getAllCommands()`: Gets the list of registered commands.
+-   `calculator.setCommandList(defs)`: Registers a list of commands.
+-   `calculator.clearCommands()`: Deletes all commands from the calculator.
+-   `calculator.invoke(name, ...args)`: Calls a command.
 
 ## <a name='Plugins'></a>Plugins
 
@@ -363,11 +363,11 @@ calculator.removePlugin('print');
 
 The engines offers API for managing the plugins:
 
--   `.hasPlugin(name)`: Checks if a plugin is installed.
--   `.setPlugin(name, install)`: Installs a plugin onto the calculator.
--   `.removePlugin(name)`: Uninstalls a plugin from the calculator.
--   `.addPluginList(defs)`: Installs a list of plugins.
--   `.clearPlugins()`: Uninstalls all plugins.
+-   `calculator.hasPlugin(name)`: Checks if a plugin is installed.
+-   `calculator.setPlugin(name, install)`: Installs a plugin onto the calculator.
+-   `calculator.removePlugin(name)`: Uninstalls a plugin from the calculator.
+-   `calculator.addPluginList(defs)`: Installs a list of plugins.
+-   `calculator.clearPlugins()`: Uninstalls all plugins.
 
 ## <a name='Helpers'></a>Helpers
 
@@ -395,7 +395,7 @@ import { expressionHelper, defaultDecimalDigits } from '@oat-sa/tao-calculator';
 -   `expressionHelper.build(tokens)`: Builds an expression from a list of tokens.
 -   `expressionHelper.renderSign(expression)`: Replace sign operators by a proper symbol.
 -   `expressionHelper.render(expression, variables = {}, tokenizer = null)`: Renders an expression into a list of terms. This list can then be applied to a template.
--   `expressionHelper. nestExponents(renderedTerms)`: Nests the exponents so that the terms can be easily rendered. Remove the terms that can be elided, like the exponent operator.
+-   `expressionHelper.nestExponents(renderedTerms)`: Nests the exponents so that the terms can be easily rendered. Remove the terms that can be elided, like the exponent operator.
 
 ### <a name='tokensHelper'></a>tokensHelper
 
@@ -408,12 +408,12 @@ import { expressionHelper } from '@oat-sa/tao-calculator';
 -   `tokensHelper.getToken(token)`: Gets the token name.
 -   `tokensHelper.getTerm(token)`: Gets the term defined for a token.
 -   `tokensHelper.getType(token)`: Identifies the type of a given token.
--   `tokensHelper. isDigit(type)`: Checks if the type is related to a digit value.
+-   `tokensHelper.isDigit(type)`: Checks if the type is related to a digit value.
 -   `tokensHelper.isOperator(type)`: Checks if the type is related to an operator.
 -   `tokensHelper.isBinaryOperator(type)`: Checks if the type is related to a binary operator
 -   `tokensHelper.isUnaryOperator(type)`: Checks if the type is related to a unary operator
 -   `tokensHelper.isOperand(type)`: Checks if the type is related to an operand.
--   `tokensHelper. isValue(type)`: Checks if the type is related to an operand.
+-   `tokensHelper.isValue(type)`: Checks if the type is related to an operand.
 -   `tokensHelper.isAggregator(type)`: Checks if the type is related to an aggregator.
 -   `tokensHelper.isError(type)`: Checks if the type is related to an error.
 -   `tokensHelper.isConstant(type)`: Checks if the type is related to a constant.
@@ -500,8 +500,8 @@ The lexer used to tokenize the expression.
 
 The tokenizer has 2 methods:
 
--   `.iterator(expression)`: Gets an iterator that will returns tokens from the provided expression.
--   `.tokenize(expression)`: Tokenizes the expression.
+-   `tokenizer.iterator(expression)`: Gets an iterator that will returns tokens from the provided expression.
+-   `tokenizer.tokenize(expression)`: Tokenizes the expression.
 
 It is usually get from the calculator:
 
