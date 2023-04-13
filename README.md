@@ -1,6 +1,6 @@
-# tao-calculator-fe
+# [tao-calculator](https://www.npmjs.com/package/@oat-sa/tao-calculator)
 
-[![GPLv2 License](https://img.shields.io/badge/License-GPL%20v2-yellow.svg)](./LICENSE) -
+[![GPLv2 License](https://img.shields.io/badge/License-GPL%20v2-yellow.svg)](./LICENSE)
 ![ci](https://github.com/oat-sa/tao-calculator-fe/actions/workflows/continuous-integration.yml/badge.svg)
 
 ![TAO Logo](https://github.com/oat-sa/taohub-developer-guide/raw/master/resources/tao-logo.png)
@@ -22,6 +22,9 @@ A calculator's engine for TAO.
     -   [Setup](#Setup)
     -   [Useful Commands](#UsefulCommands)
     -   [All commands](#Allcommands)
+-   [Known issues and drawbacks](#Knownissuesanddrawbacks)
+    -   [Loss of precision of inlined variables](#Lossofprecisionofinlinedvariables)
+    -   [Loss of precision in some irrational numbers](#Lossofprecisioninsomeirrationalnumbers)
 -   [History](#History)
 -   [License](#License)
 
@@ -380,12 +383,26 @@ npm run test:cov
 -   `npm run lint:report`: build a syntax check report
 -   `npm run format`: correct the code style
 
+## <a name='Knownissuesanddrawbacks'></a>Known issues and drawbacks
+
+Thanks to the numbers representation engine, the calculator is able to give a good computation precision. However, due to the nature of computation, some known issues are still there, and cannot be simply addressed.
+
+### <a name='Lossofprecisionofinlinedvariables'></a>Loss of precision of inlined variables
+
+Internally, the computed value have hundreds of decimal digits, and only a few is displayed. So, if a variable is inlined, i.e. its displayed value is used instead of the variable itself, the result won't be accurate. For instance, compute the square root of 2. If you immediately elevate it at a power of 2, you will retrieve the former value, said 2. However, if you take the displayed value and elevate it to the power of 2, the result will be different, and could be considered wrong if you expected to retrieve the former value.
+
+### <a name='Lossofprecisioninsomeirrationalnumbers'></a>Loss of precision in some irrational numbers
+
+Mathematically, it is impossible to have a bijective computation with the inverse of 3: `1/3` gives `0.3333333333333`, and we can continue indefinitely with the `3` after the decimal point. Now if you multiply this value by 3, no matter the amount of `3` you will add after the decimal point, you will never retrieve `1`, but `0.9999999999` instead. A mathematical trick is to add a `4` as a last digit, but unfortunately this won't work with the calculator's engine. In fact, it can only work by doing: `0.333333333 + 0.333333333 + 0.333333334`. Which is not the same.
+
 ## <a name='History'></a>History
+
+Changes are detailed in the [history page](./HISTORY.md).
 
 This repository has been migrated on 2023/01/31 from:
 
--   https://github.com/oat-sa/tao-core-ui-fe/tree/f6849b81fdf0ca756cbf53a747e72d6ec0509936/src/maths/calculator
--   https://github.com/oat-sa/tao-core-sdk-fe/blob/f6c28d3b712098f17efc99712e3eeed87f804f6e/src/util/mathsEvaluator.js
+-   [oat-sa/tao-core-ui-fe](https://github.com/oat-sa/tao-core-ui-fe/tree/f6849b81fdf0ca756cbf53a747e72d6ec0509936/src/maths/calculator)
+-   [oat-sa/tao-core-sdk-fe](https://github.com/oat-sa/tao-core-sdk-fe/blob/f6c28d3b712098f17efc99712e3eeed87f804f6e/src/util/mathsEvaluator.js)
 
 Please consult those repositories for history prior to this date.
 
