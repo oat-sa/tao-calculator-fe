@@ -55,18 +55,18 @@ Once the calculator engine is created, it can be configured using the following 
     | `toExpNeg`          | `number`  | `-7`    | The negative exponent value at and below which toString returns exponential notation.                    |
     | `toExpPos`          | `number`  | `21`    | The positive exponent value at and above which toString returns exponential notation.                    |
     | `maxE`              | `number`  | `9e15`  | The positive exponent limit, i.e. the exponent value above which overflow to Infinity occurs.            |
-    | ` minE`             | `number ` | `-9e15` | - The negative exponent limit, i.e. the exponent value below which underflow to zero occurs.             |
+    | ` minE`             | `number ` | `-9e15` | The negative exponent limit, i.e. the exponent value below which underflow to zero occurs.               |
     | `modulo`            | `number`  | `1`     | The modulo mode used when calculating the modulus: a mod n.                                              |
     | `crypto`            | `boolean` | `false` | The value that determines whether cryptographically-secure pseudo-random number generation is used.      |
     | `degree`            | `boolean` | `false` | Converts trigonometric values from radians to degrees.                                                   |
     | `operators`         | `object`  | `{}`    | The list of operators to enable.                                                                         |
 
--   `calculator.setDegreeMode(degree = true)`: Sets the engine to process the angles in degree (`true`) or in radian ('false').
--   `calculator.isDegreeMode()`:Tells if the engine process the angles in degree (`true`) or in radian ('false').
--   `calculator.setInstantMode(mode = true)`: Sets the engine to compute the expression instantaneously (`true`) or not ('false').
--   `calculator.isInstantMode()`:Tells if the engine must compute the expression instantaneously (`true`) or not ('false').
--   `calculator.setCorrectorMode(mode = true)`: Sets the engine to correct the expression before evaluating it (`true`) or not ('false').
--   `calculator.isCorrectorMode()`: Tells if the engine must correct the expression before evaluating it (`true`) or not ('false').
+-   `calculator.setDegreeMode(degree = true)`: Sets the engine to process the angles in degree (`true`) or in radian (`false`).
+-   `calculator.isDegreeMode()`: Tells if the engine process the angles in degree (`true`) or in radian (`false`).
+-   `calculator.setInstantMode(mode = true)`: Sets the engine to compute the expression instantaneously (`true`) or not (`false`).
+-   `calculator.isInstantMode()`: Tells if the engine must compute the expression instantaneously (`true`) or not (`false`).
+-   `calculator.setCorrectorMode(mode = true)`: Sets the engine to correct the expression before evaluating it (`true`) or not (`false`).
+-   `calculator.isCorrectorMode()`: Tells if the engine must correct the expression before evaluating it (`true`) or not (`false`).
 -   `calculator.getMathsEvaluator()`: Gets access to the mathsEvaluator.
 -   `calculator.getTokenizer()`: Gets access to the tokenizer.
 -   `calculator.reset()`: Resets the calculator.
@@ -133,12 +133,12 @@ The engines offers API for managing the expression:
 -   `calculator.error`: Tells if the expression has or produces error.
 -   `calculator.getExpression()`: Gets the current expression.
 -   `calculator.setExpression(expression)`: Sets the current expression.
--   `calculator.getPosition()`: Gets the current position inside the expression
--   `calculator.setPosition(position)`: Sets the current position inside the expression
+-   `calculator.getPosition()`: Gets the current position inside the expression.
+-   `calculator.setPosition(position)`: Sets the current position inside the expression.
 -   `calculator.movePositionLeft()`: Moves the current position to the token on the left.
 -   `calculator.movePositionRight()`: Moves the current position to the token on the right.
 -   `calculator.replace(newExpression, newPosition)`: Replaces the expression and move the cursor.
--   `calculator.insert(subExpression, at)`:Inserts a sub-expression in the current expression and move the cursor.
+-   `calculator.insert(subExpression, at)`: Inserts a sub-expression in the current expression and move the cursor.
 -   `calculator.clear()`: Clears the expression.
 -   `calculator.correct()`: Corrects the expression if needed.
 -   `calculator.evaluate()`: Evaluates the current expression.
@@ -230,8 +230,8 @@ The engines offers API for managing the terms in the expression:
 -   `calculator.getTokenIndex()`: Gets token index from the current position in the expression.
 -   `calculator.deleteToken(token)`: Removes the given token from the expression.
 -   `calculator.deleteTokenRange(start, end)`: Removes tokens from the expression with respect to range given the start and end tokens.
--   `calculator.deleteTokenLeft()`: Deletes the token on the left
--   `calculator.deleteTokenRight()`: Deletes the token on the right
+-   `calculator.deleteTokenLeft()`: Deletes the token on the left.
+-   `calculator.deleteTokenRight()`: Deletes the token on the right.
 -   `calculator.changeSign()`: Changes the sign for the current token.
 -   `calculator.addTerm(name, term)`: Inserts the defined term in the expression at the current position.
 -   `calculator.insertTerm(name)`: Inserts a term by its name in the expression at the current position.
@@ -273,23 +273,23 @@ A command is a named action that can be registered once and invoked several time
 
 The calculator comes with built-in commands.
 
-| Command       | parameters | description                                                                       |
-| ------------- | ---------- | --------------------------------------------------------------------------------- |
-| `clear`       |            | Clears the expression.                                                            |
-| `reset`       |            | Resets the calculator.                                                            |
-| `execute`     |            | Evaluates the current expression.                                                 |
-| `var`         | `name`     | Inserts a variable as a term in the expression at the current position.           |
-| `term`        | `names`    | Inserts a list of terms in the expression at the current position.                |
-| `sign`        |            | Changes the sign for the current token.                                           |
-| `degree`      |            | Sets the engine to process the angles in degrees.                                 |
-| `radian`      |            | Sets the engine to process the angles in radians.                                 |
-| `remind`      |            | Inserts the `memory` variable as a term in the expression at the current position |
-| `memorize`    |            | Records the current result into the `memory` variable.                            |
-| `forget`      |            | Clears the `memory` variable.                                                     |
-| `moveLeft`    |            | Moves the position by one term to the left.                                       |
-| `moveRight`   |            | Moves the position by one term to the right.                                      |
-| `deleteLeft`  |            | Removes the term on the left.                                                     |
-| `deleteRight` |            | Removes the term on the right.                                                    |
+| Command       | parameters | description                                                                        |
+| ------------- | ---------- | ---------------------------------------------------------------------------------- |
+| `clear`       |            | Clears the expression.                                                             |
+| `reset`       |            | Resets the calculator.                                                             |
+| `execute`     |            | Evaluates the current expression.                                                  |
+| `var`         | `name`     | Inserts a variable as a term in the expression at the current position.            |
+| `term`        | `names`    | Inserts a list of terms in the expression at the current position.                 |
+| `sign`        |            | Changes the sign for the current token.                                            |
+| `degree`      |            | Sets the engine to process the angles in degrees.                                  |
+| `radian`      |            | Sets the engine to process the angles in radians.                                  |
+| `remind`      |            | Inserts the `memory` variable as a term in the expression at the current position. |
+| `memorize`    |            | Records the current result into the `memory` variable.                             |
+| `forget`      |            | Clears the `memory` variable.                                                      |
+| `moveLeft`    |            | Moves the position by one term to the left.                                        |
+| `moveRight`   |            | Moves the position by one term to the right.                                       |
+| `deleteLeft`  |            | Removes the term on the left.                                                      |
+| `deleteRight` |            | Removes the term on the right.                                                     |
 
 Custom commands can be added too:
 
@@ -410,8 +410,8 @@ import { expressionHelper } from '@oat-sa/tao-calculator';
 -   `tokensHelper.getType(token)`: Identifies the type of a given token.
 -   `tokensHelper.isDigit(type)`: Checks if the type is related to a digit value.
 -   `tokensHelper.isOperator(type)`: Checks if the type is related to an operator.
--   `tokensHelper.isBinaryOperator(type)`: Checks if the type is related to a binary operator
--   `tokensHelper.isUnaryOperator(type)`: Checks if the type is related to a unary operator
+-   `tokensHelper.isBinaryOperator(type)`: Checks if the type is related to a binary operator.
+-   `tokensHelper.isUnaryOperator(type)`: Checks if the type is related to a unary operator.
 -   `tokensHelper.isOperand(type)`: Checks if the type is related to an operand.
 -   `tokensHelper.isValue(type)`: Checks if the type is related to an operand.
 -   `tokensHelper.isAggregator(type)`: Checks if the type is related to an aggregator.
@@ -489,7 +489,7 @@ The configuration is an object with these properties:
 | `toExpPos` | `number` | `21` | The positive exponent value at and above which toString returns exponential notation. |
 | `maxE` | `number` | `9e15` | The positive exponent limit, i.e. the exponent value above which overflow to Infinity occurs. |
 | ` minE` | `number ` | `-9e15` | - The negative exponent limit, i.e. the exponent value below which underflow to zero occurs. |
-| `modulo` | `number` | `1` | The modulo mode used when calculating the modulus: a mod n. |
+| `modulo` | `number` | `1` | The modulo mode used when calculating the modulus: `a mod n`. |
 | `crypto` | `boolean` | `false` | The value that determines whether cryptographically-secure pseudo-random number generation is used. |
 | `degree` | `boolean` | `false` | Converts trigonometric values from radians to degrees. |
 | `operators` | `object` | `{}` | The list of operators to enable. |
@@ -520,6 +520,6 @@ const tokenizer = tokenizerFactory({ ... });
 The configuration is an object with these properties:
 | name | type | description |
 | ---------- | -------- | -------------------------------------------------------------------------------------------------------------- |
-| `keywords` | `object` | List of additional keywords: key being the name, value being the pattern (should be on the domain /[a-zA-Z]+/) |
-| `symbols` | `object` | List of additional symbols: key being the name, value being the pattern |
-| `digits` | `object` | List of additional digits: key being the name, value being the pattern |
+| `keywords` | `object` | List of additional keywords: key being the name, value being the pattern (should be on the domain /[a-zA-Z]+/). |
+| `symbols` | `object` | List of additional symbols: key being the name, value being the pattern. |
+| `digits` | `object` | List of additional digits: key being the name, value being the pattern. |
