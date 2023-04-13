@@ -13,8 +13,11 @@ A calculator's engine for TAO.
     -   [Requirements](#Requirements)
     -   [Usage](#Usage)
     -   [Breakdown](#Breakdown)
+        -   [Configuration](#Configuration)
         -   [Events](#Events)
+        -   [Expression management](#Expressionmanagement)
         -   [Terms](#Terms)
+        -   [Variables](#Variables)
         -   [Commands](#Commands)
         -   [Plugins](#Plugins)
 -   [Project's structure](#Projectsstructure)
@@ -71,13 +74,13 @@ const calculator = engineFactory({
 
 The engines itself is represented by an object having the following API sections:
 
--   events management
--   configuration
--   expression management
--   tokenization
--   variables management
--   commands management
--   plugins management
+-   [configuration](#Configuration)
+-   [events management](#Events)
+-   [expression management](#Expressionmanagement)
+-   [tokenization](#Terms)
+-   [variables management](#Variables)
+-   [commands management](#Commands)
+-   [plugins management](#Plugins)
 
 The engine emits events for each noticeable operation applied to the calculator. In other words, each time a modification is applied, a related event is emitted.
 
@@ -86,6 +89,49 @@ The expression is managed internally through a list of extracted tokens. For eas
 The engine can be extended through two distinct mechanisms: commands and plugins.
 
 It is also accompanied by a set of helpers for manipulating expression terms.
+
+#### <a name='Configuration'></a>Configuration
+
+The engine can be configured upon creation through the config object.
+
+| name         | type       | default | description                                                                                                    |
+| ------------ | ---------- | ------- | -------------------------------------------------------------------------------------------------------------- |
+| `expression` | `string`   | `''`    | Set the initial value for the expression.                                                                      |
+| `position`   | `position` | `null`  | Set the position inside the initial expression. If omitted, the position is set to the expression's end.       |
+| `instant`    | `boolean`  | `false` | Should the engine compute the expression as soon as an operation is complete?                                  |
+| `correct`    | `boolean`  | `false` | Should the engine auto-correct incomplete expression?                                                          |
+| `variables`  | `object`   | `{}`    | A list of variables to define, as key/value.                                                                   |
+| `commands`   | `object`   | `{}`    | A list of commands that can be invoked, as key/action.                                                         |
+| `plugins`    | `object`   | `{}`    | A list of plugins to load, as key/install.                                                                     |
+| `maths`      | `object`   | `{}`    | Additional config for the internal maths evaluator. See `configureMathsEvaluator()` below for additional info. |
+
+Once the calculator engine is created, it can be configured using the following API:
+
+-   `.configureMathsEvaluator(config = {})`: Sets up the mathsEvaluator. The supplied configuration will be merged with the maths configuration given at creation time. The accepted configuration is as follows:
+
+    | name                | type      | default | description                                                                                              |
+    | ------------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------- |
+    | `precision`         | `number`  | `20`    | The maximum number of significant digits of the result of an operation.                                  |
+    | `internalPrecision` | `number`  | `100`   | Arbitrary decimal precision for some internal related computations (sin, cos, tan, ln).                  |
+    | `rounding`          | `number`  | `4`     | The default rounding mode used when rounding the result of an operation to precision significant digits. |
+    | `toExpNeg`          | `number`  | `-7`    | The negative exponent value at and below which toString returns exponential notation.                    |
+    | `toExpPos`          | `number`  | `21`    | The positive exponent value at and above which toString returns exponential notation.                    |
+    | `maxE`              | `number`  | `9e15`  | The positive exponent limit, i.e. the exponent value above which overflow to Infinity occurs.            |
+    | ` minE`             | `number ` | `-9e15` | - The negative exponent limit, i.e. the exponent value below which underflow to zero occurs.             |
+    | `modulo`            | `number`  | `1`     | The modulo mode used when calculating the modulus: a mod n.                                              |
+    | `crypto`            | `boolean` | `false` | The value that determines whether cryptographically-secure pseudo-random number generation is used.      |
+    | `degree`            | `boolean` | `false` | Converts trigonometric values from radians to degrees.                                                   |
+    | `operators`         | `object`  | `{}`    | The list of operators to enable.                                                                         |
+
+-   `.setDegreeMode(degree = true)`: Sets the engine to process the angles in degree (`true`) or in radian ('false').
+-   `.isDegreeMode()`:Tells if the engine process the angles in degree (`true`) or in radian ('false').
+-   `.setInstantMode(mode = true)`: Sets the engine to compute the expression instantaneously (`true`) or not ('false').
+-   `.isInstantMode()`:Tells if the engine must compute the expression instantaneously (`true`) or not ('false').
+-   `.setCorrectorMode(mode = true)`: Sets the engine to correct the expression before evaluating it (`true`) or not ('false').
+-   `.isCorrectorMode()`: Tells if the engine must correct the expression before evaluating it (`true`) or not ('false').
+-   `.getMathsEvaluator()`: Gets access to the mathsEvaluator.
+-   `.getTokenizer()`: Gets access to the tokenizer.
+-   `.reset()`: Resets the calculator.
 
 #### <a name='Events'></a>Events
 
@@ -138,6 +184,25 @@ calculator.replace('3*(4+2)'); // emit the events 'expression' and 'position'
 // evaluate the expression
 calculator.evaluate(); // emit the events 'evaluate' and 'result', and possibly `syntaxerror`
 ```
+
+#### <a name='Expressionmanagement'></a>Expression management
+
+The engines offers API for managing the expression:
+
+-   `.changed`: Tells if the expression has changed since the last calculation.
+-   `.error`: Tells if the expression has or produces error.
+-   `.getExpression()`: Gets the current expression.
+-   `.setExpression(expression)`: Sets the current expression.
+-   `.getPosition()`: Gets the current position inside the expression
+-   `.setPosition(position)`: Sets the current position inside the expression
+-   `.movePositionLeft()`: Moves the current position to the token on the left.
+-   `.movePositionRight()`: Moves the current position to the token on the right.
+-   `.replace(newExpression, newPosition)`: Replaces the expression and move the cursor.
+-   `.insert(subExpression, at)`:Inserts a sub-expression in the current expression and move the cursor.
+-   `.clear()`: Clears the expression.
+-   `.correct()`: Corrects the expression if needed.
+-   `.evaluate()`: Evaluates the current expression.
+-   `.render(decimals = 5)`: Renders the current expression into a list of terms. This list can then be applied to a template.
 
 #### <a name='Terms'></a>Terms
 
@@ -218,6 +283,48 @@ The list of terms extracted from the expression can also be returned:
 const tokens = calculator.getTokens();
 ```
 
+The engines offers API for managing the terms in the expression:
+
+-   `.getTokens()`: Gets the list of tokens from the current expression.
+-   `.getToken()`: Gets the token at the current position from the current expression.
+-   `.getTokenIndex()`: Gets token index from the current position in the expression.
+-   `.deleteToken(token)`: Removes the given token from the expression.
+-   `.deleteTokenRange(start, end)`: Removes tokens from the expression with respect to range given the start and end tokens.
+-   `.deleteTokenLeft()`: Deletes the token on the left
+-   `.deleteTokenRight()`: Deletes the token on the right
+-   `.changeSign()`: Changes the sign for the current token.
+-   `.addTerm(name, term)`: Inserts the defined term in the expression at the current position.
+-   `.insertTerm(name)`: Inserts a term by its name in the expression at the current position.
+-   `.insertTermList(names)`: Inserts a list of terms in the expression at the current position.
+-   `.insertVariable(name)`: Inserts a variable as a term in the expression at the current position.
+
+#### <a name='Variables'></a>Variables
+
+The engines has a few built-in variables that are set in particular circumstances.
+
+| Variable | Updated by                                             | Description                                                      |
+| -------- | ------------------------------------------------------ | ---------------------------------------------------------------- |
+| `ans`    | `evaluate`, `setLastResult`, `clearVariables`, `reset` | Contains the result of the last evaluated expression.            |
+| `mem`    | `setMemory`, `clearMemory`, `clearVariables`,`reset`   | Contains the result that was specifically memorized by the user. |
+
+The engines offers API for managing the variables:
+
+-   `.hasVariable(name)`: Checks if a variable is registered.
+-   `.getVariable(name)`: Gets a variable defined for the expression.
+-   `.getVariableValue(name)`: Gets the value of a variable.
+-   `.setVariable(name, value)`: Sets a variable that can be used by the expression.
+-   `.deleteVariable(name)`: Deletes a variable defined for the expression.
+-   `.getAllVariables()`: Gets all variables in a list.
+-   `.getAllVariableValues()`: Gets the values for the variables defined for the expression.
+-   `.setVariableList(defs)`: Sets a list of variables that can be used by the expression.
+-   `.clearVariables()`: Deletes all variables defined for the expression.
+-   `.setLastResult(result)`: Sets the value of the last result.
+-   `.getLastResult()`: Gets the value of the last result.
+-   `.setMemory()`: Sets the value of the last result into the memory.
+-   `.getMemory()`: Gets the value of the memory.
+-   `.clearMemory()`: Clears the value of the memory.
+-   `.insertVariable(name)`: Inserts a variable as a term in the expression at the current position.
+
 #### <a name='Commands'></a>Commands
 
 A command is a named action that can be registered once and invoked several times.
@@ -256,6 +363,17 @@ calculator.setCommand('print', printExpression);
 // Call the command
 calculator.invoke('print');
 ```
+
+The engines offers API for managing the commands:
+
+-   `.hasCommand(name)`: Checks if a command is registered.
+-   `.getCommand(name)`: Gets the action for a registered command.
+-   `.setCommand(name, action)`: Registers a command.
+-   `.deleteCommand(name)`: Delete a registered command.
+-   `.getAllCommands()`: Gets the list of registered commands.
+-   `.setCommandList(defs)`: Registers a list of commands.
+-   `.clearCommands()`: Deletes all commands from the calculator.
+-   `.invoke(name, ...args)`: Calls a command.
 
 #### <a name='Plugins'></a>Plugins
 
@@ -298,6 +416,14 @@ calculator.invoke('print');
 // Remove the plugin
 calculator.removePlugin('print');
 ```
+
+The engines offers API for managing the plugins:
+
+-   `.hasPlugin(name)`: Checks if a plugin is installed.
+-   `.setPlugin(name, install)`: Installs a plugin onto the calculator.
+-   `.removePlugin(name)`: Uninstalls a plugin from the calculator.
+-   `.addPluginList(defs)`: Installs a list of plugins.
+-   `.clearPlugins()`: Uninstalls all plugins.
 
 ## <a name='Projectsstructure'></a>Project's structure
 
