@@ -14,6 +14,11 @@ A calculator's engine for TAO.
     -   [Usage](#Usage)
     -   [API](#API)
 -   [Project's structure](#Projectsstructure)
+-   [Third-party libraries](#Third-partylibraries)
+    -   [Parser](#Parser)
+        -   [Expressions syntax](#Expressionssyntax)
+    -   [Numbers](#Numbers)
+    -   [Lexer](#Lexer)
 -   [Development](#Development)
     -   [Setup](#Setup)
     -   [Useful Commands](#UsefulCommands)
@@ -99,6 +104,54 @@ It is also accompanied by a set of helpers for manipulating expression terms.
 ├── package-lock.json
 └── README.md
 ```
+
+## <a name='Third-partylibraries'></a>Third-party libraries
+
+The calculator engine relies on several third-party libraries, which are listed here.
+
+### <a name='Parser'></a>Parser
+
+The expression is parsed and evaluated by [expr-eval](https://github.com/silentmatt/expr-eval), which was forked in a [OAT repository](https://github.com/oat-sa/expr-eval) as we needed to extend its abilities to ease the implementation of the N<sup>th</sup> root function.
+
+The purpose of this fork was to bring the ability to use any two-entry functions as a regular binary operator, with the same operator precedence than the function. The feature is relying on a prefix that transforms the function into an operator.
+
+This parser accepts mathematical expressions, including functions, and is able to process them. It also provides a way to add custom functions, and, last but not least, it accepts to replace the existing implementation of built-in operators and functions by an arbitrary version.
+
+This library is used to parse and evaluate the expressions built inside the calculator, so it is a very important piece in the architecture. The precedence of operators is managed by the parser, as well as the operations are evaluated and computed. The parser can be seen as a function accepting expressions and returning the result of this expression once evaluated.
+
+#### <a name='Expressionssyntax'></a>Expressions syntax
+
+The parser expects expressions to be ASCII strings, with the following rules:
+
+-   Numerical values are expressed with digits, the decimal separator being the dot `.`: `3.1415`.
+-   Scientific notation using exponent part is allowed: `3.1415e10`.
+-   Regular arithmetic operators are supported, with natural precedence: `+`, `-`, `*`, `/`, `!`. Operators can be either unary or binary, depending on their meaning.
+-   Expressions can be wrapped in parenthesis: `3*(5+2)`.
+-   Terms are separated by spaces, however regular operators and parenthesis also act as separators.
+-   Functions and constants are supported: `cos PI`.
+-   Variables are supported, but require to be defined: `x=10, 3 * x`.
+-   Any functions can be turned into a binary operator by prefixing them with a `@`: `4 @nthrt 16` is equivalent to `nthrt(4, 16)`. Obviously, only functions that accept two parameters can work properly with this trick.
+
+### <a name='Numbers'></a>Numbers
+
+In order to avoid the well known [round-off issue](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html), the default number representation has been replaced in the parser by an
+[arbitrary precision](https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic) implementation. We chose [Decimal.js](https://github.com/MikeMcl/decimal.js/), which is a good compromise regarding precision and performances. It exposes a comprehensive API to manipulate and compute decimal numbers.
+
+As the parser in use is not resilient against the round-off issue, every built-in operation is replaced by the equivalent provided by `Decimal.js`. This allows us to support a better numerical precision, but it also means the result of the parser is now a `Decimal` object instead of a native `Number`.
+
+To ensure the parser is still working well after having replaced its built-in computation functions, some wrappers have been added. They convert the data type on the fly if required. The benefit is that we can feed the parser with native types and rely on the wrappers to always ensure a compatible format. See the implementation in [mathsEvaluator](./src/core/mathsEvaluator.js).
+
+### <a name='Lexer'></a>Lexer
+
+Manipulating the expression requires to be able to recognize its elements, and to do so the calculator component is relying on a lexer, that is able to cut the expression into atomic and clearly identifiable parts.
+
+The tokenization relies on [moo](https://github.com/no-context/moo), which is a well supported and offers an optimized tokenizer. It accepts rational expressions to define the patterns it is meant to recognize.
+
+It is worth mentioning this tokenizer is not utilized by the parser to recognize the expression, as the parser is bringing its own way to do that. The purpose of this tokenizer, inside the calculator, is to bring the ability to identify the elements of the expression, in order to manipulates them separately, up to each digit of a number. Among other things, this allows to:
+
+-   display properly each element with respect to their meaning (mathematical symbols or special tokens)
+-   navigate freely between elements, and add or remove them easily, including each digit of a number
+-   apply some business logic on top of them (for instance change the sign of the current operand, or recognize exponents)
 
 ## <a name='Development'></a>Development
 
