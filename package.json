@@ -7,7 +7,11 @@
     "files": [
         "dist",
         "src",
-        "!**/test/"
+        "!**/test/",
+        "API.md",
+        "HISTORY.md",
+        "LICENSE",
+        "README.md"
     ],
     "engines": {
         "node": ">=14.0.0"
