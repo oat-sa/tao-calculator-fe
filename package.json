@@ -1,13 +1,17 @@
 {
     "name": "@oat-sa/tao-calculator",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "displayName": "TAO Calculator's engine",
     "description": "A calculator's engine for TAO",
     "main": "src/index.js",
     "files": [
         "dist",
         "src",
-        "!**/test/"
+        "!**/test/",
+        "API.md",
+        "HISTORY.md",
+        "LICENSE",
+        "README.md"
     ],
     "engines": {
         "node": ">=14.0.0"
