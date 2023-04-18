@@ -1,6 +1,6 @@
 {
     "name": "@oat-sa/tao-calculator",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "displayName": "TAO Calculator's engine",
     "description": "A calculator's engine for TAO",
     "main": "src/index.js",
