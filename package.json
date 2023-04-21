@@ -55,7 +55,7 @@
     },
     "devDependencies": {
         "@babel/preset-env": "^7.21.4",
-        "@oat-sa/eslint-config-tao": "^1.2.0",
+        "@oat-sa/eslint-config-tao": "^2.0.0",
         "@oat-sa/prettier-config": "^0.1.1",
         "@rollup/plugin-alias": "^5.0.0",
         "@rollup/plugin-commonjs": "^24.1.0",
