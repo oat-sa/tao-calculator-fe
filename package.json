@@ -33,7 +33,7 @@
         "lint": "prettier --ignore-path .eslintignore --check --plugin-search-dir=. . && eslint --ignore-path .eslintignore .",
         "lint:report": "eslint --ignore-path .eslintignore --output-file eslint_report.json --format json .",
         "format": "prettier --ignore-path .eslintignore --write --plugin-search-dir=. .",
-        "prepublishOnly": "npm run build"
+        "prepare": "npm run build"
     },
     "repository": {
         "type": "git",
