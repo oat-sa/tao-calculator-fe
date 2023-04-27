@@ -1,5 +1,11 @@
 # History of tao-calculator
 
+## [Version 0.6.2](https://github.com/oat-sa/tao-calculator-fe/releases/tag/v0.6.2)
+
+-   _Feature_ [ADF-1417](https://oat-sa.atlassian.net/browse/ADF-1417) : Upgrade to Node 18 [#33](https://github.com/oat-sa/tao-calculator-fe/pull/33)
+
+[_npm package_](https://www.npmjs.com/package/@oat-sa/tao-calculator/v/0.6.2)
+
 ## [Version 0.6.1](https://github.com/oat-sa/tao-calculator-fe/releases/tag/v0.6.1)
 
 -   _Feature_ [TR-3838](https://oat-sa.atlassian.net/browse/TR-3838) : Calculator documentation [#31](https://github.com/oat-sa/tao-calculator-fe/pull/31)
