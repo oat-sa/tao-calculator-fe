@@ -36,4 +36,4 @@ jobs:
                   # install the package
                   npm ci
                   #create tag and release a new version
-                  taoRelease npmRelease --no-interactive
+                  taoRelease npmRelease --release-branch main --no-interactive
