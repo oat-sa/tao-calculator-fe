@@ -1,5 +1,9 @@
 # History of tao-calculator
 
+## [Version 0.6.3](https://github.com/oat-sa/tao-calculator-fe/releases/tag/v0.6.3)
+
+-   _Fix_ [ADF-1568](https://oat-sa.atlassian.net/browse/ADF-1568) : Vulnerabilities in dependencies [#37](https://github.com/oat-sa/tao-calculator-fe/pull/37)
+
 ## [Version 0.6.2](https://github.com/oat-sa/tao-calculator-fe/releases/tag/v0.6.2)
 
 -   _Feature_ [ADF-1417](https://oat-sa.atlassian.net/browse/ADF-1417) : Upgrade to Node 18 [#33](https://github.com/oat-sa/tao-calculator-fe/pull/33)
