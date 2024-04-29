@@ -140,6 +140,9 @@ const expressionHelper = {
             } else {
                 resultString = fullString;
             }
+            if (resultString.includes('e+')) {
+                resultString = resultString.replace('e+', '*10^');
+            }
         }
         return resultString;
     },
@@ -294,8 +297,7 @@ const expressionHelper = {
                 exponentOnTheRight(renderedTerms, index);
             }
         });
-
-        return renderedTerms;
+        return expressionHelper.nestExponents(renderedTerms);
     },
 
     /**
