@@ -140,9 +140,6 @@ const expressionHelper = {
             } else {
                 resultString = fullString;
             }
-            if (resultString.includes('e+')) {
-                resultString = resultString.replace('e+', '*10^');
-            }
         }
         return resultString;
     },
@@ -297,7 +294,8 @@ const expressionHelper = {
                 exponentOnTheRight(renderedTerms, index);
             }
         });
-        return expressionHelper.nestExponents(renderedTerms);
+
+        return renderedTerms;
     },
 
     /**
@@ -324,6 +322,10 @@ const expressionHelper = {
 
             if (!term.elide) {
                 nestedTerms.push(term);
+            }
+
+            if (Array.isArray(term.label) && term.type === types.variable) {
+                term.label = expressionHelper.nestExponents(term.label);
             }
         }
 
@@ -357,7 +359,7 @@ function extractExponent(renderedTerms, index = 0) {
             index++;
         }
 
-        if (!term.elide) {
+        if (!term.elide && term.type !== types.operator) {
             extract.push(term);
         }
 
