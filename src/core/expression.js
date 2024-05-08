@@ -16,7 +16,7 @@
  * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 
-import { isPrefixedTerm, isSignOperator, terms, types } from './terms.js';
+import {isPrefixedTerm, isSignOperator, signOperators, terms, types} from './terms.js';
 import tokensHelper from './tokens.js';
 import tokenizerFactory from './tokenizer.js';
 
@@ -359,7 +359,7 @@ function extractExponent(renderedTerms, index = 0) {
             index++;
         }
 
-        if (!term.elide && term.type !== types.operator) {
+        if (!term.elide && !(term.type === types.operator && term.token === terms.POS.token && index - 1 === startIndex)) {
             extract.push(term);
         }
 
