@@ -16,7 +16,7 @@
  * Copyright (c) 2019-2023 Open Assessment Technologies SA ;
  */
 
-import {isPrefixedTerm, isSignOperator, signOperators, terms, types} from './terms.js';
+import {isPrefixedTerm, isSignOperator, terms, types} from './terms.js';
 import tokensHelper from './tokens.js';
 import tokenizerFactory from './tokenizer.js';
 
