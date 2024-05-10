@@ -16,8 +16,8 @@
  * Copyright (c) 2023 Open Assessment Technologies SA ;
  */
 
-import { counterFactory } from '../../utils';
-import { isFunctionOperator } from '../terms';
+import { counterFactory } from '../../utils/index.js';
+import { isFunctionOperator } from '../terms.js';
 import tokensHelper from '../tokens.js';
 
 /**

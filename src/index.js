@@ -17,6 +17,6 @@
  */
 
 /* c8 ignore start */
-export * from './core';
-export * from './plugins';
+export * from './core/index.js';
+export * from './plugins/index.js';
 /* c8 ignore end */
