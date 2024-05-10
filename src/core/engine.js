@@ -31,7 +31,7 @@ import {
     signStrategies,
     suffixStrategies,
     triggerStrategies
-} from './strategies';
+} from './strategies/index.js';
 import { isPrefixedTerm, terms } from './terms.js';
 import tokenizerFactory from './tokenizer.js';
 import tokensHelper from './tokens.js';
