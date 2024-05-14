@@ -41,7 +41,7 @@
 
     function formatExpression(expr) {
         const allVariables = expressionHelper.roundAllVariables(calculator.getAllVariables(), decimals);
-        return expressionHelper.render(expr, allVariables, calculator.getTokenizer());
+        return expressionHelper.nestExponents(expressionHelper.render(expr, allVariables, calculator.getTokenizer()));
     }
 
     function positionInput(e) {
