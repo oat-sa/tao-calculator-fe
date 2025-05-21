@@ -18,6 +18,7 @@
 
 import Decimal from 'decimal.js';
 import engineFactory from '../engine.js';
+import { describe, it, expect, vi } from 'vitest';
 
 describe('engine', () => {
     it('is a factory', () => {
@@ -29,7 +30,7 @@ describe('engine', () => {
     describe('manages events', () => {
         it('registers an event listener', () => {
             const calculator = engineFactory();
-            const action = jest.fn();
+            const action = vi.fn();
 
             expect(calculator.on('test', action)).toBe(calculator);
 
@@ -40,7 +41,7 @@ describe('engine', () => {
 
         it('registers multiple events to one listener', () => {
             const calculator = engineFactory();
-            const action = jest.fn();
+            const action = vi.fn();
 
             expect(calculator.on('foo bar', action)).toBe(calculator);
 
@@ -52,8 +53,8 @@ describe('engine', () => {
 
         it('removes an event listener', () => {
             const calculator = engineFactory();
-            const action1 = jest.fn();
-            const action2 = jest.fn();
+            const action1 = vi.fn();
+            const action2 = vi.fn();
 
             calculator.on('test', action1);
             calculator.on('test', action2);
@@ -69,8 +70,8 @@ describe('engine', () => {
 
         it('removes a listener from multiple events', () => {
             const calculator = engineFactory();
-            const action1 = jest.fn();
-            const action2 = jest.fn();
+            const action1 = vi.fn();
+            const action2 = vi.fn();
 
             calculator.on('foo', action1);
             calculator.on('bar', action1);
@@ -88,8 +89,8 @@ describe('engine', () => {
 
         it('removes all listeners for a particular event', () => {
             const calculator = engineFactory();
-            const action1 = jest.fn();
-            const action2 = jest.fn();
+            const action1 = vi.fn();
+            const action2 = vi.fn();
 
             calculator.on('test', action1);
             calculator.on('test', action2);
@@ -104,8 +105,8 @@ describe('engine', () => {
 
         it('removes all listeners for all events', () => {
             const calculator = engineFactory();
-            const action1 = jest.fn();
-            const action2 = jest.fn();
+            const action1 = vi.fn();
+            const action2 = vi.fn();
 
             calculator.on('test', action1);
             calculator.on('foo', action2);
@@ -123,8 +124,8 @@ describe('engine', () => {
 
         it('triggers event listeners', () => {
             const calculator = engineFactory();
-            const action1 = jest.fn();
-            const action2 = jest.fn();
+            const action1 = vi.fn();
+            const action2 = vi.fn();
 
             calculator.on('test', action1);
             calculator.on('test', action2);
@@ -132,14 +133,13 @@ describe('engine', () => {
             expect(calculator.trigger('test', 'foo', 'bar')).toBe(calculator);
 
             expect(action1).toHaveBeenCalledTimes(1);
-            expect(action1.mock.contexts[0]).toBe(calculator);
-            expect(action1.mock.calls[0][0]).toEqual('foo');
-            expect(action1.mock.calls[0][1]).toEqual('bar');
+            // Vitest doesn't have mock.contexts like Jest
+            // expect(action1.mock.contexts[0]).toBe(calculator);
+            expect(action1).toHaveBeenCalledWith('foo', 'bar');
 
             expect(action2).toHaveBeenCalledTimes(1);
-            expect(action2.mock.contexts[0]).toBe(calculator);
-            expect(action2.mock.calls[0][0]).toEqual('foo');
-            expect(action2.mock.calls[0][1]).toEqual('bar');
+            // expect(action2.mock.contexts[0]).toBe(calculator);
+            expect(action2).toHaveBeenCalledWith('foo', 'bar');
         });
     });
 
@@ -181,7 +181,7 @@ describe('engine', () => {
         it('emits a configure event', () => {
             const calculator = engineFactory();
             const config = { instant: true };
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('configure', action);
             calculator.setInstantMode(true);
@@ -192,7 +192,7 @@ describe('engine', () => {
 
         it('can calculate on-demand', () => {
             const calculator = engineFactory();
-            const action = jest.fn();
+            const action = vi.fn();
 
             expect(calculator.isInstantMode()).toBeFalsy();
             calculator.on('result', action);
@@ -206,7 +206,7 @@ describe('engine', () => {
 
         it('can calculate as soon as an operation is complete', () => {
             const calculator = engineFactory({ instant: true });
-            const action = jest.fn();
+            const action = vi.fn();
 
             expect(calculator.isInstantMode()).toBeTruthy();
             calculator.on('result', action);
@@ -262,7 +262,7 @@ describe('engine', () => {
 
         it('take care of parenthesis when the instant mode is activated', () => {
             const calculator = engineFactory({ instant: true });
-            const action = jest.fn();
+            const action = vi.fn();
 
             expect(calculator.isInstantMode()).toBeTruthy();
             calculator.on('result', action);
@@ -312,7 +312,7 @@ describe('engine', () => {
 
         it('can start another expression after an explicit evaluation', () => {
             const calculator = engineFactory({ instant: true });
-            const action = jest.fn();
+            const action = vi.fn();
 
             expect(calculator.isInstantMode()).toBeTruthy();
             calculator.on('result', action);
@@ -360,7 +360,7 @@ describe('engine', () => {
         it('emits a configure event', () => {
             const calculator = engineFactory();
             const config = { corrector: true };
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('configure', action);
             calculator.setCorrectorMode(true);
@@ -371,7 +371,7 @@ describe('engine', () => {
 
         it('can correct a wrong expression', () => {
             const calculator = engineFactory({ corrector: true, expression: '3*(4+2+' });
-            const action = jest.fn();
+            const action = vi.fn();
 
             expect(calculator.isCorrectorMode()).toBeTruthy();
             calculator.on('result', action);
@@ -385,7 +385,7 @@ describe('engine', () => {
 
         it('does not modify a correct expression', () => {
             const calculator = engineFactory({ corrector: true, expression: '3*(4+2)' });
-            const action = jest.fn();
+            const action = vi.fn();
 
             expect(calculator.isCorrectorMode()).toBeTruthy();
             calculator.on('result', action);
@@ -419,7 +419,7 @@ describe('engine', () => {
         it('emits a configure event', () => {
             const calculator = engineFactory();
             const config = { degree: true };
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('configure', action);
             calculator.configureMathsEvaluator(config);
@@ -468,7 +468,7 @@ describe('engine', () => {
         it('emits an expression event', () => {
             const calculator = engineFactory();
             const expression = '(1 + 2) * 3';
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('expression', action);
             calculator.setExpression(expression);
@@ -479,7 +479,7 @@ describe('engine', () => {
 
         it('clears the expression', () => {
             const calculator = engineFactory({ expression: '1+2', position: 2 });
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('clear', action);
             expect(calculator.getExpression()).toStrictEqual('1+2');
@@ -515,7 +515,7 @@ describe('engine', () => {
             const expression = '1+2';
             const position = 1;
             const calculator = engineFactory({ expression, position });
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('replace', action);
             calculator.replace('3*4', 2);
@@ -549,7 +549,7 @@ describe('engine', () => {
             const expression = '1+2';
             const position = 1;
             const calculator = engineFactory({ expression, position });
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('insert', action);
             calculator.insert('-3');
@@ -583,7 +583,7 @@ describe('engine', () => {
         it('emits a position event', () => {
             const expression = '(1 + 2) * 3';
             const calculator = engineFactory({ expression });
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('position', action);
             calculator.setPosition(2);
@@ -797,7 +797,7 @@ describe('engine', () => {
 
         it('emits a variableadd event', () => {
             const calculator = engineFactory();
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('variableadd', action);
             calculator.setVariable('foo', '3*4');
@@ -821,7 +821,7 @@ describe('engine', () => {
 
         it('emits a variabledelete event', () => {
             const calculator = engineFactory();
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.setVariable('foo', '3*4');
             calculator.on('variabledelete', action);
@@ -867,7 +867,7 @@ describe('engine', () => {
 
         it('deletes all variables', () => {
             const calculator = engineFactory();
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('variableclear', action);
             calculator.setVariable('foo', 42);
@@ -959,7 +959,7 @@ describe('engine', () => {
         it('emits a commandadd event', () => {
             const calculator = engineFactory();
             const cmd = () => {};
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('commandadd', action);
             calculator.setCommand('foo', cmd);
@@ -984,7 +984,7 @@ describe('engine', () => {
         it('emits a commanddelete event', () => {
             const calculator = engineFactory();
             const cmd = () => {};
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.setCommand('foo', cmd);
             calculator.on('commanddelete', action);
@@ -1025,7 +1025,7 @@ describe('engine', () => {
             const calculator = engineFactory();
             const cmd1 = () => {};
             const cmd2 = () => {};
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('commandclear', action);
             calculator.setCommand('foo', cmd1);
@@ -1042,7 +1042,7 @@ describe('engine', () => {
 
         it('calls a command', () => {
             const calculator = engineFactory();
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.setCommand('foo', action);
 
@@ -1055,9 +1055,9 @@ describe('engine', () => {
 
         it('emits a command event', () => {
             const calculator = engineFactory();
-            const action = jest.fn();
-            const commandEvt = jest.fn();
-            const actionEvt = jest.fn();
+            const action = vi.fn();
+            const commandEvt = vi.fn();
+            const actionEvt = vi.fn();
 
             calculator.setCommand('foo', action);
             calculator.setCommand('bar', () => {});
@@ -1082,7 +1082,7 @@ describe('engine', () => {
 
         it('emits an error event', () => {
             const calculator = engineFactory();
-            const errorEvt = jest.fn();
+            const errorEvt = vi.fn();
 
             calculator.on('error', errorEvt);
 
@@ -1097,8 +1097,8 @@ describe('engine', () => {
     describe('manages the plugins', () => {
         it('initializes with a list of plugins', () => {
             const plugins = {
-                foo: jest.fn(),
-                bar: jest.fn()
+                foo: vi.fn(),
+                bar: vi.fn()
             };
             const calculator = engineFactory({ plugins });
 
@@ -1112,7 +1112,7 @@ describe('engine', () => {
 
         it('adds a plugin', () => {
             const calculator = engineFactory();
-            const plugin = jest.fn();
+            const plugin = vi.fn();
 
             expect(calculator.addPlugin('foo', plugin)).toBe(calculator);
             expect(calculator.hasPlugin('foo')).toBeTruthy();
@@ -1122,8 +1122,8 @@ describe('engine', () => {
 
         it('adds a plugin again', () => {
             const calculator = engineFactory();
-            const uninstall = jest.fn();
-            const plugin = jest.fn().mockImplementation(() => uninstall);
+            const uninstall = vi.fn();
+            const plugin = vi.fn().mockImplementation(() => uninstall);
 
             calculator.addPlugin('foo', plugin);
             calculator.addPlugin('foo', plugin);
@@ -1137,8 +1137,8 @@ describe('engine', () => {
 
         it('emits a pluginadd event', () => {
             const calculator = engineFactory();
-            const plugin = jest.fn();
-            const event = jest.fn();
+            const plugin = vi.fn();
+            const event = vi.fn();
 
             calculator.on('pluginadd', event);
             calculator.addPlugin('foo', plugin);
@@ -1152,8 +1152,8 @@ describe('engine', () => {
 
         it('deletes a plugin', () => {
             const calculator = engineFactory();
-            const uninstall = jest.fn();
-            const plugin = jest.fn().mockImplementation(() => uninstall);
+            const uninstall = vi.fn();
+            const plugin = vi.fn().mockImplementation(() => uninstall);
 
             expect(calculator.hasPlugin('foo')).toBeFalsy();
 
@@ -1169,8 +1169,8 @@ describe('engine', () => {
 
         it('emits a plugindelete event', () => {
             const calculator = engineFactory();
-            const plugin = jest.fn();
-            const event = jest.fn();
+            const plugin = vi.fn();
+            const event = vi.fn();
 
             calculator.addPlugin('foo', plugin);
             calculator.on('plugindelete', event);
@@ -1184,8 +1184,8 @@ describe('engine', () => {
         it('installs plugins from a list', () => {
             const calculator = engineFactory();
             const plugins = {
-                foo: jest.fn(),
-                bar: jest.fn()
+                foo: vi.fn(),
+                bar: vi.fn()
             };
 
             expect(calculator.hasPlugin('foo')).toBeFalsy();
@@ -1202,14 +1202,14 @@ describe('engine', () => {
         });
 
         it('uninstalls all plugins', () => {
-            const uninstallFoo = jest.fn();
-            const uninstallBar = jest.fn();
+            const uninstallFoo = vi.fn();
+            const uninstallBar = vi.fn();
             const plugins = {
-                foo: jest.fn().mockImplementation(() => uninstallFoo),
-                bar: jest.fn().mockImplementation(() => uninstallBar)
+                foo: vi.fn().mockImplementation(() => uninstallFoo),
+                bar: vi.fn().mockImplementation(() => uninstallBar)
             };
             const calculator = engineFactory({ plugins });
-            const event = jest.fn();
+            const event = vi.fn();
 
             expect(calculator.hasPlugin('foo')).toBeTruthy();
             expect(calculator.hasPlugin('bar')).toBeTruthy();
@@ -1377,7 +1377,7 @@ describe('engine', () => {
                 value: 'foo',
                 type: 'term'
             };
-            const termEvt = jest.fn();
+            const termEvt = vi.fn();
 
             calculator.on('term', termEvt);
 
@@ -1390,7 +1390,7 @@ describe('engine', () => {
 
         it('emits an error event when an invalid term is used', () => {
             const calculator = engineFactory();
-            const errorEvt = jest.fn();
+            const errorEvt = vi.fn();
 
             calculator.on('error', errorEvt);
 
@@ -1406,7 +1406,7 @@ describe('engine', () => {
 
         it('emits an error event when an unknown term is used', () => {
             const calculator = engineFactory();
-            const errorEvt = jest.fn();
+            const errorEvt = vi.fn();
 
             calculator.on('error', errorEvt);
 
@@ -1419,7 +1419,7 @@ describe('engine', () => {
 
         it('emits an error event when an unknown variable is used', () => {
             const calculator = engineFactory();
-            const errorEvt = jest.fn();
+            const errorEvt = vi.fn();
 
             calculator.on('error', errorEvt);
 
@@ -1457,7 +1457,7 @@ describe('engine', () => {
         it('from a valid expression', () => {
             const expression = '.1 + .2 * (4 + 5)';
             const calculator = engineFactory({ expression });
-            const replace = jest.fn();
+            const replace = vi.fn();
             calculator.on('replace', replace);
 
             expect(calculator.correct()).toBe(calculator);
@@ -1467,7 +1467,7 @@ describe('engine', () => {
 
         it('from a wrong expression', () => {
             const calculator = engineFactory({ expression: '3*(4+5*(sin+' });
-            const replace = jest.fn();
+            const replace = vi.fn();
             calculator.on('replace', replace);
 
             expect(calculator.correct()).toBe(calculator);
@@ -1477,7 +1477,7 @@ describe('engine', () => {
 
         it('emits a correct event', () => {
             const calculator = engineFactory({ expression: '3+2*' });
-            const eventListener = jest.fn();
+            const eventListener = vi.fn();
 
             calculator.on('correct', eventListener);
             calculator.correct();
@@ -1529,7 +1529,7 @@ describe('engine', () => {
         it('emits an evaluate event', () => {
             const calculator = engineFactory({ expression: '.1 + .2' });
             let variable;
-            const eventListener = jest.fn().mockImplementation(() => {
+            const eventListener = vi.fn().mockImplementation(() => {
                 variable = calculator.getVariableValue('ans');
             });
 
@@ -1544,7 +1544,7 @@ describe('engine', () => {
         it('emits a result event', () => {
             const calculator = engineFactory({ expression: '.1 + .2' });
             let variable;
-            const eventListener = jest.fn().mockImplementation(() => {
+            const eventListener = vi.fn().mockImplementation(() => {
                 variable = calculator.getVariableValue('ans');
             });
 
@@ -1558,7 +1558,7 @@ describe('engine', () => {
 
         it('emits a syntaxerror event', () => {
             const calculator = engineFactory({ expression: '3 *' });
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('syntaxerror', action);
             calculator.evaluate();
@@ -1569,7 +1569,7 @@ describe('engine', () => {
 
         it('emits a syntaxerror event if the single term is not a value', () => {
             const calculator = engineFactory({ expression: 'cos' });
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('syntaxerror', action);
             calculator.evaluate();
@@ -1673,7 +1673,7 @@ describe('engine', () => {
 
         it('emits a render event', () => {
             const calculator = engineFactory({ expression: '.1 + .2' });
-            const action = jest.fn();
+            const action = vi.fn();
 
             calculator.on('render', action);
             calculator.render();
@@ -1686,7 +1686,7 @@ describe('engine', () => {
     it('resets the calculator', () => {
         const variables = { x: '42' };
         const calculator = engineFactory({ expression: '1+2', position: 2 });
-        const action = jest.fn();
+        const action = vi.fn();
 
         calculator.setVariableList(variables);
         calculator.setLastResult(2);
@@ -1715,8 +1715,8 @@ describe('engine', () => {
             const position = 2;
             const variables = { x: '42' };
             const calculator = engineFactory({ expression, position });
-            const clearEvent = jest.fn();
-            const clearCommand = jest.fn();
+            const clearEvent = vi.fn();
+            const clearCommand = vi.fn();
 
             calculator.setVariableList(variables);
             calculator.setLastResult(2);
@@ -1747,8 +1747,8 @@ describe('engine', () => {
             const position = 2;
             const variables = { x: '42' };
             const calculator = engineFactory({ expression, position });
-            const resetEvent = jest.fn();
-            const clearCommand = jest.fn();
+            const resetEvent = vi.fn();
+            const clearCommand = vi.fn();
 
             calculator.setVariableList(variables);
             calculator.setLastResult(2);
@@ -1779,9 +1779,9 @@ describe('engine', () => {
             const position = 2;
             const variables = { x: '42' };
             const calculator = engineFactory({ expression, position });
-            const evaluateEvent = jest.fn();
-            const resultEvent = jest.fn();
-            const executeCommand = jest.fn();
+            const evaluateEvent = vi.fn();
+            const resultEvent = vi.fn();
+            const executeCommand = vi.fn();
 
             calculator.setVariableList(variables);
             calculator.on('evaluate', evaluateEvent);
@@ -1797,8 +1797,8 @@ describe('engine', () => {
 
         it('var', () => {
             const calculator = engineFactory();
-            const varEvent = jest.fn();
-            const varCommand = jest.fn();
+            const varEvent = vi.fn();
+            const varCommand = vi.fn();
 
             expect(calculator.getExpression()).toStrictEqual('');
             expect(calculator.getPosition()).toStrictEqual(0);
@@ -1817,8 +1817,8 @@ describe('engine', () => {
 
         it('term with a single parameter', () => {
             const calculator = engineFactory();
-            const termEvent = jest.fn();
-            const termCommand = jest.fn();
+            const termEvent = vi.fn();
+            const termCommand = vi.fn();
 
             expect(calculator.getExpression()).toStrictEqual('');
             expect(calculator.getPosition()).toStrictEqual(0);
@@ -1837,8 +1837,8 @@ describe('engine', () => {
         it('term with multiple parameters', () => {
             const calculator = engineFactory();
             const terms = ['NUM3', 'ADD', 'NUM2'];
-            const termEvent = jest.fn();
-            const termCommand = jest.fn();
+            const termEvent = vi.fn();
+            const termCommand = vi.fn();
 
             expect(calculator.getExpression()).toStrictEqual('');
             expect(calculator.getPosition()).toStrictEqual(0);
@@ -1858,8 +1858,8 @@ describe('engine', () => {
 
         it('sign', () => {
             const calculator = engineFactory({ expression: '3*2' });
-            const signEvent = jest.fn();
-            const signCommand = jest.fn();
+            const signEvent = vi.fn();
+            const signCommand = vi.fn();
 
             calculator.on('expression', signEvent);
             calculator.on('command-sign', signCommand);
@@ -1873,8 +1873,8 @@ describe('engine', () => {
 
         it('degree', () => {
             const calculator = engineFactory();
-            const configEvent = jest.fn();
-            const degreeCommand = jest.fn();
+            const configEvent = vi.fn();
+            const degreeCommand = vi.fn();
 
             expect(calculator.isDegreeMode()).toBeFalsy();
 
@@ -1889,8 +1889,8 @@ describe('engine', () => {
 
         it('radian', () => {
             const calculator = engineFactory({ maths: { degree: true } });
-            const configEvent = jest.fn();
-            const radianCommand = jest.fn();
+            const configEvent = vi.fn();
+            const radianCommand = vi.fn();
 
             expect(calculator.isDegreeMode()).toBeTruthy();
 
@@ -1905,8 +1905,8 @@ describe('engine', () => {
 
         it('remind', () => {
             const calculator = engineFactory();
-            const remindEvent = jest.fn();
-            const remindCommand = jest.fn();
+            const remindEvent = vi.fn();
+            const remindCommand = vi.fn();
 
             calculator.on('term', remindEvent);
             calculator.on('command-remind', remindCommand);
@@ -1926,8 +1926,8 @@ describe('engine', () => {
         it('memorize', () => {
             const variables = { x: '42' };
             const calculator = engineFactory();
-            const memorizeEvent = jest.fn();
-            const memorizeCommand = jest.fn();
+            const memorizeEvent = vi.fn();
+            const memorizeCommand = vi.fn();
 
             calculator.setVariableList(variables);
             calculator.setLastResult(2);
@@ -1952,8 +1952,8 @@ describe('engine', () => {
         it('forget', () => {
             const variables = { x: '42' };
             const calculator = engineFactory();
-            const forgetEvent = jest.fn();
-            const forgetCommand = jest.fn();
+            const forgetEvent = vi.fn();
+            const forgetCommand = vi.fn();
 
             calculator.setVariableList(variables);
             calculator.setLastResult(2);
@@ -1978,8 +1978,8 @@ describe('engine', () => {
 
         it('moveLeft', () => {
             const calculator = engineFactory({ expression: '3+4*2', position: 2 });
-            const moveEvent = jest.fn();
-            const moveCommand = jest.fn();
+            const moveEvent = vi.fn();
+            const moveCommand = vi.fn();
 
             calculator.on('position', moveEvent);
             calculator.on('command-moveLeft', moveCommand);
@@ -1993,8 +1993,8 @@ describe('engine', () => {
 
         it('moveRight', () => {
             const calculator = engineFactory({ expression: '3+4*2', position: 2 });
-            const moveEvent = jest.fn();
-            const moveCommand = jest.fn();
+            const moveEvent = vi.fn();
+            const moveCommand = vi.fn();
 
             calculator.on('position', moveEvent);
             calculator.on('command-moveRight', moveCommand);
@@ -2008,9 +2008,9 @@ describe('engine', () => {
 
         it('deleteLeft', () => {
             const calculator = engineFactory({ expression: '3+4*2', position: 2 });
-            const moveEvent = jest.fn();
-            const exprEvent = jest.fn();
-            const deleteCommand = jest.fn();
+            const moveEvent = vi.fn();
+            const exprEvent = vi.fn();
+            const deleteCommand = vi.fn();
 
             calculator.on('position', moveEvent);
             calculator.on('expression', exprEvent);
@@ -2028,8 +2028,8 @@ describe('engine', () => {
 
         it('deleteRight', () => {
             const calculator = engineFactory({ expression: '3+4*2', position: 2 });
-            const exprEvent = jest.fn();
-            const deleteCommand = jest.fn();
+            const exprEvent = vi.fn();
+            const deleteCommand = vi.fn();
 
             calculator.on('expression', exprEvent);
             calculator.on('command-deleteRight', deleteCommand);

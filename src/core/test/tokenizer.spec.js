@@ -16,6 +16,7 @@
  * Copyright (c) 2018-2023 (original work) Open Assessment Technologies SA ;
  */
 
+import { describe, it, expect, vi } from 'vitest';
 import tokenizerFactory from '../tokenizer.js';
 import { terms } from '../terms.js';
 

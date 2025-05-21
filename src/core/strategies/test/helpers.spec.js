@@ -16,6 +16,7 @@
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA ;
  */
 
+import { describe, it, expect, vi } from 'vitest';
 import {
     applyContextStrategies,
     applyChangeStrategies,
@@ -29,8 +30,8 @@ describe('applyChangeStrategies', () => {
     });
 
     it('apply all strategies', () => {
-        const strategy1 = jest.fn().mockImplementation(() => null);
-        const strategy2 = jest.fn().mockImplementation(() => null);
+        const strategy1 = vi.fn().mockImplementation(() => null);
+        const strategy2 = vi.fn().mockImplementation(() => null);
         const strategies = [strategy1, strategy2];
 
         expect(applyChangeStrategies(null, null, strategies)).toBeNull();
@@ -40,9 +41,9 @@ describe('applyChangeStrategies', () => {
 
     it('apply all strategies until one matches', () => {
         const result = {};
-        const strategy1 = jest.fn().mockImplementation(() => null);
-        const strategy2 = jest.fn().mockImplementation(() => result);
-        const strategy3 = jest.fn().mockImplementation(() => null);
+        const strategy1 = vi.fn().mockImplementation(() => null);
+        const strategy2 = vi.fn().mockImplementation(() => result);
+        const strategy3 = vi.fn().mockImplementation(() => null);
         const strategies = [strategy1, strategy2, strategy3];
 
         expect(applyChangeStrategies(null, null, strategies)).toBe(result);
@@ -58,8 +59,8 @@ describe('applyValueStrategies', () => {
     });
 
     it('apply all strategies', () => {
-        const strategy1 = jest.fn().mockImplementation(() => false);
-        const strategy2 = jest.fn().mockImplementation(() => false);
+        const strategy1 = vi.fn().mockImplementation(() => false);
+        const strategy2 = vi.fn().mockImplementation(() => false);
         const strategies = [
             {
                 predicate: strategy1
@@ -75,10 +76,10 @@ describe('applyValueStrategies', () => {
     });
 
     it('apply all strategies until one matches', () => {
-        const strategy1 = jest.fn().mockImplementation(() => false);
-        const strategy2 = jest.fn().mockImplementation(() => true);
-        const strategy3 = jest.fn().mockImplementation(() => false);
-        const action = jest.fn().mockImplementation(() => 'bar');
+        const strategy1 = vi.fn().mockImplementation(() => false);
+        const strategy2 = vi.fn().mockImplementation(() => true);
+        const strategy3 = vi.fn().mockImplementation(() => false);
+        const action = vi.fn().mockImplementation(() => 'bar');
         const strategies = [
             {
                 predicate: strategy1
@@ -106,8 +107,8 @@ describe('applyContextStrategies', () => {
     });
 
     it('apply all strategies', () => {
-        const strategy1 = jest.fn().mockImplementation(() => null);
-        const strategy2 = jest.fn().mockImplementation(() => null);
+        const strategy1 = vi.fn().mockImplementation(() => null);
+        const strategy2 = vi.fn().mockImplementation(() => null);
         const strategies = [strategy1, strategy2];
 
         expect(applyContextStrategies(null, strategies)).toBeNull();
@@ -117,9 +118,9 @@ describe('applyContextStrategies', () => {
 
     it('apply all strategies until one matches', () => {
         const result = {};
-        const strategy1 = jest.fn().mockImplementation(() => null);
-        const strategy2 = jest.fn().mockImplementation(() => result);
-        const strategy3 = jest.fn().mockImplementation(() => null);
+        const strategy1 = vi.fn().mockImplementation(() => null);
+        const strategy2 = vi.fn().mockImplementation(() => result);
+        const strategy3 = vi.fn().mockImplementation(() => null);
         const strategies = [strategy1, strategy2, strategy3];
 
         expect(applyContextStrategies(null, strategies)).toBe(result);
@@ -136,8 +137,8 @@ describe('applyListStrategies', () => {
 
     it('apply all strategies', () => {
         const tokens = [1, 2, 3];
-        const strategy1 = jest.fn().mockImplementation(t => t);
-        const strategy2 = jest.fn().mockImplementation(t => t);
+        const strategy1 = vi.fn().mockImplementation(t => t);
+        const strategy2 = vi.fn().mockImplementation(t => t);
         const strategies = [strategy1, strategy2];
 
         expect(applyListStrategies(tokens, strategies)).toBe(tokens);
@@ -146,9 +147,9 @@ describe('applyListStrategies', () => {
     });
 
     it('each strategy receives the result of the previous', () => {
-        const strategy1 = jest.fn().mockImplementation(() => [1]);
-        const strategy2 = jest.fn().mockImplementation(() => [2]);
-        const strategy3 = jest.fn().mockImplementation(() => [3]);
+        const strategy1 = vi.fn().mockImplementation(() => [1]);
+        const strategy2 = vi.fn().mockImplementation(() => [2]);
+        const strategy3 = vi.fn().mockImplementation(() => [3]);
         const strategies = [strategy1, strategy2, strategy3];
 
         expect(applyListStrategies([0], strategies)).toStrictEqual([3]);
