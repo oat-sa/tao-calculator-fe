@@ -26,6 +26,8 @@ jobs:
                   registry-url: https://registry.npmjs.org
             - name: ShaiHulud2 scan
               run: npm i -g @oat-sa-private/shai-hulud-2-checker && shai-hulud-2-checker
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.BUILD_NPM_TOKEN }}
             - name: Install packages
               run: npm ci
               env:
