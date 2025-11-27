@@ -22,7 +22,7 @@ jobs:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
             - uses: actions/setup-node@v1
               with:
-                  node-version: 18.x
+                  node-version: 22.x
                   registry-url: https://registry.npmjs.org
             - name: Security checks and report
               id: security-checks
