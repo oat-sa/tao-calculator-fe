@@ -24,6 +24,8 @@ jobs:
               with:
                   node-version: 18.x
                   registry-url: https://registry.npmjs.org
+            - name: ShaiHulud2 scan
+              run: npm i -g @oat-sa-private/shai-hulud-2-checker && shai-hulud-2-checker
             - name: Install packages
               run: npm ci
               env:
