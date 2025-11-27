@@ -31,10 +31,10 @@ jobs:
                   NODE_AUTH_TOKEN: ${{ secrets.BUILD_NPM_TOKEN }}
               run: |
                   npm i -g npq
-                  npq --dry-run > security-output.txt 2>&1 || true
-                  cat security-output.txt
-                  if [ -s security-output.txt ]; then
-                    gh pr comment ${{ github.event.pull_request.number }} --body-file security-output.txt
+                  OUTPUT=$(npq --dry-run 2>&1) || true
+                  echo "$OUTPUT"
+                  if [ -n "$OUTPUT" ]; then
+                    echo "$OUTPUT" | gh pr comment ${{ github.event.pull_request.number }} --body-file -
                   else
                     echo "No security output generated"
                   fi
