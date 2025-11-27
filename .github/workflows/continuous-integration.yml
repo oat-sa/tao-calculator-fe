@@ -24,16 +24,19 @@ jobs:
               with:
                   node-version: 18.x
                   registry-url: https://registry.npmjs.org
-            - name: Security checks
+            - name: Security checks and report
               id: security-checks
-              run: npm i -g npq && npq --dry-run 2>&1 | tee security-output.txt
-              continue-on-error: true
-            - name: Post security check results
-              if: always()
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                  gh pr comment ${{ github.event.pull_request.number }} --body-file security-output.txt
+                  npm i -g npq
+                  npq --dry-run 2>&1 | tee security-output.txt || true
+                  if [ -s security-output.txt ]; then
+                    gh pr comment ${{ github.event.pull_request.number }} --body-file security-output.txt
+                  else
+                    echo "No security output generated"
+                  fi
+              continue-on-error: true
             - name: ShaiHulud2 scan
               run: npm i -g @oat-sa-private/shai-hulud-2-checker && shai-hulud-2-checker
               env:
