@@ -31,7 +31,7 @@ jobs:
                   NODE_AUTH_TOKEN: ${{ secrets.BUILD_NPM_TOKEN }}
               run: |
                   npm i -g npq
-                  OUTPUT=$(npq --dry-run 2>&1) || true
+                  OUTPUT=$(npq --dry-run --plain 2>&1) || true
                   echo "$OUTPUT"
                   if [ -n "$OUTPUT" ]; then
                     echo "$OUTPUT" | gh pr comment ${{ github.event.pull_request.number }} --body-file -
@@ -40,9 +40,28 @@ jobs:
                   fi
               continue-on-error: true
             - name: ShaiHulud2 scan
-              run: npm i -g @oat-sa-private/shai-hulud-2-checker && shai-hulud-2-checker
               env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NODE_AUTH_TOKEN: ${{ secrets.BUILD_NPM_TOKEN }}
+              run: |
+                  npm i -g @oat-sa-private/shai-hulud-2-checker
+                  set +e
+                  OUTPUT=$(shai-hulud-2-checker 2>&1)
+                  EXIT_CODE=$?
+                  set -e
+                  if [ $EXIT_CODE -ne 0 ]; then
+                    COMMENT="### ShaiHulud2 Scan Results
+
+                    \`\`\`
+                    $OUTPUT
+                    \`\`\`"
+                  else
+                    COMMENT="### ShaiHulud2 Scan Results
+
+                    ✅ Scan passed successfully!"
+                  fi
+                  echo "$COMMENT" | gh pr comment ${{ github.event.pull_request.number }} --body-file -
+                  exit $EXIT_CODE
             - name: Install packages
               run: npm ci
               env:
